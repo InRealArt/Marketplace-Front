@@ -1,9 +1,11 @@
-import Image from 'next/image';
+import Intro from '@/components/Home/Intro';
 
-export default function Home() {
+const Landing = () => {
   return (
-    <main>
-      <h2 className="title">IN REAL ART</h2>
+    <main className="Landing">
+      <Intro />
     </main>
   );
-}
+};
+
+export default Landing;

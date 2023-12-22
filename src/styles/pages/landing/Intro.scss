@@ -1,0 +1,77 @@
+.Intro {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  height: calc(100vh - $headerHeight);
+
+  &__infos {
+    width: 45%;
+    @include breakpoint(tablet) {
+      width: 80%;
+    }
+  }
+  &__title {
+    @include textBody(70px, -1.5px);
+    font-weight: 500;
+    line-height: 78px;
+    @include breakpoint(tablet) {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+  &__description {
+    @include textBody;
+    margin-top: 70px;
+    @include breakpoint(tablet) {
+      margin-top: 0px;
+    }
+  }
+  &__buttons {
+    display: flex;
+    margin-top: 60px;
+  }
+
+  &__imgs {
+    display: flex;
+    position: absolute;
+    left: 40%;
+    bottom: 20px;
+    img {
+      &.Intro__letterImg {
+        width: 70px;
+        height: max-content;
+        margin-top: auto;
+        margin-right: 60px;
+      }
+      &.Intro__castleImg {
+        max-width: 600px;
+      }
+    }
+    @include breakpoint(tablet) {
+      display: none;
+    }
+  }
+
+  &__verticalText {
+    @include textNav(48px);
+    font-weight: 200;
+    position: absolute;
+    text-transform: uppercase;
+    right: 0;
+    top: 0;
+    transform-origin: bottom right;
+    transform: rotate(-90deg) scale(1, 1);
+    &::before {
+      content: '';
+      width: 200px;
+      height: 2px;
+      background-color: white;
+      display: block;
+      @include positionAbsoluteCenterX;
+      left: -140px;
+    }
+    @include breakpoint(tablet) {
+      font-size: 16px;
+    }
+  }
+}

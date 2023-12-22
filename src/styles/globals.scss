@@ -1,33 +1,76 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// FONTS
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Montserrat:wght@800&family=Poppins:wght@100;300;400;500;600;700&family=Syncopate:wght@700&display=swap');
 
-$color-primary: #0070f3;
+// UTILS
+@import './utils/mixins.scss';
+@import './utils/variables.scss';
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+// COMPONENTS
+@import './components/Header.scss';
+@import './components/Footer.scss';
+
+@import './components/Button.scss';
+
+// Pages
+@import './pages/landing/Intro.scss';
+
+body {
+  color: white;
+  background: $primary700;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.container {
+  max-width: $containerMaxWidth;
+  margin: 0 auto;
+  margin-top: $headerHeight;
+  @include breakpoint(tablet) {
+    max-width: 85%;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.title {
-  color: $color-primary;
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+*,
+::before,
+::after {
+  border-width: 0;
+  border-style: solid;
+  border-color: theme('borderColor.DEFAULT', currentColor);
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
 }

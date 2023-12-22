@@ -1,0 +1,21 @@
+.Button {
+  @include textBody(20px, -1px);
+  font-weight: 600;
+  display: flex;
+  padding: 15px 30px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background-color: $primary700;
+  color: white;
+  border: none;
+  cursor: pointer;
+
+  &--gold {
+    background-color: $secondary700;
+  }
+  &--purple {
+    background-color: $buttonPurple;
+  }
+}

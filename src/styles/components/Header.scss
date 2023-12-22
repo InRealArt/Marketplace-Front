@@ -1,0 +1,51 @@
+.Header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background-color: $headerBackground;
+  &__logo {
+    &--mobile {
+      display: none;
+    }
+    @include breakpoint(mobile) {
+      display: none;
+      &--mobile {
+        display: block;
+      }
+    }
+  }
+  &__container {
+    max-width: $containerMaxWidth;
+    margin: 0 auto;
+    height: $headerHeight;
+    @include flexBetween;
+    @include breakpoint(mobile) {
+      max-width: 85%;
+    }
+  }
+  &__nav {
+    width: 330px;
+    @include flexBetween;
+    @include textNav;
+    @include breakpoint(mobile) {
+      display: none;
+    }
+  }
+
+  &__rightMenu {
+    width: 80px;
+    @include flexBetween;
+
+    &--mobile {
+      display: none;
+    }
+    @include breakpoint(mobile) {
+      width: 24px;
+      display: none;
+      &--mobile {
+        display: block;
+      }
+    }
+  }
+}

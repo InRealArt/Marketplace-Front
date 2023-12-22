@@ -1,0 +1,123 @@
+/***********************************************
+FONTS
+***********************************************/
+
+@mixin titleMontserrat($size: 48px) {
+  font-family: 'Montserrat', sans-serif;
+  font-size: $size;
+}
+
+@mixin titleSyncopate($size: 48px) {
+  font-family: 'Syncopate', sans-serif;
+  font-size: $size;
+  letter-spacing: normal;
+}
+
+@mixin textBody($size: 18, $spacing: -0.25px) {
+  font-family: 'Poppins', sans-serif;
+  font-size: $size;
+  letter-spacing: $spacing;
+}
+
+@mixin textNav($size: 20px) {
+  font-family: 'Inter', sans-serif;
+  font-size: $size;
+}
+
+/***********************************************
+Breakpoints
+***********************************************/
+
+@mixin breakpoint($point) {
+  @if $point == mediumDesktop {
+    @media (max-width: 1414px) {
+      @content;
+    }
+  }
+  @if $point == smallDesktop {
+    @media (max-width: 1279px) {
+      @content;
+    }
+  } @else if $point == tablet {
+    @media (max-width: 1023px) {
+      @content;
+    }
+  } @else if $point == mobile {
+    @media (max-width: 767px) {
+      @content;
+    }
+  }
+}
+
+/***********************************************
+  Text Overflow
+  ***********************************************/
+
+@mixin textOverflow($max-width) {
+  max-width: $max-width;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap !important;
+  &:after {
+    content: '' !important;
+    display: block;
+  }
+}
+
+@mixin textOverflowWithLines($lines) {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  display: -webkit-box;
+  text-overflow: unset;
+  white-space: unset !important;
+  overflow: hidden;
+}
+
+/***********************************************
+  Positioning
+  ***********************************************/
+
+@mixin positionAbsoluteFill {
+  bottom: 0px;
+  height: 100%;
+  left: 0px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 100%;
+}
+
+@mixin positionFixedFill {
+  bottom: 0px;
+  height: 100%;
+  left: 0px;
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  width: 100%;
+}
+
+@mixin positionAbsoluteCenter {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin positionAbsoluteCenterX {
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin flexCenter {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+@mixin flexBetween {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
