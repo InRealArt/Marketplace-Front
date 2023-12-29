@@ -21,7 +21,7 @@ const Intro = () => {
           className="Intro__letterImg"
           priority={true}
           alt="IntroLetter"
-          src="/IntroLetter.png"
+          src="/images/IntroLetter.png"
           width={90}
           height={400}
         />
@@ -29,12 +29,22 @@ const Intro = () => {
           className="Intro__castleImg"
           priority={true}
           alt="IntroCastle"
-          src="/IntroCastle.png"
+          src="/images/IntroCastle.png"
           width={750}
           height={750}
         />
       </div>
+      <div className="Intro__rectangle" />
       <span className="Intro__verticalText">Limited edition</span>
+
+      <Image
+        className="Intro__mobileImg"
+        priority={true}
+        alt="IntroCastle"
+        src="/images/IntroMobile.png"
+        width={377}
+        height={482}
+      />
     </section>
   );
 };

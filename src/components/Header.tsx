@@ -10,7 +10,7 @@ const Header = () => {
           priority={true}
           className="Header__logo"
           alt="logo"
-          src="/Logo.png"
+          src="/images/Logo.png"
           width={180}
           height={30}
         />
@@ -18,7 +18,7 @@ const Header = () => {
           priority={true}
           className="Header__logo Header__logo--mobile"
           alt="logo"
-          src="/LogoMobile.png"
+          src="/images/LogoMobile.png"
           width={24}
           height={24}
         />

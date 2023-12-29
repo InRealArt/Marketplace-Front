@@ -2,11 +2,15 @@
   position: relative;
   width: 100%;
   display: inline-block;
-  height: calc(100vh - $headerHeight);
+  // min-height: calc(100vh - $headerHeight);
 
   &__infos {
+    margin-top: 80px;
     width: 45%;
+    margin-bottom: 250px;
     @include breakpoint(tablet) {
+      margin-top: 15px;
+      margin-bottom: 0;
       width: 80%;
     }
   }
@@ -21,6 +25,7 @@
   }
   &__description {
     @include textBody;
+    width: 80%;
     margin-top: 70px;
     @include breakpoint(tablet) {
       margin-top: 0px;
@@ -35,7 +40,7 @@
     display: flex;
     position: absolute;
     left: 40%;
-    bottom: 20px;
+    top: 87px;
     img {
       &.Intro__letterImg {
         width: 70px;
@@ -47,6 +52,27 @@
         max-width: 600px;
       }
     }
+    @include breakpoint(tablet) {
+      display: none;
+    }
+  }
+
+  &__mobileImg {
+    display: none;
+    margin-top: 60px;
+    @include breakpoint(tablet) {
+      display: block;
+    }
+  }
+
+  &__rectangle {
+    position: absolute;
+    z-index: -1;
+    background-color: $backgroundGrey;
+    height: 200px;
+    width: 70%;
+    left: 0;
+    bottom: 0;
     @include breakpoint(tablet) {
       display: none;
     }

@@ -3,7 +3,10 @@
   top: 0;
   left: 0;
   width: 100vw;
+  height: $headerHeight;
+  z-index: 99;
   background-color: $headerBackground;
+  backdrop-filter: blur(60px);
   &__logo {
     &--mobile {
       display: none;
@@ -17,6 +20,7 @@
   }
   &__container {
     max-width: $containerMaxWidth;
+    z-index: 10;
     margin: 0 auto;
     height: $headerHeight;
     @include flexBetween;

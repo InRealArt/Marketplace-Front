@@ -1,6 +1,6 @@
 .Button {
   @include textBody(20px, -1px);
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
   padding: 15px 30px;
   justify-content: center;
@@ -17,5 +17,8 @@
   }
   &--purple {
     background-color: $buttonPurple;
+  }
+  @include breakpoint(mobile) {
+    @include textBody(16px, -1px);
   }
 }

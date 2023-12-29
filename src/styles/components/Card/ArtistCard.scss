@@ -1,0 +1,34 @@
+.ArtistCard {
+  position: relative;
+  width: 380px;
+  height: 380px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin-right: 20px;
+  border-radius: 17px;
+  @include breakpoint(mobile) {
+    width: 170px;
+    height: 270px;
+  }
+  &__infos {
+    @include positionAbsoluteCenterY;
+    bottom: 20px;
+    display: flex;
+    width: 90%;
+    justify-content: space-around;
+    align-items: center;
+    @include breakpoint(mobile) {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+  &__name {
+    font-size: 600px;
+    @include titleMontserrat(20px, -1.5px);
+    @include breakpoint(mobile) {
+      margin-bottom: 15px;
+      @include titleMontserrat(16px, -1.5px);
+    }
+  }
+}

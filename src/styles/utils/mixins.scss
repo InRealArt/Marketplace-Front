@@ -2,9 +2,10 @@
 FONTS
 ***********************************************/
 
-@mixin titleMontserrat($size: 48px) {
+@mixin titleMontserrat($size: 48px, $spacing: -1.5px) {
   font-family: 'Montserrat', sans-serif;
   font-size: $size;
+  letter-spacing: $spacing;
 }
 
 @mixin titleSyncopate($size: 48px) {
@@ -107,6 +108,12 @@ Breakpoints
 @mixin positionAbsoluteCenterX {
   position: absolute;
   top: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin positionAbsoluteCenterY {
+  position: absolute;
+  left: 50%;
   transform: translateX(-50%);
 }
 

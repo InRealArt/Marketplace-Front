@@ -1,5 +1,5 @@
 // FONTS
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Montserrat:wght@800&family=Poppins:wght@100;300;400;500;600;700&family=Syncopate:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Montserrat:wght@600;800&family=Poppins:wght@100;300;400;500;600;700&family=Syncopate:wght@700&display=swap');
 
 // UTILS
 @import './utils/mixins.scss';
@@ -10,6 +10,12 @@
 @import './components/Footer.scss';
 
 @import './components/Button.scss';
+
+// CARD
+@import './components/Card/ArtistCard.scss';
+
+// LIST
+@import './components/List/ListOfArtists.scss';
 
 // Pages
 @import './pages/landing/Intro.scss';
@@ -34,6 +40,7 @@ h3,
 h4,
 h5,
 h6 {
+  margin: 0;
   font-size: inherit;
   font-weight: inherit;
 }
