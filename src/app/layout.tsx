@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning={true}>
         <Header />
         <section className="container">{children}</section>
         <Footer />

@@ -1,5 +1,5 @@
 import Intro from '@/components/Home/Intro';
-import ListOfArtists from '@/components/Home/ListOfArtists';
+import ListOfArtists from '@/components/List/ListOfArtists';
 import artists from '@/mocks/artists.json';
 
 const Landing = () => {

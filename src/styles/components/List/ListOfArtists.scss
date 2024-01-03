@@ -28,6 +28,9 @@
     justify-content: flex-end;
     margin-top: 50px;
     margin-left: auto;
+    @include breakpoint(mobile) {
+      margin-top: 15px;
+    }
   }
   &__arrow {
     cursor: pointer;
@@ -37,6 +40,11 @@
     }
     &--disabled {
       pointer-events: none;
+    }
+
+    @include breakpoint(mobile) {
+      width: 40px;
+      height: auto;
     }
   }
 }
