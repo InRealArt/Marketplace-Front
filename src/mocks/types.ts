@@ -9,6 +9,9 @@ export interface Artist {
 
 export interface Nft {
   id: NftId;
-  name: string;
+  title: string;
+  tag: string;
+  price: number;
+  likes: number;
   img: string;
 }

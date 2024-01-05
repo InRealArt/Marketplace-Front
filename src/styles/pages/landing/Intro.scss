@@ -27,8 +27,9 @@
     @include textBody;
     width: 80%;
     margin-top: 70px;
+
     @include breakpoint(tablet) {
-      margin-top: 0px;
+      margin-top: 30px;
     }
   }
   &__buttons {
@@ -59,6 +60,7 @@
 
   &__mobileImg {
     display: none;
+    margin: 0 auto;
     margin-top: 60px;
     @include breakpoint(tablet) {
       display: block;

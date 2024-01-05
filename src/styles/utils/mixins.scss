@@ -14,7 +14,7 @@ FONTS
   letter-spacing: normal;
 }
 
-@mixin textBody($size: 18, $spacing: -0.25px) {
+@mixin textBody($size: 18px, $spacing: -0.25px) {
   font-family: 'Poppins', sans-serif;
   font-size: $size;
   letter-spacing: $spacing;

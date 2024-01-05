@@ -1,6 +1,6 @@
 .ArtistCard {
   position: relative;
-  width: 380px;
+  width: 100%;
   height: 380px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -8,7 +8,6 @@
   margin-right: 20px;
   border-radius: 17px;
   @include breakpoint(mobile) {
-    width: 170px;
     height: 270px;
   }
   &__infos {
@@ -24,11 +23,14 @@
     }
   }
   &__name {
-    font-size: 600px;
+    margin-right: 5px;
     @include titleMontserrat(20px, -1.5px);
     @include breakpoint(mobile) {
       margin-bottom: 15px;
       @include titleMontserrat(16px, -1.5px);
     }
+  }
+  .Button {
+    margin-left: 5px;
   }
 }

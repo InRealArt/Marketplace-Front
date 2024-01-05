@@ -1,0 +1,68 @@
+.ListNavigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid #3d3d3d;
+  @include breakpoint(mobile) {
+    flex-direction: column;
+    border: none;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  &__title {
+    position: relative;
+    display: inline-block;
+    font-weight: 600;
+    padding: 25px 0;
+    &--active {
+      &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        bottom: -3px;
+        left: 0;
+        background-color: $secondary700;
+      }
+    }
+    @include titleMontserrat(36px);
+    @include breakpoint(mobile) {
+      @include titleMontserrat(24px);
+      padding: 15px 0;
+    }
+  }
+  &__filters {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 70%;
+    @include breakpoint(mobile) {
+      margin-top: 30px;
+      width: 100%;
+    }
+  }
+  &__search {
+    display: flex;
+    width: 100%;
+    max-width: 510px;
+    height: 54px;
+    padding: 15px 30px;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    color: #fff;
+    background: none;
+    font-weight: 600;
+    @include titleMontserrat(20px);
+    @include breakpoint(mobile) {
+      width: 50%;
+      font-size: 16px;
+    }
+  }
+  .Button--viewAll {
+    width: 80px;
+    border: 1px solid #fff;
+    margin-left: 30px;
+    padding: 12px 30px;
+  }
+}

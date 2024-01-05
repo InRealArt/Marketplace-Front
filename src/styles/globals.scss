@@ -1,24 +1,28 @@
 // FONTS
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Montserrat:wght@600;800&family=Poppins:wght@100;300;400;500;600;700&family=Syncopate:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Montserrat:wght@400;600;700;800&family=Poppins:wght@100;300;400;500;600;700&family=Syncopate:wght@700&display=swap");
 
 // UTILS
-@import './utils/mixins.scss';
-@import './utils/variables.scss';
+@import "./utils/mixins.scss";
+@import "./utils/variables.scss";
 
 // COMPONENTS
-@import './components/Header.scss';
-@import './components/Footer.scss';
+@import "./components/Header.scss";
+@import "./components/Footer.scss";
 
-@import './components/Button.scss';
+@import "./components/Button.scss";
 
 // CARD
-@import './components/Card/ArtistCard.scss';
+@import "./components/Card/ArtistCard.scss";
+@import "./components/Card/NftCard.scss";
 
 // LIST
-@import './components/List/ListOfArtists.scss';
+@import "./components/List/ListOfArtists.scss";
+@import "./components/List/ListOfNfts.scss";
+@import "./components/List/ListNavigation.scss";
 
 // Pages
-@import './pages/landing/Intro.scss';
+@import "./pages/landing/Intro.scss";
+@import "./pages/landing/ContactUs.scss";
 
 body {
   color: white;
@@ -29,8 +33,8 @@ body {
   max-width: $containerMaxWidth;
   margin: 0 auto;
   margin-top: $headerHeight;
-  @include breakpoint(tablet) {
-    max-width: 85%;
+  @include breakpoint(mediumDesktop) {
+    max-width: 90%;
   }
 }
 
@@ -74,10 +78,14 @@ video {
 ::after {
   border-width: 0;
   border-style: solid;
-  border-color: theme('borderColor.DEFAULT', currentColor);
+  border-color: theme("borderColor.DEFAULT", currentColor);
 }
 
 a {
   color: inherit;
   text-decoration: inherit;
+}
+
+input:focus {
+  outline: none;
 }

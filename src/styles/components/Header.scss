@@ -24,8 +24,8 @@
     margin: 0 auto;
     height: $headerHeight;
     @include flexBetween;
-    @include breakpoint(mobile) {
-      max-width: 85%;
+    @include breakpoint(mediumDesktop) {
+      max-width: 90%;
     }
   }
   &__nav {

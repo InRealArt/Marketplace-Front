@@ -30,13 +30,14 @@ const ListOfArtists = ({ artists }: ListOfArtistsProps) => {
             setActiveSlide(swiper.isEnd ? artists.length : swiper.activeIndex)
           }
           breakpoints={{
+            768: {
+              slidesPerView: 2,
+            },
             1023: {
               slidesPerView: 3,
-              spaceBetween: 200,
             },
             1279: {
-              slidesPerView: 3,
-              spaceBetween: -180,
+              slidesPerView: 4,
             },
           }}
         >
