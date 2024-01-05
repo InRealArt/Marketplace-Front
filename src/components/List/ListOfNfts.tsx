@@ -26,7 +26,7 @@ const ListOfNfts = ({ nfts }: ListOfNftsProps) => {
   return (
     <section className="ListOfNfts">
       <FormProvider {...methods}>
-        <ListNavigation title="NFT Populaires" viewAllLink='/allNfts' />
+        <ListNavigation title="NFT Populaires" viewAllLink="/allNfts" />
       </FormProvider>
       <div className="ListOfNfts__items">
         {nftWithSearchQuery.map((nft) => (

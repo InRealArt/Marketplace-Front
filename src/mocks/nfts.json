@@ -3,7 +3,7 @@
     "id": "1",
     "title": "Title art 1",
     "tag": "@science",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -11,7 +11,7 @@
     "id": "2",
     "title": "Title art 1",
     "tag": "@aventure",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -19,7 +19,7 @@
     "id": "3",
     "title": "Title art 1",
     "tag": "@aventure",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -27,7 +27,7 @@
     "id": "4",
     "title": "Title art 2",
     "tag": "@nametag",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -35,7 +35,7 @@
     "id": "5",
     "title": "Title art 2",
     "tag": "@cartoon",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -43,7 +43,7 @@
     "id": "6",
     "title": "Title art 2",
     "tag": "@cartoon",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -51,7 +51,7 @@
     "id": "7",
     "title": "Title art 3",
     "tag": "@horreur",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -59,7 +59,7 @@
     "id": "8",
     "title": "Title art 3",
     "tag": "@horreur",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -67,7 +67,7 @@
     "id": "9",
     "title": "Title art 3",
     "tag": "@horreur",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -75,7 +75,7 @@
     "id": "10",
     "title": "Title art 4",
     "tag": "@romantique",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -83,7 +83,7 @@
     "id": "11",
     "title": "Title art 4",
     "tag": "@romantique",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   },
@@ -91,7 +91,7 @@
     "id": "12",
     "title": "Title art 4",
     "tag": "@romantique",
-    "price": 0.000,
+    "price": 0.0,
     "likes": 24672,
     "img": ""
   }
