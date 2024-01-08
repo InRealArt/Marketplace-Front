@@ -13,7 +13,7 @@
 
   &__title {
     @include titleMontserrat(90px, 0px);
-    color: #fff;
+    color: $white;
     font-weight: 700;
     margin-bottom: 20px;
     @include breakpoint(tablet) {
@@ -22,7 +22,7 @@
   }
   &__description {
     @include titleMontserrat(18px, -0.25px);
-    color: #fff;
+    color: $white;
     font-weight: 400;
     line-height: 24px;
     width: 70%;
@@ -32,13 +32,13 @@
     }
   }
   &__search {
-    border: 1px solid #fff;
-    color: #fff;
+    border: 1px solid $white;
+    color: $white;
     padding: 20px 30px;
     background: none;
     width: 100%;
     &::placeholder {
-      color: #fff;
+      color: $white;
     }
   }
   form {

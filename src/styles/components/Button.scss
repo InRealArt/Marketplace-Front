@@ -3,12 +3,13 @@
   font-weight: 500;
   display: flex;
   padding: 15px 30px;
+  text-align: center;
   justify-content: center;
   align-items: center;
   gap: 10px;
   border-radius: 10px;
   background-color: $primary700;
-  color: white;
+  color: $white;
   border: none;
   cursor: pointer;
 

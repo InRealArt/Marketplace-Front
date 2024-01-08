@@ -19,8 +19,8 @@ const Header = () => {
           className="Header__logo Header__logo--mobile"
           alt="logo"
           src="/images/LogoMobile.png"
-          width={24}
-          height={24}
+          width={34}
+          height={34}
         />
 
         <nav className="Header__nav">

@@ -39,7 +39,7 @@
     display: flex;
     padding: 13px 15px;
     border-radius: 10px;
-    border: 1px solid #fff;
+    border: 1px solid $white;
     background: rgba(84, 84, 84, 0.3);
     backdrop-filter: blur(26px);
     @include textBody(14px);
@@ -60,7 +60,7 @@
       right: 90px;
       width: 2px;
       height: calc(100% - 30px);
-      background-color: #fff;
+      background-color: $white;
     }
   }
   &__title {

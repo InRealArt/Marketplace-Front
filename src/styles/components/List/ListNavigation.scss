@@ -41,27 +41,41 @@
       width: 100%;
     }
   }
+  &__searchContainer {
+    position: relative;
+    max-width: 510px;
+    width: 100%;
+    @include breakpoint(smallDesktop) {
+      max-width: 410px;
+    }
+    @include breakpoint(tablet) {
+      width: auto;
+    }
+  }
   &__search {
     display: flex;
     width: 100%;
-    max-width: 510px;
     height: 54px;
-    padding: 15px 30px;
     align-items: center;
+    padding: 15px 30px;
     border-radius: 10px;
-    border: 1px solid #fff;
-    color: #fff;
+    border: 1px solid $white;
+    color: $white;
     background: none;
     font-weight: 600;
     @include titleMontserrat(20px);
     @include breakpoint(mobile) {
-      width: 50%;
       font-size: 16px;
+    }
+    &--icon {
+      position: absolute;
+      right: 20px;
+      @include positionAbsoluteCenterY;
     }
   }
   .Button--viewAll {
     width: 80px;
-    border: 1px solid #fff;
+    border: 1px solid $white;
     margin-left: 30px;
     padding: 12px 30px;
   }

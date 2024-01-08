@@ -105,13 +105,13 @@ Breakpoints
   transform: translate(-50%, -50%);
 }
 
-@mixin positionAbsoluteCenterX {
+@mixin positionAbsoluteCenterY {
   position: absolute;
   top: 50%;
-  transform: translateX(-50%);
+  transform: translateY(-50%);
 }
 
-@mixin positionAbsoluteCenterY {
+@mixin positionAbsoluteCenterX {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

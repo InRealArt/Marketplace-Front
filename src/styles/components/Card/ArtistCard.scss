@@ -11,7 +11,7 @@
     height: 270px;
   }
   &__infos {
-    @include positionAbsoluteCenterY;
+    @include positionAbsoluteCenterX;
     bottom: 20px;
     display: flex;
     width: 90%;
@@ -24,17 +24,22 @@
   }
   &__name {
     margin-right: 5px;
+    width: 90px;
     @include titleMontserrat(20px, -1.5px);
     @include breakpoint(mobile) {
       margin-bottom: 15px;
       @include titleMontserrat(16px, -1.5px);
     }
+    @include breakpoint(tablet) {
+      width: auto;
+    }
   }
   .Button {
-    @include breakpoint(tablet) {
+    @include breakpoint(mobile) {
       margin-left: 0;
       @include textBody(14px, -1px);
-
+      padding: 15px 20px;
+      width: -webkit-fill-available;
     }
     margin-left: 5px;
   }
