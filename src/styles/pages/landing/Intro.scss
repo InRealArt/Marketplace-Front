@@ -95,7 +95,7 @@
       height: 2px;
       background-color: $white;
       display: block;
-      @include positionAbsoluteCenterY;
+      @include positionAbsoluteCenter;
       left: -140px;
     }
     @include breakpoint(tablet) {
