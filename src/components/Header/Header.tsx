@@ -1,27 +1,32 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import HeaderMenu from './subComponents/HeaderMenu';
 
 const Header = () => {
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   return (
     <header className="Header">
       <section className="Header__container">
-        <Image
-          priority={true}
-          className="Header__logo"
-          alt="logo"
-          src="/images/Logo.png"
-          width={180}
-          height={30}
-        />
-        <Image
-          priority={true}
-          className="Header__logo Header__logo--mobile"
-          alt="logo"
-          src="/images/LogoMobile.png"
-          width={34}
-          height={34}
-        />
+        <Link href={'/'} className="Header__logo">
+          <Image
+            priority={true}
+            alt="logo"
+            src="/images/Logo.png"
+            width={180}
+            height={30}
+          />
+        </Link>
+        <Link href={'/'} className="Header__logo Header__logo--mobile">
+          <Image
+            priority={true}
+            alt="logo"
+            src="/images/LogoMobile.png"
+            width={34}
+            height={34}
+          />
+        </Link>
 
         <nav className="Header__nav">
           <Link className={`Header__link`} href={'/'}>
@@ -33,7 +38,7 @@ const Header = () => {
           <Link className={`Header__link`} href={'/nfts'}>
             Nfts
           </Link>
-          <Link className={`Header__link`} href={'/artist'}>
+          <Link className={`Header__link`} href={'/artists'}>
             Artists
           </Link>
         </nav>
@@ -47,6 +52,7 @@ const Header = () => {
             height={24}
           />
           <Image
+            onClick={() => setShowMenu(!showMenu)}
             priority={true}
             alt="logo"
             src="/icons/line-md_account.png"
@@ -57,6 +63,7 @@ const Header = () => {
 
         <div className="Header__rightMenu Header__rightMenu--mobile">
           <Image
+            onClick={() => setShowMenu(!showMenu)}
             priority={true}
             alt="logo"
             src="/icons/menu.png"
@@ -64,6 +71,8 @@ const Header = () => {
             height={24}
           />
         </div>
+
+        {showMenu && <HeaderMenu setShowMenu={() => setShowMenu(false)} />}
       </section>
     </header>
   );

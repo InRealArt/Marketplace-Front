@@ -6,19 +6,22 @@
 @import './utils/variables.scss';
 
 // COMPONENTS
-@import './components/Header.scss';
+@import './components/Header/Header.scss';
+@import './components/Header/HeaderMenu.scss';
+
 @import './components/Footer.scss';
 
 @import './components/Button.scss';
 
 // CARD
 @import './components/Card/ArtistCard.scss';
+@import './components/Card/ArtistCardSlider.scss';
 @import './components/Card/NftCard.scss';
 
 // LIST
-@import './components/List/ListOfArtists.scss';
-@import './components/List/ListOfNfts.scss';
+@import './components/List/List.scss';
 @import './components/List/ListNavigation.scss';
+@import './components/List/ArtistsListSlider.scss';
 
 // Pages
 @import './pages/landing/Intro.scss';

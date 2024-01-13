@@ -1,0 +1,60 @@
+.HeaderMenu {
+  max-width: 330px;
+  width: 90%;
+  height: 600px;
+  border-radius: 20px;
+  border: 1px solid #a6a6a6;
+  background: #313130;
+  padding: 30px;
+  position: absolute;
+  right: 0;
+  top: $headerHeight;
+
+  @include breakpoint(mobile) {
+    width: 100%;
+    max-width: -webkit-fill-available;
+  }
+
+  &__topContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  &__bottomContent {
+    position: absolute;
+    bottom: 0;
+  }
+
+  &__title {
+    @include titleMontserrat(32px, 0);
+    font-weight: 600;
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      height: 2px;
+      width: 30px;
+      background-color: $secondary700;
+    }
+  }
+
+  &__link {
+    display: block;
+    color: $white;
+    @include textBody;
+    padding: 10px;
+    margin-bottom: 20px;
+    &--bottom {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__close {
+    cursor: pointer;
+  }
+}

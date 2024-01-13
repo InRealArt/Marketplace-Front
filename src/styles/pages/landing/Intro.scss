@@ -8,17 +8,17 @@
     margin-top: 80px;
     width: 45%;
     margin-bottom: 250px;
-    @include breakpoint(tablet) {
+    @include breakpoint(smallDesktop) {
       margin-top: 15px;
       margin-bottom: 0;
-      width: 80%;
+      width: 86%;
     }
   }
   &__title {
     @include textBody(70px, -1.5px);
     font-weight: 500;
     line-height: 78px;
-    @include breakpoint(tablet) {
+    @include breakpoint(smallDesktop) {
       font-size: 32px;
       line-height: 40px;
     }
@@ -28,7 +28,7 @@
     width: 80%;
     margin-top: 70px;
 
-    @include breakpoint(tablet) {
+    @include breakpoint(smallDesktop) {
       margin-top: 30px;
     }
   }
@@ -41,7 +41,7 @@
     display: flex;
     position: absolute;
     left: 40%;
-    top: 87px;
+    bottom: 87px;
     img {
       &.Intro__letterImg {
         width: 70px;
@@ -53,7 +53,12 @@
         max-width: 600px;
       }
     }
-    @include breakpoint(tablet) {
+    @include breakpoint(mediumDesktop) {
+      img.Intro__castleImg {
+        max-width: 500px;
+      }
+    }
+    @include breakpoint(smallDesktop) {
       display: none;
     }
   }
@@ -62,7 +67,7 @@
     display: none;
     margin: 0 auto;
     margin-top: 60px;
-    @include breakpoint(tablet) {
+    @include breakpoint(smallDesktop) {
       display: block;
     }
   }
@@ -75,7 +80,7 @@
     width: 70%;
     left: 0;
     bottom: 0;
-    @include breakpoint(tablet) {
+    @include breakpoint(smallDesktop) {
       display: none;
     }
   }
@@ -98,7 +103,7 @@
       @include positionAbsoluteCenter;
       left: -140px;
     }
-    @include breakpoint(tablet) {
+    @include breakpoint(smallDesktop) {
       font-size: 16px;
     }
   }

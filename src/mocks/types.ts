@@ -4,12 +4,13 @@ export type NftId = string;
 export interface Artist {
   id: ArtistId;
   name: string;
+  nfts: number;
   img: string;
 }
 
 export interface Nft {
   id: NftId;
-  title: string;
+  name: string;
   tag: string;
   price: number;
   likes: number;

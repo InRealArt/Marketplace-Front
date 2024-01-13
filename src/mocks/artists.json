@@ -2,31 +2,73 @@
   {
     "id": "1",
     "name": "Elena jenkins",
+    "nfts": 16,
     "img": ""
   },
   {
     "id": "2",
-    "name": "Elena jenkins",
+    "name": "Leslie Alexander",
+    "nfts": 16,
     "img": ""
   },
   {
     "id": "3",
-    "name": "Elena jenkins",
+    "name": "Jane Cooper",
+    "nfts": 16,
     "img": "s"
   },
   {
     "id": "4",
-    "name": "Elena jenkins",
+    "name": "Dianne Russell",
+    "nfts": 16,
     "img": ""
   },
   {
     "id": "5",
     "name": "Elena jenkins",
+    "nfts": 16,
     "img": ""
   },
   {
     "id": "6",
+    "name": "Leslie Alexander",
+    "nfts": 16,
+    "img": ""
+  },
+  {
+    "id": "7",
+    "name": "Jane Cooper",
+    "nfts": 16,
+    "img": ""
+  },
+  {
+    "id": "8",
+    "name": "Dianne Russell",
+    "nfts": 16,
+    "img": ""
+  },
+  {
+    "id": "9",
     "name": "Elena jenkins",
+    "nfts": 16,
+    "img": ""
+  },
+  {
+    "id": "10",
+    "name": "Leslie Alexander",
+    "nfts": 16,
+    "img": ""
+  },
+  {
+    "id": "11",
+    "name": "Jane Cooper",
+    "nfts": 16,
+    "img": ""
+  },
+  {
+    "id": "12",
+    "name": "Dianne Russell",
+    "nfts": 16,
     "img": ""
   }
 ]

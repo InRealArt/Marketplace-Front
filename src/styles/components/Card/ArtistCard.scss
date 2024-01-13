@@ -1,46 +1,65 @@
 .ArtistCard {
   position: relative;
-  width: 100%;
-  height: 380px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  margin-right: 20px;
+  width: calc(100% / 4 - 20px);
+  margin-top: 40px;
+  height: auto;
   border-radius: 17px;
+  background-color: $white;
+  @include breakpoint(smallDesktop) {
+    width: calc(100% / 3 - 20px);
+  }
+  @include breakpoint(tablet) {
+    width: calc(100% / 2 - 10px);
+  }
   @include breakpoint(mobile) {
-    height: 270px;
+    width: 100%;
   }
-  &__infos {
-    @include positionAbsoluteCenterX;
-    bottom: 20px;
-    display: flex;
-    width: 90%;
-    justify-content: space-around;
-    align-items: center;
-    @include breakpoint(mobile) {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-  }
-  &__name {
-    margin-right: 5px;
-    width: 90px;
-    @include titleMontserrat(20px, -1.5px);
-    @include breakpoint(mobile) {
-      margin-bottom: 15px;
-      @include titleMontserrat(16px, -1.5px);
+  &__background {
+    position: relative;
+    width: auto;
+    height: 200px;
+    border-radius: 17px 17px 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    @include breakpoint(smallDesktop) {
+      height: 160px;
     }
     @include breakpoint(tablet) {
-      width: auto;
+      height: 180px;
     }
   }
-  .Button {
+  &__infos {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 20px;
     @include breakpoint(mobile) {
-      margin-left: 0;
-      @include textBody(14px, -1px);
-      padding: 15px 20px;
-      width: -webkit-fill-available;
+      padding: 0 10px;
+      top: -10px;
+      align-items: flex-end;
     }
-    margin-left: 5px;
+  }
+  &__miniature {
+    margin-right: 25px;
+  }
+  &__title {
+    @include textBody(24px);
+    font-weight: 600;
+    color: $primary700;
+    @include breakpoint(mobile) {
+      @include textBody(16px);
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+  }
+  &__nfts {
+    @include textBody(16px);
+    font-weight: 500;
+    color: $primary700;
+    margin: 0;
+    @include breakpoint(mobile) {
+      display: none;
+    }
   }
 }

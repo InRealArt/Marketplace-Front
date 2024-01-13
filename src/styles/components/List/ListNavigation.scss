@@ -9,11 +9,16 @@
     justify-content: flex-start;
     align-items: flex-start;
   }
+  &__nav {
+    display: flex;
+  }
   &__title {
     position: relative;
+    cursor: pointer;
     display: inline-block;
     font-weight: 600;
     padding: 25px 0;
+    margin-right: 25px;
     &--active {
       &::after {
         content: '';
@@ -35,8 +40,9 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 70%;
+    width: 60%;
     @include breakpoint(mobile) {
+      justify-content: center;
       margin-top: 30px;
       width: 100%;
     }

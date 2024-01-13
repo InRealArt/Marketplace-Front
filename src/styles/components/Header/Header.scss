@@ -19,6 +19,7 @@
     }
   }
   &__container {
+    position: relative;
     max-width: $containerMaxWidth;
     z-index: 10;
     margin: 0 auto;
@@ -30,6 +31,7 @@
   }
   &__nav {
     width: 330px;
+    font-weight: 600;
     @include flexBetween;
     @include textNav;
     @include breakpoint(mobile) {
@@ -40,9 +42,12 @@
   &__rightMenu {
     width: 80px;
     @include flexBetween;
-
+    img {
+      cursor: pointer;
+    }
     &--mobile {
       display: none;
+      cursor: pointer;
     }
     @include breakpoint(mobile) {
       width: 24px;
