@@ -10,7 +10,7 @@ interface NftCardProps {
 }
 
 const NftCard = ({ nft }: NftCardProps) => {
-  const { id, name, tag, price, likes } = nft;
+  const { id, name, artist, price, likes } = nft;
   return (
     <div className="NftCard">
       <Link href={`/nfts/${id}`}>
@@ -35,8 +35,12 @@ const NftCard = ({ nft }: NftCardProps) => {
       </Link>
       <div className="NftCard__infos">
         <div>
-          <p className="NftCard__tag">{tag}</p>
-          <h2 className="NftCard__title">{name}</h2>
+          <Link className="NftCard__artist" href={`/artists/${artist.id}`}>
+            {artist.name}
+          </Link>
+          <Link className="NftCard__title" href={`/nfts/${id}`}>
+            {name}
+          </Link>
         </div>
         <div className="NftCard__price">
           <Image

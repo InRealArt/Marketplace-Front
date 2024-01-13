@@ -1,0 +1,76 @@
+.Artist {
+  &__background {
+    position: absolute;
+    left: 0;
+    top: $headerHeight;
+    height: 280px;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  &__infos {
+    position: relative;
+    margin-top: calc((280px + $headerHeight) - 67px);
+  }
+
+  &__bio,
+  &__top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  &__img {
+    border-radius: 8px;
+    border: 3px solid $secondary700;
+  }
+
+  &__name {
+    @include textBody(36px);
+    font-weight: 600;
+    margin-top: 15px;
+  }
+
+  &__label {
+    border-radius: 10px;
+    border: 1px solid $white;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(26px);
+    padding: 13px 15px;
+    @include textBody(14px);
+    @include breakpoint(mobile) {
+      display: none;
+    }
+  }
+
+  &__description {
+    margin-top: 20px;
+    &__title {
+      font-weight: 500;
+      @include textBody(18px);
+    }
+    &__text {
+      @include textBody(16px);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 10px;
+    &--mobile {
+      display: none;
+    }
+    @include breakpoint(mobile) {
+      &--mobile {
+        display: flex;
+      }
+      display: none;
+    }
+  }
+
+  .List {
+    margin-top: 20px;
+  }
+}

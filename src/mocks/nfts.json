@@ -35,8 +35,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "2",
+      "name": "Jane Cooper"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
@@ -56,8 +56,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "3",
+      "name": "Leslie Alexander"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
@@ -77,8 +77,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "4",
+      "name": "Elena jenkins"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
@@ -98,7 +98,7 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
+      "id": "5",
       "name": "Dianne Russell"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
@@ -119,8 +119,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "6",
+      "name": "Jane Cooper"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
@@ -140,8 +140,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "7",
+      "name": "Leslie Alexander"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
@@ -161,8 +161,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "8",
+      "name": "Elena jenkins"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
@@ -182,7 +182,7 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
+      "id": "9",
       "name": "Dianne Russell"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
@@ -203,8 +203,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "10",
+      "name": "Jane Cooper"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
@@ -224,8 +224,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "11",
+      "name": "Leslie Alexander"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
@@ -243,8 +243,8 @@
       "Landscape"
     ],
     "artist": {
-      "id": "1",
-      "name": "Dianne Russell"
+      "id": "12",
+      "name": "Elena jenkins"
     },
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "price": 0.0,

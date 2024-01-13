@@ -1,6 +1,6 @@
 import React from 'react';
 import NftImage from '../../../../../public/images/NftBig.png';
-import ArtistImage from '../../../../../public/images/ArtistMiniature.png';
+import ArtistImage from '../../../../../public/images/Artist.png';
 import { Nft } from '@/mocks/types';
 import Link from 'next/link';
 import Image from 'next/image';

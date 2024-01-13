@@ -4,8 +4,9 @@ export type NftId = string;
 export interface Artist {
   id: ArtistId;
   name: string;
-  nfts: number;
-  img: string;
+  nfts?: number;
+  bio?: string;
+  img?: string;
 }
 
 export interface Nft {
@@ -14,7 +15,7 @@ export interface Nft {
   tag: string;
   price: number;
   likes: number;
-  artist: Omit<Artist, 'nfts' | 'img'>;
+  artist: Omit<Artist, 'nfts' | 'img' | 'bio'>;
   description: string;
   filters: string[];
   img: string;

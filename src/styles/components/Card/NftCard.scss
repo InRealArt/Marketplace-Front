@@ -67,11 +67,12 @@
     @include textBody(24px);
     font-weight: 600;
   }
-  &__tag,
+  &__artist,
   &__price {
+    display: block;
     @include textBody(20px);
   }
-  &__tag {
+  &__artist {
     color: $greyColor;
     margin: 0;
     margin-bottom: 10px;

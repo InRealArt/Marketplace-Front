@@ -30,11 +30,13 @@
 @import './pages/landing/ContactUs.scss';
 
 // NFT
+@import './pages/nft/NftPage.scss';
+@import './pages/nft/subComponents/NftFilters.scss';
+@import './pages/nft/subComponents/NftIntro.scss';
+@import './pages/nft/subComponents/NftGraphic.scss';
 
-@import './pages/nft/Nft.scss';
-@import './pages/nft/NftFilters.scss';
-@import './pages/nft/NftIntro.scss';
-@import './pages/nft/NftGraphic.scss';
+// ARTIST
+@import './pages/artist/ArtistPage.scss';
 
 body {
   color: $white;
