@@ -72,7 +72,7 @@ const Header = () => {
           />
         </div>
 
-        {showMenu && <HeaderMenu setShowMenu={() => setShowMenu(false)} />}
+        {showMenu && <HeaderMenu hideMenu={() => setShowMenu(false)} />}
       </section>
     </header>
   );
