@@ -24,12 +24,25 @@
 @import './components/List/ArtistsListSlider.scss';
 
 // Pages
+
+// LANDING
 @import './pages/landing/Intro.scss';
 @import './pages/landing/ContactUs.scss';
+
+// NFT
+
+@import './pages/nft/Nft.scss';
+@import './pages/nft/NftFilters.scss';
+@import './pages/nft/NftIntro.scss';
+@import './pages/nft/NftGraphic.scss';
 
 body {
   color: $white;
   background: $primary700;
+}
+
+* {
+  scroll-behavior: smooth;
 }
 
 .container {

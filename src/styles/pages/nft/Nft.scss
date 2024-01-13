@@ -1,0 +1,7 @@
+.Nft {
+  margin-top: calc($headerHeight + 70px);
+
+  @include breakpoint(mobile) {
+    margin-top: calc($headerHeight + 10px);
+  }
+}

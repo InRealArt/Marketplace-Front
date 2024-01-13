@@ -10,15 +10,16 @@ import SwiperArrows from './subComponents/SwiperArrows';
 
 interface ArtistsListSliderProps {
   artists: Artist[];
+  title: string;
 }
 
-const ArtistsListSlider = ({ artists }: ArtistsListSliderProps) => {
+const ArtistsListSlider = ({ artists, title }: ArtistsListSliderProps) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const swiperRef = useRef<any>(null);
 
   return (
     <section className="ArtistsListSlider">
-      <h1 className="ArtistsListSlider__title">Artistes du moments</h1>
+      <h1 className="ArtistsListSlider__title">{title}</h1>
       <div className="ArtistsListSlider__container">
         <Swiper
           spaceBetween={20}

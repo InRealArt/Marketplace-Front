@@ -12,8 +12,12 @@ const Intro = () => {
           potenti. Duis eget sollicitudin nisl. Donec scelerisque
         </p>
         <div className="Intro__buttons">
-          <Button text="Proposed NFT" additionalClassName="gold" />
-          <Button text="Buy NFT" />
+          <Button
+            text="Proposed NFT"
+            additionalClassName="gold"
+            link="#contact-us"
+          />
+          <Button text="Buy NFT" link="/nfts" />
         </div>
       </div>
       <div className="Intro__imgs">

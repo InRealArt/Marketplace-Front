@@ -3,8 +3,21 @@
     "id": "1",
     "name": "Title art 1",
     "tag": "@science",
-    "price": 0.0,
+    "price": 6.75,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -13,6 +26,19 @@
     "tag": "@aventure",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -21,6 +47,19 @@
     "tag": "@aventure",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -29,6 +68,19 @@
     "tag": "@nametag",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -37,6 +89,19 @@
     "tag": "@cartoon",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -45,6 +110,19 @@
     "tag": "@cartoon",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -53,6 +131,19 @@
     "tag": "@horreur",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -61,6 +152,19 @@
     "tag": "@horreur",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -69,6 +173,19 @@
     "tag": "@horreur",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -77,6 +194,19 @@
     "tag": "@romantique",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
@@ -85,12 +215,38 @@
     "tag": "@romantique",
     "price": 0.0,
     "likes": 24672,
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "img": ""
   },
   {
     "id": "12",
     "name": "Title art 4",
     "tag": "@romantique",
+    "filters": [
+      "Science-fiction",
+      "3D",
+      "Modeling",
+      "Romantisme",
+      "Photographie",
+      "Landscape"
+    ],
+    "artist": {
+      "id": "1",
+      "name": "Dianne Russell"
+    },
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse potenti. Duis eget sollicitudin nisl. Donec scelerisque",
     "price": 0.0,
     "likes": 24672,
     "img": ""

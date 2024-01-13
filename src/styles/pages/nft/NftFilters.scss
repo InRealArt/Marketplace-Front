@@ -1,0 +1,30 @@
+.Nft {
+  &__filterSection {
+    h1 {
+      margin-top: 20px;
+      margin-bottom: 15px;
+      color: $white;
+      @include textBody(24px);
+      font-weight: 500;
+    }
+  }
+  &__filters {
+    width: auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid $borderColor;
+    background: $backgroundGreySecondary;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px 10px;
+  }
+  &__filter {
+    padding: 13px 15px;
+    border-radius: 10px;
+    border: 1px solid $white;
+    background: rgba(84, 84, 84, 0.3);
+    backdrop-filter: blur(26px);
+    @include textBody(14px);
+  }
+}

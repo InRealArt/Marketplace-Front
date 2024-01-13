@@ -14,5 +14,8 @@ export interface Nft {
   tag: string;
   price: number;
   likes: number;
+  artist: Omit<Artist, 'nfts' | 'img'>;
+  description: string;
+  filters: string[];
   img: string;
 }

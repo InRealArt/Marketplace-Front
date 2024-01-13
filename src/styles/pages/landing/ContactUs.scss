@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: flex-end;
   margin-top: 80px;
+  scroll-margin-top: $headerHeight;
   @include breakpoint(tablet) {
     flex-direction: column;
     padding: 50px;

@@ -8,13 +8,16 @@
   align-items: center;
   gap: 10px;
   border-radius: 10px;
-  background-color: $primary700;
+  background-color: transparent;
   color: $white;
   border: none;
   cursor: pointer;
 
   &--gold {
     background-color: $secondary700;
+  }
+  &--goldBorder {
+    border: 3px solid $secondary700;
   }
   &--purple {
     background-color: $buttonPurple;

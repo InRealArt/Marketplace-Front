@@ -21,21 +21,17 @@ const ListNavigation = ({
   return (
     <div className={`ListNavigation ListNavigation--${additionalClassName}`}>
       <div className="ListNavigation__nav">
-        {nav.map((title) => {
-          console.log(title, navActive);
-
-          return (
-            <h1
-              key={title}
-              onClick={() => setNavActive(title)}
-              className={`ListNavigation__title ${
-                navActive === title ? 'ListNavigation__title--active' : ''
-              }`}
-            >
-              {title}
-            </h1>
-          );
-        })}
+        {nav.map((title) => (
+          <h1
+            key={title}
+            onClick={() => setNavActive(title)}
+            className={`ListNavigation__title ${
+              navActive === title ? 'ListNavigation__title--active' : ''
+            }`}
+          >
+            {title}
+          </h1>
+        ))}
       </div>
 
       <section className="ListNavigation__filters">

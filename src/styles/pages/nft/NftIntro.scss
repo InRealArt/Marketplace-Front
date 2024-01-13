@@ -1,0 +1,142 @@
+.Nft {
+  &__intro {
+    display: grid;
+    grid-template-columns: calc(60% - 10px) calc(40% - 10px);
+    grid-template-rows: auto auto;
+    gap: 20px;
+    @include breakpoint(tablet) {
+      grid-template-columns: auto;
+      grid-template-rows: auto;
+    }
+  }
+  &__image {
+    grid-row: 1 / span 3;
+    position: relative;
+    border-radius: 10px;
+    height: 900px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    @include breakpoint(tablet) {
+      grid-row: auto;
+      height: 680px;
+    }
+    @include breakpoint(mobile) {
+      height: 380px;
+    }
+  }
+  &__actions {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    display: inline-flex;
+    gap: 20px;
+    padding: 13px 15px;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid $white;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(26px);
+    @include textBody(14px);
+  }
+  &__action {
+    margin: 0;
+  }
+  &__label {
+    position: absolute;
+    left: 25px;
+    bottom: 25px;
+    padding: 13px 15px;
+    border-radius: 10px;
+    border: 1px solid $white;
+    background: rgba(49, 49, 48, 0.3);
+    backdrop-filter: blur(26px);
+    @include textBody(14px);
+  }
+
+  &__infos {
+    grid-row: 1;
+    border-radius: 10px;
+    border: 1px solid $borderColor;
+    background: $backgroundGreySecondary;
+    height: fit-content;
+  }
+
+  &__artist {
+    display: flex;
+    padding: 15px 20px;
+    align-items: center;
+    border-radius: 14px;
+    background: #2c2c29;
+    margin-bottom: 50px;
+    &__name {
+      a {
+        @include textBody(18px, -0.25px);
+      }
+      h3 {
+        @include textBody(24px);
+        font-weight: 600;
+      }
+    }
+    &__image {
+      width: 65px;
+      height: 65px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      border: 3px solid #b38273;
+      border-radius: 50%;
+      margin-right: 25px;
+    }
+  }
+  &__description {
+    &__title {
+      font-weight: 500;
+      @include textBody(18px);
+    }
+    &__text {
+      @include textBody(16px);
+    }
+  }
+
+  &__price {
+    border-radius: 10px;
+    border: 1px solid $borderColor;
+    background: $backgroundGreySecondary;
+    height: fit-content;
+    &__content {
+      display: flex;
+      align-items: center;
+    }
+    &__btns {
+      margin-top: 35px;
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+      .Button {
+        width: 50%;
+        @include breakpoint(mobile) {
+          padding: 15px;
+        }
+      }
+    }
+  }
+  &__ethLogo {
+    display: inline-block;
+    margin-right: 12px;
+  }
+  &__ethPrice {
+    margin: 0;
+    display: inline-block;
+    @include textBody(32px, -0.25px);
+    font-weight: 600;
+  }
+
+  &__infos,
+  &__price {
+    padding: 25px 20px;
+    @include breakpoint(mobile) {
+      padding: 20px 15px;
+    }
+  }
+}

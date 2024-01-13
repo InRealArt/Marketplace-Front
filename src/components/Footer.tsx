@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <footer className="Footer">
+    <footer className="Footer" id="footer">
       <section className="Footer__container">
         <Image
           priority={true}
