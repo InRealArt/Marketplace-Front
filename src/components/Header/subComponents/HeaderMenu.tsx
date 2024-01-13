@@ -28,11 +28,11 @@ const HeaderMenu = ({ setShowMenu }: HeaderMenuProps) => {
         <Link className={`HeaderMenu__link`} href={'/profil'}>
           Profil
         </Link>
-        <Link className={`HeaderMenu__link`} href={'/security'}>
-          Security
+        <Link className={`HeaderMenu__link`} href={'/nfts'}>
+          All NFTs
         </Link>
-        <Link className={`HeaderMenu__link`} href={'/glossaire'}>
-          Glossaire
+        <Link className={`HeaderMenu__link`} href={'/artists'}>
+          All Artists
         </Link>
       </nav>
       <div className="HeaderMenu__bottomContent">
