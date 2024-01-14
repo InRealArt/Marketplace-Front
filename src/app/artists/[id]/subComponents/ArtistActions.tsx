@@ -15,8 +15,16 @@ const ArtistActions = () => {
       />
       <span className="Artist__label">Créateur</span>
       <div className="Artist__actions Artist__actions--mobile">
-        <Button text="Share" additionalClassName="blur" />
-        <Button text="Follow" additionalClassName="blur" />
+        <Button
+          text="Share"
+          icon="/icons/Share.png"
+          additionalClassName="blur"
+        />
+        <Button
+          text="Follow"
+          icon="/icons/Heart.png"
+          additionalClassName="blur"
+        />
       </div>
     </div>
   );

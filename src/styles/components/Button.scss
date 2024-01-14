@@ -28,6 +28,7 @@
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(26px);
     font-size: 14px;
+    width: max-content;
   }
   @include breakpoint(mobile) {
     @include textBody(16px, -1px);

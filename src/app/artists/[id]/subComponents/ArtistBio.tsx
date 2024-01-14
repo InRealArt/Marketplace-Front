@@ -19,8 +19,16 @@ const ArtistBio = ({ name, bio }: ArtistBioProps) => {
         </div>
       </div>
       <div className="Artist__actions">
-        <Button text="Share" additionalClassName="blur" />
-        <Button text="Follow" additionalClassName="blur" />
+        <Button
+          text="Share"
+          additionalClassName="blur"
+          icon="/icons/Share.png"
+        />
+        <Button
+          text="Follow"
+          additionalClassName="blur"
+          icon="/icons/Share.png"
+        />
       </div>
     </div>
   );

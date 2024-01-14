@@ -13,6 +13,7 @@
   @include breakpoint(mobile) {
     width: 100%;
     max-width: -webkit-fill-available;
+    height: 500px;
   }
 
   &__topContent {

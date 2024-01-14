@@ -8,10 +8,16 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    @include breakpoint(mobile) {
+      height: 100px;
+    }
   }
   &__infos {
     position: relative;
     margin-top: calc((280px + $headerHeight) - 67px);
+    @include breakpoint(mobile) {
+      margin-top: calc((100px + $headerHeight) - 48px);
+    }
   }
 
   &__bio,
@@ -25,12 +31,19 @@
   &__img {
     border-radius: 8px;
     border: 3px solid $secondary700;
+    @include breakpoint(mobile) {
+      width: 90px;
+      height: 90px;
+    }
   }
 
   &__name {
     @include textBody(36px);
     font-weight: 600;
     margin-top: 15px;
+    @include breakpoint(mobile) {
+      font-size: 24px;
+    }
   }
 
   &__label {
@@ -63,10 +76,15 @@
       display: none;
     }
     @include breakpoint(mobile) {
+      display: none;
       &--mobile {
         display: flex;
+        position: relative;
+        top: -30px;
       }
-      display: none;
+      span {
+        display: none;
+      }
     }
   }
 

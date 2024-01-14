@@ -1,14 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type Props = {
   text: string;
   additionalClassName?: string;
   action?: () => unknown;
   link?: string;
+  icon?: string;
 };
 
-const Button = ({ text, additionalClassName, action, link }: Props) => {
+const Button = ({ text, additionalClassName, action, link, icon }: Props) => {
   const className = `Button Button--${additionalClassName}`;
 
   if (link)
@@ -20,7 +22,17 @@ const Button = ({ text, additionalClassName, action, link }: Props) => {
 
   return (
     <button className={className} type="button" onClick={action}>
-      {text}
+      {icon && (
+        <Image
+          className="Button__icon"
+          priority={true}
+          alt=""
+          src={icon}
+          width={28}
+          height={28}
+        />
+      )}
+      <span>{text}</span>
     </button>
   );
 };
