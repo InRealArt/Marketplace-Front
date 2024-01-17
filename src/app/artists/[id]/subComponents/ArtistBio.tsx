@@ -1,10 +1,11 @@
 import React from 'react';
 import Button from '@/components/Button/Button';
 import { Artist } from '@/mocks/types';
+import { Heart, Share2 } from 'lucide-react';
 
 interface ArtistBioProps {
-  name: Artist['name'] | undefined;
-  bio: Artist['bio'] | undefined;
+  name?: Artist['name'];
+  bio?: Artist['bio'];
 }
 
 const ArtistBio = ({ name, bio }: ArtistBioProps) => {
@@ -22,12 +23,12 @@ const ArtistBio = ({ name, bio }: ArtistBioProps) => {
         <Button
           text="Share"
           additionalClassName="blur"
-          icon="/icons/Share.png"
+          icon={<Share2 className="Button__icon" width={28} height={28} />}
         />
         <Button
           text="Follow"
           additionalClassName="blur"
-          icon="/icons/Share.png"
+          icon={<Heart className="Button__icon" width={28} height={28} />}
         />
       </div>
     </div>

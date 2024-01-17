@@ -34,12 +34,9 @@
   }
   &__arrow {
     cursor: pointer;
-    &--left {
-      margin-right: 20px;
-      transform: rotate(180deg);
-    }
     &--disabled {
       pointer-events: none;
+      color: #a7a7a7;
     }
 
     @include breakpoint(mobile) {

@@ -42,7 +42,7 @@
   &__rightMenu {
     width: 80px;
     @include flexBetween;
-    img {
+    svg {
       cursor: pointer;
     }
     &--mobile {

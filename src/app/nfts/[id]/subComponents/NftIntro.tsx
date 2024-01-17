@@ -3,23 +3,10 @@ import NftImage from '../../../../../public/images/NftBig.png';
 import ArtistImage from '../../../../../public/images/Artist.png';
 import { Nft } from '@/mocks/types';
 import Link from 'next/link';
-import Image from 'next/image';
-import Button from '@/components/Button/Button';
+import NftPrice from './NftPrice';
 
-interface NftIntroProps {
-  name: Nft['name'] | undefined;
-  likes: Nft['likes'] | undefined;
-  price: Nft['price'] | undefined;
-  description: Nft['description'] | undefined;
-  artist: Nft['artist'] | undefined;
-}
-const NftIntro = ({
-  name,
-  likes,
-  price,
-  description,
-  artist,
-}: NftIntroProps) => {
+const NftIntro = (props: Partial<Nft>) => {
+  const { name, likes, description, artist } = props;
   return (
     <section className="Nft__intro">
       <div
@@ -53,23 +40,7 @@ const NftIntro = ({
           <p className="Nft__description__text">{description}</p>
         </div>
       </div>
-      <div className="Nft__price">
-        <div className="Nft__price__content">
-          <Image
-            priority={true}
-            className="Nft__ethLogo"
-            alt="ETH logo"
-            src="/icons/EtherWhite.png"
-            width={34}
-            height={34}
-          />
-          <p className="Nft__ethPrice">{price} ETH</p>
-        </div>
-        <div className="Nft__price__btns">
-          <Button text="Buy now" additionalClassName="gold" />
-          <Button text="Make offer" additionalClassName="goldBorder" />
-        </div>
-      </div>
+      <NftPrice {...props} />
     </section>
   );
 };

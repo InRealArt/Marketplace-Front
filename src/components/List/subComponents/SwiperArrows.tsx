@@ -1,5 +1,5 @@
 'use client';
-import Image from 'next/image';
+import { MoveLeft, MoveRight } from 'lucide-react';
 import { useSwiper } from 'swiper/react';
 
 interface SwiperArrowsProps {
@@ -19,31 +19,21 @@ const SwiperArrows = ({
 
   return (
     <div className={`${className}__arrows`}>
-      <Image
+      <MoveLeft
         onClick={() => swiper.slidePrev()}
-        priority={true}
-        className={`${className}__arrow ${className}__arrow--left ${
+        className={`${className}__arrow ${
           leftDisabled && `${className}__arrow--disabled`
         }`}
-        alt="arrow"
-        src={`${
-          leftDisabled ? '/icons/ArrowDisabled.png' : '/icons/Arrow.png'
-        }`}
-        width={71}
-        height={38}
+        width={100}
+        height={80}
       />
-      <Image
+      <MoveRight
         onClick={() => swiper.slideNext()}
-        priority={true}
         className={`${className}__arrow ${
           rightDisabled && `${className}__arrow--disabled`
         }`}
-        alt="arrow"
-        src={`${
-          rightDisabled ? '/icons/ArrowDisabled.png' : '/icons/Arrow.png'
-        }`}
-        width={71}
-        height={38}
+        width={100}
+        height={80}
       />
     </div>
   );

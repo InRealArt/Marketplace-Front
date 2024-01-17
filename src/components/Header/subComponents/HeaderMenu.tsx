@@ -1,6 +1,6 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { X } from 'lucide-react';
 
 interface HeaderMenuProps {
   hideMenu: () => void;
@@ -11,12 +11,9 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
     <section className="HeaderMenu">
       <div className="HeaderMenu__topContent">
         <h1 className="HeaderMenu__title">Mon Compte</h1>
-        <Image
+        <X
           className="HeaderMenu__close"
           onClick={hideMenu}
-          priority={true}
-          alt="Close Menu"
-          src="/icons/Cross.png"
           width={28}
           height={28}
         />

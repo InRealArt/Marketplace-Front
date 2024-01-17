@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { Search, UserRound } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import HeaderMenu from './subComponents/HeaderMenu';
@@ -44,20 +45,11 @@ const Header = () => {
         </nav>
 
         <div className="Header__rightMenu">
-          <Image
-            priority={true}
-            alt="logo"
-            src="/icons/ri_search-line.png"
-            width={24}
-            height={24}
-          />
-          <Image
+          <Search height={24} width={24} />
+          <UserRound
             onClick={() => setShowMenu(!showMenu)}
-            priority={true}
-            alt="logo"
-            src="/icons/line-md_account.png"
-            width={24}
             height={24}
+            width={24}
           />
         </div>
 

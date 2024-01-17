@@ -12,11 +12,10 @@ export interface Artist {
 export interface Nft {
   id: NftId;
   name: string;
-  tag: string;
   price: number;
   likes: number;
-  artist: Omit<Artist, 'nfts' | 'img' | 'bio'>;
-  description: string;
+  artist?: Omit<Artist, 'nfts' | 'img' | 'bio'>;
+  description?: string;
   filters: string[];
   img: string;
 }

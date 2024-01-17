@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
+import { Heart, Share2 } from 'lucide-react';
 
 const ArtistActions = () => {
   return (
@@ -17,13 +18,13 @@ const ArtistActions = () => {
       <div className="Artist__actions Artist__actions--mobile">
         <Button
           text="Share"
-          icon="/icons/Share.png"
           additionalClassName="blur"
+          icon={<Share2 className="Button__icon" width={28} height={28} />}
         />
         <Button
           text="Follow"
-          icon="/icons/Heart.png"
           additionalClassName="blur"
+          icon={<Heart className="Button__icon" width={28} height={28} />}
         />
       </div>
     </div>

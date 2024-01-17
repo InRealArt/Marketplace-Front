@@ -5,8 +5,8 @@ import ArtistBackground from './ArtistBackground';
 import ArtistActions from './ArtistActions';
 
 interface ArtistHeaderProps {
-  name: Artist['name'] | undefined;
-  bio: Artist['bio'] | undefined;
+  name?: Artist['name'];
+  bio?: Artist['bio'];
 }
 
 const ArtistHeader = ({ name, bio }: ArtistHeaderProps) => {

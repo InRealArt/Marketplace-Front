@@ -1,6 +1,6 @@
 'use client';
 import Button from '@/components/Button/Button';
-import Image from 'next/image';
+import { Search } from 'lucide-react';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -43,12 +43,9 @@ const ListNavigation = ({
             {...register('search')}
           />
 
-          <Image
+          <Search
             className="ListNavigation__search--icon"
-            priority={true}
-            alt="Search Icon"
-            src="/icons/Search.png"
-            width={29}
+            width={28}
             height={28}
           />
         </div>

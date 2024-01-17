@@ -1,3 +1,5 @@
+import { MoveRight } from 'lucide-react';
+
 const ContactUs = () => {
   return (
     <section id="contact-us" className="ContactUs">
@@ -16,6 +18,7 @@ const ContactUs = () => {
           type="search"
           placeholder="Get started with a mail"
         />
+        <MoveRight className="ContactUs__icon" width={40} height={40} />
       </form>
     </section>
   );

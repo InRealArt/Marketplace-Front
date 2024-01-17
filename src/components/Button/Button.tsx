@@ -1,13 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 type Props = {
   text: string;
   additionalClassName?: string;
   action?: () => unknown;
   link?: string;
-  icon?: string;
+  icon?: JSX.Element;
 };
 
 const Button = ({ text, additionalClassName, action, link, icon }: Props) => {
@@ -22,16 +21,7 @@ const Button = ({ text, additionalClassName, action, link, icon }: Props) => {
 
   return (
     <button className={className} type="button" onClick={action}>
-      {icon && (
-        <Image
-          className="Button__icon"
-          priority={true}
-          alt=""
-          src={icon}
-          width={28}
-          height={28}
-        />
-      )}
+      {icon}
       <span>{text}</span>
     </button>
   );

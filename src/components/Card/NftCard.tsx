@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 import NftImage from '../../../public/images/Nft.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Heart } from 'lucide-react';
 
 interface NftCardProps {
   nft: Nft;
@@ -21,22 +22,14 @@ const NftCard = ({ nft }: NftCardProps) => {
           }}
         >
           <div className="NftCard__likes">
-            <Image
-              className=""
-              priority={true}
-              alt="heart"
-              src="/icons/Heart.png"
-              width={23}
-              height={23}
-            />{' '}
-            <span>{likes} likes</span>
+            <Heart width={23} height={23} /> <span>{likes} likes</span>
           </div>
         </div>
       </Link>
       <div className="NftCard__infos">
         <div>
-          <Link className="NftCard__artist" href={`/artists/${artist.id}`}>
-            {artist.name}
+          <Link className="NftCard__artist" href={`/artists/${artist?.id}`}>
+            {artist?.name}
           </Link>
           <Link className="NftCard__title" href={`/nfts/${id}`}>
             {name}

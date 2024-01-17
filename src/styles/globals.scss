@@ -23,6 +23,10 @@
 @import './components/List/ListNavigation.scss';
 @import './components/List/ArtistsListSlider.scss';
 
+// MODAL
+@import './components/Modal/Modal.scss';
+@import './components/Modal/BuyModal.scss';
+
 // Pages
 
 // LANDING
@@ -37,6 +41,9 @@
 
 // ARTIST
 @import './pages/artist/ArtistPage.scss';
+
+// ARTIST
+@import './pages/wallet/WalletPage.scss';
 
 body {
   color: $white;

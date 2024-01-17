@@ -2,7 +2,7 @@ import React from 'react';
 import { Nft } from '@/mocks/types';
 
 interface NftFiltersProps {
-  filters: Nft['filters'] | undefined;
+  filters?: Nft['filters'];
 }
 const NftFilters = ({ filters }: NftFiltersProps) => {
   return (

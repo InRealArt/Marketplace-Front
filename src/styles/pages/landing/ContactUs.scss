@@ -7,6 +7,9 @@
   align-items: flex-end;
   margin-top: 80px;
   scroll-margin-top: $headerHeight;
+  @include breakpoint(smallDesktop) {
+    padding: 60px;
+  }
   @include breakpoint(tablet) {
     flex-direction: column;
     padding: 50px;
@@ -27,22 +30,44 @@
     font-weight: 400;
     line-height: 27px;
     width: 70%;
+    margin: 0;
     @include breakpoint(tablet) {
       font-size: 16px;
+      margin-bottom: 20px;
       width: 100%;
     }
   }
   &__search {
+    @include titleMontserrat(18px, -0.25px);
     border: 1px solid $white;
     color: $white;
     padding: 20px 30px;
     background: none;
     width: 100%;
+    @include breakpoint(tablet) {
+      padding: 15px;
+      font-size: 12px;
+    }
     &::placeholder {
       color: $white;
     }
   }
+  &__icon {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    color: $secondary700;
+    background: $white;
+    padding-right: 20px;
+    @include breakpoint(tablet) {
+      width: 20px;
+      height: 20px;
+      right: 5px;
+      top: 14px;
+    }
+  }
   form {
     width: 100%;
+    position: relative;
   }
 }
