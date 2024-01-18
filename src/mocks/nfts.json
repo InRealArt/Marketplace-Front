@@ -221,7 +221,9 @@
       "Modeling",
       "Romantisme",
       "Photographie",
-      "Landscape"
+      "Landscape",
+      "Music",
+      "Top"
     ],
     "artist": {
       "id": "11",
@@ -240,7 +242,8 @@
       "Modeling",
       "Romantisme",
       "Photographie",
-      "Landscape"
+      "Landscape",
+      "Music"
     ],
     "artist": {
       "id": "12",

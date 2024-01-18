@@ -7,9 +7,22 @@ interface ListOfArtistsProps {
 }
 
 const ListOfArtists = ({ nav, artists }: ListOfArtistsProps) => {
+  const allFilters: string[] = [
+    'Science-fiction',
+    '3D',
+    'Modeling',
+    'Romantisme',
+    'Landscape',
+    'Music',
+    'Photographie',
+    'Top',
+    'Collectibles',
+    'Top monde',
+    'Top france',
+  ];
   return (
     <section className="ListOfArtists">
-      <List context="artist" nav={nav} list={artists} />
+      <List filters={allFilters} context="artist" nav={nav} list={artists} />
     </section>
   );
 };

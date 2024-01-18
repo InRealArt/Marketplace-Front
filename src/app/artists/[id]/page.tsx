@@ -17,7 +17,10 @@ const Artist = () => {
   return (
     <main className="Artist">
       <ArtistHeader name={name} bio={bio} />
-      <ListOfNfts nav={['All NFTs', 'All Collection']} nfts={nfts} />
+      <ListOfNfts
+        nav={['All NFTs', 'All Collection']}
+        nfts={nfts.filter((nft) => nft.artist.id === currentId)}
+      />
     </main>
   );
 };

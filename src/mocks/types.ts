@@ -7,6 +7,7 @@ export interface Artist {
   nfts?: number;
   bio?: string;
   img?: string;
+  filters?: string[];
 }
 
 export interface Nft {

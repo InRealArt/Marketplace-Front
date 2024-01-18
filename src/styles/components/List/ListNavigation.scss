@@ -3,7 +3,8 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 3px solid #3d3d3d;
-  @include breakpoint(mobile) {
+  @include titleMontserrat;
+  @include breakpoint(tablet) {
     flex-direction: column;
     border: none;
     justify-content: flex-start;
@@ -40,9 +41,11 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: 20px;
     width: 60%;
-    @include breakpoint(mobile) {
-      justify-content: center;
+    @include breakpoint(tablet) {
+      justify-content: flex-start;
+      flex-wrap: wrap;
       margin-top: 30px;
       width: 100%;
     }
@@ -52,10 +55,9 @@
     max-width: 510px;
     width: 100%;
     @include breakpoint(smallDesktop) {
-      max-width: 410px;
-    }
-    @include breakpoint(tablet) {
+      max-width: 100%;
       width: auto;
+      flex: auto;
     }
   }
   &__search {
@@ -79,10 +81,41 @@
       @include positionAbsoluteCenterY;
     }
   }
+
+  &__itemsSelected {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  &__item {
+    display: inline-flex;
+    padding: 15px 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    background: $backgroundGreyCard;
+    @include textBody(18px);
+  }
+
+  &__clear,
+  &__item {
+    cursor: pointer;
+    @include textBody(18px);
+  }
+  .Button {
+    @include titleMontserrat(20px);
+    font-weight: 600;
+  }
   .Button--viewAll {
     width: 80px;
     border: 1px solid $white;
-    margin-left: 30px;
     padding: 12px 30px;
+  }
+  .Button--whiteBorder {
+    letter-spacing: -0.25px;
   }
 }

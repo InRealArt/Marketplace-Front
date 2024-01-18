@@ -15,7 +15,7 @@ const ContactUs = () => {
       <form className="ContactUs__input">
         <input
           className="ContactUs__search"
-          type="search"
+          type="email"
           placeholder="Get started with a mail"
         />
         <MoveRight className="ContactUs__icon" width={40} height={40} />

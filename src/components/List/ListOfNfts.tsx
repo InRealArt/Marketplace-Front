@@ -8,9 +8,26 @@ interface ListOfNftsProps {
 }
 
 const ListOfNfts = ({ nav, viewAllLink, nfts }: ListOfNftsProps) => {
+  const allFilters: string[] = [
+    'Science-fiction',
+    '3D',
+    'Modeling',
+    'Romantisme',
+    'Landscape',
+    'Music',
+    'Photographie',
+    'Top',
+    'Top monde',
+  ];
   return (
     <section className="ListOfNfts">
-      <List context="nft" nav={nav} viewAllLink={viewAllLink} list={nfts} />
+      <List
+        context="nft"
+        nav={nav}
+        viewAllLink={viewAllLink}
+        list={nfts}
+        filters={allFilters}
+      />
     </section>
   );
 };

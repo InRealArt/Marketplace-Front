@@ -12,13 +12,16 @@ interface ListProps {
   context: 'nft' | 'artist';
   nav: string[];
   viewAllLink?: string;
+  filters: string[];
   list: Nft[] | Artist[];
 }
 
-const List = ({ context, nav, viewAllLink, list }: ListProps) => {
+const List = ({ context, nav, viewAllLink, filters, list }: ListProps) => {
   const methods = useForm();
   const searchFieldText = methods.watch(['search'])[0];
-  const listWithSearchQuery =
+  const filtersSelected: string[] = methods.watch(['filters'])[0];
+
+  const listWithQuery =
     searchFieldText?.length > 0
       ? list.filter(
           (item) =>
@@ -27,13 +30,21 @@ const List = ({ context, nav, viewAllLink, list }: ListProps) => {
         )
       : list;
 
+  const listWithFilters =
+    filtersSelected?.length > 0
+      ? listWithQuery.filter(
+          (nft) =>
+            filtersSelected?.every((item) => nft.filters?.includes(item)),
+        )
+      : listWithQuery;
+
   return (
     <section className="List">
       <FormProvider {...methods}>
-        <ListNavigation nav={nav} viewAllLink={viewAllLink} />
+        <ListNavigation nav={nav} filters={filters} viewAllLink={viewAllLink} />
       </FormProvider>
       <div className="List__items">
-        {listWithSearchQuery.map((item) =>
+        {listWithFilters.map((item) =>
           context === 'nft' ? (
             <NftCard key={item.id} nft={item as Nft} />
           ) : (

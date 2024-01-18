@@ -19,6 +19,10 @@
   &--goldBorder {
     border: 3px solid $secondary700;
   }
+  &--whiteBorder {
+    border: 1px solid $white;
+    padding: 12px 30px;
+  }
   &--purple {
     background-color: $buttonPurple;
   }
