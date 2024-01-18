@@ -72,7 +72,7 @@ const ListNavigation = ({
                 <div className="Popup FilterPopup">
                   {filters.map((filter) => {
                     return (
-                      <div className="FilterPopup__filter">
+                      <div key={`${filter}__popup`} className="FilterPopup__filter">
                         <input
                           {...register('filters')}
                           type="checkbox"
@@ -101,7 +101,7 @@ const ListNavigation = ({
           const index = filtersItems[0].indexOf(filter);
 
           return (
-            <div className="ListNavigation__item">
+            <div key={`${filter}__selected`} className="ListNavigation__item">
               <span>{filter}</span>
               <X onClick={() => unregister(`filters.[${index}]`)} />
             </div>
