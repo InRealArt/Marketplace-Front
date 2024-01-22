@@ -20,7 +20,7 @@
 
 // LIST
 @import './components/List/List.scss';
-@import './components/List/ListNavigation.scss';
+@import './components/List/ListHeader.scss';
 @import './components/List/ArtistsListSlider.scss';
 
 // MODAL
@@ -48,6 +48,7 @@
 
 // ARTIST
 @import './pages/wallet/WalletPage.scss';
+@import './pages/wallet/WalletNav.scss';
 
 body {
   color: $white;

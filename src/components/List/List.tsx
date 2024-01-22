@@ -4,9 +4,9 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import NftCard from '../Card/NftCard';
-import ListNavigation from './subComponents/ListNavigation';
 import { useForm, FormProvider } from 'react-hook-form';
 import ArtistCard from '../Card/ArtistCard';
+import ListHeader from './subComponents/ListHeader';
 
 interface ListProps {
   context: 'nft' | 'artist';
@@ -41,7 +41,7 @@ const List = ({ context, nav, viewAllLink, filters, list }: ListProps) => {
   return (
     <section className="List">
       <FormProvider {...methods}>
-        <ListNavigation nav={nav} filters={filters} viewAllLink={viewAllLink} />
+        <ListHeader nav={nav} filters={filters} viewAllLink={viewAllLink} />
       </FormProvider>
       <div className="List__items">
         {listWithFilters.map((item) =>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 type Props = {
   text: string;
   additionalClassName?: string;
-  action?: (event?: any) => void;
+  action?: () => void;
   link?: string;
   icon?: JSX.Element;
 };
