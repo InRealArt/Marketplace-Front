@@ -7,7 +7,7 @@ import { WalletTabs } from '@/utils/constants';
 
 import WalletNav from './subComponents/Wallet/WalletNav';
 
-import WalletEmptyState from './EmptyState';
+import WalletEmptyState from './WalletEmptyState';
 
 // BLOCKCHAIN
 import { contractAdress, abi } from '@/utils/constants';
