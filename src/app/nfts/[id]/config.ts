@@ -110,7 +110,7 @@ export const donutConfig = {
     dataLabels: {
       formatter(val: any, opts: any) {
         const name = opts.w.globals.labels[opts.seriesIndex];
-        return [name];
+        return name;
       },
       style: {
         fontFamily: 'Poppins, sans-serif',
