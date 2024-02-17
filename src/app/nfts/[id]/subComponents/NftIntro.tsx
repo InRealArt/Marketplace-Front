@@ -4,6 +4,8 @@ import ArtistImage from '../../../../../public/images/Artist.png';
 import { Nft } from '@/mocks/types';
 import Link from 'next/link';
 import NftPrice from './NftPrice';
+import Chart from 'react-apexcharts';
+import { exampleConfig } from '../config';
 
 const NftIntro = (props: Partial<Nft>) => {
   const { name, likes, description, artist } = props;
@@ -41,6 +43,13 @@ const NftIntro = (props: Partial<Nft>) => {
         </div>
       </div>
       <NftPrice {...props} />
+      <Chart
+        className="NftGraphic"
+        series={exampleConfig.series}
+        options={exampleConfig.options as ApexCharts.ApexOptions | undefined}
+        type="candlestick"
+        height={300}
+      />
     </section>
   );
 };

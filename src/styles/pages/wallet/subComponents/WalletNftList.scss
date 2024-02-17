@@ -1,0 +1,36 @@
+.WalletNftList {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  overflow: auto;
+
+  @include breakpoint(tablet) {
+    max-height: 400px;
+    &__item {
+      @include textBody(15px);
+    }
+  }
+
+  &__item {
+    display: flex;
+    gap: 20px;
+    width: calc(100% - 20px);
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.5s ease;
+    background: $primary500;
+    @include textBody(18px);
+    &__image {
+      border-radius: 10px;
+    }
+    &__name {
+    }
+    &__price {
+      margin: 0;
+      margin-left: auto;
+    }
+  }
+}

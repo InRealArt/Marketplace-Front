@@ -5,6 +5,9 @@ const path = require('path')
 const nextConfig = {
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
+    },
+    images: {
+        domains: ['landing-in-real-art.vercel.app', 'marketplace-front-ten.vercel.app']
     }
 }
 

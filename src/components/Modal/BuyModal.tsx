@@ -7,11 +7,15 @@ import NftImage from '../../../public/images/NftBig.png';
 interface BuyModalProps extends Partial<Nft> {
   showBuyModal: boolean;
   setShowBuyModal: React.Dispatch<React.SetStateAction<boolean>>;
+  buy: (() => void) | undefined;
+  isMinting: boolean;
 }
 
 const BuyModal = ({
   showBuyModal,
   setShowBuyModal,
+  buy,
+  isMinting,
   name,
   price,
   artist,
@@ -41,7 +45,11 @@ const BuyModal = ({
             text="Cancel"
             additionalClassName="goldBorder"
           />
-          <Button text="Buy it" additionalClassName="gold" />
+          <Button
+            action={buy}
+            text={isMinting ? 'Minting...' : 'Buy now'}
+            additionalClassName="gold"
+          />
         </div>
       </div>
     </div>

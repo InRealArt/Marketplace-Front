@@ -8,6 +8,8 @@
     @include breakpoint(tablet) {
       flex-direction: row;
       justify-content: center;
+    }
+    @include breakpoint(mobile) {
       width: max-content;
     }
   }
@@ -30,7 +32,8 @@
     @include breakpoint(mobile) {
       font-size: 14px;
 
-      svg, img {
+      svg,
+      img {
         width: 20px;
         height: 20px;
         // display: none;

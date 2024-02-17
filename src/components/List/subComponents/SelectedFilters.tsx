@@ -3,10 +3,11 @@ import { X } from 'lucide-react';
 
 const SelectedFilters = () => {
   const { watch, unregister } = useFormContext();
-  const filtersItems = watch(['filters']);
+  const filtersItems: string[][] = watch(['filters']);
+
   return (
     <div className="ListHeader__itemsSelected">
-      {filtersItems?.[0]?.map((filter: string) => {
+      {(filtersItems?.[0] || []).map((filter: string) => {
         const index = filtersItems[0].indexOf(filter);
         return (
           <div key={`${filter}__selected`} className="ListHeader__item">

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer';
 import '@/styles/globals.scss';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'InRealArt - MarketPlace',
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
-        <Header />
-        <section className="container">{children}</section>
-        <Footer />
+        <Providers>
+          <Header />
+          <section className="container">{children}</section>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

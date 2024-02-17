@@ -1,0 +1,22 @@
+.WalletMainCoin {
+  height: 100%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  &__image {
+  }
+  &__infos {
+    h2 {
+      @include textBody(16px);
+    }
+    p {
+      @include textBody(14px);
+      margin: 0;
+    }
+  }
+  &__totalValue {
+    @include textBody(14px);
+    margin-left: auto;
+    margin-right: 10px;
+  }
+}

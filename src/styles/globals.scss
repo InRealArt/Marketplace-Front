@@ -46,9 +46,15 @@
 // ARTIST
 @import './pages/artist/ArtistPage.scss';
 
-// ARTIST
+// Wallet
 @import './pages/wallet/WalletPage.scss';
-@import './pages/wallet/WalletNav.scss';
+@import './pages/wallet/WalletEmptyState.scss';
+@import './pages/wallet/subComponents/WalletNav.scss';
+@import './pages/wallet/subComponents/WalletHistory.scss';
+@import './pages/wallet/subComponents/WalletMainCoin.scss';
+@import './pages/wallet/subComponents/WalletGlobalView.scss';
+@import './pages/wallet/subComponents/WalletNftList.scss';
+@import './pages/wallet/subComponents/WalletNftMain.scss';
 
 body {
   color: $white;

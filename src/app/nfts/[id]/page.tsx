@@ -13,7 +13,6 @@ const NftPage = () => {
   const { name, price, likes, filters, description, artist } = currentNFT || {};
 
   if (currentNFT === undefined) return null;
-
   return (
     <main className="Nft">
       <NftIntro

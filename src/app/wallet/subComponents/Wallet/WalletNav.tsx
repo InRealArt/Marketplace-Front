@@ -19,6 +19,7 @@ const WalletNav = ({ navItems, activeTab }: WalletNavProps) => {
         <div className="Wallet__navItems">
           {navItems.map((navItem) => (
             <div
+              key={navItem.id}
               onClick={navItem.callBack}
               className={`Wallet__navItem ${
                 activeTab === navItem.id ? 'Wallet__navItem--active' : ''

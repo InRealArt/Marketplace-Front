@@ -1,0 +1,23 @@
+.WalletEmptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 20px;
+  width: 60%;
+  margin: 0 auto;
+  @include breakpoint(tablet) {
+    width: 100%;
+  }
+  &__title {
+    @include titleMontserrat;
+    @include breakpoint(tablet) {
+      @include titleMontserrat(32px);
+    }
+  }
+  &__description {
+    @include textBody(24px);
+    color: $greyColor;
+  }
+}

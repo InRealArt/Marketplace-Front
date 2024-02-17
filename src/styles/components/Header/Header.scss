@@ -40,21 +40,11 @@
   }
 
   &__rightMenu {
-    width: 80px;
+    width: auto;
     @include flexBetween;
-    svg {
+    svg,
+    img {
       cursor: pointer;
-    }
-    &--mobile {
-      display: none;
-      cursor: pointer;
-    }
-    @include breakpoint(mobile) {
-      width: 24px;
-      display: none;
-      &--mobile {
-        display: block;
-      }
     }
   }
 }
