@@ -10,9 +10,6 @@ import WalletNav from './subComponents/Wallet/WalletNav';
 import WalletEmptyState from './WalletEmptyState';
 
 // BLOCKCHAIN
-import { contractAdress, abi } from '@/utils/constants';
-
-import { useContractRead } from 'wagmi';
 import { useNftOwned } from '@/utils/getAllNfts';
 import NftPage from './subComponents/Nft/NftPage';
 import WalletPage from './subComponents/Wallet/WalletPage';
@@ -56,7 +53,7 @@ const Wallet = () => {
   //   args: [address]
   // });
 
-  const { nftsOwned } = useNftOwned(address || '');
+  // const { nftsOwned } = useNftOwned(address || '');
 
   return (
     <main
@@ -68,7 +65,7 @@ const Wallet = () => {
       {isConnected ? (
         <>
           {activeTab === WalletTabs.WALLET && <WalletPage />}
-          {activeTab === WalletTabs.NFT && <NftPage nftsOwned={nftsOwned} />}
+          {/* {activeTab === WalletTabs.NFT && <NftPage nftsOwned={nftsOwned} />} */}
         </>
       ) : (
         <WalletEmptyState />
