@@ -7,7 +7,18 @@ const nextConfig = {
         includePaths: [path.join(__dirname, 'styles')],
     },
     images: {
-        domains: ['landing-in-real-art.vercel.app', 'marketplace-front-ten.vercel.app']
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'landing-in-real-art.vercel.app',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'marketplace-front-ten.vercel.app',
+                pathname: '**',
+            },
+        ],
     }
 }
 
