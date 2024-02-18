@@ -1,6 +1,9 @@
 import { donutConfig } from '@/app/nfts/[id]/config';
 import React from 'react';
-import ReactApexChart from 'react-apexcharts';
+import dynamic from 'next/dynamic';
+const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+  ssr: false,
+});
 
 const WalletGlobalView = () => {
   return (
@@ -10,6 +13,8 @@ const WalletGlobalView = () => {
         options={donutConfig.options as ApexCharts.ApexOptions | undefined}
         series={donutConfig.series}
         type="donut"
+        width={"100%"}
+        height={400}
       />
     </section>
   );
