@@ -7,7 +7,7 @@ import { WalletTabs } from '@/utils/constants';
 
 import WalletNav from './subComponents/Wallet/WalletNav';
 
-import WalletEmptyState from './WalletEmptyState';
+import WalletEmptyState from './subComponents/WalletEmptyState';
 
 // BLOCKCHAIN
 import { useNftOwned } from '@/utils/getAllNfts';
@@ -53,7 +53,7 @@ const Wallet = () => {
   //   args: [address]
   // });
 
-  // const { nftsOwned } = useNftOwned(address || '');
+  const { nftsOwned } = useNftOwned(address || '');
 
   return (
     <main
@@ -65,7 +65,7 @@ const Wallet = () => {
       {isConnected ? (
         <>
           {activeTab === WalletTabs.WALLET && <WalletPage />}
-          {/* {activeTab === WalletTabs.NFT && <NftPage nftsOwned={nftsOwned} />} */}
+          {activeTab === WalletTabs.NFT && <NftPage nftsOwned={nftsOwned} />}
         </>
       ) : (
         <WalletEmptyState />

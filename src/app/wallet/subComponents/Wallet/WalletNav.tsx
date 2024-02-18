@@ -1,3 +1,4 @@
+'use client';
 import { WalletTabs } from '@/utils/constants';
 import React from 'react';
 

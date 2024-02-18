@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { OwnedNft } from 'alchemy-sdk';
 
