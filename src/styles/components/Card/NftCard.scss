@@ -13,7 +13,7 @@
     width: calc(100% / 2 - 30px);
   }
   @include breakpoint(mobile) {
-    width: 100%;
+    width: calc(100% - 20px);
   }
   &__background {
     position: relative;
