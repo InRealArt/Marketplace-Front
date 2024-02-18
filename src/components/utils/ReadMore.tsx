@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState } from 'react';
 
 interface ReadMoreProps {
@@ -37,6 +37,7 @@ export const ReadMore = ({
       {itCanOverflow && (
         <>
           {!isExpanded && <span>... </span>}
+          &nbsp;
           <span
             className={`${additionalClassName}__text ${
               !isExpanded && `${additionalClassName}__text--hidden`

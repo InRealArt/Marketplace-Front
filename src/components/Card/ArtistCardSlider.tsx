@@ -1,7 +1,6 @@
 import React from 'react';
 import { Artist } from '@/mocks/types';
 import Button from '../Button/Button';
-import ArtistImage from '../../../public/images/Artist.png';
 import Link from 'next/link';
 
 interface ArtistCardSliderProps {

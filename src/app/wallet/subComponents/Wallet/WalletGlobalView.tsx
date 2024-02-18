@@ -13,7 +13,7 @@ const WalletGlobalView = () => {
         options={donutConfig.options as ApexCharts.ApexOptions | undefined}
         series={donutConfig.series}
         type="donut"
-        width={"100%"}
+        width={'100%'}
         height={400}
       />
     </section>

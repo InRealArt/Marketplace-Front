@@ -1,6 +1,4 @@
 import React from 'react';
-import NftImage from '../../../../../public/images/NftBig.png';
-import ArtistImage from '../../../../../public/images/Artist.png';
 import { Nft } from '@/mocks/types';
 import Link from 'next/link';
 import NftPrice from './NftPrice';
@@ -8,13 +6,13 @@ import Chart from 'react-apexcharts';
 import { exampleConfig } from '../config';
 
 const NftIntro = (props: Partial<Nft>) => {
-  const { name, likes, description, artist } = props;
+  const { name, likes, description, artist, img } = props;
   return (
     <section className="Nft__intro">
       <div
         className="Nft__image"
         style={{
-          backgroundImage: ` url('${NftImage.src}')`,
+          backgroundImage: ` url('${img}')`,
         }}
       >
         <div className="Nft__actions">
@@ -29,7 +27,7 @@ const NftIntro = (props: Partial<Nft>) => {
           <div
             className="Nft__artist__image"
             style={{
-              backgroundImage: ` url('${ArtistImage.src}')`,
+              backgroundImage: ` url('${artist?.img}')`,
             }}
           />
           <div className="Nft__artist__name">
@@ -39,7 +37,10 @@ const NftIntro = (props: Partial<Nft>) => {
         </div>
         <div className="Nft__description">
           <h3 className="Nft__description__title">Description</h3>
-          <p className="Nft__description__text">{description}</p>
+          <p
+            className="Nft__description__text"
+            dangerouslySetInnerHTML={{ __html: description || '' }}
+          />
         </div>
       </div>
       <NftPrice {...props} />

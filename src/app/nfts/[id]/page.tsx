@@ -10,7 +10,8 @@ import ArtistsListSlider from '@/components/List/ArtistsListSlider';
 const NftPage = () => {
   const { id: currentId } = useParams();
   const currentNFT = nfts.find(({ id }) => currentId === id);
-  const { name, price, likes, filters, description, artist } = currentNFT || {};
+  const { name, price, likes, filters, description, artist, img } =
+    currentNFT || {};
 
   if (currentNFT === undefined) return null;
   return (
@@ -21,6 +22,7 @@ const NftPage = () => {
         name={name}
         artist={artist}
         description={description}
+        img={img}
       />
       <NftFilters filters={filters} />
       <ArtistsListSlider artists={artists} title="Artistes associés" />

@@ -4,8 +4,7 @@ import ArtistBio from './ArtistBio';
 import ArtistBackground from './ArtistBackground';
 import ArtistActions from './ArtistActions';
 
-
-const ArtistHeader = ({ name, bio, img, imgNFT }: Partial<Artist>  ) => {
+const ArtistHeader = ({ name, bio, img, imgNFT }: Partial<Artist>) => {
   return (
     <section className="Artist__header">
       <ArtistBackground imgNFT={imgNFT} />

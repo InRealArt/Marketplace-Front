@@ -2,7 +2,6 @@ import React from 'react';
 import { Nft } from '@/mocks/types';
 import Button from '@/components/Button/Button';
 import Modal from '@/components/Modal/Modal';
-import NftImage from '../../../public/images/NftBig.png';
 
 interface BuyModalProps extends Partial<Nft> {
   showBuyModal: boolean;
@@ -19,6 +18,7 @@ const BuyModal = ({
   name,
   price,
   artist,
+  img,
 }: BuyModalProps) => (
   <Modal
     title={name || ''}
@@ -29,7 +29,7 @@ const BuyModal = ({
       <div
         className="BuyModal__img"
         style={{
-          backgroundImage: ` url('${NftImage.src}')`,
+          backgroundImage: ` url('${img}')`,
         }}
       />
       <div className="BuyModal__infos">

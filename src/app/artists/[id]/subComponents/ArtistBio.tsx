@@ -16,7 +16,7 @@ const ArtistBio = ({ name, bio }: ArtistBioProps) => {
         <h1 className="Artist__name">{name}</h1>
 
         <div className="Artist__description">
-          <h3 className="Artist__description__title">Description</h3>
+          <h3 className="Artist__description__title">Biographie</h3>
           <ReadMore
             additionalClassName="Artist__description"
             id="read-more-text"

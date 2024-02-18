@@ -63,9 +63,14 @@
       background-color: $white;
     }
   }
+  &__bio {
+    max-width: 60%;
+  }
   &__title {
-    @include textBody(24px);
+    display: block;
     font-weight: 600;
+    @include textBody(22px);
+    @include textOverflow(100%);
   }
   &__artist,
   &__price {

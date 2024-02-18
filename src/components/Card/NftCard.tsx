@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Nft } from '@/mocks/types';
-import Button from '../Button/Button';
-import NftImage from '../../../public/images/Nft.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
 import { Toaster, toast } from 'sonner';
+
+import Button from '../Button/Button';
 
 // BLOCKCHAIN
 import { contractAdress, abi } from '@/utils/constants';
@@ -29,7 +29,7 @@ interface NftCardProps {
 
 const NftCard = ({ nft }: NftCardProps) => {
   const [showBuyModal, setShowBuyModal] = useState<boolean>(false);
-  const { id, name, artist, price, likes } = nft;
+  const { id, name, artist, price, likes, img } = nft;
 
   const tokenUri =
     'https://marketplace-front-ten.vercel.app/_next/static/media/Nft.6f559b8a.png';
@@ -90,7 +90,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         <div
           className="NftCard__background"
           style={{
-            backgroundImage: ` url('${NftImage.src}')`,
+            backgroundImage: ` url('${img}')`,
           }}
         >
           <div className="NftCard__likes">
@@ -99,7 +99,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         </div>
       </Link>
       <div className="NftCard__infos">
-        <div>
+        <div className="NftCard__bio">
           <Link className="NftCard__artist" href={`/artists/${artist?.id}`}>
             {artist?.name}
           </Link>
@@ -130,6 +130,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         name={nft.name}
         price={nft.price}
         artist={nft.artist}
+        img={img}
         buy={isConnected ? () => write?.() : openConnectModal}
         isMinting={isLoading}
         showBuyModal={showBuyModal}

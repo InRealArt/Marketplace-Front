@@ -15,8 +15,9 @@
     border-radius: 10px;
     height: 900px;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 80% auto;
     background-position: center;
+    background-color: black;
     @include breakpoint(tablet) {
       grid-row: auto;
       height: 680px;
@@ -90,11 +91,16 @@
     }
   }
   &__description {
+    overflow: scroll;
+    max-height: 150px;
     &__title {
       font-weight: 500;
       @include textBody(18px);
     }
     &__text {
+      &--hidden {
+        display: none;
+      }
       @include textBody(16px);
     }
   }
