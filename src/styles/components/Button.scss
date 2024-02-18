@@ -37,5 +37,6 @@
   @include breakpoint(mobile) {
     @include textBody(16px, -1px);
     padding: 15px !important;
+    margin: 0 auto !important;
   }
 }
