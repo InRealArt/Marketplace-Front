@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '@/components/Button/Button';
 import { Artist } from '@/mocks/types';
 import { Heart, Share2 } from 'lucide-react';
+import { ReadMore } from '@/components/utils/ReadMore';
 
 interface ArtistBioProps {
   name?: Artist['name'];
@@ -16,7 +17,12 @@ const ArtistBio = ({ name, bio }: ArtistBioProps) => {
 
         <div className="Artist__description">
           <h3 className="Artist__description__title">Description</h3>
-          <p className="Artist__description__text">{bio}</p>
+          <ReadMore
+            additionalClassName="Artist__description"
+            id="read-more-text"
+            text={bio || ''}
+            amountOfWords={40}
+          />
         </div>
       </div>
       <div className="Artist__actions">

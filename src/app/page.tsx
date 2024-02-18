@@ -9,7 +9,7 @@ const Landing = () => {
   return (
     <main className="Landing">
       <Intro />
-      <ArtistsListSlider artists={artists} title="Artists du moments" />
+      <ArtistsListSlider artists={artists} title="Artistes du moments" />
       <ListOfNfts nav={['NFT Populaires']} viewAllLink="/nfts" nfts={nfts} />
       <ContactUs />
     </main>

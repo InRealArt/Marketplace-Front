@@ -31,6 +31,9 @@
   &__img {
     border-radius: 8px;
     border: 3px solid $secondary700;
+    object-fit: cover;
+    width: 128px;
+    height: 128px;
     @include breakpoint(mobile) {
       width: 90px;
       height: 90px;
@@ -60,11 +63,26 @@
 
   &__description {
     margin-top: 20px;
+    width: 70%;
+    @include breakpoint(mobile) {
+      width: 100%;
+    }
     &__title {
       font-weight: 500;
+      margin-bottom: 20px;
       @include textBody(18px);
     }
     &__text {
+      @include textBody(16px);
+      &--hidden {
+        display: none;
+      }
+    }
+    &__more {
+      cursor: pointer;
+      font-weight: 700;
+      color: $secondary500;
+      margin-left: 20px;
       @include textBody(16px);
     }
   }

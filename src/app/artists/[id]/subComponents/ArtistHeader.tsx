@@ -4,17 +4,13 @@ import ArtistBio from './ArtistBio';
 import ArtistBackground from './ArtistBackground';
 import ArtistActions from './ArtistActions';
 
-interface ArtistHeaderProps {
-  name?: Artist['name'];
-  bio?: Artist['bio'];
-}
 
-const ArtistHeader = ({ name, bio }: ArtistHeaderProps) => {
+const ArtistHeader = ({ name, bio, img, imgNFT }: Partial<Artist>  ) => {
   return (
     <section className="Artist__header">
-      <ArtistBackground />
+      <ArtistBackground imgNFT={imgNFT} />
       <div className="Artist__infos">
-        <ArtistActions />
+        <ArtistActions img={img} />
         <ArtistBio name={name} bio={bio} />
       </div>
     </section>

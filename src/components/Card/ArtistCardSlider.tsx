@@ -9,13 +9,13 @@ interface ArtistCardSliderProps {
 }
 
 const ArtistCardSlider = ({ artist }: ArtistCardSliderProps) => {
-  const { id, name } = artist;
+  const { id, name, img } = artist;
   return (
     <Link href={`/artists/${id}`}>
       <div
         className="ArtistCardSlider"
         style={{
-          backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.50) 2.61%, rgba(0, 0, 0, 0.50) 2.62%, rgba(0, 0, 0, 0.00) 48.1%), url('${ArtistImage.src}')`,
+          backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.50) 2.61%, rgba(0, 0, 0, 0.50) 2.62%, rgba(0, 0, 0, 0.00) 48.1%), url('${img}')`,
         }}
       >
         <div className="ArtistCardSlider__infos">
