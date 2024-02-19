@@ -21,8 +21,9 @@
     width: auto;
     height: 300px;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100%;
     background-position: center;
+    background-color: $backgroundGreyCard;
     @include breakpoint(smallDesktop) {
       height: 260px;
     }
