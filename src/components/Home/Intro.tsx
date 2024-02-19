@@ -5,7 +5,9 @@ const Intro = () => {
   return (
     <section className="Intro">
       <div className="Intro__infos">
-        <h2 className="Intro__title">Buy, Sell & collect your premium RWA Artworks</h2>
+        <h2 className="Intro__title">
+          Buy, Sell & collect your premium RWA Artworks
+        </h2>
         <p className="Intro__description">
           Bienvenue sur InRealArt, la marketplace RWA exclusive d'œuvres de
           haute qualité. Découvrez une sélection d'exception pour des acheteurs

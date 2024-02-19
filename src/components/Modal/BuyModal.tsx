@@ -16,11 +16,7 @@ interface BuyModalSuccessfulProps extends Partial<Nft> {
 }
 
 const BuyModalSuccessful = (props: BuyModalSuccessfulProps) => {
-  const {
-    showBuyModalSuccessful,
-    setShowBuyModalSuccessful,
-    img,
-  } = props;
+  const { showBuyModalSuccessful, setShowBuyModalSuccessful, img } = props;
   return (
     <Modal
       title={'Acquisition confirmé'}
@@ -40,7 +36,9 @@ const BuyModalSuccessful = (props: BuyModalSuccessfulProps) => {
               backgroundImage: ` url('${img}')`,
             }}
           />
-          <p className="BuyModal__download">Télécharger votre nouvelle NFT ici</p>
+          <p className="BuyModal__download">
+            Télécharger votre nouvelle NFT ici
+          </p>
         </div>
         <div className="BuyModal__buttons">
           <Button
