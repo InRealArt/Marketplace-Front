@@ -125,3 +125,23 @@ a {
 input:focus {
   outline: none;
 }
+
+::-webkit-scrollbar {
+  background: transparent;
+  width: 0;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $borderColor;
+  -webkit-box-shadow: none;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: none;
+}
