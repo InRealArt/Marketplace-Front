@@ -1,6 +1,5 @@
 import React from 'react';
 import { Artist } from '@/mocks/types';
-import ArtistBackground from '../../../public/images/ArtistBackground.png';
 import Image from 'next/image';
 import Link from 'next/link';
 

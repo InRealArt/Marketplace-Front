@@ -9,8 +9,8 @@ const Intro = () => {
           Buy, Sell & collect your premium RWA Artworks
         </h2>
         <p className="Intro__description">
-          Bienvenue sur InRealArt, la marketplace RWA exclusive d'œuvres de
-          haute qualité. Découvrez une sélection d'exception pour des acheteurs
+          Bienvenue sur InRealArt, la marketplace RWA exclusive d&apos;œuvres de
+          haute qualité. Découvrez une sélection d&apos;exception pour des acheteurs
           privilégiés. Excellence et élégance vous attendent.
         </p>
         <div className="Intro__buttons">
