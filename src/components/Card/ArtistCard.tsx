@@ -9,26 +9,28 @@ interface ArtistCardProps {
 }
 
 const ArtistCard = ({ artist }: ArtistCardProps) => {
-  const { id, name, nfts } = artist;
+  const { id, name, nfts, img, imgNFT } = artist;
   return (
     <div className="ArtistCard">
       <Link href={`/artists/${id}`}>
         <div
           className="ArtistCard__background"
           style={{
-            backgroundImage: ` url('${ArtistBackground.src}')`,
+            backgroundImage: ` url('${imgNFT}')`,
           }}
         ></div>
       </Link>
       <div className="ArtistCard__infos">
-        <Image
-          className="ArtistCard__miniature"
-          priority={true}
-          alt="artist miniature"
-          src="/images/ArtistMiniature.png"
-          width={50}
-          height={50}
-        />{' '}
+        {img && (
+          <Image
+            className="ArtistCard__miniature"
+            priority={true}
+            alt="artist miniature"
+            src={img}
+            width={50}
+            height={50}
+          />
+        )}{' '}
         <div>
           <h2 className="ArtistCard__title">{name}</h2>
           <p className="ArtistCard__nfts">{nfts} nfts</p>
