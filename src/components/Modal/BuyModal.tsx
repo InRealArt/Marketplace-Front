@@ -10,6 +10,50 @@ interface BuyModalProps extends Partial<Nft> {
   isMinting: boolean;
 }
 
+interface BuyModalSuccessfulProps extends Partial<Nft> {
+  showBuyModalSuccessful: boolean;
+  setShowBuyModalSuccessful: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const BuyModalSuccessful = (props: BuyModalSuccessfulProps) => {
+  const {
+    showBuyModalSuccessful,
+    setShowBuyModalSuccessful,
+    img,
+  } = props;
+  return (
+    <Modal
+      title={'Acquisition confirmé'}
+      show={showBuyModalSuccessful}
+      hide={() => setShowBuyModalSuccessful(false)}
+    >
+      <div className="BuyModal BuyModal--successful">
+        <p className="BuyModal__description">
+          Félicitations, l’oeuvre est désormais la votre. Vous pouvez la
+          télécharger directement sur cette page. Vous pouvez également la
+          consulté et traider depuis votre profil dans les NFT récente.
+        </p>
+        <div className="BuyModal__flex">
+          <div
+            className="BuyModal__miniature"
+            style={{
+              backgroundImage: ` url('${img}')`,
+            }}
+          />
+          <p className="BuyModal__download">Télécharger votre nouvelle NFT ici</p>
+        </div>
+        <div className="BuyModal__buttons">
+          <Button
+            action={() => setShowBuyModalSuccessful(false)}
+            text={'Terminer'}
+            additionalClassName="gold"
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
 const BuyModal = ({
   showBuyModal,
   setShowBuyModal,

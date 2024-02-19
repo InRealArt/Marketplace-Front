@@ -5,11 +5,11 @@ const Intro = () => {
   return (
     <section className="Intro">
       <div className="Intro__infos">
-        <h2 className="Intro__title">Buy, Sell & collect your premium nft</h2>
+        <h2 className="Intro__title">Buy, Sell & collect your premium RWA Artworks</h2>
         <p className="Intro__description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam velit
-          elit, hendrerit vel porta nec, mollis commodo justo. Suspendisse
-          potenti. Duis eget sollicitudin nisl. Donec scelerisque
+          Bienvenue sur InRealArt, la marketplace RWA exclusive d'œuvres de
+          haute qualité. Découvrez une sélection d'exception pour des acheteurs
+          privilégiés. Excellence et élégance vous attendent.
         </p>
         <div className="Intro__buttons">
           <Button additionalClassName="gold" text="Buy NFT" link="/nfts" />
