@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Alchemy, Network, OwnedNft } from 'alchemy-sdk';
 
 const config = {
-  apiKey: 'jevYI78-D4al6haLWxRQ3DH1dh4xYext',
+  apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID,
   network: Network.ETH_SEPOLIA,
 };
 const alchemy = new Alchemy(config);

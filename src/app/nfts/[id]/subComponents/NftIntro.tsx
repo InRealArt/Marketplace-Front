@@ -53,7 +53,7 @@ const NftIntro = (props: Partial<Nft>) => {
         className="NftGraphic"
         series={exampleConfig.series}
         options={exampleConfig.options as ApexCharts.ApexOptions | undefined}
-        type="candlestick"
+        type="area"
         height={300}
       />
     </section>

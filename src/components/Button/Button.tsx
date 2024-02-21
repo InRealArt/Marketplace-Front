@@ -7,9 +7,17 @@ type Props = {
   action?: () => void;
   link?: string;
   icon?: JSX.Element;
+  disabled?: boolean;
 };
 
-const Button = ({ text, additionalClassName, action, link, icon }: Props) => {
+const Button = ({
+  text,
+  additionalClassName,
+  action,
+  link,
+  icon,
+  disabled,
+}: Props) => {
   const className = `Button Button--${additionalClassName}`;
 
   if (link)
@@ -20,7 +28,12 @@ const Button = ({ text, additionalClassName, action, link, icon }: Props) => {
     );
 
   return (
-    <button className={className} type="button" onClick={action}>
+    <button
+      disabled={disabled}
+      className={className}
+      type="button"
+      onClick={action}
+    >
       {icon}
       <span>{text}</span>
     </button>

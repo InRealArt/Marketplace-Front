@@ -990,4 +990,93 @@ export const abi = [
   },
 ];
 
+export const abiMintNft = [
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_tokenURI',
+        type: 'string',
+      },
+      {
+        components: [
+          {
+            internalType: 'string',
+            name: 'name',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'description',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'certificateAuthenticity',
+            type: 'string',
+          },
+          {
+            internalType: 'string[]',
+            name: 'tags',
+            type: 'string[]',
+          },
+          {
+            internalType: 'string[]',
+            name: 'permissions',
+            type: 'string[]',
+          },
+          {
+            internalType: 'uint16',
+            name: 'height',
+            type: 'uint16',
+          },
+          {
+            internalType: 'uint16',
+            name: 'width',
+            type: 'uint16',
+          },
+          {
+            internalType: 'bool',
+            name: 'withIntellectualProperty',
+            type: 'bool',
+          },
+          {
+            internalType: 'uint8',
+            name: 'termIntellectualProperty',
+            type: 'uint8',
+          },
+        ],
+        internalType: 'struct Artist.NFT',
+        name: '_nft',
+        type: 'tuple',
+      },
+      {
+        internalType: 'address payable[]',
+        name: '_recipients',
+        type: 'address[]',
+      },
+      {
+        internalType: 'uint8[]',
+        name: '_percent',
+        type: 'uint8[]',
+      },
+      {
+        internalType: 'uint8',
+        name: '_totalPercent',
+        type: 'uint8',
+      },
+    ],
+    name: 'mintNFT',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'newItemId_',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+];
+
 export const contractAdress = '0x0f4cc9b8B3570433b7750764FFdA897EcA707312';

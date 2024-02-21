@@ -104,6 +104,7 @@ const NftPrice = (props: Partial<Nft>) => {
           isMinting={isLoading}
           showBuyModal={showBuyModal}
           setShowBuyModal={setShowBuyModal}
+          isSuccess={isSuccess}
         />
       </div>
     </div>

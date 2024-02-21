@@ -8,7 +8,7 @@ import { Toaster, toast } from 'sonner';
 import Button from '../Button/Button';
 
 // BLOCKCHAIN
-import { contractAdress, abi } from '@/utils/constants';
+import { contractAdress, abiMintNft } from '@/utils/constants';
 
 import {
   usePrepareContractWrite,
@@ -55,9 +55,14 @@ const NftCard = ({ nft }: NftCardProps) => {
 
   const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
-  const { config } = usePrepareContractWrite({
+  const {
+    config,
+    refetch,
+    error: prepareError,
+    isError: isPrepareError,
+  } = usePrepareContractWrite({
     address: contractAdress,
-    abi: abi,
+    abi: abiMintNft,
     functionName: 'mintNFT',
     args: [tokenUri, NFT, recipients, percent, totalPercent],
   });
@@ -65,7 +70,7 @@ const NftCard = ({ nft }: NftCardProps) => {
   const { data, write } = useContractWrite(config);
 
   // Use the useWaitForTransaction hook to wait for the transaction to be mined and return loading and success states
-  const { isLoading, isSuccess, isError } = useWaitForTransaction({
+  const { isLoading, isSuccess, error, isError } = useWaitForTransaction({
     hash: data?.hash,
   });
 
@@ -74,7 +79,6 @@ const NftCard = ({ nft }: NftCardProps) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('NFT has been mint');
-      setShowBuyModal(false);
       if (data?.hash) {
         addRecentTransaction({ hash: data.hash, description: name });
       }
@@ -83,6 +87,10 @@ const NftCard = ({ nft }: NftCardProps) => {
       toast.error('NFT has not been mint');
     }
   }, [isSuccess, isError, data?.hash, name, addRecentTransaction]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <div className="NftCard">
@@ -122,6 +130,7 @@ const NftCard = ({ nft }: NftCardProps) => {
       <Button
         action={() => setShowBuyModal(true)}
         additionalClassName="gold"
+        disabled={isConnected && !write}
         text={isLoading ? 'Minting...' : 'Buy'}
       />
       <Toaster richColors />
@@ -135,7 +144,12 @@ const NftCard = ({ nft }: NftCardProps) => {
         isMinting={isLoading}
         showBuyModal={showBuyModal}
         setShowBuyModal={setShowBuyModal}
+        isSuccess={isSuccess}
       />
+
+      {(isPrepareError || isError) && (
+        <div>Error: {(prepareError || error)?.message}</div>
+      )}
     </div>
   );
 };

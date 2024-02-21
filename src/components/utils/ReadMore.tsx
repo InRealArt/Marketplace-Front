@@ -44,7 +44,8 @@ export const ReadMore = ({
             }`}
             aria-hidden={!isExpanded}
             dangerouslySetInnerHTML={{ __html: endText }}
-          />&nbsp;
+          />
+          &nbsp;
           <span
             className={`${additionalClassName}__more`}
             role="button"
