@@ -92,6 +92,10 @@ const NftCard = ({ nft }: NftCardProps) => {
     refetch();
   }, [refetch]);
 
+  if (isPrepareError || isError) {
+    console.log(`Error: ${(prepareError || error)?.message}`);
+  }
+
   return (
     <div className="NftCard">
       <Link href={`/nfts/${id}`}>
@@ -146,10 +150,6 @@ const NftCard = ({ nft }: NftCardProps) => {
         setShowBuyModal={setShowBuyModal}
         isSuccess={isSuccess}
       />
-
-      {(isPrepareError || isError) && (
-        <div>Error: {(prepareError || error)?.message}</div>
-      )}
     </div>
   );
 };
