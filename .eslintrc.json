@@ -3,7 +3,7 @@
     "next",
     "next/core-web-vitals",
     "eslint:recommended",
-    "@typescript-eslint"
+    "react-app"
   ],
   "globals": {
     "React": "readonly"
@@ -11,5 +11,15 @@
   "rules": {
     "no-unused-vars": "warn",
     "no-undef": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    }
+  ]
 }

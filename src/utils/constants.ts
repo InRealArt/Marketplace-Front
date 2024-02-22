@@ -1080,3 +1080,4 @@ export const abiMintNft = [
 ];
 
 export const contractAdress = '0x0f4cc9b8B3570433b7750764FFdA897EcA707312';
+export const marketContratAdress = '0x64645BFEC1B2F6036BeAcaCAc46a24076fc4cB85'
