@@ -22,7 +22,12 @@
     @include textBody(24px, -1.5px);
     font-weight: 600;
     text-align: center;
-    line-height: 26px;
+    line-height: 29px;
+    @include breakpoint(mobile) {
+      font-size: 22px;
+      width: 70%;
+      margin: 0 auto;
+    }
   }
   &__close {
     cursor: pointer;

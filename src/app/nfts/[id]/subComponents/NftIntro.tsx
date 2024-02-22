@@ -55,7 +55,7 @@ const NftIntro = (props: Partial<Nft>) => {
             additionalClassName="Nft__description"
             id="nft-description"
             text={description || ''}
-            amountOfWords={9}
+            amountOfWords={20}
             action={() => setShowDescriptionModal(true)}
           />
           <DescriptionModal
