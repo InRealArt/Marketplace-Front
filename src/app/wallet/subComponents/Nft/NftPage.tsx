@@ -10,6 +10,8 @@ interface Props {
 }
 
 const NftPage = ({ nftsOwned }: Props) => {
+  console.log(nftsOwned);
+
   return (
     <>
       <section className="Wallet__main">

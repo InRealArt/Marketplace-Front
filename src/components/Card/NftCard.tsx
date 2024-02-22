@@ -8,7 +8,7 @@ import { Toaster, toast } from 'sonner';
 import Button from '../Button/Button';
 
 // BLOCKCHAIN
-import { contractAdress, abiMintNft } from '@/utils/constants';
+import { contractAdress, abi } from '@/utils/constants';
 
 import {
   usePrepareContractWrite,
@@ -32,7 +32,7 @@ const NftCard = ({ nft }: NftCardProps) => {
   const { id, name, artist, price, likes, img } = nft;
 
   const tokenUri =
-    'https://marketplace-front-ten.vercel.app/_next/static/media/Nft.6f559b8a.png';
+    'https://gateway.pinata.cloud/ipfs/QmPf2x91DoemnhXSZhGDP8TX9Co8AScpvFzTuFt9BGAoBY';
   const NFT = [
     'Leloluce NFT',
     'Leloluce NFT Description',
@@ -62,7 +62,7 @@ const NftCard = ({ nft }: NftCardProps) => {
     isError: isPrepareError,
   } = usePrepareContractWrite({
     address: contractAdress,
-    abi: abiMintNft,
+    abi: abi,
     functionName: 'mintNFT',
     args: [tokenUri, NFT, recipients, percent, totalPercent],
   });

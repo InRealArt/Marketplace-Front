@@ -69,7 +69,7 @@
     align-items: center;
     border-radius: 14px;
     background: #2c2c29;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     &__name {
       a {
         @include textBody(18px, -0.25px);
@@ -101,17 +101,21 @@
     }
   }
   &__description {
-    overflow: scroll;
-    max-height: 150px;
+    @include textBody(16px);
     &__title {
       font-weight: 500;
-      @include textBody(18px);
+      margin-bottom: 10px;
+      font-size: 18px;
     }
     &__text {
       &--hidden {
         display: none;
       }
-      @include textBody(16px);
+    }
+    &__more {
+      cursor: pointer;
+      color: $secondary700;
+      font-weight: 700;
     }
   }
 

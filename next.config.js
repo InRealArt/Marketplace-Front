@@ -18,6 +18,11 @@ const nextConfig = {
                 hostname: 'marketplace-front-ten.vercel.app',
                 pathname: '**',
             },
+            {
+                protocol: 'https',
+                hostname: 'ipfs.io',
+                pathname: '**',
+            },
         ],
     }
 }

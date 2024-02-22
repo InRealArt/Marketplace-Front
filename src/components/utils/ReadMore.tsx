@@ -6,6 +6,7 @@ interface ReadMoreProps {
   text: string;
   amountOfWords?: number;
   additionalClassName: string;
+  action?: () => void;
 }
 
 export const ReadMore = ({
@@ -13,6 +14,7 @@ export const ReadMore = ({
   text,
   amountOfWords = 36,
   additionalClassName,
+  action,
 }: ReadMoreProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const splittedText = text.split(' ');
@@ -22,6 +24,13 @@ export const ReadMore = ({
     : text;
   const endText = splittedText.slice(amountOfWords - 1).join(' ');
 
+  const handleClickOnReadMore = () => {
+    if (action) {
+      action();
+    } else {
+      setIsExpanded(!isExpanded);
+    }
+  };
   const handleKeyboard = (e: any) => {
     if (e.code === 'Space' || e.code === 'Enter') {
       setIsExpanded(!isExpanded);
@@ -53,7 +62,7 @@ export const ReadMore = ({
             aria-expanded={isExpanded}
             aria-controls={id}
             onKeyDown={handleKeyboard}
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={handleClickOnReadMore}
           >
             {isExpanded ? 'Read less' : 'Read more'}
           </span>

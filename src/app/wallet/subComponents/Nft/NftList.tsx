@@ -16,9 +16,9 @@ const NftList = ({ nftsOwned }: Props) => {
             width={50}
             height={60}
             alt="NFT Image"
-            src={nft.tokenUri || ''}
+            src={nft.image.originalUrl || ''}
           />
-          <h2 className="WalletNftList__item__name">{nft.contract.name}</h2>
+          <h2 className="WalletNftList__item__name">{nft.name}</h2>
           <p className="WalletNftList__item__price">{20000} €</p>
         </div>
       ))}
