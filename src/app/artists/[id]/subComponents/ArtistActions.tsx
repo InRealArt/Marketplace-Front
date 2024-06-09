@@ -2,22 +2,23 @@ import React from 'react';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
 import { Heart, Share2 } from 'lucide-react';
-import { Artist } from '@/mocks/types';
+import { ArtistType } from '@/types';
 
-const ArtistActions = ({ img }: Partial<Artist>) => {
+
+const ArtistActions = ({ imageUrl, isGallery }: Partial<ArtistType>) => {
   return (
     <div className="Artist__top">
-      {img && (
+      {imageUrl && (
         <Image
           className="Artist__img"
           priority={true}
           alt="Artist Image"
-          src={img}
+          src={imageUrl}
           width={128}
           height={128}
         />
       )}
-      <span className="Artist__label">Créateur</span>
+      <span className="Artist__label">{isGallery ? "Gallery" : "Créateur"}</span>
       <div className="Artist__actions Artist__actions--mobile">
         <Button
           text="Share"

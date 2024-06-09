@@ -1,7 +1,7 @@
 export const exampleConfig = {
   series: [
     {
-      name: 'series1',
+      name: 'NFT Price',
       data: [31, 40, 28],
     },
   ],

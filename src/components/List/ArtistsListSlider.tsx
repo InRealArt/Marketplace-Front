@@ -1,5 +1,4 @@
 'use client';
-import { Artist } from '@/mocks/types';
 import ArtistCard from '../Card/ArtistCardSlider';
 import { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,9 +6,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import SwiperArrows from './subComponents/SwiperArrows';
+import { ArtistType } from '@/types';
 
 interface ArtistsListSliderProps {
-  artists: Artist[];
+  artists: ArtistType[];
   title: string;
 }
 

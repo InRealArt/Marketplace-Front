@@ -1,16 +1,23 @@
 import React from 'react';
-import { Artist } from '@/mocks/types';
 import ArtistBio from './ArtistBio';
 import ArtistBackground from './ArtistBackground';
 import ArtistActions from './ArtistActions';
+import { ArtistType } from '@/types';
 
-const ArtistHeader = ({ name, bio, img, imgNFT }: Partial<Artist>) => {
+interface ArtistProps {
+  artist: Partial<ArtistType>
+  imgNft: string
+}
+
+const ArtistHeader = ({ artist, imgNft }: ArtistProps) => {
+  const { imageUrl, pseudo, description, backgroundImage, isGallery } = artist || {}
+  
   return (
     <section className="Artist__header">
-      <ArtistBackground imgNFT={imgNFT} />
+      <ArtistBackground imgNft={(backgroundImage || imgNft) as string} isGallery={isGallery} />
       <div className="Artist__infos">
-        <ArtistActions img={img} />
-        <ArtistBio name={name} bio={bio} />
+        <ArtistActions imageUrl={imageUrl || ""} isGallery={artist.isGallery} />
+        <ArtistBio name={pseudo} description={description} />
       </div>
     </section>
   );

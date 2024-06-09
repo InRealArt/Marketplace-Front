@@ -1,16 +1,17 @@
 import React from 'react';
-import { Nft } from '@/mocks/types';
 import Modal from '@/components/Modal/Modal';
+import { NftType } from '@/types';
 
-interface DescriptionModalProps extends Partial<Nft> {
+interface DescriptionModalProps extends Partial<NftType> {
   showDescriptionModal: boolean;
   setShowDescriptionModal: React.Dispatch<React.SetStateAction<boolean>>;
   description: string;
+  name: string;
 }
 
 const DescriptionModal = (props: DescriptionModalProps) => (
   <Modal
-    title="NFT Description"
+    title={props.name}
     show={props.showDescriptionModal}
     hide={() => props.setShowDescriptionModal(false)}
   >

@@ -1,38 +1,44 @@
 import React from 'react';
-import { Artist } from '@/mocks/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArtistType } from '@/types';
+import { useAppSelector } from '@/redux/hooks';
+import { getNftsByArtist } from '@/redux/reducers/nfts/selectors';
+import { getImageFromUri } from '@/utils/getImageFromUri';
 
 interface ArtistCardProps {
-  artist: Artist;
+  artist: ArtistType;
 }
 
 const ArtistCard = ({ artist }: ArtistCardProps) => {
-  const { id, name, nfts, img, imgNFT } = artist;
+  const { id, name, imageUrl, backgroundImage } = artist;
+  const nfts = useAppSelector((state) => getNftsByArtist(state, id))
+  const imgUri = nfts[0]?.imageUri
+  const background = imgUri ? getImageFromUri(imgUri) : backgroundImage
   return (
     <div className="ArtistCard">
       <Link href={`/artists/${id}`}>
-        <div
+        {background ? <div
           className="ArtistCard__background"
           style={{
-            backgroundImage: ` url('${imgNFT}')`,
+            backgroundImage: ` url('${background}')`,
           }}
-        ></div>
+        /> : <div className="ArtistCard__emptyBackground"></div>}
       </Link>
       <div className="ArtistCard__infos">
-        {img && (
+        {imageUrl && (
           <Image
             className="ArtistCard__miniature"
             priority={true}
             alt="artist miniature"
-            src={img}
+            src={imageUrl}
             width={50}
             height={50}
           />
         )}{' '}
         <div>
           <h2 className="ArtistCard__title">{name}</h2>
-          <p className="ArtistCard__nfts">{nfts} nfts</p>
+          {!artist.isGallery && <p className="ArtistCard__nfts">{nfts.length} nfts</p>}
         </div>
       </div>
     </div>

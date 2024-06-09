@@ -1,28 +1,14 @@
-import { Artist } from '@/mocks/types';
 import List from './List';
+import { ListNavigationType } from '@/types';
 
 interface ListOfArtistsProps {
-  nav: string[];
-  artists: Artist[];
+  nav: ListNavigationType[];
 }
 
-const ListOfArtists = ({ nav, artists }: ListOfArtistsProps) => {
-  const allFilters: string[] = [
-    'Science-fiction',
-    '3D',
-    'Modeling',
-    'Romantisme',
-    'Landscape',
-    'Music',
-    'Photographie',
-    'Top',
-    'Collectibles',
-    'Top monde',
-    'Top france',
-  ];
+const ListOfArtists = ({ nav }: ListOfArtistsProps) => {
   return (
     <section className="ListOfArtists">
-      <List filters={allFilters} context="artist" nav={nav} list={artists} />
+      <List nav={nav} />
     </section>
   );
 };

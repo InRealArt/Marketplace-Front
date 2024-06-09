@@ -1,12 +1,12 @@
 import React from 'react';
-import { Artist } from '@/mocks/types';
+import { getImageFromUri } from '@/utils/getImageFromUri';
 
-const ArtistBackground = ({ imgNFT }: Partial<Artist>) => {
+const ArtistBackground = ({ imgNft, isGallery }: { imgNft: string; isGallery: boolean | null | undefined }) => {
   return (
     <div
       className="Artist__background"
       style={{
-        backgroundImage: ` url('${imgNFT}')`,
+        backgroundImage: ` url('${isGallery ? imgNft : getImageFromUri(imgNft)}')`,
       }}
     ></div>
   );

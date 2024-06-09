@@ -1,14 +1,16 @@
 'use client';
-import { useState } from 'react';
 import SelectedFilters from './SelectedFilters';
 import ListNavigation from './ListNavigation';
 import ListFilters from './ListFilters';
+import { ListNavigationType } from '@/types';
 
 interface ListHeaderProps {
-  nav: string[];
+  nav: ListNavigationType[];
   filters: string[];
   additionalClassName?: string;
   viewAllLink?: string;
+  navActive: ListNavigationType;
+  setNavActive: React.Dispatch<React.SetStateAction<ListNavigationType>>;
 }
 
 const ListHeader = ({
@@ -16,8 +18,9 @@ const ListHeader = ({
   filters,
   additionalClassName,
   viewAllLink,
+  navActive,
+  setNavActive
 }: ListHeaderProps) => {
-  const [navActive, setNavActive] = useState<string>(nav[0]);
   return (
     <>
       <div className={`ListHeader ListHeader--${additionalClassName}`}>
@@ -25,6 +28,7 @@ const ListHeader = ({
           nav={nav}
           navActive={navActive}
           setNavActive={setNavActive}
+          viewAllLink={viewAllLink}
         />
         <ListFilters filters={filters} viewAllLink={viewAllLink} />
       </div>

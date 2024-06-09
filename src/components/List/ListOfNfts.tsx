@@ -1,32 +1,23 @@
-import { Nft } from '@/mocks/types';
+'use client'
 import List from './List';
+import { ListNavigationType } from '@/types';
+import { useAppSelector } from '@/redux/hooks';
+import { getNftsTags } from '@/redux/reducers/nfts/selectors';
 
 interface ListOfNftsProps {
-  nav: string[];
+  nav: ListNavigationType[];
   viewAllLink?: string;
-  nfts: Nft[];
 }
 
-const ListOfNfts = ({ nav, viewAllLink, nfts }: ListOfNftsProps) => {
-  const allFilters: string[] = [
-    'Science-fiction',
-    '3D',
-    'Modeling',
-    'Romantisme',
-    'Landscape',
-    'Music',
-    'Photographie',
-    'Top',
-    'Top monde',
-  ];
+const ListOfNfts = ({ nav, viewAllLink }: ListOfNftsProps) => {
+  const nftsTags = useAppSelector((state) => getNftsTags(state))
+
   return (
     <section className="ListOfNfts">
       <List
-        context="nft"
         nav={nav}
         viewAllLink={viewAllLink}
-        list={nfts}
-        filters={allFilters}
+        filters={nftsTags}
       />
     </section>
   );

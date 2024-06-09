@@ -1,3 +1,8 @@
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 // FONTS
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Montserrat:wght@400;600;700;800&family=Poppins:wght@100;300;400;500;600;700&family=Syncopate:wght@700&display=swap');
 
@@ -27,6 +32,7 @@
 @import './components/Modal/Modal.scss';
 @import './components/Modal/BuyModal.scss';
 @import './components/Modal/DescriptionModal.scss';
+@import './components/Modal/LoginModal.scss';
 
 // POPUP
 @import './components/Popup/Popup.scss';
@@ -40,18 +46,23 @@
 
 // NFT
 @import './pages/nft/NftPage.scss';
-@import './pages/nft/subComponents/NftFilters.scss';
+@import './pages/nft/subComponents/NftTags.scss';
 @import './pages/nft/subComponents/NftIntro.scss';
 @import './pages/nft/subComponents/NftGraphic.scss';
 
 // ARTIST
 @import './pages/artist/ArtistPage.scss';
 
+// Dashboard
+@import './pages/dashboard/DashboardNav.scss';
+@import './pages/dashboard/Dashboard.scss';
+@import './pages/dashboard/subComponents/Profile.scss';
+@import './pages/dashboard/subComponents/Orders.scss';
+
 // Wallet
 @import './pages/wallet/WalletPage.scss';
 @import './pages/wallet/WalletEmptyState.scss';
-@import './pages/wallet/subComponents/WalletNav.scss';
-@import './pages/wallet/subComponents/WalletHistory.scss';
+@import './pages/wallet/subComponents/WalletMainInfos.scss';
 @import './pages/wallet/subComponents/WalletMainCoin.scss';
 @import './pages/wallet/subComponents/WalletGlobalView.scss';
 @import './pages/wallet/subComponents/WalletNftList.scss';

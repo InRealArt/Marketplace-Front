@@ -1,0 +1,54 @@
+.Dashboard {
+  &__nav {
+  }
+  &__separator {
+    width: 100%;
+    height: 1px;
+    background-color: white;
+    margin: 10px 0;
+    @include breakpoint(tablet) {
+      height: auto;
+      width: 1px;
+      margin: 0 10px;
+    }
+  }
+  &__navItems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    @include breakpoint(tablet) {
+      flex-direction: row;
+      justify-content: center;
+    }
+    @include breakpoint(mobile) {
+      width: max-content;
+    }
+  }
+  &__navItem {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 10px;
+    font-weight: 400;
+    @include textBody(18px);
+    transition: 0.5s ease;
+    &--active {
+      background: $primary100;
+    }
+    @include breakpoint(tablet) {
+      flex: auto;
+    }
+    @include breakpoint(mobile) {
+      font-size: 14px;
+
+      svg,
+      img {
+        width: 20px;
+        height: 20px;
+        // display: none;
+      }
+    }
+  }
+}

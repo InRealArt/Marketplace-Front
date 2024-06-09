@@ -6,8 +6,10 @@
 
   &--successful {
     flex-direction: column;
-    &__buttons {
-      width: 100%;
+    .BuyModal__buttons {
+      .Button {
+        width: auto;
+      }
     }
   }
   @include breakpoint(mobile) {
@@ -17,22 +19,19 @@
   &__flex {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
   }
 
   &__download {
     @include textBody(16px);
     font-weight: 300;
-    width: 140px;
+    width: 210px;
   }
 
   &__miniature {
     border-radius: 10px;
-    width: 70px;
-    height: 80px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    width: 50%;
+    height: auto;
     flex: 0 0 auto;
     // @include breakpoint(mobile) {
     //   width: 100%;

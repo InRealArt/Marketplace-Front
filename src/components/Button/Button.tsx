@@ -8,6 +8,7 @@ type Props = {
   link?: string;
   icon?: JSX.Element;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset"
 };
 
 const Button = ({
@@ -17,6 +18,7 @@ const Button = ({
   link,
   icon,
   disabled,
+  type = "button"
 }: Props) => {
   const className = `Button Button--${additionalClassName}`;
 
@@ -31,7 +33,7 @@ const Button = ({
     <button
       disabled={disabled}
       className={className}
-      type="button"
+      type={type}
       onClick={action}
     >
       {icon}

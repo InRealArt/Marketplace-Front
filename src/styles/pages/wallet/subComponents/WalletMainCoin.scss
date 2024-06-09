@@ -3,8 +3,7 @@
   display: flex;
   gap: 20px;
   align-items: center;
-  &__image {
-  }
+  cursor: pointer;
   &__infos {
     h2 {
       @include textBody(16px);

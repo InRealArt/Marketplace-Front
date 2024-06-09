@@ -1,12 +1,29 @@
 'use client';
-import React, { useState } from 'react';
-// import { Search, UserRound } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import HeaderMenu from './subComponents/HeaderMenu';
+import { useAppDispatch } from '@/redux/hooks';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { setUserInfos } from '@/redux/reducers/user/reducer';
+import { UserRoles } from '@prisma/client';
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const supabase = createClientComponentClient();
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        const { address, name, surname, tel } = data.session?.user?.user_metadata || {}
+        dispatch(setUserInfos({ id: data.session?.user.id, role: UserRoles.SELLER, orderIds: [], email: data.session?.user?.email, name, address, surname, tel }))
+      }
+    };
+    fetchUserData()
+  }, [])
+
   return (
     <header className="Header">
       <section className="Header__container">
@@ -37,10 +54,13 @@ const Header = () => {
             About
           </Link>
           <Link className={`Header__link`} href={'/nfts'}>
-            Nfts
+            Artworks
           </Link>
           <Link className={`Header__link`} href={'/artists'}>
             Artists
+          </Link>
+          <Link className={`Header__link`} href={'/galleries'}>
+            Galleries
           </Link>
         </nav>
 

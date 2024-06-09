@@ -1,3 +1,4 @@
+'use client'
 import { X } from 'lucide-react';
 import React, { PropsWithChildren, useEffect } from 'react';
 
@@ -5,9 +6,10 @@ interface ModalProps extends PropsWithChildren {
   title: string;
   show: boolean;
   hide: () => void;
+  additionalClassName?: string
 }
 
-const Modal = ({ children, title, show, hide }: ModalProps) => {
+const Modal = ({ children, title, show, hide, additionalClassName }: ModalProps) => {
   useEffect(() => {
     if (show) {
       document.body.style.overflow = 'hidden';
@@ -20,8 +22,8 @@ const Modal = ({ children, title, show, hide }: ModalProps) => {
   if (!show) return null;
   return (
     <>
-      <div className="Modal__backdrop" onClick={hide} />
-      <div className="Modal">
+      <div className={`Modal__backdrop Modal__backdrop--${additionalClassName}`} onClick={hide} />
+      <div className={`Modal Modal--${additionalClassName}`}>
         <header className="Modal__header">
           <h1 className="Modal__title">{title}</h1>
           <X className="Modal__close" width={28} height={28} onClick={hide} />

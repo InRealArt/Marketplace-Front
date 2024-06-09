@@ -13,7 +13,7 @@
   border: none;
   cursor: pointer;
 
-  &[disabled='disabled'],
+  &[disabled="disabled"],
   &:disabled {
     background-color: grey;
     opacity: 0.5;
@@ -23,6 +23,7 @@
   &--gold {
     background-color: $secondary700;
   }
+
   &--goldBorder {
     border: 3px solid $secondary700;
   }
@@ -45,5 +46,32 @@
     @include textBody(16px, -1px);
     padding: 15px !important;
     margin: 0 auto !important;
+  }
+  &--whiteBorder {
+    letter-spacing: -0.25px;
+  }
+  &--login {
+    background-color: $secondary700;
+    color: $white;
+  }
+  &--logout {
+    background-color: $redError;
+    color: $white;
+  }
+  &--viewAll {
+    width: 80px;
+    border: 1px solid $white;
+    padding: 12px 30px;
+    margin: 0 0 !important;
+    @include breakpoint(mobile) {
+      display: none;
+    }
+    &--mobile {
+      display: none;
+      @include breakpoint(mobile) {
+        display: flex;
+        margin-left: auto!important;
+      }
+    }
   }
 }

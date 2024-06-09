@@ -13,6 +13,9 @@
   border: 1px solid $borderColor;
   background: $backgroundGreySecondary;
 
+  &--login {
+    padding: 0;
+  }
   @include breakpoint(mobile) {
     top: 50%;
     transform: translate(-50%, -50%);
@@ -44,5 +47,10 @@
     top: 0;
     background: rgba(49, 49, 48, 0.5);
     backdrop-filter: blur(1px);
+    &--login {
+      background: rgba(49, 49, 48, 0.8);
+      backdrop-filter: blur(4px);
+
+    }
   }
 }

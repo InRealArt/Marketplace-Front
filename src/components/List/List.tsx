@@ -1,5 +1,4 @@
 'use client';
-import { Nft, Artist } from '@/mocks/types';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -7,50 +6,64 @@ import NftCard from '../Card/NftCard';
 import { useForm, FormProvider } from 'react-hook-form';
 import ArtistCard from '../Card/ArtistCard';
 import ListHeader from './subComponents/ListHeader';
+import { ArtistType, CollectionType, ListNavigationType, NftType } from '@/types';
+import CollectionCard from '../Card/CollectionCard';
+import { useState } from 'react';
 
 interface ListProps {
-  context: 'nft' | 'artist';
-  nav: string[];
+  nav: ListNavigationType[];
   viewAllLink?: string;
-  filters: string[];
-  list: Nft[] | Artist[];
+  filters?: string[];
 }
 
-const List = ({ context, nav, viewAllLink, filters, list }: ListProps) => {
+const List = ({ nav, viewAllLink, filters }: ListProps) => {
+  const [navActive, setNavActive] = useState(nav[0]);
   const methods = useForm();
   const searchFieldText = methods.watch(['search'])[0];
   const filtersSelected: string[] = methods.watch(['filters'])[0];
-
+  const navActiveItem = nav.find(navItem => navItem.tab === navActive.tab)
+  
   const listWithQuery =
     searchFieldText?.length > 0
-      ? list.filter(
-          (item) =>
-            item.name.toLowerCase().indexOf(searchFieldText?.toLowerCase()) !==
-            -1,
-        )
-      : list;
+      ? navActiveItem?.list.filter(
+        (item) =>
+          ((item as NftType | ArtistType).name || (item as CollectionType).symbol).toLowerCase().indexOf(searchFieldText?.toLowerCase()) !==
+          -1,
+      )
+      : navActiveItem?.list;
 
-  const listWithFilters =
-    filtersSelected?.length > 0
-      ? listWithQuery.filter(
-          (nft) =>
-            filtersSelected?.every((item) => nft.filters?.includes(item)),
-        )
-      : listWithQuery;
+  const listWithTags = (filtersSelected?.length > 0)
+    ? listWithQuery?.filter(
+      (nft) =>
+        filtersSelected?.every((item) => (nft as NftType).tags?.includes(item)),
+    )
+    : listWithQuery;
+
+  const showListByType = (item: NftType | ArtistType | CollectionType) => {    
+    switch (navActiveItem?.context) {
+      case 'nft':
+        return <NftCard key={item.id} nft={item as NftType} />
+      case 'artist':
+        return <ArtistCard key={item.id} artist={item as ArtistType} />
+      case 'collection':
+        return <CollectionCard key={item.id} collection={item as CollectionType} />
+    }
+  }
+
 
   return (
     <section className="List">
       <FormProvider {...methods}>
-        <ListHeader nav={nav} filters={filters} viewAllLink={viewAllLink} />
+        <ListHeader
+          nav={nav}
+          filters={navActiveItem?.context === 'nft' && filters ? filters : []}
+          viewAllLink={viewAllLink}
+          navActive={navActive}
+          setNavActive={setNavActive}
+        />
       </FormProvider>
       <div className="List__items">
-        {listWithFilters.map((item) =>
-          context === 'nft' ? (
-            <NftCard key={item.id} nft={item as Nft} />
-          ) : (
-            <ArtistCard key={item.id} artist={item as Artist} />
-          ),
-        )}
+        {listWithTags?.map((item) => showListByType(item))}
       </div>
     </section>
   );

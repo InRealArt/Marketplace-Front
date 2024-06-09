@@ -1,27 +1,38 @@
+import Button from "@/components/Button/Button";
+import { ListNavigationType } from "@/types";
 interface ListNavigationProps {
-  nav: string[];
-  navActive: string;
-  setNavActive: React.Dispatch<React.SetStateAction<string>>;
+  nav: ListNavigationType[];
+  navActive: ListNavigationType;
+  setNavActive: React.Dispatch<React.SetStateAction<ListNavigationType>>;
+  viewAllLink?: string
 }
 
 const ListNavigation = ({
   nav,
   navActive,
   setNavActive,
+  viewAllLink
 }: ListNavigationProps) => {
   return (
     <nav className="ListHeader__nav">
-      {nav.map((title) => (
+      {nav.map((navItem) => (
         <h1
-          key={title}
-          onClick={() => setNavActive(title)}
+          key={navItem.tab}
+          onClick={() => setNavActive(navItem)}
           className={`ListHeader__title ${
-            navActive === title ? 'ListHeader__title--active' : ''
+            navActive.tab === navItem.tab ? 'ListHeader__title--active' : ''
           }`}
         >
-          {title}
+          {navItem.tab}
         </h1>
       ))}
+      {viewAllLink && (
+        <Button
+          link={viewAllLink}
+          text="View All"
+          additionalClassName="viewAll Button--viewAll--mobile"
+        />
+      )}
     </nav>
   );
 };

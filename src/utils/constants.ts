@@ -1,7 +1,8 @@
-export enum WalletTabs {
+export enum DashboardTabs {
+  SEPARATOR = "Separator",
   WALLET = 'Wallet',
-  NFT = 'NFT',
-  LINK_TO_WALLET = 'LINK_TO_WALLET',
+  ORDERS = 'Orders',
+  PROFILE = "Profile"
 }
 
 export const abi = [
@@ -1080,4 +1081,5 @@ export const abiMintNft = [
 ];
 
 export const contractAdress = '0x0f4cc9b8B3570433b7750764FFdA897EcA707312';
-export const marketContratAdress = '0x64645BFEC1B2F6036BeAcaCAc46a24076fc4cB85'
+export const artistCollectionAddress = "0x420B0441145594143F1520747AB4A36CF0EA2aDf"
+export const marketplaceAddress = '0xbf6894A6259767a2F7b11B91711b9b9620d2B9b7'

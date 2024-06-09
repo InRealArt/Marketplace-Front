@@ -1,84 +1,76 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import '@rainbow-me/rainbowkit/styles.css';
+import React, { useEffect } from "react";
+import "@rainbow-me/rainbowkit/styles.css";
 
 import {
   RainbowKitProvider,
-  getDefaultWallets,
-  connectorsForWallets,
   darkTheme,
   DisclaimerComponent,
-} from '@rainbow-me/rainbowkit';
-import {
-  argentWallet,
-  trustWallet,
-  ledgerWallet,
-} from '@rainbow-me/rainbowkit/wallets';
-import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
-import { sepolia } from 'wagmi/chains';
+  getDefaultConfig,
+} from "@rainbow-me/rainbowkit";
+import { WagmiProvider, createConfig } from "wagmi";
+import { sepolia } from "wagmi/chains";
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia],
-  [publicProvider()],
-);
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createPublicClient, http } from "viem";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? '';
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? "";
 
-const { wallets } = getDefaultWallets({
-  appName: 'RainbowKit demo',
+const config = getDefaultConfig({
+  appName: "My RainbowKit App",
   projectId,
-  chains,
+  chains: [sepolia],
+  ssr: true, // If your dApp uses server side rendering (SSR)
 });
+
+export const wagmiConfig = createConfig({
+  chains: [sepolia],
+  transports: {
+    [sepolia.id]: http(),
+  },
+})
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
-    By connecting your wallet, you agree to the{' '}
+    By connecting your wallet, you agree to the{" "}
     <Link href="https://termsofservice.xyz">Terms of Service</Link> and
-    acknowledge you have read and understand the protocol{' '}
+    acknowledge you have read and understand the protocol{" "}
     <Link href="https://disclaimer.xyz">Disclaimer</Link>
   </Text>
 );
 
 const demoAppInfo = {
-  appName: 'Rainbowkit Demo',
-  learnMoreUrl: 'https://learnaboutcryptowallets.example',
+  appName: "Rainbowkit Demo",
+  learnMoreUrl: "https://learnaboutcryptowallets.example",
   disclaimer: Disclaimer,
 };
 
-const connectors = connectorsForWallets([
-  ...wallets,
-  {
-    groupName: 'Other',
-    wallets: [
-      argentWallet({ projectId, chains }),
-      trustWallet({ projectId, chains }),
-      ledgerWallet({ projectId, chains }),
-    ],
-  },
-]);
+const queryClient = new QueryClient();
 
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-  webSocketPublicClient,
-});
+export const publicClient = createPublicClient({
+  chain: sepolia,
+  transport: http(),
+})
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
   useEffect(() => setMounted(true), []);
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider
-        showRecentTransactions={true}
-        theme={darkTheme()}
-        chains={chains}
-        appInfo={demoAppInfo}
-      >
-        {mounted && children}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider
+          showRecentTransactions={true}
+          theme={darkTheme()}
+          appInfo={demoAppInfo}
+        >
+          <Provider store={store} stabilityCheck="never">
+            {mounted && children}
+          </Provider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }

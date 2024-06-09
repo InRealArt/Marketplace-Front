@@ -13,7 +13,7 @@
   @include breakpoint(mobile) {
     width: 100%;
     max-width: -webkit-fill-available;
-    height: 500px;
+    height: 550px;
   }
 
   &__topContent {
@@ -45,7 +45,8 @@
 
   &__link {
     cursor: pointer;
-    display: block;
+    display: flex;
+    justify-content: space-between;
     color: $white;
     @include textBody;
     padding: 10px;
@@ -65,7 +66,7 @@
     }
   }
   &__adress {
-    @include textOverflow(60%);
+    @include textOverflow(70%);
   }
 
   &__close {

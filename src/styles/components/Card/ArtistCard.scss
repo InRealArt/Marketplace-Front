@@ -29,6 +29,19 @@
       height: 180px;
     }
   }
+  &__emptyBackground {
+    position: relative;
+    width: auto;
+    height: 185px;
+    border-radius: 17px 17px 0 0;
+    background-color: $backgroundGreyCard;
+    @include breakpoint(smallDesktop) {
+      height: 150px;
+    }
+    @include breakpoint(tablet) {
+      height: 180px;
+    }
+  }
   &__infos {
     position: relative;
     display: flex;

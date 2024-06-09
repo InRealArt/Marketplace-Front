@@ -1,0 +1,37 @@
+.Profile {
+  &__intro {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  &__content {
+    margin-left: 10px;
+  }
+  &__icon {
+    width: 120px;
+    height: auto;
+    color: $secondary700;
+  }
+  &__name {
+    @include titleMontserrat(38px, 0);
+    font-weight: 600;
+    text-transform: uppercase;
+    @include breakpoint(smallDesktop) {
+      font-size: 28px;
+    }
+    @include breakpoint(tablet) {
+      font-size: 22px;
+    }
+  }
+  &__item {
+    @include textBody(18px);
+    margin-bottom: 10px;
+    &--label {
+      color: $greyColor;
+    }
+  }
+  .Button {
+    margin-top: 40px!important;
+  }
+}

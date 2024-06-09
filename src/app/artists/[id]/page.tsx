@@ -1,26 +1,35 @@
 'use client';
 import React from 'react';
 import { useParams } from 'next/navigation';
-import artists from '@/mocks/artists.json';
-import nfts from '@/mocks/nfts.json';
 
 import ArtistHeader from './subComponents/ArtistHeader';
 import ListOfNfts from '@/components/List/ListOfNfts';
+import { useAppSelector } from '@/redux/hooks';
+import { getArtistById } from '@/redux/reducers/artists/selectors';
+import { getCollectionsByArtist } from '@/redux/reducers/collections/selectors';
+import { ListNavigationType } from '@/types';
+import useFetchData from '@/customHooks/useFetchData';
 
 const Artist = () => {
-  const { id: currentId } = useParams();
-  const currentArtist = artists.find(({ id }) => currentId === id);
-  const { name, bio, img, imgNFT } = currentArtist || {};
+  const { id: currentId } = useParams() as { id: string };
+  const { nftsByArtist } = useFetchData(Number(currentId))
 
-  if (currentArtist === undefined) return null;
+  const artist = useAppSelector((state) => getArtistById(state, Number(currentId)))
+  const collectionsByArtist = useAppSelector((state) => getCollectionsByArtist(state, Number(currentId)))
+  const imgUri = nftsByArtist[0]?.imageUri || ""
 
+  const navigationInfos = [
+    { tab: 'All Artworks', list: nftsByArtist, context: 'nft' },
+    { tab: 'All Collections', list: collectionsByArtist, context: 'collection' }
+  ] as ListNavigationType[]
+
+  if (artist === undefined) return null;
   return (
     <main className="Artist">
-      <ArtistHeader name={name} bio={bio} img={img} imgNFT={imgNFT} />
-      <ListOfNfts
-        nav={['All NFTs', 'All Collection']}
-        nfts={nfts.filter((nft) => nft.artist.id === currentId)}
-      />
+      <ArtistHeader artist={artist} imgNft={imgUri} />
+      {!artist.isGallery && <ListOfNfts
+        nav={navigationInfos}
+      />}
     </main>
   );
 };

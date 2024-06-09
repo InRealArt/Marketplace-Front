@@ -15,7 +15,7 @@ const ListFilters = ({ filters, viewAllLink }: ListFiltersProps) => {
     <section className="ListHeader__filters">
       <Search />
 
-      <FilterTags filters={filters} />
+      {filters.length > 0 && <FilterTags filters={filters} />}
 
       {viewAllLink && (
         <Button

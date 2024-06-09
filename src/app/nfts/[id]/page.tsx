@@ -1,30 +1,45 @@
 'use client';
 import React from 'react';
 import { useParams } from 'next/navigation';
-import nfts from '@/mocks/nfts.json';
-import artists from '@/mocks/artists.json';
 import NftIntro from './subComponents/NftIntro';
-import NftFilters from './subComponents/NftFilters';
 import ArtistsListSlider from '@/components/List/ArtistsListSlider';
+import { useReadContract } from 'wagmi';
+import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
+import { marketplaceAddress } from '@/utils/constants';
+import { useAppSelector } from '@/redux/hooks';
+import { getNftById } from '@/redux/reducers/nfts/selectors';
+import { getArtistByNft } from '@/redux/reducers/artists/selectors';
+import { getCollectionById } from '@/redux/reducers/collections/selectors';
+import { Address } from 'viem';
+import NftTags from './subComponents/NftTags';
+import useFetchData from '@/customHooks/useFetchData';
 
 const NftPage = () => {
   const { id: currentId } = useParams();
-  const currentNFT = nfts.find(({ id }) => currentId === id);
-  const { name, price, likes, filters, description, artist, img } =
-    currentNFT || {};
+  const { artists } = useFetchData()
+  
+  const nft = useAppSelector((state) => getNftById(state, Number(currentId)))
+  const artist = useAppSelector((state) => getArtistByNft(state, nft?.collectionId || 0))
+  const collection = useAppSelector((state) => getCollectionById(state, nft?.collectionId || 0))
 
-  if (currentNFT === undefined) return null;
+  const { data: nftInfo } = useReadContract({
+    abi: marketplaceAbi,
+    address: marketplaceAddress,
+    functionName: "getItem",
+    args: [BigInt(nft?.itemId || 0)]
+  });
+
+  if (!nft || !collection) return null;
+
   return (
     <main className="Nft">
       <NftIntro
-        likes={likes}
-        price={price}
-        name={name}
+        nft={{ ...nft, price: Number(nftInfo?.price) }}
         artist={artist}
-        description={description}
-        img={img}
+        sold={nftInfo?.sold}
+        contractAddress={collection.contractAddress as Address}
       />
-      <NftFilters filters={filters} />
+      <NftTags tags={nft.tags} />
       <ArtistsListSlider artists={artists} title="Artistes associés" />
     </main>
   );

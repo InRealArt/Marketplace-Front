@@ -41,7 +41,9 @@
     @include textBody(14px);
   }
   &__action {
+    display: flex;
     margin: 0;
+    gap: 10px;
   }
   &__label {
     position: absolute;

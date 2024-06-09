@@ -23,6 +23,16 @@ const nextConfig = {
                 hostname: 'ipfs.io',
                 pathname: '**',
             },
+            {
+                protocol: 'https',
+                hostname: 'firebasestorage.googleapis.com',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'jade-famous-rook-617.mypinata.cloud',
+                pathname: '**',
+            },
         ],
     }
 }

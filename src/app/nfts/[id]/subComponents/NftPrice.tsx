@@ -1,82 +1,94 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Nft } from '@/mocks/types';
 import Image from 'next/image';
 import Button from '@/components/Button/Button';
 import BuyModal from '@/components/Modal/BuyModal';
 
 // BLOCKCHAIN
-import { contractAdress, abi } from '@/utils/constants';
+import { marketplaceAddress } from '@/utils/constants';
 
 import {
-  usePrepareContractWrite,
-  useContractWrite,
-  useWaitForTransaction,
+  useWaitForTransactionReceipt,
   useAccount,
+  useWriteContract,
+  useReadContract,
 } from 'wagmi';
 
 import {
   useConnectModal,
   useAddRecentTransaction,
 } from '@rainbow-me/rainbowkit';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
+import { NftType } from '@/types';
+import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
+import { IraIERC721Abi } from '@/web3/IraIERC721Abi';
+import { Address, parseEther } from 'viem';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { getArtistByNft } from '@/redux/reducers/artists/selectors';
+import { getUserInfos } from '@/redux/reducers/user/selectors';
+import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
 
-const NftPrice = (props: Partial<Nft>) => {
-  const { price, name } = props;
+interface NftPriceProps {
+  nft: Partial<NftType>
+  sold: boolean | undefined
+  contractAddress: Address
+}
+
+const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
+  const { price, itemId, tokenId, name } = nft;
   const [showBuyModal, setShowBuyModal] = useState<boolean>(false);
+  const [showNftModal, setShowNftModal] = useState<boolean>(false);
+  const artist = useAppSelector((state) => getArtistByNft(state, nft.collectionId || 0))
+  const user = useAppSelector((state) => getUserInfos(state))
 
-  const tokenUri =
-    'https://marketplace-front-ten.vercel.app/_next/static/media/Nft.6f559b8a.png';
-  const NFT = [
-    'Leloluce NFT',
-    'Leloluce NFT Description',
-    'Leloluce Cert Auth URL',
-    ['Tag1LELO', 'Tag2Tag1LELO'],
-    ['Permission1Tag1LELO', 'Permission2Tag1LELO'],
-    100,
-    100,
-    true,
-    12,
-  ];
+  const dispatch = useAppDispatch()
 
-  const recipients = [
-    '0xe37EdEa065cbe405D10A0D717238177438339c16',
-    '0x0A67E0d0Fb4c41DEFe81924e60445a4584750663',
-  ];
-
-  const percent = [50, 50];
-  const totalPercent = 120;
-
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { openConnectModal } = useConnectModal();
-  const { config } = usePrepareContractWrite({
-    address: contractAdress,
-    abi: abi,
-    functionName: 'mintNFT',
-    args: [tokenUri, NFT, recipients, percent, totalPercent],
-  });
 
-  const { data, write } = useContractWrite(config);
+  const { data: hash, writeContract, error, isError } = useWriteContract();
 
-  // Use the useWaitForTransaction hook to wait for the transaction to be mined and return loading and success states
-  const { isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: data?.hash,
+  const purchaseItem = () => {
+    if (itemId && tokenId && price) {
+      writeContract({
+        address: marketplaceAddress,
+        abi: marketplaceAbi,
+        functionName: "purchaseItem",
+        args: [BigInt(itemId)],
+        value: parseEther(price.toString())
+      });
+    }
+  }
+  // Use the useWaitForTransactionReceipt hook to wait for the transaction to be mined and return loading and success states
+  const { isLoading, isSuccess } = useWaitForTransactionReceipt({
+    hash,
   });
 
   const addRecentTransaction = useAddRecentTransaction();
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('NFT has been mint');
-      setShowBuyModal(false);
-      if (data?.hash) {
-        addRecentTransaction({ hash: data.hash, description: name || 'NFT' });
+      toast.success('NFT has been purchase congrats');
+      if (hash) {
+        addRecentTransaction({ hash, description: name || 'NFT' });
       }
     }
     if (isError) {
-      toast.error('NFT has not been mint');
+      toast.error(`NFT has not been purchase ${error}`);
     }
-  }, [isSuccess, isError, data?.hash, name, addRecentTransaction]);
+  }, [isSuccess, isError]);
+
+  const { data: ownerOf } = useReadContract({
+    abi: IraIERC721Abi,
+    address: contractAddress as Address,
+    functionName: "ownerOf",
+    args: [BigInt(nft?.tokenId || 0)]
+  });
+
+  // if (nft.id && ownerOf) {
+  //   dispatch(updateNft({ id: nft.id, owner: ownerOf }));
+  // }
+  const isNftOwned = isConnected && ownerOf === address
 
   return (
     <div className="Nft__price">
@@ -92,19 +104,33 @@ const NftPrice = (props: Partial<Nft>) => {
         <p className="Nft__ethPrice">{price} ETH</p>
       </div>
       <div className="Nft__price__btns">
-        <Button
+        {(isNftOwned) ? (
+          <Button
+            action={() => {
+              setShowBuyModal(true)
+              setShowNftModal(true)
+            }}
+            text="View my NFT"
+            additionalClassName="purple"
+          />
+        ) : <Button
           action={() => setShowBuyModal(true)}
-          text={isLoading ? 'Minting...' : 'Buy now'}
-          additionalClassName="gold"
+          text={`${sold ? "SOLD" : "Buy now"}`}
+          additionalClassName={`${sold ? "purple" : "gold"}`}
+          disabled={sold || isError}
         />
-        <Toaster richColors />
+        }
         <BuyModal
-          {...props}
-          buy={isConnected ? () => write?.() : openConnectModal}
+          {...nft}
+          pseudo={artist?.pseudo}
+          artistId={artist?.id}
+          price={price || 0}
+          buy={!isConnected ? openConnectModal : !user.infos ? () => dispatch(setLoginModalDisplay(true)) : () => purchaseItem()}
           isMinting={isLoading}
           showBuyModal={showBuyModal}
-          setShowBuyModal={setShowBuyModal}
-          isSuccess={isSuccess}
+          hide={() => setShowBuyModal(false)}
+          isSuccess={isSuccess || showNftModal}
+          contractAddress={contractAddress}
         />
       </div>
     </div>
