@@ -35,7 +35,7 @@ const NftList = () => {
   const { nfts, refetch } = useFetchData(undefined)
   useEffect(() => {
     refetch()
-  }, [refetch])
+  }, [])
   if (!nfts.length) {
     return null
   }

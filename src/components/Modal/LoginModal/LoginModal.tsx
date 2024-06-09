@@ -113,7 +113,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
             address,
             tel
           },
-          emailRedirectTo: `${location.origin}/auth/callback`
+          emailRedirectTo: `${window.location.origin}/auth/callback`
         },
       });
       if (error) {

@@ -56,7 +56,8 @@ const OrdersComponent = () => {
     const fetchOrdersData = async () => {
       if (user.infos?.id) {
         const orders = await fetchOrdersByUser(user.infos.id)
-        dispatch(setOrders(orders));
+        const ordersFormatted = orders.map(order => ({ ...order, id: Number(order.id), created_at: order.created_at?.toDateString() }))
+        dispatch(setOrders(ordersFormatted));
       }
     };
     fetchOrdersData()
@@ -68,7 +69,7 @@ const OrdersComponent = () => {
       <div className="Wallet__content">
         {' '}
         <div className="Orders">
-          {orders.map(order => <OrderItem key={order.id} order={order} />)}
+          {orders.map(order => <OrderItem key={Number(order.id)} order={order} />)}
         </div>
       </div>
     </section>

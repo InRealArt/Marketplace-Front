@@ -3,7 +3,7 @@ import { Address } from "viem"
 
 export type UserId = string
 export type ArtistId = number
-export type OrderId = bigint
+export type OrderId = number
 export interface ArtistType {
   id: ArtistId
   name: string
@@ -48,7 +48,7 @@ export interface NftType {
 
 export interface OrderType {
   id: OrderId
-  created_at: Date | null;
+  created_at?: string;
   userId: UserId
   nftId: number
   orderStatus: OrderStatus
