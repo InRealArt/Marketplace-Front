@@ -50,6 +50,7 @@ model ResourceNft {
   description    String
   certificateUri String?             @unique
   itemId         Int?                @unique
+  mockups        String[]
   Order          Order[]
   collection     Collection          @relation(fields: [collectionId], references: [id])
 

@@ -14,50 +14,6 @@ export const marketplaceAbi = [
   },
   {
     type: "function",
-    name: "items",
-    inputs: [
-      {
-        name: "",
-        type: "uint256",
-        internalType: "uint256"
-      }
-    ],
-    outputs: [
-      {
-        name: "itemId",
-        type: "uint256",
-        internalType: "uint256"
-      },
-      {
-        name: "nft",
-        type: "address",
-        internalType: "contract IERC721"
-      },
-      {
-        name: "tokenId",
-        type: "uint256",
-        internalType: "uint256"
-      },
-      {
-        name: "price",
-        type: "uint256",
-        internalType: "uint256"
-      },
-      {
-        name: "seller",
-        type: "address",
-        internalType: "address payable"
-      },
-      {
-        name: "sold",
-        type: "bool",
-        internalType: "bool"
-      }
-    ],
-    stateMutability: "view"
-  },
-  {
-    type: "function",
     name: "getItem",
     inputs: [
       {
@@ -70,7 +26,7 @@ export const marketplaceAbi = [
       {
         name: "item_",
         type: "tuple",
-        internalType: "struct Marketplace.Item",
+        internalType: "struct Item",
         components: [
           {
             name: "itemId",
@@ -103,6 +59,19 @@ export const marketplaceAbi = [
             internalType: "bool"
           }
         ]
+      }
+    ],
+    stateMutability: "view"
+  },
+  {
+    type: "function",
+    name: "getItemCount",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+        internalType: "uint256"
       }
     ],
     stateMutability: "view"
@@ -241,5 +210,24 @@ export const marketplaceAbi = [
         internalType: "uint256"
       }
     ]
-  }
+  },
+  {
+    type: "function",
+    name: "isSold",
+    inputs: [
+      {
+        name: "itemId",
+        type: "uint256",
+        internalType: "uint256"
+      }
+    ],
+    outputs: [
+      {
+        name: "",
+        type: "bool",
+        internalType: "bool"
+      }
+    ],
+    stateMutability: "view"
+  },
 ] as const

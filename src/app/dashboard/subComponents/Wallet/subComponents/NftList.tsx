@@ -6,6 +6,7 @@ import { getImageFromUri } from '@/utils/getImageFromUri';
 import { useReadContract } from 'wagmi';
 import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
 import { marketplaceAddress } from '@/utils/constants';
+import Link from 'next/link';
 
 interface NftItemProps {
   nft: NftType
@@ -18,7 +19,7 @@ const NftItem = ({ nft }: NftItemProps) => {
     functionName: "getItem",
     args: [BigInt(nft?.itemId || 0)]
   });
-  return <div key={nft.tokenId} className="WalletNftList__item">
+  return <Link href={`/nfts/${nft.id}`} key={nft.tokenId} className="WalletNftList__item">
     {nft.imageUri && <Image
       className="WalletNftList__item__image"
       width={50}
@@ -28,7 +29,7 @@ const NftItem = ({ nft }: NftItemProps) => {
     />}
     <h2 className="WalletNftList__item__name">{nft.name}</h2>
     <p className="WalletNftList__item__price">{Number(nftInfo?.price)} ETH</p>
-  </div>
+  </Link>
 }
 
 const NftList = () => {

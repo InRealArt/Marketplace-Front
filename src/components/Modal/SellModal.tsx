@@ -13,8 +13,8 @@ import { createOrder } from '@/lib/orders';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { useAppSelector } from '@/redux/hooks';
 
-interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
-  showBuyModal: boolean;
+interface SellModalProps extends Partial<NftType>, Partial<ArtistType> {
+  showSellModal: boolean;
   hide: () => void;
   buy: (() => void) | { payload: boolean; type: "modals/setLoginModalDisplay"; } | undefined;
   isMinting: boolean;
@@ -25,7 +25,7 @@ interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
   artistId: ArtistId | undefined
 }
 
-const BuyModalContent = ({
+const SellModalContent = ({
   hide,
   buy,
   isMinting,
@@ -33,27 +33,27 @@ const BuyModalContent = ({
   imageUri,
   pseudo,
   artistId
-}: BuyModalProps) => {
+}: SellModalProps) => {
   const { ethPrice: ethEuroPrice } = useEthPrice('eur');
   const currentEthValue = ethEuroPrice
     ? Number(price) * ethEuroPrice
     : 0;
 
   return (
-    <div className="BuyModal">
+    <div className="SellModal">
       {imageUri && <div
-        className="BuyModal__img"
+        className="SellModal__img"
         style={{
           backgroundImage: ` url('${getImageFromUri(imageUri)}')`,
         }}
       />}
-      <div className="BuyModal__infos">
-        <h3 className="BuyModal__price">{price} ETH</h3>
-        <p className="BuyModal__description">
+      <div className="SellModal__infos">
+        <h3 className="SellModal__price">{price} ETH</h3>
+        <p className="SellModal__description">
           Cette œuvre réalisé par <Link href={`/artists/${artistId}`} onClick={hide}>{pseudo}</Link> coûte actuellement{' '}
           <span>{price} ETH</span> ce qui représente donc l&apos;équivalent d&apos;environ {currentEthValue.toFixed(0)} €
         </p>
-        <div className="BuyModal__buttons">
+        <div className="SellModal__buttons">
           <Button
             action={hide}
             text="Cancel"
@@ -70,21 +70,21 @@ const BuyModalContent = ({
   )
 };
 
-const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, contractAddress }: BuyModalProps) => (
-  <div className="BuyModal BuyModal--successful">
-    <p className="BuyModal__description">
+const SellModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, contractAddress }: SellModalProps) => (
+  <div className="SellModal SellModal--successful">
+    <p className="SellModal__description">
       Félicitations, l’oeuvre est désormais la votre. Vous pouvez la télécharger
       directement sur cette page. Vous pouvez également la consulté et traider
       depuis votre profil dans les NFT récente.
     </p>
-    <div className="BuyModal__flex">
+    <div className="SellModal__flex">
       {(imageUri && certificateUri) && <>
-        <Image width={100} height={100} className="BuyModal__miniature" alt='nft-image' src={getImageFromUri(imageUri)} />
-        <a href={getImageFromUri(certificateUri)} target='_blank' rel='noreferrer' className="BuyModal__download">Télécharger votre certificat d&apos;authenticité ici</a>
+        <Image width={100} height={100} className="SellModal__miniature" alt='nft-image' src={getImageFromUri(imageUri)} />
+        <a href={getImageFromUri(certificateUri)} target='_blank' rel='noreferrer' className="SellModal__download">Télécharger votre certificat d&apos;authenticité ici</a>
       </>
       }
     </div>
-    <div className="BuyModal__buttons">
+    <div className="SellModal__buttons">
       <Button
         action={hide}
         text={'Terminer'}
@@ -101,37 +101,18 @@ const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, co
   </div>
 );
 
-const BuyModal = (props: BuyModalProps) => {
-  const user = useAppSelector((state) => getUserInfos(state))
-
-  useEffect(() => {
-    if (props.isSuccess && user.infos?.id && props.id) {
-      const createRwaOrder = async () => {
-        try {
-          await createOrder({
-            userId: user.infos?.id as string,
-            nftId: props.id as number
-          })
-        }
-        catch (err) {
-          console.error("Create Order", err);
-        }
-      };
-      createRwaOrder()
-    }
-  }, [props.isSuccess])
-
+const SellModal = (props: SellModalProps) => {
   return (<Modal
-    title={props.isSuccess || props.showNftModal ? 'Acquisition confirmé 🥳' : props.name || ''}
-    show={props.showBuyModal}
+    title={props.isSuccess || props.showNftModal ? 'NFT mis en vente 🥳' : props.name || ''}
+    show={props.showSellModal}
     hide={props.hide}
   >
     {props.isSuccess || props.showNftModal ? (
-      <BuyModalSuccessfulContent {...props} />
+      <SellModalSuccessfulContent {...props} />
     ) : (
-      <BuyModalContent {...props} />
+      <SellModalContent {...props} />
     )}
   </Modal>)
 }
 
-export default BuyModal;
+export default SellModal;

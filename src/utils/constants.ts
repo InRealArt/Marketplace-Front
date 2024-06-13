@@ -1082,4 +1082,5 @@ export const abiMintNft = [
 
 export const contractAdress = '0x0f4cc9b8B3570433b7750764FFdA897EcA707312';
 export const artistCollectionAddress = "0x420B0441145594143F1520747AB4A36CF0EA2aDf"
-export const marketplaceAddress = '0xbf6894A6259767a2F7b11B91711b9b9620d2B9b7'
+export const marketplaceAddress = '0x5D45b37593154e838b306B81cC971Ce3ff526011'
+// export const marketplaceAddress = '0xbf6894A6259767a2F7b11B91711b9b9620d2B9b7'

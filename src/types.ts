@@ -44,6 +44,7 @@ export interface NftType {
   price?: number
   tags?: string[]
   isOwner?: boolean
+  mockups?: string[]
 }
 
 export interface OrderType {

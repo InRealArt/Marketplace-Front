@@ -85,9 +85,6 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
     args: [BigInt(nft?.tokenId || 0)]
   });
 
-  // if (nft.id && ownerOf) {
-  //   dispatch(updateNft({ id: nft.id, owner: ownerOf }));
-  // }
   const isNftOwned = isConnected && ownerOf === address
 
   return (
@@ -120,6 +117,11 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
           disabled={sold || isError}
         />
         }
+        {(isNftOwned && sold) ? <Button
+          action={() => {}}
+          text="Sold my NFT"
+          additionalClassName="gold"
+        /> : null}
         <BuyModal
           {...nft}
           pseudo={artist?.pseudo}
@@ -129,7 +131,8 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
           isMinting={isLoading}
           showBuyModal={showBuyModal}
           hide={() => setShowBuyModal(false)}
-          isSuccess={isSuccess || showNftModal}
+          isSuccess={isSuccess}
+          showNftModal={showNftModal}
           contractAddress={contractAddress}
         />
       </div>

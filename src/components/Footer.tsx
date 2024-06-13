@@ -6,14 +6,16 @@ const Footer = () => {
   return (
     <footer className="Footer" id="footer">
       <section className="Footer__container">
-        <Image
-          priority={true}
-          className="Footer__logo"
-          alt="logo"
-          src="/images/Logo.png"
-          width={180}
-          height={30}
-        />
+        <Link href={'/'}>
+          <Image
+            priority={true}
+            className="Footer__logo"
+            alt="logo"
+            src="/images/Logo.png"
+            width={180}
+            height={30}
+          />
+        </Link>
 
         <nav className="Footer__links">
           <div>

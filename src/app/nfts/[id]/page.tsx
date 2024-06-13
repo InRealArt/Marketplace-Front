@@ -29,6 +29,13 @@ const NftPage = () => {
     args: [BigInt(nft?.itemId || 0)]
   });
 
+  const { data: isSold } = useReadContract({
+    abi: marketplaceAbi,
+    address: marketplaceAddress,
+    functionName: "isSold",
+    args: [BigInt(nft?.itemId || 0)]
+  });
+
   if (!nft || !collection) return null;
 
   return (
@@ -36,7 +43,7 @@ const NftPage = () => {
       <NftIntro
         nft={{ ...nft, price: Number(nftInfo?.price) }}
         artist={artist}
-        sold={nftInfo?.sold}
+        sold={isSold}
         contractAddress={collection.contractAddress as Address}
       />
       <NftTags tags={nft.tags} />

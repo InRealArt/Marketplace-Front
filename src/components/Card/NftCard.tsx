@@ -56,6 +56,13 @@ const NftCard = ({ nft }: NftCardProps) => {
     args: [BigInt(nft?.itemId || 0)]
   });
 
+  const { data: isSold } = useReadContract({
+    abi: marketplaceAbi,
+    address: marketplaceAddress,
+    functionName: "isSold",
+    args: [BigInt(nft?.itemId || 0)]
+  });
+
   const { data: ownerOf } = useReadContract({
     abi: IraIERC721Abi,
     address: collection?.contractAddress as Address,
@@ -92,6 +99,8 @@ const NftCard = ({ nft }: NftCardProps) => {
       toast.error(`NFT has not been purchase ${error}`);
     }
   }, [isSuccess, isError]);
+  console.log(nftInfo, isSold);
+  
 
   const isNftOwned = isConnected && ownerOf === address
 
@@ -141,9 +150,9 @@ const NftCard = ({ nft }: NftCardProps) => {
           />
         ) : <Button
           action={() => setShowBuyModal(true)}
-          text={`${nftInfo?.sold ? "SOLD" : "Buy now"}`}
-          additionalClassName={`${nftInfo?.sold ? "purple" : "gold"}`}
-          disabled={nftInfo?.sold}
+          text={`${isSold ? "SOLD" : "Buy now"}`}
+          additionalClassName={`${isSold ? "purple" : "gold"}`}
+          disabled={isSold}
         />
         }
       </div>
@@ -158,7 +167,8 @@ const NftCard = ({ nft }: NftCardProps) => {
         isMinting={isLoading}
         showBuyModal={showBuyModal}
         hide={() => setShowBuyModal(false)}
-        isSuccess={isSuccess || showNftModal}
+        isSuccess={isSuccess}
+        showNftModal={showNftModal}
         contractAddress={collection?.contractAddress as Address}
       />
     </div>
