@@ -119,7 +119,7 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
         }
         {(isNftOwned && sold) ? <Button
           action={() => {}}
-          text="Sold my NFT"
+          text="Sell my NFT"
           additionalClassName="gold"
         /> : null}
         <BuyModal
