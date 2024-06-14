@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 import { ArtistType, NftType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import { Address } from 'viem';
-import { Share2 } from 'lucide-react';
+import { ArrowBigLeft, ArrowBigRight, FlameIcon, Share2, StarIcon, StarsIcon } from 'lucide-react';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
@@ -23,21 +23,27 @@ interface NftIntroProps {
   contractAddress: Address
 }
 const NftIntro = ({ nft, artist, sold, contractAddress }: NftIntroProps) => {
-  const { name, description, imageUri } = nft;
+  const { name, description, imageUri, mockups } = nft;
   const [showDescriptionModal, setShowDescriptionModal] = useState<boolean>(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+
+  const images = mockups ? [...[getImageFromUri(imageUri || "")], ...mockups] : [getImageFromUri(imageUri || "")]
+
   return (
     <section className="Nft__intro">
       {imageUri && <div
         className="Nft__image"
         style={{
-          backgroundImage: ` url('${getImageFromUri(imageUri)}')`,
+          backgroundImage: ` url('${images[currentImageIndex]}')`,
         }}
       >
+        {currentImageIndex !== 0 && <ArrowBigLeft className='Nft__arrow Nft__arrow--left' onClick={() => setCurrentImageIndex(currentImageIndex - 1)} />}
+        {currentImageIndex + 1 !== images.length && <ArrowBigRight className='Nft__arrow Nft__arrow--right' onClick={() => setCurrentImageIndex(currentImageIndex + 1)} />}
         <div className="Nft__actions">
           <p className="Nft__action"><Share2 width={20} height={20} className='Nft__actionIcon' /> Share</p>
         </div>
 
-        <div className="Nft__label">IRA communautaire</div>
+        <div className="Nft__label"><StarsIcon width={18} height={18} />IRA exclusive</div>
       </div>}
       <div className="Nft__infos">
         <div className="Nft__artist">
@@ -62,7 +68,7 @@ const NftIntro = ({ nft, artist, sold, contractAddress }: NftIntroProps) => {
             additionalClassName="Nft__description"
             id="nft-description"
             text={description || ''}
-            amountOfWords={20}
+            amountOfWords={35}
             action={() => setShowDescriptionModal(true)}
           />
           <DescriptionModal
