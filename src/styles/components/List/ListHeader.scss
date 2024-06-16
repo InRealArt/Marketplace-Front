@@ -37,7 +37,7 @@
     }
     @include titleMontserrat(36px);
     @include breakpoint(mobile) {
-      @include titleMontserrat(22px);
+      @include titleMontserrat(18px);
       padding: 15px 0;
     }
   }

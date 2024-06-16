@@ -120,6 +120,7 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
         {(isNftOwned && sold) ? <Button
           action={() => {}}
           text="Sell my NFT"
+          disabled
           additionalClassName="gold"
         /> : null}
         <BuyModal
@@ -134,6 +135,7 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
           isSuccess={isSuccess}
           showNftModal={showNftModal}
           contractAddress={contractAddress}
+          hash={hash as Address}
         />
       </div>
     </div>

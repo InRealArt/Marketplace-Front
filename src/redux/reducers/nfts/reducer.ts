@@ -17,13 +17,10 @@ export const nftsSlice = createSlice({
     reducers: {
         setNfts: (state, action: PayloadAction<NftType[]>) => {
             state.list = action.payload
-        },
-        updateNft: (state, action: PayloadAction<{ id: NftId, isOwner: boolean }>) => {
-            state.list = state.list.map(nft => (nft.id === action.payload.id ? { ...nft, isOwner: action.payload.isOwner } : nft))
         }
     }
 })
 
-export const { setNfts, updateNft } = nftsSlice.actions
+export const { setNfts } = nftsSlice.actions
 
 export default nftsSlice.reducer

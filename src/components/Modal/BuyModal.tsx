@@ -12,6 +12,7 @@ import { useAccount, useBalance } from 'wagmi';
 import { createOrder } from '@/lib/orders';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { useAppSelector } from '@/redux/hooks';
+import { updateNft } from '@/lib/nfts';
 
 interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
   showBuyModal: boolean;
@@ -23,6 +24,7 @@ interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
   contractAddress: Address
   price: number
   artistId: ArtistId | undefined
+  hash: Address
 }
 
 const BuyModalContent = ({
@@ -73,9 +75,7 @@ const BuyModalContent = ({
 const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, contractAddress }: BuyModalProps) => (
   <div className="BuyModal BuyModal--successful">
     <p className="BuyModal__description">
-      Félicitations, l’oeuvre est désormais la votre. Vous pouvez la télécharger
-      directement sur cette page. Vous pouvez également la consulté et traider
-      depuis votre profil dans les NFT récente.
+    Congratulations, the artwork is now yours. We will contact you as soon as possible to arrange the delivery date of the artwork. You can also view and trade it from your wallet in the purchased NFTs.
     </p>
     <div className="BuyModal__flex">
       {(imageUri && certificateUri) && <>
@@ -103,21 +103,26 @@ const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, co
 
 const BuyModal = (props: BuyModalProps) => {
   const user = useAppSelector((state) => getUserInfos(state))
+  const {address} = useAccount()
 
   useEffect(() => {
     if (props.isSuccess && user.infos?.id && props.id) {
-      const createRwaOrder = async () => {
+      const createRwaOrderAndUpdateNft = async () => {
         try {
           await createOrder({
             userId: user.infos?.id as string,
             nftId: props.id as number
           })
+          await updateNft({
+            transactionHash: props.hash,
+            owner: address
+          }, props.id as number)
         }
         catch (err) {
           console.error("Create Order", err);
         }
       };
-      createRwaOrder()
+      createRwaOrderAndUpdateNft()
     }
   }, [props.isSuccess])
 

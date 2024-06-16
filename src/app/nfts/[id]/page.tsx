@@ -47,7 +47,7 @@ const NftPage = () => {
         contractAddress={collection.contractAddress as Address}
       />
       <NftTags tags={nft.tags} />
-      <ArtistsListSlider artists={artists} title="Artistes associés" />
+      <ArtistsListSlider artists={artists} title="Associated Artists" />
     </main>
   );
 };

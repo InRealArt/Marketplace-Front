@@ -38,21 +38,24 @@ model Collection {
 }
 
 model ResourceNft {
-  id             Int                 @id @default(autoincrement())
-  tokenId        Int?
-  tokenUri       String?             @unique
-  status         ResourceNftStatuses
-  type           ResourceTypes
-  minter         String
-  collectionId   Int
-  name           String              @unique
-  imageUri       String?
-  description    String
-  certificateUri String?             @unique
-  itemId         Int?                @unique
-  mockups        String[]
-  Order          Order[]
-  collection     Collection          @relation(fields: [collectionId], references: [id])
+  id              Int                 @id @default(autoincrement())
+  tokenId         Int?
+  tokenUri        String?             @unique
+  status          ResourceNftStatuses
+  type            ResourceTypes
+  minter          String
+  collectionId    Int
+  name            String              @unique
+  imageUri        String?
+  description     String
+  certificateUri  String?             @unique
+  itemId          Int?                @unique
+  mockups         String[]
+  owner           String?
+  transactionHash String?
+  tags            String[]
+  Order           Order[]
+  collection      Collection          @relation(fields: [collectionId], references: [id])
 
   @@schema("public")
 }

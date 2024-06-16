@@ -10,7 +10,7 @@ const Nfts = () => {
   return (
     <main className="Nfts">
       <ListOfNfts
-        nav={[{ tab: 'All Artworks', list: nfts, context: 'nft' }, { tab: 'Communautary', list: [], context: 'nft' }]}
+        nav={[{ tab: 'Ira Artworks', list: nfts, context: 'nft' }, { tab: 'Communautary Artworks', list: [], context: 'nft' }]}
       />
     </main>
   );

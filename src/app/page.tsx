@@ -11,7 +11,7 @@ const Landing = () => {
   return (
     <main className="Landing">
       <Intro />
-      <ArtistsListSlider artists={artists} title="Artistes du moments" />
+      <ArtistsListSlider artists={artists} title="Artists of the Moment" />
       <ListOfNfts nav={[{ tab: 'Popular Artworks ', list: nfts, context: 'nft' }]} viewAllLink="/nfts" />
       <ContactUs />
     </main>

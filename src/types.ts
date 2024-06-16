@@ -43,7 +43,8 @@ export interface NftType {
   collectionId: number
   price?: number
   tags?: string[]
-  isOwner?: boolean
+  owner?: string | null
+  transactionHash?: string | null
   mockups?: string[]
 }
 

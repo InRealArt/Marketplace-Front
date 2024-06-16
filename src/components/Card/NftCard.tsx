@@ -170,6 +170,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         isSuccess={isSuccess}
         showNftModal={showNftModal}
         contractAddress={collection?.contractAddress as Address}
+        hash={hash || '0x'}
       />
     </div>
   );

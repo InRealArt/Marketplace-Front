@@ -76,7 +76,7 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
   const renderAccountLink = () => {
     if (!user.infos) {
       return <span onClick={displayLoginModal} className={`HeaderMenu__link`} >
-        Créer un compte/Se connecter
+        Sign up / Sign in
       </span>
     }
 
@@ -129,13 +129,13 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
       <div className="HeaderMenu__bottomContent">
         <Link
           className={`HeaderMenu__link HeaderMenu__link--bottom`}
-          href={'/info'}
+          href={'/'}
         >
           Info
         </Link>
         <Link
           className={`HeaderMenu__link HeaderMenu__link--bottom`}
-          href={'/termsofuse'}
+          href={'/'}
         >
           Terms of use
         </Link>

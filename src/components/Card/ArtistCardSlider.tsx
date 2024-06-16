@@ -8,7 +8,7 @@ interface ArtistCardSliderProps {
 }
 
 const ArtistCardSlider = ({ artist }: ArtistCardSliderProps) => {
-  const { id, imageUrl, pseudo } = artist;
+  const { id, imageUrl, name, surname } = artist;
   return (
     <Link href={`/artists/${id}`}>
       <div
@@ -18,7 +18,7 @@ const ArtistCardSlider = ({ artist }: ArtistCardSliderProps) => {
         }}
       >
         <div className="ArtistCardSlider__infos">
-          <h2 className="ArtistCardSlider__name">{pseudo}</h2>
+          <h2 className="ArtistCardSlider__name">{name} {surname}</h2>
           <Button additionalClassName="purple" text="See their arts" />
         </div>
       </div>

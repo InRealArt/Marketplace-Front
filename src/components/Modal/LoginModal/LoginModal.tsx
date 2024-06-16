@@ -152,8 +152,8 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
         <h1 className='LoginModal__title'>
           Créer un compte
         </h1>
-        <p className='LoginModal__description'>Vous avez déjà un compte chez InRealArt ? </p>
-        <span className='LoginModal__link' onClick={() => setIsSignin(true)}>Connectez vous</span>
+        <p className='LoginModal__description'>Do you already have an account with InRealArt ?</p>
+        <span className='LoginModal__link' onClick={() => setIsSignin(true)}>Sign in</span>
       </div>
       <Form {...form}>
         <form className='LoginModal__form LoginModal__form--signup' onSubmit={form.handleSubmit(onSubmit)}>
@@ -162,9 +162,9 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
             name="name"
             render={({ field }) => (
               <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Prénom *</FormLabel>
+                <FormLabel className='LoginModal__label'>Name *</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' placeholder="Prénom" {...field} />
+                  <Input className='LoginModal__input' placeholder="Name" {...field} />
                 </FormControl>
                 <FormMessage className="LoginModal__errorMessage" />
               </FormItem>
@@ -175,9 +175,9 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
             name="surname"
             render={({ field }) => (
               <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Nom de famille *</FormLabel>
+                <FormLabel className='LoginModal__label'>Surname *</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' placeholder="Nom de famille" {...field} />
+                  <Input className='LoginModal__input' placeholder="Surname" {...field} />
                 </FormControl>
                 <FormMessage className="LoginModal__errorMessage" />
               </FormItem>
@@ -188,7 +188,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
             name="email"
             render={({ field }) => (
               <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Address Email *</FormLabel>
+                <FormLabel className='LoginModal__label'>Email address *</FormLabel>
                 <FormControl>
                   <Input className='LoginModal__input' placeholder="inrealart@gmail.com" {...field} />
                 </FormControl>
@@ -214,12 +214,12 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
             name="address"
             render={({ field }) => (
               <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Adresse postale *</FormLabel>
+                <FormLabel className='LoginModal__label'>Adresse postal *</FormLabel>
                 <FormControl>
                   <Input
                     ref={inputAddressRef}
                     className='LoginModal__input'
-                    placeholder="3 rue du...."
+                    placeholder="3 street...."
                     onChange={(e) => {
                       field.onChange(e.target.value)
                       setCurrentAddress(e.target.value)
@@ -261,7 +261,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
               </FormItem>
             )}
           />
-          <Button text='Créer un compte' type="submit" additionalClassName='login' />
+          <Button text='Sign up' type="submit" additionalClassName='login' />
         </form>
       </Form>
     </>
@@ -310,8 +310,8 @@ const LoginModalSignInContent = ({ setIsSignin }: LoginModalProps) => {
         <h1 className='LoginModal__title'>
           Connexion
         </h1>
-        <p className='LoginModal__description'>Vous n’êtes pas encore membre de InRealArt ? </p>
-        <span className='LoginModal__link' onClick={() => setIsSignin(false)}>Inscrivez vous</span>
+        <p className='LoginModal__description'>Are you not yet a member of InRealArt?</p>
+        <span className='LoginModal__link' onClick={() => setIsSignin(false)}>Sign up !</span>
       </div>
       <Form {...form}>
         <form className='LoginModal__form' onSubmit={form.handleSubmit(onSubmit)} >
@@ -341,7 +341,7 @@ const LoginModalSignInContent = ({ setIsSignin }: LoginModalProps) => {
               </FormItem>
             )}
           />
-          <Button text='Se Connecter' type="submit" additionalClassName='login' />
+          <Button text='Sign in' type="submit" additionalClassName='login' />
         </form>
       </Form>
     </>

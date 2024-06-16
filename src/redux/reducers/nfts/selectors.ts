@@ -14,6 +14,5 @@ export const getNftsTags = (state: RootState) => {
   const tags = state.nfts.list.map(nft => nft.tags !== undefined ? nft.tags : []).flat(1)
   return tags.filter((item, index) => tags.indexOf(item) === index);
 }
-export const getNftsOwned = (state: RootState) => state.nfts.list.filter(nft => nft.isOwner === true)
 
 

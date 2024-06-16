@@ -31,21 +31,22 @@ const useFetchData = (artistId?: ArtistId) => {
 
   const fetchNfts = async () => {
     const nfts = await getNftsByStatus([ResourceNftStatuses.LISTED])
-    await Promise.all(nfts.map(async (nft) => {
-      const contractAddress = collections.find(collection => collection.id === nft?.collectionId)?.contractAddress as Address
-      if (contractAddress) {
-        const owner = await readContract(wagmiConfig, {
-          abi: IraIERC721Abi,
-          address: collections.find(collection => collection.id === nft?.collectionId)?.contractAddress as Address,
-          functionName: 'ownerOf',
-          args: [BigInt(nft?.tokenId || 0)]
-        })
-        if (isConnected && nft.id && (address === owner)) {
-          nft.isOwner = true
-        }
-      }
-      return null
-    }));
+    // await Promise.all(nfts.map(async (nft) => {
+    //   // TODO update nft owner when is sold - add purchase hash + update status to SOLD
+    //   const contractAddress = collections.find(collection => collection.id === nft?.collectionId)?.contractAddress as Address
+    //   if (contractAddress && !nft.owner) {
+    //     const owner = await readContract(wagmiConfig, {
+    //       abi: IraIERC721Abi,
+    //       address: collections.find(collection => collection.id === nft?.collectionId)?.contractAddress as Address,
+    //       functionName: 'ownerOf',
+    //       args: [BigInt(nft?.tokenId || 0)]
+    //     })
+    //     if (isConnected && nft.id && (address === owner)) {
+    //       nft.isOwner = true
+    //     }
+    //   }
+    //   return null
+    // }));
     dispatch(setNfts(nfts));
   }
 
