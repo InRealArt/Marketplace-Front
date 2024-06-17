@@ -100,7 +100,7 @@ const NftCard = ({ nft }: NftCardProps) => {
     }
   }, [isSuccess, isError]);
   console.log(nftInfo, isSold);
-  
+
 
   const isNftOwned = isConnected && ownerOf === address
 
@@ -152,7 +152,7 @@ const NftCard = ({ nft }: NftCardProps) => {
           action={() => setShowBuyModal(true)}
           text={`${isSold ? "SOLD" : "Buy now"}`}
           additionalClassName={`${isSold ? "purple" : "gold"}`}
-          disabled={isSold}
+          disabled //={isSold}
         />
         }
       </div>

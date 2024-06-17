@@ -33,6 +33,11 @@ const nextConfig = {
                 hostname: 'jade-famous-rook-617.mypinata.cloud',
                 pathname: '**',
             },
+            {
+                protocol: 'https',
+                hostname: 'media.licdn.com',
+                pathname: '**',
+            }
         ],
     }
 }
