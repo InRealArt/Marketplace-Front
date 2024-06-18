@@ -74,4 +74,9 @@
       }
     }
   }
+  &--verifyCaptcha {
+    width: 80px !important;
+    background-color: $secondary700;
+    color: $white;
+  }
 }

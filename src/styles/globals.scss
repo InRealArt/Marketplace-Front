@@ -34,6 +34,10 @@
 @import './components/Modal/DescriptionModal.scss';
 @import './components/Modal/LoginModal.scss';
 
+// COMMON
+@import './components/Common/Captcha/SimpleCaptcha.scss';
+
+
 // POPUP
 @import './components/Popup/Popup.scss';
 @import './components/Popup/FilterPopup.scss';

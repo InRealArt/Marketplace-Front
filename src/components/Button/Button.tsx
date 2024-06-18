@@ -4,7 +4,7 @@ import Link from 'next/link';
 type Props = {
   text: string;
   additionalClassName?: string;
-  action?: () => void;
+  action?: (() => void) | ((e: React.MouseEvent<HTMLButtonElement>) => void);
   link?: string;
   icon?: JSX.Element;
   disabled?: boolean;

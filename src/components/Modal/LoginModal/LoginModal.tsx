@@ -17,6 +17,8 @@ import { setUserInfos } from '@/redux/reducers/user/reducer';
 import { createClient } from '@/lib/supabase/client';
 import { createProfile } from '@/lib/profiles';
 import { UserRoles } from '@prisma/client';
+import { verifyCaptcha } from '@/lib/captcha/functions';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 const phoneValidation = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -67,7 +69,7 @@ const formSignUpSchema = z.object({
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"]
-});
+})
 
 interface LoginModalProps {
   setIsSignin: React.Dispatch<React.SetStateAction<boolean>>
@@ -78,6 +80,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
   const [currentAddress, setCurrentAddress] = useState<string>("")
   const supabase = createClient()
   const dispatch = useAppDispatch()
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const defaultValues = {
     name: "",
@@ -102,6 +105,14 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
   async function onSubmit(values: z.infer<typeof formSignUpSchema>) {
     const { email, name, surname, password, address, tel } = values
 
+    const dataCaptcha = await verifyCaptcha(executeRecaptcha)
+
+    console.log('dataCaptcha : ', dataCaptcha)
+
+    if (dataCaptcha.success === false) {
+      return toast.error('According to Captcha system, you seems to be a robot and not human !')
+    }
+    
     if (values) {
       const { error, data } = await supabase.auth.signUp({
         email,

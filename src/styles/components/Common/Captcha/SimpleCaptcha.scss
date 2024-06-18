@@ -1,0 +1,79 @@
+.questionCaptcha {
+    font-family: "Unbounded", Helvetica;
+    font-size: 14px;
+    color: red;
+}
+
+.questionCaptchaHidden {
+    display: none;
+}
+
+.challengeComplete {
+    font-family: "Unbounded", Helvetica;
+    font-size: 14px;
+    color: green;
+}
+
+.challengeFailed {
+    font-family: "Unbounded", Helvetica;
+    font-size: 14px;
+    color: red;
+}
+
+.rectangleSendCaptcha {
+    background: #465c79;
+    border-radius: 10px;
+    width: 80px;
+    height: 40px;
+    position: relative;
+    top: 4px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.inputCaptchaAnswer {
+  border: 2px solid red;
+  border-radius: 4px;
+}
+
+.containerCaptcha {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: auto;
+}
+
+.subContainerCaptcha {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: auto;
+}
+
+.subContainerCaptchaQuestion{
+    padding-top: 5px;    
+    margin: auto;
+}
+
+.containerCaptchaInputButton {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: auto;
+}
+
+.containerCaptchaInput {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.containerCaptchaButton {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
