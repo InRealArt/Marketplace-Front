@@ -9,11 +9,10 @@ const WalletEmptyState = () => {
   return (
     <section className="WalletEmptyState">
       <h1 className="WalletEmptyState__title">
-        Votre portefeuille web3 n&apos;est pas connecter
+      Your web3 wallet is not connected
       </h1>
       <p className="WalletEmptyState__description">
-        Veuillez connecter votre portefeuille si vous souhaitez visualisez vos
-        NFTS ainsi que les différentes statistiques.
+        Please connect your wallet if you wish to view your NFTs and various statistics
       </p>
 
       <section className="WalletEmptyState">

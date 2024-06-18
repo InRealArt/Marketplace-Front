@@ -21,7 +21,7 @@ const ProfileComponent = ({ setActiveTab }: ProfileProps) => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    toast.success("Vous êtes déconnecter")
+    toast.success("You are disconnected")
     dispatch(setUserInfos(null))
     setActiveTab(DashboardTabs.WALLET)
   };

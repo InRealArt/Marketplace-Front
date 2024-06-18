@@ -29,7 +29,7 @@ const WalletLink = ({ hideMenu }: HeaderMenuProps) => {
         if (!connected) {
           return (
             <p className="HeaderMenu__link" onClick={openConnectModal}>
-              Connecter mon wallet
+              Connect my wallet
             </p>
           );
         }
@@ -69,7 +69,7 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    toast.success("Vous êtes déconnecter")
+    toast.success("You are disconnected")
     dispatch(setUserInfos(null))
   };
 

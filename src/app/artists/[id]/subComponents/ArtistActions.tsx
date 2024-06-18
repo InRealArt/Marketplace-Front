@@ -18,7 +18,7 @@ const ArtistActions = ({ imageUrl, isGallery }: Partial<ArtistType>) => {
           height={128}
         />
       )}
-      <span className="Artist__label">{isGallery ? "Gallery" : "Créateur"}</span>
+      <span className="Artist__label">{isGallery ? "Gallery" : "Creator"}</span>
       <div className="Artist__actions Artist__actions--mobile">
         <Button
           text="Share"

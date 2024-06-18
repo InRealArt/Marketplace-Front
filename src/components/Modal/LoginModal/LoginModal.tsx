@@ -161,7 +161,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
     <>
       <div className='LoginModal__infos'>
         <h1 className='LoginModal__title'>
-          Créer un compte
+          Create an account
         </h1>
         <p className='LoginModal__description'>Do you already have an account with InRealArt ?</p>
         <span className='LoginModal__link' onClick={() => setIsSignin(true)}>Sign in</span>
@@ -253,7 +253,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
               <FormItem className='LoginModal__formItem'>
                 <FormLabel className='LoginModal__label'>Password *</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' type='password' placeholder="Min 10 caracteres" {...field} />
+                  <Input className='LoginModal__input' type='password' placeholder="Password" {...field} />
                 </FormControl>
                 <FormMessage className="LoginModal__errorMessage" />
               </FormItem>
@@ -266,7 +266,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
               <FormItem className='LoginModal__formItem'>
                 <FormLabel className='LoginModal__label'>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' type='password' placeholder="Min 10 caractere" {...field} />
+                  <Input className='LoginModal__input' type='password' placeholder="Confirm Password" {...field} />
                 </FormControl>
                 <FormMessage className="LoginModal__errorMessage" />
               </FormItem>
@@ -346,7 +346,7 @@ const LoginModalSignInContent = ({ setIsSignin }: LoginModalProps) => {
               <FormItem className='LoginModal__formItem'>
                 <FormLabel className='LoginModal__label'>Password</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' placeholder="Min 10 caractere" type='password' {...field} />
+                  <Input className='LoginModal__input' placeholder="Password" type='password' {...field} />
                 </FormControl>
                 <FormMessage className="LoginModal__errorMessage" />
               </FormItem>
