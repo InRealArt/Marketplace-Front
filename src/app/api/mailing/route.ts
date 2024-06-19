@@ -1,12 +1,7 @@
 import { NextResponse } from "next/server";
-import { z } from 'zod'
-const brevo = require('@getbrevo/brevo')
-import fs from 'fs';
-import path from 'path';
-import { templateMarkeplaceSignup } from "@/lib/brevo/templates/templates";
 import { PostDataSingleMailing } from "@/types_mailing";
 import { mappingEmailTemplates } from "@/lib/brevo/templates/mapping";
-
+const brevo = require('@getbrevo/brevo')
 
 export async function POST(request: Request, response: Response) {
     let apiInstance = new brevo.TransactionalEmailsApi()
