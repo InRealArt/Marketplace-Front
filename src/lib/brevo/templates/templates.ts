@@ -767,14 +767,14 @@ export const templateMarkeplaceSignup =
                                                                                         href="https://www.inrealart-marketplace.com/"
                                                                                         title="https://www.inrealart-marketplace.com/"
                                                                                         target="_blank"
-                                                                                        style="color: #5552ff; text-decoration: none;">https://www.inrealart-marketplace.com/</a> <br><br>Thank
+                                                                                        style="color: #5552ff; text-decoration: none;">https://www.inrealart-marketplace.com/</a><br><br>Thank
                                                                                     you for your unwavering
-                                                                                    support. <br><br>We look forward to
-                                                                                    hearing your initial feedback.<br> 
+                                                                                    support.<br><br>We look forward to
+                                                                                    hearing your initial feedback.<br>
                                                                                 </p>
                                                                                 <p
                                                                                     style="margin: 0; font-style: normal; font-weight: 400; text-decoration: none;">
-                                                                                    With gratitude, <br>The InRealArt
+                                                                                    With gratitude,<br>The InRealArt
                                                                                     Team</p>
                                                                             </div>
                                                                         </td>
@@ -1664,7 +1664,7 @@ export const templateMarketplaceAccountCreationconfirmation =
                                                                         style="margin: 0; color: #1f2d3d; font-family: Unbounded,arial; font-size: 20px; word-break: break-word;">
                                                                         Your profile on the InRealArt Testnet<br>has
                                                                         been successfully created</h2>
-                                                                    <p style="margin: 0;"> </p>
+                                                                    <p style="margin: 0;"></p>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -1807,20 +1807,20 @@ export const templateMarketplaceAccountCreationconfirmation =
                                                                                     digital art.</p>
                                                                                 <p
                                                                                     style="margin: 0; font-style: normal; font-weight: 400; text-decoration: none;">
-                                                                                     </p>
+                                                                                    </p>
                                                                                 <p
                                                                                     style="margin: 0; font-style: normal; font-weight: 400; text-decoration: none;">
-                                                                                    To get started : <br> </p>
+                                                                                    To get started :<br></p>
                                                                                 <ol
                                                                                     style="margin: 0; font-style: normal; font-weight: 400; text-decoration: none;">
                                                                                     <li style="margin: 0;"><span
                                                                                             style="font-size: 18px;">Log
                                                                                             in to your profile using
-                                                                                            : </span><br><a
+                                                                                            :</span><br><a
                                                                                             href="https://www.inrealart-marketplace.com"
                                                                                             target="_blank"
                                                                                             style="color: #5552ff; text-decoration: none;"><span
-                                                                                                style="font-size: 18px;">https://www.inrealart-marketplace.com/ </span></a>
+                                                                                                style="font-size: 18px;">https://www.inrealart-marketplace.com/</span></a>
                                                                                     </li>
                                                                                     <li style="margin: 0;"><span
                                                                                             style="font-size: 18px;">Customize
@@ -1835,7 +1835,7 @@ export const templateMarketplaceAccountCreationconfirmation =
                                                                                             style="font-size: 18px;">Earn
                                                                                             points on Zealy to win
                                                                                             exclusive NFT and token
-                                                                                            airdrop.</span><br> </li>
+                                                                                            airdrop.</span><br></li>
                                                                                 </ol>
                                                                                 <p
                                                                                     style="margin: 0; text-align: justify;">
@@ -1844,7 +1844,7 @@ export const templateMarketplaceAccountCreationconfirmation =
                                                                                         are excited to see your
                                                                                         contributions and hope you enjoy
                                                                                         your experience on the InrealArt
-                                                                                        Testnet.</span><br> </p>
+                                                                                        Testnet.</span><br></p>
                                                                                 <p
                                                                                     style="margin: 0; text-align: justify;">
                                                                                     <span
