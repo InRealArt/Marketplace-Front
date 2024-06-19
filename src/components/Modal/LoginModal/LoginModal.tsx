@@ -19,6 +19,7 @@ import { createProfile } from '@/lib/profiles';
 import { UserRoles } from '@prisma/client';
 import { verifyCaptcha } from '@/lib/captcha/functions';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { PostDataSingleMailing } from '@/types_mailing';
 
 const phoneValidation = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -75,6 +76,27 @@ interface LoginModalProps {
   setIsSignin: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+//-------------------------------------------------------------------- sendMail
+const sendMail = async (paramsEmail: Partial<PostDataSingleMailing>) => {
+  try {
+    const response = await fetch("/api/mailing", {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(paramsEmail)
+    })
+
+    const data = await response.json()
+    console.log('Data returned after sending mail', data)
+    return data
+  } catch (error) {
+    console.error("Error sendMail:", error)
+  }
+}
+
+
 const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
   const inputAddressRef = useRef<any>(null)
   const [currentAddress, setCurrentAddress] = useState<string>("")
@@ -104,15 +126,27 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
 
   async function onSubmit(values: z.infer<typeof formSignUpSchema>) {
     const { email, name, surname, password, address, tel } = values
-
+    
+    //STEP 1 : Verifiy Captcha
     const dataCaptcha = await verifyCaptcha(executeRecaptcha)
-
     console.log('dataCaptcha : ', dataCaptcha)
-
     if (dataCaptcha.success === false) {
       return toast.error('According to Captcha system, you seems to be a robot and not human !')
     }
+
+    //STEP 2 : Send Email Confirmation
+    const dataMail = await sendMail({
+      to: email,
+      params: {name: name, surname: surname},
+      templateName: 'MarketplaceAccountCreationConfirmation'
+    })
     
+    console.log('DATA EMAIL : ', dataMail)
+    if (dataMail.mailSent === false) {
+      return toast.error('It\'s seems ')
+    }
+
+    //STEP 3 : Create User in DB
     if (values) {
       const { error, data } = await supabase.auth.signUp({
         email,

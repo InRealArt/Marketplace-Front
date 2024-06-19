@@ -1,0 +1,1 @@
+export const CONFIRMATION_ACCOUNT_CREATION_SUBJECT = 'Your InrealArt Testnet Profile is Live! '
