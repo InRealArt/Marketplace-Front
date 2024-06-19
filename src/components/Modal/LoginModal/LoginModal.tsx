@@ -143,7 +143,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
     
     console.log('DATA EMAIL : ', dataMail)
     if (dataMail.mailSent === false) {
-      return toast.error('It\'s seems ')
+      return toast.error('Unable to send you an e-mail ... Try later please')
     }
 
     //STEP 3 : Create User in DB
