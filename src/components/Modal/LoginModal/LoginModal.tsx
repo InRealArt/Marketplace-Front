@@ -135,6 +135,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
     }
 
     //STEP 2 : Send Email Confirmation
+    /*
     const dataMail = await sendMail({
       to: email,
       params: {name: name, surname: surname},
@@ -145,6 +146,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
     if (dataMail.mailSent === false) {
       return toast.error('Unable to send you an e-mail ... Try later please')
     }
+    */
 
     //STEP 3 : Create User in DB
     if (values) {
