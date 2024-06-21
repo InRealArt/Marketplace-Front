@@ -69,6 +69,7 @@ const NftCard = ({ nft }: NftCardProps) => {
     functionName: "ownerOf",
     args: [BigInt(nft?.tokenId || 0)]
   });
+  const nftPrice = Number(nftInfo?.price) * Math.pow(10, -18) < 0.001 ? 0.001 : Number(nftInfo?.price) * Math.pow(10, -18)
 
   const purchaseItem = () => {
     if (itemId && tokenId && collection && nftInfo?.price) {
@@ -77,7 +78,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         abi: marketplaceAbi,
         functionName: "purchaseItem",
         args: [BigInt(itemId)],
-        value: parseEther(nftInfo.price.toString())
+        value: parseEther(nftPrice.toString())
       });
     }
   }
@@ -105,7 +106,6 @@ const NftCard = ({ nft }: NftCardProps) => {
   const isNftOwned = isConnected && ownerOf === address
 
   if (!nft.tokenId || !collection?.contractAddress || !nftInfo) return null
-
   return (
     <div className="NftCard">
       <Link className="NftCard__image" href={`/nfts/${nft.id}`}>
@@ -135,7 +135,7 @@ const NftCard = ({ nft }: NftCardProps) => {
               width={60}
               height={60}
             />{' '}
-            {Number(nftInfo?.price)}
+            {nftPrice}
           </div>
 
         </div>
@@ -162,7 +162,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         {...nft}
         pseudo={artist?.pseudo}
         artistId={artist?.id}
-        price={Number(nftInfo.price)}
+        price={nftPrice}
         buy={!isConnected ? openConnectModal : !user.infos ? () => dispatch(setLoginModalDisplay(true)) : () => purchaseItem()}
         isMinting={isLoading}
         showBuyModal={showBuyModal}
