@@ -16,7 +16,12 @@ async function getNftsByStatus(status: ResourceNftStatuses[]) {
     const nfts: NftType[] = await prisma.resourceNft.findMany({
         where: {
             status: { in: status }
-        }
+        },
+        orderBy: [
+            {
+              id: 'asc'
+            }
+          ]
     })
     return nfts
 }
