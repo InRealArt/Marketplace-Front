@@ -410,6 +410,7 @@ enum ResourceNftStatuses {
   UPLOADMETADATA
   MINED
   LISTED
+  SOLD
 
   @@schema("public")
 }

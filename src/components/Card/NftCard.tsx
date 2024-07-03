@@ -82,6 +82,7 @@ const NftCard = ({ nft }: NftCardProps) => {
       });
     }
   }
+
   // Use the useWaitForTransactionReceipt hook to wait for the transaction to be mined and return loading and success states
   const { isLoading, isSuccess } = useWaitForTransactionReceipt({
     hash,
@@ -100,7 +101,11 @@ const NftCard = ({ nft }: NftCardProps) => {
       toast.error(`NFT has not been purchase ${error}`);
     }
   }, [isSuccess, isError]);
-  console.log(nftInfo, isSold);
+
+  // console.log('NFT Name : ', name)
+  // console.log('tokenId : ', tokenId)
+  // console.log('nftInfo : ', nftInfo)
+  // console.log('isSold : ', isSold)
 
 
   const isNftOwned = isConnected && ownerOf === address

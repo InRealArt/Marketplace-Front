@@ -230,4 +230,17 @@ export const marketplaceAbi = [
     ],
     stateMutability: "view"
   },
+  {
+    type: "function",
+    name: "addSellerRole",
+    inputs: [
+      {
+        name: "_sellerRole",
+        type: "address",
+        internalType: "address"
+      }
+    ],
+    outputs: [],
+    stateMutability: "nonpayable"
+  }
 ] as const

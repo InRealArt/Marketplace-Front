@@ -13,9 +13,10 @@ import { WagmiProvider, createConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createPublicClient, http } from "viem";
+import { Address, createPublicClient, createWalletClient, custom, http } from "viem";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import { privateKeyToAccount } from "viem/accounts";
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? "";
 
@@ -54,6 +55,16 @@ export const publicClient = createPublicClient({
   chain: sepolia,
   transport: http(),
 })
+
+
+const account = privateKeyToAccount(process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPKACE as Address) 
+ 
+export const walletSuperAdminMarketplace = createWalletClient({
+  account,
+  chain: sepolia,
+  transport: custom(window.ethereum)
+})
+
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);

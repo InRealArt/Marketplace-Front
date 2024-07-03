@@ -26,15 +26,12 @@ async function getNftsByStatus(status: ResourceNftStatuses[]) {
     return nfts
 }
 
-async function updateNft(data: Pick<NftType, 'owner' | 'transactionHash'>, id: NftId) {
+async function updateNft(data: Partial<NftType>, id: NftId) {
     const { owner, transactionHash } = data
     const nft = await prisma.resourceNft.update({
         where: {
             id
-        }, data: {
-            owner,
-            transactionHash,
-        }
+        }, data: data
     })
     return nft
 }

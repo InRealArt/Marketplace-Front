@@ -9,7 +9,7 @@ import { setCollections } from '@/redux/reducers/collections/reducer'
 import { getCollections } from '@/redux/reducers/collections/selectors'
 import { setNfts } from '@/redux/reducers/nfts/reducer'
 import { getNfts, getNftsByArtist } from '@/redux/reducers/nfts/selectors'
-import { ArtistId } from '@/types'
+import { ArtistId, NftType } from '@/types'
 import { IraIERC721Abi } from '@/web3/IraIERC721Abi'
 import { ResourceNftStatuses } from '@prisma/client'
 import { useEffect } from 'react'
@@ -25,12 +25,12 @@ const useFetchData = (artistId?: ArtistId) => {
   const galleries = useAppSelector((state) => getGalleries(state))
 
   const collections = useAppSelector((state) => getCollections(state))
-  const nftsByArtist = useAppSelector((state) => getNftsByArtist(state, artistId || 0))
+  const nftsByArtist = useAppSelector((state) => getNftsByArtist(state, artistId || 0)) 
 
   const dispatch = useAppDispatch()
 
   const fetchNfts = async () => {
-    const nfts = await getNftsByStatus([ResourceNftStatuses.LISTED])
+    const nfts = await getNftsByStatus([ResourceNftStatuses.LISTED, ResourceNftStatuses.SOLD])
     // await Promise.all(nfts.map(async (nft) => {
     //   // TODO update nft owner when is sold - add purchase hash + update status to SOLD
     //   const contractAddress = collections.find(collection => collection.id === nft?.collectionId)?.contractAddress as Address

@@ -13,8 +13,10 @@ import { createOrder } from '@/lib/orders';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { useAppSelector } from '@/redux/hooks';
 import { updateNft } from '@/lib/nfts';
+import { ResourceNftStatuses } from '@prisma/client';
+import Sell from '../Sell/Sell';
 
-interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
+export interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
   showBuyModal: boolean;
   hide: () => void;
   buy: (() => void) | { payload: boolean; type: "modals/setLoginModalDisplay"; } | undefined;
@@ -72,7 +74,7 @@ const BuyModalContent = ({
   )
 };
 
-const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, contractAddress }: BuyModalProps) => (
+const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, contractAddress, id }: BuyModalProps) => (
   <div className="BuyModal BuyModal--successful">
     <p className="BuyModal__description">
     Congratulations, the artwork is now yours. We will contact you as soon as possible to arrange the delivery date of the artwork. You can also view and trade it from your wallet in the purchased NFTs.
@@ -85,18 +87,23 @@ const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, co
       }
     </div>
     <div className="BuyModal__buttons">
-      <Button
+      {/*<Button
         action={hide}
         text={'Terminer'}
         additionalClassName="gold"
-      />
-      {tokenId && <a target='_blank' rel='noreferrer' href={getOpenSeaURL(tokenId, contractAddress)} >
-        <Button
-          action={hide}
-          text={'Voir mon NFT sur Opensea'}
-          additionalClassName="purple"
-        />
-      </a>}
+      />*/}
+      {tokenId && 
+        <div>
+          <a target='_blank' rel='noreferrer' href={getOpenSeaURL(tokenId, contractAddress)} >
+            <Button
+              action={hide}
+              text={'Voir mon NFT sur Opensea'}
+              additionalClassName="purple"
+            />
+          </a>
+          <Sell id={id} tokenId={tokenId} contractAddress={contractAddress}/>
+        </div>
+      }
     </div>
   </div>
 );
@@ -115,7 +122,8 @@ const BuyModal = (props: BuyModalProps) => {
           })
           await updateNft({
             transactionHash: props.hash,
-            owner: address
+            owner: address,
+            status: ResourceNftStatuses.SOLD
           }, props.id as number)
         }
         catch (err) {

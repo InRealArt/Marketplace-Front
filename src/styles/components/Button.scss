@@ -33,6 +33,10 @@
   }
   &--purple {
     background-color: $buttonPurple;
+    &--marginTop {
+      background-color: $buttonPurple;
+      margin-top: 20px;
+    }
   }
   &--blur {
     padding: 13px 15px;
