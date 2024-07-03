@@ -3,6 +3,5 @@ const generateRandomFiveDigitNumber = (): number => {
 }
 
 export const getImageFromUri = (uri: string) => {
-  const cacheBuster = generateRandomFiveDigitNumber()
-  return `${process.env.NEXT_PUBLIC_PINATA_URL}/ipfs/${uri}?cache_buster=${cacheBuster}`
+  return `${process.env.NEXT_PUBLIC_PINATA_URL}/ipfs/${uri}`
 }
