@@ -120,10 +120,12 @@ const BuyModal = (props: BuyModalProps) => {
             userId: user.infos?.id as string,
             nftId: props.id as number
           })
+          console.log(`UPDATE Nft id ${props.id} after purchase`)
           await updateNft({
             transactionHash: props.hash,
             owner: address,
-            status: ResourceNftStatuses.SOLD
+            status: ResourceNftStatuses.SOLD,
+            purchasedOnce: true
           }, props.id as number)
         }
         catch (err) {

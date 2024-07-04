@@ -46,6 +46,7 @@ export interface NftType {
   owner?: string | null
   transactionHash?: string | null
   mockups?: string[]
+  purchasedOnce?: boolean | null
 }
 
 export interface OrderType {

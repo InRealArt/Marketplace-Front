@@ -54,6 +54,7 @@ model ResourceNft {
   owner           String?
   transactionHash String?
   tags            String[]
+  purchasedOnce   Boolean?            @default(false)
   Order           Order[]
   collection      Collection          @relation(fields: [collectionId], references: [id])
 

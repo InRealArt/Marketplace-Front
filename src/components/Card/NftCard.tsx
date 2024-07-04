@@ -31,6 +31,8 @@ import { getArtistByNft } from '@/redux/reducers/artists/selectors';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
 import { getImageFromUri } from '@/utils/getImageFromUri';
+import { ResourceNftStatuses } from '@prisma/client';
+import { updateNft } from '@/lib/nfts';
 
 interface NftCardProps {
   nft: NftType;
@@ -56,12 +58,8 @@ const NftCard = ({ nft }: NftCardProps) => {
     args: [BigInt(nft?.itemId || 0)]
   });
 
-  const { data: isSold } = useReadContract({
-    abi: marketplaceAbi,
-    address: marketplaceAddress,
-    functionName: "isSold",
-    args: [BigInt(nft?.itemId || 0)]
-  });
+  const isSold = (nft.status === ResourceNftStatuses.SOLD)
+  //console.log(`Nft tokenId ${nft.tokenId} is sold : ${isSold}`)
 
   const { data: ownerOf } = useReadContract({
     abi: IraIERC721Abi,
@@ -130,8 +128,9 @@ const NftCard = ({ nft }: NftCardProps) => {
             <Link className="NftCard__title" href={`/nfts/${nft.id}`}>
               {name}
             </Link>
+            <span className="NftCard__title">#{nft.tokenId}</span>
           </div>
-          <div className="NftCard__price">
+          <div className="NftCard__price">  
             <Image
               className=""
               priority={true}

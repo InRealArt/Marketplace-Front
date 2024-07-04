@@ -26,6 +26,21 @@ async function getNftsByStatus(status: ResourceNftStatuses[]) {
     return nfts
 }
 
+async function getNftsByStatusAndPurchasedOnce(status: ResourceNftStatuses[], purchasedOnce: boolean) {
+    let nfts: NftType[] = await prisma.resourceNft.findMany({
+        where: {
+            status: { in: status },
+            purchasedOnce: purchasedOnce
+        },
+        orderBy: [
+            {
+              id: 'asc'
+            }
+          ]
+    })
+    return nfts
+}
+
 async function updateNft(data: Partial<NftType>, id: NftId) {
     const { owner, transactionHash } = data
     const nft = await prisma.resourceNft.update({
@@ -36,4 +51,4 @@ async function updateNft(data: Partial<NftType>, id: NftId) {
     return nft
 }
 
-export { getNftsByStatus, getNftById, updateNft }
+export { getNftsByStatus, getNftById, updateNft, getNftsByStatusAndPurchasedOnce }

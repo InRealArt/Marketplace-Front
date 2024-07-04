@@ -1,129 +1,225 @@
-'use client'
 import React, { useEffect, useState } from 'react'
 import { Input } from '../ui/input'
 import Button from '../Button/Button'
 import { BuyModalProps } from '../Modal/BuyModal'
 // BLOCKCHAIN
-import { marketplaceAddress } from '@/utils/constants';
-import { toast } from 'sonner';
+import { marketplaceAddress } from '@/utils/constants'
+import { toast } from 'sonner'
 import { ResourceNftStatuses} from "@prisma/client"
 import {
   useWaitForTransactionReceipt,
   useAccount,
   useWriteContract,
   useReadContract,
-} from 'wagmi';
+} from 'wagmi'
 import { useAddRecentTransaction } from '@rainbow-me/rainbowkit'
-import { Abi, Address, WriteContractParameters, parseEther } from 'viem'
+import { Abi, Address, WalletClient, WriteContractParameters, parseEther } from 'viem'
 import { marketplaceAbi } from '@/web3/IraMarketplaceAbi'
-import { useAppSelector } from '@/redux/hooks'
-import { publicClient, walletSuperAdminMarketplace } from '@/app/providers'
+
 import { privateKeyToAccount } from 'viem/accounts'
 import { IraIERC721Abi } from '@/web3/IraIERC721Abi'
-import { updateNft } from '@/lib/nfts';
+import { updateNft } from '@/lib/nfts'
+import { sepolia } from "wagmi/chains"
+import {
+  http,
+  type Hash,
+  type TransactionReceipt,
+  createPublicClient,
+  createWalletClient,
+  custom,
+  keccak256, toBytes
+} from 'viem'
 
 interface SellProps extends Partial<BuyModalProps> {
   
 }
 
+const publicClient = createPublicClient({
+  chain: sepolia,
+  transport: http(),
+})
+
+const SELLER_ROLE = keccak256(toBytes("SELLER_ROLE"));
+
 const Sell = ({id, tokenId, contractAddress} : SellProps) => {
     //------------------------------------------------ WEB3 state vars
-    const [newPrice, setNewPrice] = useState<string>('')
-    const { data: hash, writeContract, error, isError } = useWriteContract();
-      // Use the useWaitForTransactionReceipt hook to wait for the transaction to be mined and return loading and success states
-    const { isLoading, isSuccess } = useWaitForTransactionReceipt({
-        hash,
-    });
-    const addRecentTransaction = useAddRecentTransaction();
+    const [newPrice, setNewPrice]         = useState<string>('')
+    const [hashApproval, setHashApproval] = useState<Hash>()
+    const [hash, setHash]                 = useState<Hash>()
+    const [receipt, setReceipt]           = useState<TransactionReceipt>()
+    const [isApproving, setIsApproving]   = useState(false)
+    const [isApproved, setIsApproved]     = useState(false)
+    const [isSeller, setIsSeller]         = useState(false);
+    const { isConnected, address: userAddress } = useAccount()
 
-    const { isConnected, address } = useAccount();
+    const [walletClient, setWalletClient] = useState<WalletClient>();
+
+    useEffect(() => {
+      if (typeof window !== 'undefined' && window.ethereum) {
+        const walletClient = createWalletClient({
+          chain: sepolia,
+          transport: custom(window.ethereum),
+        });
+        setWalletClient(walletClient);
+      }
+    }, []);
+
+    // useEffect pour vérifier si l'utilisateur qui vend son NFT a bien le role de SELLER
+    useEffect(() => {
+      if (!walletClient) return
+
+      const checkAndGrantSellerRole = async () => {
+        // Vérifiez si l'utilisateur a déjà le rôle de SELLER
+        const hasRole = await publicClient.readContract({
+          address: marketplaceAddress,
+          abi: marketplaceAbi,
+          functionName: 'hasRole',
+          args: [SELLER_ROLE, userAddress as Address],
+        })
+        console.log(`${userAddress} hasRole SELLER : ${hasRole}`)
+
+        if (hasRole) {
+          setIsSeller(true);
+          return
+        }
+
+        console.log('PRIVATE KEY ADMIN : ', process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPLACE)
+        // Utilisez le walletClient de l'admin pour accorder le rôle de SELLER
+        const adminAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPLACE}` as Address);
+        const adminClient = createWalletClient({
+          chain: sepolia,
+          transport: http(), 
+          account: adminAccount,
+        });
+
+        // Ajoutez cette vérification avant d'utiliser adminClient
+        if (!adminClient) {
+          console.error('Admin client not initialized');
+          return;
+        }
+
+        await adminClient.writeContract({
+          address: marketplaceAddress,
+          abi: marketplaceAbi,
+          functionName: 'addSellerRole',
+          args: [userAddress as Address],
+          account: adminAccount,
+        });
+
+
+        // await publicClient.waitForTransactionReceipt({ hash })
+        setIsSeller(true);
+      };
+
+      if (walletClient && userAddress && !isSeller) {
+        checkAndGrantSellerRole().catch((err) => {
+          console.error('Error granting SELLER role:', err)
+          toast.error('Failed to grant SELLER role')
+        })
+      }
+    }, [walletClient, userAddress, isSeller])
 
     const { data: ownerNft } = useReadContract({
       abi: IraIERC721Abi,
       address: contractAddress as Address,
       functionName: "ownerOf",
       args: [BigInt(tokenId || 0)]
-    });
+    })
 
-
-    const listNft = async () => {
-        //alert('NEW PRICE : ' + newPrice + '\n Addresse collection : ' +contractAddress +'\n TokenId = ' + tokenId)  
-        //console.log('TokenId to resell : ', tokenId)
-        if (tokenId) {
-          console.log('OWNER OF NFT : ', ownerNft)
-          console.log('Adress connected : ', address)
-          if (ownerNft != address) {
-            toast.error('You are not the owner of the NFT')
-          }
-          //TODO ??
-          //STEP 1 : The Super Admin of the MarketPlace must give SELLER_ROLE to owner of the NFT
-          /*
-          const { request } = await publicClient.simulateContract({
-            address: contractAddress as Address,
-            abi: marketplaceAbi,
-            functionName: 'addSellerRole',
-            args: [ownerNft as Address],
-            account: privateKeyToAccount(process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPKACE as Address)
-          })
-          await walletSuperAdminMarketplace.writeContract(request as WriteContractParameters<Abi>)
-          */
-          
-
-          //STEP 2 : The owner of the NFT can resell the NFT
-          const tokenId_ =  tokenId as number
-          writeContract({
-            address: marketplaceAddress,
-            abi: marketplaceAbi,
-            functionName: "listItem",
-            args: [
-              contractAddress as Address,
-              BigInt(tokenId_),
-              BigInt(Number(newPrice) * Math.pow(10, 18)),
-            ],
-          });
-    
-        }
-        else {
-
-        }
-    } 
-
-    useEffect(() => {
-      if (isSuccess) {
-        const updateNftToListedStatus = async () => {
-          try {
-            await updateNft({
-              transactionHash: hash,
-              owner: address,
-              status: ResourceNftStatuses.LISTED
-            }, id as number)
-          }
-          catch (err) {
-            console.error("Update NFT to LISTED status", err);
-          }
-        };
-        console.log(`Update NFT id ${id} with status LISTED`)
-        updateNftToListedStatus()
+    const handleApprove = async () => {
+      if (ownerNft != userAddress) {
+        toast.error(`You are not the owner of the tokenId ${tokenId}`)
+        return
       }
-    }, [isSuccess])
-
-    
-    // useEffect(() => {
-    //     if (isSuccess) {
-    //       toast.success('NFT has been listed for selling, congrats !');
-    //       if (hash) {
-    //         addRecentTransaction({ hash, description: 'Nft listing' });
-    //       }
-    //     }
-    //     if (isError) {
-    //       toast.error(`NFT has not been listed for selling :  ${error}`);
-    //     }
-    //   }, [isSuccess, isError]);
-    
-
+      console.log('Owner NFT | userAddress : ', `${ownerNft} | ${userAddress}`)
+      setIsApproving(true)
+      const collectionAddress = contractAddress as Address
+      const tokenId_ = tokenId as number
+      const { request } = await publicClient.simulateContract({
+        address: collectionAddress,
+        abi: IraIERC721Abi,
+        functionName: 'approve',
+        args: [
+          marketplaceAddress as Address,
+          BigInt(tokenId_),
+        ],
+        account: userAddress
+      })
       
+      const hashApproval = await walletClient?.writeContract(request)
+      
+      console.log('hashApproval : ', hashApproval)
+      setHashApproval(hashApproval)
+
+      // Attendre la fin de la transaction d'approbation
+      await publicClient.waitForTransactionReceipt({ hash: hashApproval as Address})
+      setIsApproved(true)
+      setIsApproving(false)
+    }
+
+    //----------------------------------------------------------
+    const updateNftToListedStatus = async (itemCount: number) => {
+      console.log(`Update NFT tokenId ${tokenId} to 'LISTED' status `)
+      
+      try {
+        await updateNft({
+          transactionHash: hash,
+          owner: marketplaceAddress,
+          status: ResourceNftStatuses.LISTED,
+          itemId: itemCount
+        }, id as number)
+      }
+      catch (err) {
+        console.error("Error Update NFT to LISTED status", err)
+      }
+    }
+
+    //STEP 1 : User must approve current smart contract (Marketplace) to send his tokenId to the address of the SC
+    const handleListNft = async () => {
+      if (!hashApproval) {
+        toast.error('You need to approve the transaction first')
+        return
+      }
+      if (ownerNft != userAddress) {
+        toast.error(`You are not the owner of the tokenId ${tokenId}`)
+      }
+      if (!isSeller) {
+        toast.error(`You must be granted by the ADMIN as a SELLER. Please contact the admin of the Marketplace`)
+      }
+      
+      const tokenId_ =  tokenId as number
+      
+      const { request } = await publicClient.simulateContract({
+        address: marketplaceAddress,
+        abi: marketplaceAbi,
+        functionName: 'listItem',
+        args: [
+          contractAddress as Address,
+          BigInt(tokenId_),
+          BigInt(Number(newPrice) * Math.pow(10, 18)),
+        ],
+        account: userAddress
+      })
+      const hash = await walletClient?.writeContract(request)
+      setHash(hash as Address)
+
+      // Appeler updateNftToListedStatus après la fin de handleListNft
+      const receipt = await publicClient.waitForTransactionReceipt({ hash: hash as `0x${string}` })
+      setReceipt(receipt)
+
+      // Lire le dernier itemCount depuis le smart contract
+      const itemCount = await publicClient.readContract({
+        address: marketplaceAddress,
+        abi: marketplaceAbi,
+        functionName: 'getItemCount',
+      })
+
+      // Update le record dans la table ResourceNft en mettant à jour le 
+      await updateNftToListedStatus(Number(itemCount))
+    }
+
     return (
-        <>
+        <div>
             <div className='BuyModal__inputSell'>{'Remettre en vente : '}</div>
             <Input
                 className='LoginModal__input'
@@ -132,12 +228,23 @@ const Sell = ({id, tokenId, contractAddress} : SellProps) => {
                 value={newPrice}
                 
             />
-            <Button
-                action={() => listNft()}
+             {!isApproved && (
+              <Button
+                action={handleApprove}
+                text={'Approuver'}
+                additionalClassName="purple--marginTop"
+                disabled={isApproving}
+              />
+            )}
+            {isApproved && (
+              <Button
+                action={handleListNft}
                 text={'Remettre en vente'}
                 additionalClassName="purple--marginTop"
-                />
-        </>
+              />
+            )}
+            
+        </div>
     )
 }
 

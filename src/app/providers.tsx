@@ -57,14 +57,6 @@ export const publicClient = createPublicClient({
 })
 
 
-const account = privateKeyToAccount(process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPKACE as Address) 
- 
-export const walletSuperAdminMarketplace = createWalletClient({
-  account,
-  chain: sepolia,
-  transport: custom(window.ethereum)
-})
-
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);

@@ -1,14 +1,14 @@
 
 import { fetchArtists } from '@/lib/artists'
 import { fetchCollections } from '@/lib/collections'
-import { getNftsByStatus } from '@/lib/nfts'
+import { getNftsByStatus, getNftsByStatusAndPurchasedOnce } from '@/lib/nfts'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { setArtists } from '@/redux/reducers/artists/reducer'
 import { getArtists, getGalleries } from '@/redux/reducers/artists/selectors'
 import { setCollections } from '@/redux/reducers/collections/reducer'
 import { getCollections } from '@/redux/reducers/collections/selectors'
-import { setNfts } from '@/redux/reducers/nfts/reducer'
-import { getNfts, getNftsByArtist } from '@/redux/reducers/nfts/selectors'
+import { setCommunautaryNfts, setNfts } from '@/redux/reducers/nfts/reducer'
+import { getCommunautaryNfts, getNfts, getNftsByArtist } from '@/redux/reducers/nfts/selectors'
 import { ArtistId, NftType } from '@/types'
 import { IraIERC721Abi } from '@/web3/IraIERC721Abi'
 import { ResourceNftStatuses } from '@prisma/client'
@@ -21,6 +21,7 @@ import { wagmiConfig } from '@/app/providers'
 const useFetchData = (artistId?: ArtistId) => {
   const { address, isConnected } = useAccount()
   const nfts = useAppSelector((state) => getNfts(state))
+  const communautaryNfts = useAppSelector((state) => getCommunautaryNfts(state))
   const artists = useAppSelector((state) => getArtists(state))
   const galleries = useAppSelector((state) => getGalleries(state))
 
@@ -30,25 +31,26 @@ const useFetchData = (artistId?: ArtistId) => {
   const dispatch = useAppDispatch()
 
   const fetchNfts = async () => {
-    const nfts = await getNftsByStatus([ResourceNftStatuses.LISTED, ResourceNftStatuses.SOLD])
-    // await Promise.all(nfts.map(async (nft) => {
-    //   // TODO update nft owner when is sold - add purchase hash + update status to SOLD
-    //   const contractAddress = collections.find(collection => collection.id === nft?.collectionId)?.contractAddress as Address
-    //   if (contractAddress && !nft.owner) {
-    //     const owner = await readContract(wagmiConfig, {
-    //       abi: IraIERC721Abi,
-    //       address: collections.find(collection => collection.id === nft?.collectionId)?.contractAddress as Address,
-    //       functionName: 'ownerOf',
-    //       args: [BigInt(nft?.tokenId || 0)]
-    //     })
-    //     if (isConnected && nft.id && (address === owner)) {
-    //       nft.isOwner = true
-    //     }
-    //   }
-    //   return null
-    // }));
+    //NFTs in the "IRA Testnet" tab
+    let nfts = await getNftsByStatus([ResourceNftStatuses.LISTED, ResourceNftStatuses.SOLD])
+    
+    nfts = nfts.filter((nft: any) => {
+      return (!nft.purchasedOnce || (nft.purchasedOnce && address == nft.owner))
+    })
+    // console.log('NFT count ', nfts.length)
     dispatch(setNfts(nfts));
   }
+
+  const fetchCommunautaryNfts = async () => {
+    //NFTs in the "Communautary Artworks" tab
+    let communautaryNfts = await getNftsByStatus([ResourceNftStatuses.LISTED, ResourceNftStatuses.SOLD])
+    communautaryNfts = communautaryNfts.filter((nft: any) => {
+      return nft.purchasedOnce
+    })
+    // console.log('communautaryNfts count ', communautaryNfts.length)
+    dispatch(setCommunautaryNfts(communautaryNfts));
+  }
+    
 
   const fetchArtistsData = async () => {
     const artists = await fetchArtists()
@@ -70,15 +72,19 @@ const useFetchData = (artistId?: ArtistId) => {
     if (nfts.length === 0) {      
       fetchNfts()
     }
+    if (communautaryNfts.length === 0) {      
+      fetchCommunautaryNfts()
+    }
 
-  }, [[artists, nfts, collections]])
+  }, [[artists, nfts, communautaryNfts, collections]])
 
   const refetch = () => {
     fetchCollectionsData()
     fetchNfts()
+    fetchCommunautaryNfts()
   }
 
-  return { artists, nfts, collections, nftsByArtist, galleries, refetch }
+  return { artists, nfts, communautaryNfts, collections, nftsByArtist, galleries, refetch }
 }
 
 export default useFetchData

@@ -242,5 +242,42 @@ export const marketplaceAbi = [
     ],
     outputs: [],
     stateMutability: "nonpayable"
+  },
+  {
+    type: "function",
+    name: "getItemCount",
+    inputs: [],
+    outputs: [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    stateMutability: "view"
+  },
+  {
+    type: "function",
+    name: "hasRole",
+    inputs: [
+      {
+        name: "role",
+        type: "bytes32",
+        internalType: "bytes32"
+      },
+      {
+        name: "account",
+        type: "address",
+        internalType: "address"
+      }
+    ],
+    outputs: [
+      {
+        name: "",
+        type: "bool",
+        internalType: "bool"
+      }
+    ],
+    stateMutability: "view"
   }
 ] as const

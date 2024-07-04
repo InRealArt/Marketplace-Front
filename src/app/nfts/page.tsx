@@ -5,12 +5,12 @@ import useFetchData from '@/customHooks/useFetchData';
 
 const Nfts = () => {
   // const nftsByArtist = useAppSelector((state) => getNftsByArtist(state, 1)) // to implement filter by artist
-  const { nfts } = useFetchData()
+  const { nfts, communautaryNfts } = useFetchData()
 
   return (
     <main className="Nfts">
       <ListOfNfts
-        nav={[{ tab: 'Ira Artworks', list: nfts, context: 'nft' }, { tab: 'Communautary Artworks', list: [], context: 'nft' }]}
+        nav={[{ tab: 'Ira Artworks', list: nfts, context: 'nft' }, { tab: 'Communautary Artworks', list: communautaryNfts, context: 'nft' }]}
       />
     </main>
   );
