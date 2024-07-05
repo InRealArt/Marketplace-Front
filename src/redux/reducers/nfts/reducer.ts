@@ -21,17 +21,6 @@ export const nftsSlice = createSlice({
     }
 })
 
-export const communautaryNftsSlice = createSlice({
-    name: 'communautaryNfts',
-    initialState,
-    reducers: {
-        setCommunautaryNfts: (state, action: PayloadAction<NftType[]>) => {
-            state.list = action.payload
-        }
-    }
-})
-
 export const { setNfts } = nftsSlice.actions
-export const { setCommunautaryNfts } = communautaryNftsSlice.actions
 
 export default nftsSlice.reducer

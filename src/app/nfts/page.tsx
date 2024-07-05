@@ -2,10 +2,12 @@
 import React from 'react';
 import ListOfNfts from '@/components/List/ListOfNfts';
 import useFetchData from '@/customHooks/useFetchData';
+import { useAppSelector } from '@/redux/hooks';
+import { getCommunautaryNfts } from '@/redux/reducers/nfts/selectors';
 
 const Nfts = () => {
-  // const nftsByArtist = useAppSelector((state) => getNftsByArtist(state, 1)) // to implement filter by artist
-  const { nfts, communautaryNfts } = useFetchData()
+  const { nfts } = useFetchData()
+  const communautaryNfts = useAppSelector((state) => getCommunautaryNfts(state))
 
   return (
     <main className="Nfts">

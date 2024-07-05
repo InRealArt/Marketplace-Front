@@ -30,10 +30,6 @@ import {
   keccak256, toBytes
 } from 'viem'
 
-interface SellProps extends Partial<BuyModalProps> {
-  
-}
-
 const publicClient = createPublicClient({
   chain: sepolia,
   transport: http(),
@@ -41,7 +37,7 @@ const publicClient = createPublicClient({
 
 const SELLER_ROLE = keccak256(toBytes("SELLER_ROLE"));
 
-const Sell = ({id, tokenId, contractAddress} : SellProps) => {
+const Sell = ({id, tokenId, contractAddress} : Partial<BuyModalProps>) => {
     //------------------------------------------------ WEB3 state vars
     const [newPrice, setNewPrice]         = useState<string>('')
     const [hashApproval, setHashApproval] = useState<Hash>()
@@ -226,7 +222,6 @@ const Sell = ({id, tokenId, contractAddress} : SellProps) => {
                 placeholder="10 ETH"
                 onChange={(e) => setNewPrice(e?.target?.value)}
                 value={newPrice}
-                
             />
              {!isApproved && (
               <Button
