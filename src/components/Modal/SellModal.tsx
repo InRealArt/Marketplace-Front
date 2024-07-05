@@ -8,10 +8,6 @@ import { getOpenSeaURL } from '@/utils/getOpenSeaURL';
 import { Address, formatUnits } from 'viem';
 import Image from 'next/image';
 import { useEthPrice } from '@/customHooks/getETHPrice';
-import { useAccount, useBalance } from 'wagmi';
-import { createOrder } from '@/lib/orders';
-import { getUserInfos } from '@/redux/reducers/user/selectors';
-import { useAppSelector } from '@/redux/hooks';
 
 interface SellModalProps extends Partial<NftType>, Partial<ArtistType> {
   showSellModal: boolean;

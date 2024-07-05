@@ -391,6 +391,18 @@ model users {
   @@schema("auth")
 }
 
+model Transaction {
+  id              Int       @id @default(autoincrement())
+  tokenId         Int?
+  functionName    String?
+  transactionHash String?   @unique(map: "Transaction_txHash_key")
+  from            String
+  to              String
+  created_at      DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@schema("public")
+}
+
 enum ResourceTypes {
   IMAGE
   VIDEO
