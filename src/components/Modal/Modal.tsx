@@ -23,7 +23,7 @@ const Modal = ({ children, title, show, hide, additionalClassName, disabledClosi
   if (!show) return null;
   return (
     <>
-      <div className={`Modal__backdrop Modal__backdrop--${additionalClassName}`} onClick={hide} />
+      <div className={`Modal__backdrop Modal__backdrop--${additionalClassName}`} onClick={!disabledClosing ? hide : () => {}} />
       <div className={`Modal Modal--${additionalClassName}`}>
         <header className="Modal__header">
           <h1 className="Modal__title">{title}</h1>

@@ -19,13 +19,14 @@ export const nftsSlice = createSlice({
         setNfts: (state, action: PayloadAction<NftType[]>) => {
             state.list = action.payload
         },
-        setNftStatusById: (state, action: PayloadAction<{ nftId: NftId, status: ResourceNftStatuses }>) => {
+        updateNftById: (state, action: PayloadAction<{ nftId: NftId, status: ResourceNftStatuses, purchaseOnce: boolean }>) => {
             const index = state.list.findIndex(obj => obj.id == action.payload.nftId);
             state.list[index].status = action.payload.status
+            state.list[index].purchasedOnce = action.payload.purchaseOnce
         }
     }
 })
 
-export const { setNfts, setNftStatusById } = nftsSlice.actions
+export const { setNfts, updateNftById } = nftsSlice.actions
 
 export default nftsSlice.reducer

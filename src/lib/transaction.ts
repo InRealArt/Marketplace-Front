@@ -14,6 +14,8 @@ export interface TransactionData {
 }
 
 async function createTransactionData(data: TransactionData) {
+    console.log("createTransactionData", data);
+    
     const transaction = await prisma.transaction.create({
         data
     })

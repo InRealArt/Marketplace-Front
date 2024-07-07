@@ -33,6 +33,7 @@ import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import { ResourceNftStatuses } from '@prisma/client';
 import { updateNft } from '@/lib/nfts';
+import SellModal from '../Modal/SellModal';
 
 interface NftCardProps {
   nft: NftType;
@@ -41,6 +42,7 @@ interface NftCardProps {
 const NftCard = ({ nft }: NftCardProps) => {
   const { itemId, tokenId, collectionId, name } = nft;
   const [showBuyModal, setShowBuyModal] = useState<boolean>(false);
+  const [showSellModal, setShowSellModal] = useState<boolean>(false);
   const [showNftModal, setShowNftModal] = useState<boolean>(false);
 
   const { isConnected, address } = useAccount();
@@ -73,7 +75,6 @@ const NftCard = ({ nft }: NftCardProps) => {
     functionName: "ownerOf",
     args: [BigInt(nft?.tokenId || 0)]
   });
-  const nftPrice = Number(nftInfo?.price) * Math.pow(10, -18) < 0.001 ? 0.001 : Number(nftInfo?.price) * Math.pow(10, -18)
 
   const purchaseItem = () => {
     if (itemId && tokenId && collection && nftInfo?.price) {
@@ -111,7 +112,7 @@ const NftCard = ({ nft }: NftCardProps) => {
   const isNftSeller = isConnected && nftInfo?.seller === address
 
   if (!nft.tokenId || !collection?.contractAddress || !nftInfo) return null
-  const textButton = isSold ? "SOLD" : (isNftSeller? "Cancel sell" : "Buy now")
+  const textButton = isSold ? "SOLD" : (isNftSeller ? "Cancel sell" : "Buy now")
 
   return (
     <div className="NftCard">
@@ -132,7 +133,7 @@ const NftCard = ({ nft }: NftCardProps) => {
             <Link className="NftCard__title" href={`/nfts/${nft.id}`}>
               {name}
             </Link>
-            <span className="NftCard__title">#{nft.tokenId}</span>
+            {/* <span className="NftCard__title">#{nft.tokenId}</span> */}
           </div>
           <div className="NftCard__price">
             <Image
@@ -150,18 +151,25 @@ const NftCard = ({ nft }: NftCardProps) => {
         {(isNftOwned) ? (
           <Button
             action={() => {
-              setShowBuyModal(true)
-              setShowNftModal(true)
+              setShowSellModal(true)
             }}
-            text="View my NFT"
+            text="Sell my RWA"
             additionalClassName="purple"
           />
-        ) : <Button
-          action={() => setShowBuyModal(true)}
+        ) : isNftSeller ? <Button
+          action={() => {
+            setShowSellModal(true)
+            setShowNftModal(true)
+          }}
           text={`${textButton}`}
-          additionalClassName={`${isSold ? "purple" : "gold"}`}
-          disabled={isSold || isNftSeller}
-        />}
+          additionalClassName="purple"
+        /> :
+          <Button
+            action={() => setShowBuyModal(true)}
+            text={`${textButton}`}
+            additionalClassName={`${isSold ? "purple" : "gold"}`}
+            disabled={isSold}
+          />}
       </div>
 
 
@@ -175,9 +183,22 @@ const NftCard = ({ nft }: NftCardProps) => {
         showBuyModal={showBuyModal}
         hide={() => setShowBuyModal(false)}
         isSuccess={isSuccess}
-        showNftModal={showNftModal}
+        showNftModal={false}
         contractAddress={collection?.contractAddress as Address}
         hash={hash || '0x'}
+      />
+
+      <SellModal
+        {...nft}
+        pseudo={artist?.pseudo}
+        artistId={artist?.id}
+        price={nftTotalPrice_}
+        isSelling={isLoading}
+        showSellModal={showSellModal}
+        hide={() => setShowSellModal(false)}
+        isSuccess={isSuccess}
+        showNftModal={showNftModal}
+        contractAddress={collection?.contractAddress as Address}
       />
     </div>
   );

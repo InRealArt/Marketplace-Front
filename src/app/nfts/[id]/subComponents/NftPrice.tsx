@@ -27,6 +27,8 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { getArtistByNft } from '@/redux/reducers/artists/selectors';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
+import SellModal from '@/components/Modal/SellModal';
+import { ResourceNftStatuses } from '@prisma/client';
 
 interface NftPriceProps {
   nft: Partial<NftType>
@@ -38,6 +40,9 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
   const { price, itemId, tokenId, name } = nft;
   const [showBuyModal, setShowBuyModal] = useState<boolean>(false);
   const [showNftModal, setShowNftModal] = useState<boolean>(false);
+  const [showNftSellModal, setShowNftSellModal] = useState<boolean>(false);
+  const [showSellModal, setShowSellModal] = useState<boolean>(false);
+
   const artist = useAppSelector((state) => getArtistByNft(state, nft.collectionId || 0))
   const user = useAppSelector((state) => getUserInfos(state))
 
@@ -95,7 +100,17 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
     args: [BigInt(nft?.tokenId || 0)]
   });
 
+  const { data: nftInfo } = useReadContract({
+    abi: marketplaceAbi,
+    address: marketplaceAddress,
+    functionName: "getItem",
+    args: [BigInt(nft?.itemId || 0)]
+  });
+
   const isNftOwned = isConnected && ownerOf === address
+  const isNftSeller = isConnected && nftInfo?.seller === address
+  const isSold = (nft.status === ResourceNftStatuses.SOLD) || nftInfo?.sold
+  const textButton = isSold ? "SOLD" : (isNftSeller ? "Cancel sell" : "Buy now")
 
   return (
     <div className="Nft__price">
@@ -114,25 +129,25 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
         {(isNftOwned) ? (
           <Button
             action={() => {
-              setShowBuyModal(true)
-              setShowNftModal(true)
+              setShowSellModal(true)
             }}
-            text="View my NFT"
+            text="Sell my RWA"
             additionalClassName="purple"
           />
-        ) : <Button
-          action={() => setShowBuyModal(true)}
-          text={`${sold ? "SOLD" : "Buy now"}`}
-          additionalClassName={`${sold ? "purple" : "gold"}`}
-          disabled // ={sold || isError}
-        />
-        }
-        {(isNftOwned && sold) ? <Button
-          action={() => {}}
-          text="Sell my NFT"
-          disabled
-          additionalClassName="gold"
-        /> : null}
+        ) : isNftSeller ? <Button
+          action={() => {
+            setShowSellModal(true)
+            setShowNftModal(true)
+          }}
+          text={`${textButton}`}
+          additionalClassName="purple"
+        /> :
+          <Button
+            action={() => setShowBuyModal(true)}
+            text={`${textButton}`}
+            additionalClassName={`${isSold ? "purple" : "gold"}`}
+            disabled={isSold}
+          />}
         <BuyModal
           {...nft}
           pseudo={artist?.pseudo}
@@ -146,6 +161,18 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
           showNftModal={showNftModal}
           contractAddress={contractAddress}
           hash={hash as Address}
+        />
+        <SellModal
+          {...nft}
+          pseudo={artist?.pseudo}
+          artistId={artist?.id}
+          price={nftTotalPrice_}
+          isSelling={isLoading}
+          showSellModal={showSellModal}
+          hide={() => setShowSellModal(false)}
+          isSuccess={isSuccess}
+          showNftModal={showNftModal}
+          contractAddress={contractAddress}
         />
       </div>
     </div>

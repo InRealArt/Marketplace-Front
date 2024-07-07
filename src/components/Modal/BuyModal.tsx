@@ -5,20 +5,18 @@ import { ArtistId, ArtistType, NftId, NftType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import Link from 'next/link';
 import { getOpenSeaURL } from '@/utils/getOpenSeaURL';
-import { Address, formatUnits } from 'viem';
+import { Address } from 'viem';
 import Image from 'next/image';
 import { useEthPrice } from '@/customHooks/getETHPrice';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { createOrder } from '@/lib/orders';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { useAppSelector } from '@/redux/hooks';
 import { updateNft } from '@/lib/nfts';
 import { ResourceNftStatuses } from '@prisma/client';
-import Sell from '../Sell/Sell';
-import { setNftStatusById, setNfts } from '@/redux/reducers/nfts/reducer';
+import {  updateNftById } from '@/redux/reducers/nfts/reducer';
 import { useDispatch } from 'react-redux';
 import { TransactionData, createTransactionData } from '@/lib/transaction';
-import { publicClient } from '@/app/providers';
 import { marketplaceAddress } from '@/utils/constants';
 
 
@@ -86,6 +84,7 @@ const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, co
   <div className="BuyModal BuyModal--successful">
     <p className="BuyModal__description">
       Congratulations, the artwork is now yours. We will contact you as soon as possible to arrange the delivery date of the artwork. You can also view and trade it from your wallet in the purchased NFTs.
+      Your artwork will now appear in the &quot;Communautary&quot; tab !
     </p>
     <div className="BuyModal__flex">
       {(imageUri && certificateUri) && <>
@@ -109,7 +108,6 @@ const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, co
               additionalClassName="purple"
             />
           </a>
-          <Sell id={id} tokenId={tokenId} contractAddress={contractAddress} />
         </div>
       }
     </div>
@@ -122,9 +120,12 @@ const BuyModal = (props: BuyModalProps) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+
     if (props.isSuccess && user.infos?.id && props.id) {
       const createRwaOrderAndUpdateNft = async () => {
         try {
+          console.log("PROPS WHEN SUCCESS", props);
+          
           /*
           const txReceipt = await publicClient.getTransactionReceipt({ hash: props.hash })
           
@@ -164,7 +165,7 @@ const BuyModal = (props: BuyModalProps) => {
             status: ResourceNftStatuses.SOLD,
             purchasedOnce: true
           }, props.id as number)
-          dispatch(setNftStatusById({ nftId: props.id as NftId, status: ResourceNftStatuses.SOLD }))
+          dispatch(updateNftById({ nftId: props.id as NftId, status: ResourceNftStatuses.SOLD, purchaseOnce: false }))
         }
         catch (err) {
           console.error("Create Order", err);
