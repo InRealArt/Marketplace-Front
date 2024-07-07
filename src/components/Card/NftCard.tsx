@@ -82,7 +82,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         abi: marketplaceAbi,
         functionName: "purchaseItem",
         args: [BigInt(itemId)],
-        value: parseEther(nftPrice.toString())
+        value: parseEther(nftTotalPrice_.toString())
       });
     }
   }
@@ -169,7 +169,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         {...nft}
         pseudo={artist?.pseudo}
         artistId={artist?.id}
-        price={nftPrice}
+        price={nftTotalPrice_}
         buy={!isConnected ? openConnectModal : !user.infos ? () => dispatch(setLoginModalDisplay(true)) : () => purchaseItem()}
         isBuying={isLoading}
         showBuyModal={showBuyModal}

@@ -50,6 +50,14 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
 
   const nftPrice = Number(price) * Math.pow(10, -18) < 0.001 ? 0.001 : Number(price) * Math.pow(10, -18)
 
+  const { data: nftTotalPrice } = useReadContract({
+    abi: marketplaceAbi,
+    address: marketplaceAddress,
+    functionName: "getTotalPrice",
+    args: [BigInt(nft?.itemId || 0)]
+  });
+  const nftTotalPrice_ = Number(nftTotalPrice) * Math.pow(10, -18) < 0.001 ? 0.001 : Number(nftTotalPrice) * Math.pow(10, -18)
+
   const purchaseItem = () => {
     if (itemId && tokenId && price) {
       writeContract({
@@ -57,7 +65,7 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
         abi: marketplaceAbi,
         functionName: "purchaseItem",
         args: [BigInt(itemId)],
-        value: parseEther(nftPrice.toString())
+        value: parseEther(nftTotalPrice_.toString())
       });
     }
   }
@@ -100,7 +108,7 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
           width={34}
           height={34}
         />
-        <p className="Nft__ethPrice">{nftPrice} ETH</p>
+        <p className="Nft__ethPrice">{nftTotalPrice_} ETH</p>
       </div>
       <div className="Nft__price__btns">
         {(isNftOwned) ? (
@@ -129,7 +137,7 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
           {...nft}
           pseudo={artist?.pseudo}
           artistId={artist?.id}
-          price={nftPrice || 0}
+          price={nftTotalPrice_ || 0}
           buy={!isConnected ? openConnectModal : !user.infos ? () => dispatch(setLoginModalDisplay(true)) : () => purchaseItem()}
           isBuying={isLoading}
           showBuyModal={showBuyModal}
