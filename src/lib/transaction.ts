@@ -1,12 +1,14 @@
 'use server'
+import { Address } from "viem"
 import prisma from "./prisma"
 
-interface TransactionData {
+export interface TransactionData {
     tokenId: number
     functionName: string
     transactionHash: string
-    from: string
-    to: string
+    from: Address
+    to: Address
+    price: number
 }
 
 async function createTransactionData(data: TransactionData) {

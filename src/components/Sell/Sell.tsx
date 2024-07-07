@@ -24,16 +24,11 @@ import {
   http,
   type Hash,
   type TransactionReceipt,
-  createPublicClient,
   createWalletClient,
   custom,
   keccak256, toBytes
 } from 'viem'
-
-const publicClient = createPublicClient({
-  chain: sepolia,
-  transport: http(),
-})
+import { publicClient } from '@/app/providers'
 
 const SELLER_ROLE = keccak256(toBytes("SELLER_ROLE"));
 

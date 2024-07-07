@@ -58,6 +58,13 @@ const NftCard = ({ nft }: NftCardProps) => {
     args: [BigInt(nft?.itemId || 0)]
   });
 
+  const { data: nftTotalPrice } = useReadContract({
+    abi: marketplaceAbi,
+    address: marketplaceAddress,
+    functionName: "getTotalPrice",
+    args: [BigInt(nft?.itemId || 0)]
+  });
+  const nftTotalPrice_ = Number(nftTotalPrice) * Math.pow(10, -18) < 0.001 ? 0.001 : Number(nftTotalPrice) * Math.pow(10, -18)
   const isSold = (nft.status === ResourceNftStatuses.SOLD) || nftInfo?.sold
 
   const { data: ownerOf } = useReadContract({
@@ -136,7 +143,7 @@ const NftCard = ({ nft }: NftCardProps) => {
               width={60}
               height={60}
             />{' '}
-            {nftPrice}
+            {nftTotalPrice_}
           </div>
 
         </div>

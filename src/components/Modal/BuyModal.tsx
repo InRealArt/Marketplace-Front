@@ -17,6 +17,10 @@ import { ResourceNftStatuses } from '@prisma/client';
 import Sell from '../Sell/Sell';
 import { setNftStatusById, setNfts } from '@/redux/reducers/nfts/reducer';
 import { useDispatch } from 'react-redux';
+import { TransactionData, createTransactionData } from '@/lib/transaction';
+import { publicClient } from '@/app/providers';
+import { marketplaceAddress } from '@/utils/constants';
+
 
 export interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
   showBuyModal: boolean;
@@ -121,6 +125,27 @@ const BuyModal = (props: BuyModalProps) => {
     if (props.isSuccess && user.infos?.id && props.id) {
       const createRwaOrderAndUpdateNft = async () => {
         try {
+          const txReceipt = await publicClient.getTransactionReceipt({ hash: props.hash })
+          
+          const hexDataEventBought = txReceipt.logs[1].data
+          const itemId = parseInt(hexDataEventBought.slice(2, 66), 16)
+          console.log('itemId : ', itemId)
+          const tokenId = parseInt(hexDataEventBought.slice(66, 130), 16)
+          console.log('tokenId : ', tokenId)
+          const price = parseInt(hexDataEventBought.slice(130, 194), 16) 
+          console.log('tokenId : ', price)
+          
+          //TODO : Do not use hardcoded number for decimals
+          const priceInEther = formatUnits(BigInt(price), 18)
+          const transactionData: TransactionData = {
+            tokenId: tokenId,
+            functionName: 'purchaseItem',
+            from: address as Address,
+            to: marketplaceAddress,
+            price: Number(priceInEther),
+            transactionHash: props.hash
+          }
+          await createTransactionData(transactionData)
           await createOrder({
             userId: user.infos?.id as string,
             nftId: props.id as number
