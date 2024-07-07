@@ -8,6 +8,8 @@ export interface TransactionData {
     transactionHash: string
     from: Address
     to: Address
+    transferFrom: Address
+    transferTo: Address
     price: number
 }
 

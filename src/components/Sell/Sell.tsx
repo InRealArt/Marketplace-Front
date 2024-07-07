@@ -29,6 +29,7 @@ import {
   keccak256, toBytes
 } from 'viem'
 import { publicClient } from '@/app/providers'
+import { createTransactionData, TransactionData } from '@/lib/transaction'
 
 const SELLER_ROLE = keccak256(toBytes("SELLER_ROLE"));
 
@@ -205,8 +206,22 @@ const Sell = ({id, tokenId, contractAddress} : Partial<BuyModalProps>) => {
         functionName: 'getItemCount',
       })
 
-      // Update le record dans la table ResourceNft en mettant à jour le 
+      // Update le record dans la table ResourceNft 
       await updateNftToListedStatus(Number(itemCount))
+
+      //Dernière étape : Créer un enregistrement dans la table 'Transaction'
+      const transactionData: TransactionData = {
+        tokenId: tokenId_,
+        functionName: 'listItem',
+        from: userAddress as Address,
+        to: marketplaceAddress,
+        transferFrom: userAddress as Address,
+        transferTo: marketplaceAddress,
+        price: Number(newPrice),
+        transactionHash: hash as Address
+      }
+      await createTransactionData(transactionData)
+
     }
 
     return (

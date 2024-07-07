@@ -137,20 +137,26 @@ const BuyModal = (props: BuyModalProps) => {
           console.log('tokenId : ', price)
           const priceInEther = formatUnits(BigInt(price), 18)
           */
-         
+          //STEP 1 : Create record in Transaction table
           const transactionData: TransactionData = {
             tokenId: props.tokenId as number,
             functionName: 'purchaseItem',
             from: address as Address,
             to: marketplaceAddress,
+            transferFrom: address as Address,
+            transferTo: marketplaceAddress,
             price: props.price,
             transactionHash: props.hash
           }
           await createTransactionData(transactionData)
+
+          //STEP 2 : Create record in Order table
           await createOrder({
             userId: user.infos?.id as string,
             nftId: props.id as number
           })
+
+          //STEP 3 : Update ResourceNft record
           console.log(`UPDATE Nft id ${props.id} after purchase`)
           await updateNft({
             transactionHash: props.hash,
