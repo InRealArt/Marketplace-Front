@@ -181,7 +181,7 @@ const SellModal = (props: SellModalProps) => {
     }
 
     // Utilisez le walletClient de l'admin pour accorder le rôle de SELLER
-    const adminAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPLACE}` as Address);
+    const adminAccount = privateKeyToAccount(`0x${process.env.PRIVATE_KEY_SUPER_ADMIN_MARKETPLACE}` as Address);
     const adminClient = createWalletClient({
       chain: sepolia,
       transport: http(),
