@@ -104,6 +104,8 @@ const NftCard = ({ nft }: NftCardProps) => {
   const isNftSeller = isConnected && nftInfo?.seller === address
 
   if (!nft.tokenId || !collection?.contractAddress || !nftInfo) return null
+  const textButton = isSold ? "SOLD" : (isNftSeller? "Cancel sell" : "Buy now")
+
   return (
     <div className="NftCard">
       <Link className="NftCard__image" href={`/nfts/${nft.id}`}>
@@ -149,7 +151,7 @@ const NftCard = ({ nft }: NftCardProps) => {
           />
         ) : <Button
           action={() => setShowBuyModal(true)}
-          text={`${isSold ? "SOLD" : "Buy now"}`}
+          text={`${textButton}`}
           additionalClassName={`${isSold ? "purple" : "gold"}`}
           disabled={isSold || isNftSeller}
         />}
