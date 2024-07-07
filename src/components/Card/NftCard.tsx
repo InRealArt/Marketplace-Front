@@ -58,8 +58,7 @@ const NftCard = ({ nft }: NftCardProps) => {
     args: [BigInt(nft?.itemId || 0)]
   });
 
-  const isSold = (nft.status === ResourceNftStatuses.SOLD)
-  //console.log(`Nft tokenId ${nft.tokenId} is sold : ${isSold}`)
+  const isSold = (nft.status === ResourceNftStatuses.SOLD) || nftInfo?.sold
 
   const { data: ownerOf } = useReadContract({
     abi: IraIERC721Abi,
@@ -99,14 +98,10 @@ const NftCard = ({ nft }: NftCardProps) => {
       toast.error(`NFT has not been purchase ${error}`);
     }
   }, [isSuccess, isError]);
-
-  // console.log('NFT Name : ', name)
-  // console.log('tokenId : ', tokenId)
-  // console.log('nftInfo : ', nftInfo)
-  // console.log('isSold : ', isSold)
-
+  console.log(ownerOf);
 
   const isNftOwned = isConnected && ownerOf === address
+  const isNftSeller = isConnected && nftInfo?.seller === address
 
   if (!nft.tokenId || !collection?.contractAddress || !nftInfo) return null
   return (
@@ -130,7 +125,7 @@ const NftCard = ({ nft }: NftCardProps) => {
             </Link>
             <span className="NftCard__title">#{nft.tokenId}</span>
           </div>
-          <div className="NftCard__price">  
+          <div className="NftCard__price">
             <Image
               className=""
               priority={true}
@@ -156,9 +151,8 @@ const NftCard = ({ nft }: NftCardProps) => {
           action={() => setShowBuyModal(true)}
           text={`${isSold ? "SOLD" : "Buy now"}`}
           additionalClassName={`${isSold ? "purple" : "gold"}`}
-          disabled //={isSold}
-        />
-        }
+          disabled={isSold || isNftSeller}
+        />}
       </div>
 
 
@@ -168,7 +162,7 @@ const NftCard = ({ nft }: NftCardProps) => {
         artistId={artist?.id}
         price={nftPrice}
         buy={!isConnected ? openConnectModal : !user.infos ? () => dispatch(setLoginModalDisplay(true)) : () => purchaseItem()}
-        isMinting={isLoading}
+        isBuying={isLoading}
         showBuyModal={showBuyModal}
         hide={() => setShowBuyModal(false)}
         isSuccess={isSuccess}

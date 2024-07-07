@@ -33,8 +33,6 @@ const NftList = () => {
     refetch()
   }, [])
 
-  
-
   const nftsOwned = nfts.filter(nft => nft.owner === address)
   console.log(nfts);
 

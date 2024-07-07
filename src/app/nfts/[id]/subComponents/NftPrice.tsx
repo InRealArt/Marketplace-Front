@@ -131,7 +131,7 @@ const NftPrice = ({ nft, sold, contractAddress }: NftPriceProps) => {
           artistId={artist?.id}
           price={nftPrice || 0}
           buy={!isConnected ? openConnectModal : !user.infos ? () => dispatch(setLoginModalDisplay(true)) : () => purchaseItem()}
-          isMinting={isLoading}
+          isBuying={isLoading}
           showBuyModal={showBuyModal}
           hide={() => setShowBuyModal(false)}
           isSuccess={isSuccess}

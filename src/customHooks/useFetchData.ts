@@ -33,7 +33,6 @@ const useFetchData = (artistId?: ArtistId) => {
     const nfts = await getNftsByStatus([ResourceNftStatuses.LISTED, ResourceNftStatuses.SOLD])
     dispatch(setNfts(nfts));
   }
-    
 
   const fetchArtistsData = async () => {
     const artists = await fetchArtists()

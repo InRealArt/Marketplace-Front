@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Button from '@/components/Button/Button';
 import Modal from '@/components/Modal/Modal';
-import { ArtistId, ArtistType, NftType } from '@/types';
+import { ArtistId, ArtistType, NftId, NftType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import Link from 'next/link';
 import { getOpenSeaURL } from '@/utils/getOpenSeaURL';
@@ -15,12 +15,14 @@ import { useAppSelector } from '@/redux/hooks';
 import { updateNft } from '@/lib/nfts';
 import { ResourceNftStatuses } from '@prisma/client';
 import Sell from '../Sell/Sell';
+import { setNftStatusById, setNfts } from '@/redux/reducers/nfts/reducer';
+import { useDispatch } from 'react-redux';
 
 export interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
   showBuyModal: boolean;
   hide: () => void;
   buy: (() => void) | { payload: boolean; type: "modals/setLoginModalDisplay"; } | undefined;
-  isMinting: boolean;
+  isBuying: boolean;
   isSuccess: boolean;
   showNftModal: boolean;
   contractAddress: Address
@@ -32,7 +34,7 @@ export interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
 const BuyModalContent = ({
   hide,
   buy,
-  isMinting,
+  isBuying,
   price,
   imageUri,
   pseudo,
@@ -62,11 +64,13 @@ const BuyModalContent = ({
             action={hide}
             text="Cancel"
             additionalClassName="goldBorder"
+            disabled={isBuying}
           />
           <Button
             action={buy as () => void}
-            text={isMinting ? 'Buying...' : 'Buy now'}
+            text={isBuying ? 'Buying...' : 'Buy now'}
             additionalClassName="gold"
+            disabled={isBuying}
           />
         </div>
       </div>
@@ -77,7 +81,7 @@ const BuyModalContent = ({
 const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, contractAddress, id }: BuyModalProps) => (
   <div className="BuyModal BuyModal--successful">
     <p className="BuyModal__description">
-    Congratulations, the artwork is now yours. We will contact you as soon as possible to arrange the delivery date of the artwork. You can also view and trade it from your wallet in the purchased NFTs.
+      Congratulations, the artwork is now yours. We will contact you as soon as possible to arrange the delivery date of the artwork. You can also view and trade it from your wallet in the purchased NFTs.
     </p>
     <div className="BuyModal__flex">
       {(imageUri && certificateUri) && <>
@@ -92,7 +96,7 @@ const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, co
         text={'Terminer'}
         additionalClassName="gold"
       />*/}
-      {tokenId && 
+      {tokenId &&
         <div>
           <a target='_blank' rel='noreferrer' href={getOpenSeaURL(tokenId, contractAddress)} >
             <Button
@@ -101,7 +105,7 @@ const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, co
               additionalClassName="purple"
             />
           </a>
-          <Sell id={id} tokenId={tokenId} contractAddress={contractAddress}/>
+          <Sell id={id} tokenId={tokenId} contractAddress={contractAddress} />
         </div>
       }
     </div>
@@ -110,7 +114,8 @@ const BuyModalSuccessfulContent = ({ hide, imageUri, certificateUri, tokenId, co
 
 const BuyModal = (props: BuyModalProps) => {
   const user = useAppSelector((state) => getUserInfos(state))
-  const {address} = useAccount()
+  const { address } = useAccount()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (props.isSuccess && user.infos?.id && props.id) {
@@ -127,6 +132,7 @@ const BuyModal = (props: BuyModalProps) => {
             status: ResourceNftStatuses.SOLD,
             purchasedOnce: true
           }, props.id as number)
+          dispatch(setNftStatusById({ nftId: props.id as NftId, status: ResourceNftStatuses.SOLD }))
         }
         catch (err) {
           console.error("Create Order", err);
@@ -140,6 +146,7 @@ const BuyModal = (props: BuyModalProps) => {
     title={props.isSuccess || props.showNftModal ? 'Acquisition confirmé 🥳' : props.name || ''}
     show={props.showBuyModal}
     hide={props.hide}
+    disabledClosing={props.isBuying}
   >
     {props.isSuccess || props.showNftModal ? (
       <BuyModalSuccessfulContent {...props} />
