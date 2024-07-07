@@ -125,6 +125,7 @@ const BuyModal = (props: BuyModalProps) => {
     if (props.isSuccess && user.infos?.id && props.id) {
       const createRwaOrderAndUpdateNft = async () => {
         try {
+          /*
           const txReceipt = await publicClient.getTransactionReceipt({ hash: props.hash })
           
           const hexDataEventBought = txReceipt.logs[1].data
@@ -134,15 +135,15 @@ const BuyModal = (props: BuyModalProps) => {
           console.log('tokenId : ', tokenId)
           const price = parseInt(hexDataEventBought.slice(130, 194), 16) 
           console.log('tokenId : ', price)
-          
-          //TODO : Do not use hardcoded number for decimals
           const priceInEther = formatUnits(BigInt(price), 18)
+          */
+         
           const transactionData: TransactionData = {
-            tokenId: tokenId,
+            tokenId: props.tokenId as number,
             functionName: 'purchaseItem',
             from: address as Address,
             to: marketplaceAddress,
-            price: Number(priceInEther),
+            price: props.price,
             transactionHash: props.hash
           }
           await createTransactionData(transactionData)
