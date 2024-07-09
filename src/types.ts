@@ -44,6 +44,7 @@ export interface NftType {
   price?: number
   tags?: string[]
   owner?: string | null
+  previousOwner?: string | null
   transactionHash?: string | null
   mockups?: string[]
   purchasedOnce?: boolean | null

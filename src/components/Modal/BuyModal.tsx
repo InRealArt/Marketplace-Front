@@ -163,7 +163,8 @@ const BuyModal = (props: BuyModalProps) => {
             transactionHash: props.hash,
             owner: address,
             status: ResourceNftStatuses.SOLD,
-            purchasedOnce: true
+            purchasedOnce: true,
+            previousOwner: ''
           }, props.id as number)
           dispatch(updateNftById({ nftId: props.id as NftId, status: ResourceNftStatuses.SOLD, purchaseOnce: false }))
         }

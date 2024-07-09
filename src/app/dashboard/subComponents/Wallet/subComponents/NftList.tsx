@@ -27,21 +27,27 @@ const NftItem = ({ nft }: NftItemProps) => {
 }
 
 const NftList = () => {
-  const { nfts, refetch } = useFetchData(undefined)
   const { address } = useAccount()
+  //Les NFTs des users sont les NFT dont le champ "owner" est valorisé à l'adresse du wallet Metamask connecté 
+  // Ces Nfts sont forcément au statut 'SOLD'
+  //Il faut ajouter à ces NFT ceux qui ont été listé par le vendeur sur la MarketPlace donc ceux qui respectent les critéres : 
+  //  statut = LISTED & previousOwner = currentWallet
+  const { communautaryNfts, refetch } = useFetchData(undefined)
+  const nftsOwned = communautaryNfts.filter(nft => (nft.owner === address) )
+  const nftsListedOwned = communautaryNfts.filter(nft => (nft.previousOwner === address) )
+  const nftsOwnedTotal = [...nftsOwned, ...nftsListedOwned]
+  //console.log('nftsOwnedTotal : ', nftsOwnedTotal)
+  
   useEffect(() => {
     refetch()
   }, [])
 
-  const nftsOwned = nfts.filter(nft => nft.owner === address)
-  console.log(nfts);
-
-  if (!nftsOwned.length) {
+  if (!nftsOwnedTotal.length) {
     return null
   }
   return (
     <div className="WalletNftList">
-      {nfts.filter(nft => nft.owner === address).map((nft) => (
+      {nftsOwnedTotal.map((nft) => (
         <NftItem key={nft.id} nft={nft} />
       ))}
     </div>

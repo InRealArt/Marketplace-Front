@@ -269,6 +269,20 @@ const SellModal = (props: SellModalProps) => {
     }
   }
 
+  //----------------------------------------------------------
+  const updateNftWithPreviousOwner = async (previousOwner: Address) => {
+    console.log(`Update NFT tokenId ${props.tokenId} with previousOwner ${previousOwner}`)
+
+    try {
+      await updateNft({
+        previousOwner: previousOwner
+      }, props.id as number)
+    }
+    catch (err) {
+      console.error("Error Update NFT with previous owner", err)
+    }
+  }
+
   //STEP 1 : User must approve current smart contract (Marketplace) to send his tokenId to the address of the SC
   const handleListNft = async () => {
     if (!hashApproval) {
@@ -312,6 +326,8 @@ const SellModal = (props: SellModalProps) => {
 
     // Update le record dans la table ResourceNft 
     await updateNftToListedStatus(Number(itemCount))
+    await updateNftWithPreviousOwner(userAddress as Address)
+
     dispatch(updateNftById({ nftId: props.id as NftId, status: ResourceNftStatuses.LISTED, purchaseOnce: false }))
 
     //Dernière étape : Créer un enregistrement dans la table 'Transaction'

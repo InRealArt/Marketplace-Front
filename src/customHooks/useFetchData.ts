@@ -21,6 +21,7 @@ import { wagmiConfig } from '@/app/providers'
 const useFetchData = (artistId?: ArtistId) => {
   const { address, isConnected } = useAccount()
   const nfts = useAppSelector((state) => getNfts(state))
+  const communautaryNfts = useAppSelector((state) => getCommunautaryNfts(state))
   const artists = useAppSelector((state) => getArtists(state))
   const galleries = useAppSelector((state) => getGalleries(state))
 
@@ -62,7 +63,7 @@ const useFetchData = (artistId?: ArtistId) => {
     fetchNfts()
   }
 
-  return { artists, nfts, collections, nftsByArtist, galleries, refetch }
+  return { artists, nfts, communautaryNfts, collections, nftsByArtist, galleries, refetch }
 }
 
 export default useFetchData
