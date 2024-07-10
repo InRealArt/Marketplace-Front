@@ -179,9 +179,9 @@ const SellModal = (props: SellModalProps) => {
       setIsSeller(true);
       return
     }
-
+    
     // Utilisez le walletClient de l'admin pour accorder le rôle de SELLER
-    const adminAccount = privateKeyToAccount(`0x${process.env.PRIVATE_KEY_SUPER_ADMIN_MARKETPLACE}` as Address);
+    const adminAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPLACE}` as Address);
     const adminClient = createWalletClient({
       chain: sepolia,
       transport: http(),
@@ -217,10 +217,13 @@ const SellModal = (props: SellModalProps) => {
 
   const handleApprove = async () => {
     if (walletClient && userAddress && !isSeller) {
-      checkAndGrantSellerRole().catch((err) => {
-        console.error('Error granting SELLER role:', err)
-        toast.error('Failed to grant SELLER role')
-      })
+      try {
+        await checkAndGrantSellerRole()  
+      } catch (error) {
+        console.error('Error granting SELLER role:', error)
+        toast.error('Failed to grant SELLER role.\nPlease contact the admin if the Marketplace')
+        return  
+      }
     }
     if (ownerNft != userAddress) {
       toast.error(`You are not the owner of the tokenId ${props.tokenId}`)
