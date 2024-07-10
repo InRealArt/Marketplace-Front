@@ -19,7 +19,7 @@ interface ListProps {
 }
 
 const List = ({ nav, viewAllLink, filters }: ListProps) => {
-  const {isConnected, address} = useAccount()
+  const { isConnected, address } = useAccount()
   const [navActive, setNavActive] = useState(nav[0]);
   const [onlyToBuy, setOnlyToBuy] = useState(false);
 
@@ -44,7 +44,14 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
     )
     : listWithQuery;
 
-  const listOfNftsToBuyOrNot = onlyToBuy && navActiveItem?.context === 'nft' ? (listWithTags as NftType[])?.filter((nft) => nft.status === ResourceNftStatuses.LISTED && (isConnected && (address !== nft.previousOwner) && (address !== nft.owner))) : listWithTags
+  const nftsToFilter = (nft: NftType) => {
+    const notOwnedNfts = ((address !== nft.previousOwner) && (address !== nft.owner))
+    const nftsListed = nft.status === ResourceNftStatuses.LISTED
+    
+    return !isConnected && nftsListed || isConnected && nftsListed && notOwnedNfts
+  }
+
+  const listOfNftsToBuyOrNot = onlyToBuy && navActiveItem?.context === 'nft' ? (listWithTags as NftType[])?.filter((nft) => nftsToFilter(nft)) : listWithTags
 
   const showListByType = (item: NftType | ArtistType | CollectionType) => {
     switch (navActiveItem?.context) {

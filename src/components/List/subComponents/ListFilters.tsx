@@ -16,9 +16,6 @@ const ListFilters = ({ filters, viewAllLink, setOnlyToBuy, onlyToBuy }: ListFilt
   return (
     <section className="ListHeader__filters">
       <Search />
-      {/* <Button
-        action={() => setOnlyToBuy(!onlyToBuy)}
-        text="Show NFTs to buy" /> */}
 
       {filters.length > 0 && <FilterTags filters={filters} />}
 
