@@ -42,7 +42,6 @@ async function getNftsByStatusAndPurchasedOnce(status: ResourceNftStatuses[], pu
 }
 
 async function updateNft(data: Partial<NftType>, id: NftId) {
-    const { owner, transactionHash } = data
     const nft = await prisma.resourceNft.update({
         where: {
             id

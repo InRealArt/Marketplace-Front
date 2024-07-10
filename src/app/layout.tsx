@@ -7,6 +7,8 @@ import { Providers } from './providers';
 import LoginModal from '@/components/Modal/LoginModal/LoginModal';
 import { Toaster } from 'sonner';
 import GoogleCaptchaWrapper from './captcha/google-captcha-wrapper';
+import BuyModal from '@/components/Modal/BuyModal';
+import SellModal from '@/components/Modal/SellModal';
 
 export const metadata: Metadata = {
   title: 'InRealArt - MarketPlace',
@@ -35,6 +37,8 @@ export default function RootLayout({
             <Footer />
             <LoginModal />
             <Toaster richColors />
+            <BuyModal />
+            <SellModal />
           </Providers>
         </body>
       </GoogleCaptchaWrapper>

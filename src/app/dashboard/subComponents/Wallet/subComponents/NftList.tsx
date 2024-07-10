@@ -22,7 +22,6 @@ const NftItem = ({ nft }: NftItemProps) => {
       src={getImageFromUri(nft.imageUri)}
     />}
     <h2 className="WalletNftList__item__name">{nft.name}</h2>
-    {/* <p className="WalletNftList__item__price">{Number(nftInfo?.price)} ETH</p> */}
   </Link>
 }
 
@@ -33,21 +32,18 @@ const NftList = () => {
   //Il faut ajouter à ces NFT ceux qui ont été listé par le vendeur sur la MarketPlace donc ceux qui respectent les critéres : 
   //  statut = LISTED & previousOwner = currentWallet
   const { communautaryNfts, refetch } = useFetchData(undefined)
-  const nftsOwned = communautaryNfts.filter(nft => (nft.owner === address) )
-  const nftsListedOwned = communautaryNfts.filter(nft => (nft.previousOwner === address) )
-  const nftsOwnedTotal = [...nftsOwned, ...nftsListedOwned]
-  //console.log('nftsOwnedTotal : ', nftsOwnedTotal)
-  
+  const nftsOwned = communautaryNfts.filter(nft => (nft.owner === address || nft.previousOwner === address))
+
   useEffect(() => {
     refetch()
   }, [])
 
-  if (!nftsOwnedTotal.length) {
+  if (!nftsOwned.length) {
     return null
   }
   return (
     <div className="WalletNftList">
-      {nftsOwnedTotal.map((nft) => (
+      {nftsOwned.map((nft) => (
         <NftItem key={nft.id} nft={nft} />
       ))}
     </div>

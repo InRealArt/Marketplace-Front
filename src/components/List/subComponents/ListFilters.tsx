@@ -8,12 +8,17 @@ import Popup from '@/components/Popup/Popup';
 interface ListFiltersProps {
   filters: string[];
   viewAllLink?: string;
+  onlyToBuy: boolean;
+  setOnlyToBuy: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ListFilters = ({ filters, viewAllLink }: ListFiltersProps) => {
+const ListFilters = ({ filters, viewAllLink, setOnlyToBuy, onlyToBuy }: ListFiltersProps) => {
   return (
     <section className="ListHeader__filters">
       <Search />
+      {/* <Button
+        action={() => setOnlyToBuy(!onlyToBuy)}
+        text="Show NFTs to buy" /> */}
 
       {filters.length > 0 && <FilterTags filters={filters} />}
 

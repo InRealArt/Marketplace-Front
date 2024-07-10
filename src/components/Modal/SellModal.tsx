@@ -1,9 +1,9 @@
+'use client'
 import React, { useEffect, useState } from 'react';
 import Button from '@/components/Button/Button';
 import Modal from '@/components/Modal/Modal';
-import { ArtistId, ArtistType, NftId, NftType } from '@/types';
+import { ArtistType, ModalType, NftId, NftType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
-import Link from 'next/link';
 import {
   http,
   type Hash,
@@ -13,7 +13,6 @@ import {
   keccak256, toBytes, WalletClient, Address
 } from 'viem'
 import Image from 'next/image';
-import { useEthPrice } from '@/customHooks/getETHPrice';
 import { publicClient } from '@/app/providers';
 import { marketplaceAddress } from '@/utils/constants';
 import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
@@ -25,38 +24,25 @@ import { toast } from 'sonner';
 import { IraIERC721Abi } from '@/web3/IraIERC721Abi';
 import { updateNft } from '@/lib/nfts';
 import { ResourceNftStatuses } from '@prisma/client';
-import { TransactionData, createTransactionData } from '@/lib/transaction';
-import { updateNftById } from '@/redux/reducers/nfts/reducer';
+import { TransactionData, createTransactionData } from '@/lib/transactions';
+import { closeModal, updateNftById } from '@/redux/reducers/nfts/reducer';
 import { useDispatch } from 'react-redux';
+import { useAppSelector } from '@/redux/hooks';
+import { currentNftSelected } from '@/redux/reducers/nfts/selectors';
 
-interface SellModalProps extends Partial<NftType>, Partial<ArtistType> {
-  showSellModal: boolean;
+interface SellModalSuccessfulProps extends Partial<NftType>, Partial<ArtistType> {
   hide: () => void;
-  isSelling: boolean;
-  isSuccess: boolean;
-  showNftModal: boolean;
-  contractAddress: Address
-  price: number
-  artistId: ArtistId | undefined
 }
 
 interface SellModalContentProps extends Partial<NftType>, Partial<ArtistType> {
-  showSellModal: boolean;
   hide: () => void;
-  isSelling: boolean;
-  isSuccess: boolean;
   isApproved: boolean;
   isApproving: boolean;
   isListing: boolean;
-  showNftModal: boolean;
-  contractAddress: Address
-  price: number
-  artistId: ArtistId | undefined
   handleListNft: () => void,
   handleApprove: () => void,
   newPrice: string,
   setNewPrice: React.Dispatch<React.SetStateAction<string>>;
-  receipt: TransactionReceipt | undefined
 }
 
 const SellModalContent = ({
@@ -81,9 +67,9 @@ const SellModalContent = ({
       <div className="SellModal__infos">
         <p className="SellModal__description">
           This artwork now belongs to you. To list it for sale on our marketplace, please choose a selling price in ETH.
-          2 steps:
-          Click on &quot;approve&quot; to approve listing your RWA on our marketplace.
-          List your RWA on our MARKETPLACE with the price of your choice
+          2 steps: <br/><br/>
+          &#x2022; Click on &quot;approve&quot; to approve listing your RWA on our marketplace.<br/>
+          &#x2022; Click on &quot;Relist for sale&quot; to list your RWA on our MARKETPLACE with the price of your choice
         </p>
         <div className="SellModal__buttons">
           <Input
@@ -114,10 +100,10 @@ const SellModalContent = ({
   )
 };
 
-const SellModalSuccessfulContent = ({ hide, imageUri, name }: SellModalProps) => (
+const SellModalSuccessfulContent = ({ hide, imageUri, name }: SellModalSuccessfulProps) => (
   <div className="SellModal SellModal--successful">
     <p className="SellModal__description">
-      Votre oeuvre <b>{name}</b> est désormais lister sur la marketplace InRealArt !
+      Your artwork <b>{name}</b> is now listed on the InRealArt marketplace!
     </p>
     {(imageUri) && <>
       <Image width={100} height={100} className="SellModal__miniature" alt='nft-image' src={getImageFromUri(imageUri)} />
@@ -137,8 +123,7 @@ const SellModalSuccessfulContent = ({ hide, imageUri, name }: SellModalProps) =>
 const SELLER_ROLE = keccak256(toBytes("SELLER_ROLE"));
 
 
-const SellModal = (props: SellModalProps) => {
-
+const SellModal = () => {
   const [newPrice, setNewPrice] = useState<string>('')
   const [hashApproval, setHashApproval] = useState<Hash>()
   const [hash, setHash] = useState<Hash>()
@@ -154,6 +139,10 @@ const SellModal = (props: SellModalProps) => {
   const dispatch = useDispatch()
 
   const [walletClient, setWalletClient] = useState<WalletClient>();
+
+  const currentNftInfos = useAppSelector((state) => currentNftSelected(state))
+  const { infos: currentNft, success, contractAddress } = currentNftInfos
+  const isModalDisplay = currentNftInfos.infos !== null && currentNftInfos.modalType === ModalType.SELL
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -173,7 +162,6 @@ const SellModal = (props: SellModalProps) => {
       functionName: 'hasRole',
       args: [SELLER_ROLE, userAddress as Address],
     })
-    console.log(`${userAddress} hasRole SELLER : ${hasRole}`)
 
     if (hasRole) {
       setIsSeller(true);
@@ -207,12 +195,11 @@ const SellModal = (props: SellModalProps) => {
     setIsSeller(true);
   };
 
-
   const { data: ownerNft } = useReadContract({
     abi: IraIERC721Abi,
-    address: props.contractAddress as Address,
+    address: contractAddress as Address,
     functionName: "ownerOf",
-    args: [BigInt(props.tokenId || 0)]
+    args: [BigInt(currentNft?.tokenId || 0)]
   })
 
   const handleApprove = async () => {
@@ -226,13 +213,12 @@ const SellModal = (props: SellModalProps) => {
       }
     }
     if (ownerNft != userAddress) {
-      toast.error(`You are not the owner of the tokenId ${props.tokenId}`)
+      toast.error(`You are not the owner of the tokenId ${currentNft?.tokenId}`)
       return
     }
-    console.log('Owner NFT | userAddress : ', `${ownerNft} | ${userAddress}`)
     setIsApproving(true)
-    const collectionAddress = props.contractAddress as Address
-    const tokenId_ = props.tokenId as number
+    const collectionAddress = contractAddress as Address
+    const tokenId_ = currentNft?.tokenId as number
     const { request } = await publicClient.simulateContract({
       address: collectionAddress,
       abi: IraIERC721Abi,
@@ -246,7 +232,6 @@ const SellModal = (props: SellModalProps) => {
 
     const hashApproval = await walletClient?.writeContract(request)
 
-    console.log('hashApproval : ', hashApproval)
     setHashApproval(hashApproval)
 
     // Attendre la fin de la transaction d'approbation
@@ -255,17 +240,14 @@ const SellModal = (props: SellModalProps) => {
     setIsApproving(false)
   }
 
-  //----------------------------------------------------------
   const updateNftToListedStatus = async (itemCount: number) => {
-    console.log(`Update NFT tokenId ${props.tokenId} to 'LISTED' status `)
-
     try {
       await updateNft({
         transactionHash: hash,
         owner: marketplaceAddress,
         status: ResourceNftStatuses.LISTED,
         itemId: itemCount
-      }, props.id as number)
+      }, currentNft?.id as number)
     }
     catch (err) {
       console.error("Error Update NFT to LISTED status", err)
@@ -274,12 +256,12 @@ const SellModal = (props: SellModalProps) => {
 
   //----------------------------------------------------------
   const updateNftWithPreviousOwner = async (previousOwner: Address) => {
-    console.log(`Update NFT tokenId ${props.tokenId} with previousOwner ${previousOwner}`)
+    console.log(`Update NFT tokenId ${currentNft?.tokenId} with previousOwner ${previousOwner}`)
 
     try {
       await updateNft({
         previousOwner: previousOwner
-      }, props.id as number)
+      }, currentNft?.id as number)
     }
     catch (err) {
       console.error("Error Update NFT with previous owner", err)
@@ -293,21 +275,21 @@ const SellModal = (props: SellModalProps) => {
       return
     }
     if (ownerNft != userAddress) {
-      toast.error(`You are not the owner of the tokenId ${props.tokenId}`)
+      toast.error(`You are not the owner of the tokenId ${currentNft?.tokenId}`)
     }
     if (!isSeller) {
       toast.error(`You must be granted by the ADMIN as a SELLER. Please contact the admin of the Marketplace`)
     }
 
     setIsListing(true)
-    const tokenId_ = props.tokenId as number
+    const tokenId_ = currentNft?.tokenId as number
 
     const { request } = await publicClient.simulateContract({
       address: marketplaceAddress,
       abi: marketplaceAbi,
       functionName: 'listItem',
       args: [
-        props.contractAddress as Address,
+        contractAddress as Address,
         BigInt(tokenId_),
         BigInt(Number(newPrice) * Math.pow(10, 18)),
       ],
@@ -331,7 +313,7 @@ const SellModal = (props: SellModalProps) => {
     await updateNftToListedStatus(Number(itemCount))
     await updateNftWithPreviousOwner(userAddress as Address)
 
-    dispatch(updateNftById({ nftId: props.id as NftId, status: ResourceNftStatuses.LISTED, purchaseOnce: false }))
+    dispatch(updateNftById({ nftId: currentNft?.id as NftId, status: ResourceNftStatuses.LISTED, itemId: Number(itemCount) }))
 
     //Dernière étape : Créer un enregistrement dans la table 'Transaction'
     const transactionData: TransactionData = {
@@ -350,24 +332,28 @@ const SellModal = (props: SellModalProps) => {
   }
 
 
-  return(<Modal
-    title={receipt ? 'NFT mis en vente 🥳' : 'List my RWA'}
-    show={props.showSellModal}
-    hide={props.hide}
+  return (<Modal
+    title={isListed || success ? 'RWA up for sale' : 'List my RWA'}
+    show={isModalDisplay}
+    hide={() => dispatch(closeModal())}
+    disabledClosing={isApproving || isListing}
   >
-    {isListed || props.showNftModal ? (
-      <SellModalSuccessfulContent {...props} />
+    {isListed || success ? (
+      <SellModalSuccessfulContent
+        {...currentNft}
+        hide={() => dispatch(closeModal())}
+      />
     ) : (
       <SellModalContent
-        {...props}
+        {...currentNft}
         handleListNft={handleListNft}
         handleApprove={handleApprove}
         isApproved={isApproved}
         isApproving={isApproving}
         isListing={isListing}
-        receipt={receipt}
         newPrice={newPrice}
         setNewPrice={setNewPrice}
+        hide={() => dispatch(closeModal())}
       />
     )}
   </Modal>)

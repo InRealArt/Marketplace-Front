@@ -58,6 +58,11 @@ export interface OrderType {
   orderStatus: OrderStatus
 }
 
+export enum ModalType {
+  BUY,
+  SELL
+}
+
 export type ListType = NftType[] | CollectionType[] | ArtistType[]
 
 export interface ListNavigationType { tab: string; list: ListType; context: 'artist' | 'collection' | 'nft' }

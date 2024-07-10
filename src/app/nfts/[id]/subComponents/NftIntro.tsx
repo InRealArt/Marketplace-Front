@@ -19,10 +19,9 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 interface NftIntroProps {
   nft: Partial<NftType>
   artist: ArtistType | null | undefined
-  sold: boolean | undefined
   contractAddress: Address
 }
-const NftIntro = ({ nft, artist, sold, contractAddress }: NftIntroProps) => {
+const NftIntro = ({ nft, artist, contractAddress }: NftIntroProps) => {
   const { name, description, imageUri, mockups } = nft;
   const [showDescriptionModal, setShowDescriptionModal] = useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
@@ -81,7 +80,6 @@ const NftIntro = ({ nft, artist, sold, contractAddress }: NftIntroProps) => {
       </div>
       <NftPrice
         nft={nft}
-        sold={sold}
         contractAddress={contractAddress}
       />
       <ReactApexChart

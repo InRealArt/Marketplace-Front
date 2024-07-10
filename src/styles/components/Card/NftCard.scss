@@ -101,6 +101,9 @@
   &__price {
     display: flex;
     align-items: center;
+    p {
+      @include textOverflow(50%);
+    }
     img {
       margin-right: 10px;
     }

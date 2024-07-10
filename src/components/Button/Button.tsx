@@ -4,6 +4,7 @@ import Link from 'next/link';
 type Props = {
   text: string;
   additionalClassName?: string;
+  activeClassName?: string;
   action?: (() => void) | ((e: React.MouseEvent<HTMLButtonElement>) => void);
   link?: string;
   icon?: JSX.Element;
@@ -14,13 +15,14 @@ type Props = {
 const Button = ({
   text,
   additionalClassName,
+  activeClassName,
   action,
   link,
   icon,
   disabled,
   type = "button"
 }: Props) => {
-  const className = `Button Button--${additionalClassName}`;
+  const className = `Button ${additionalClassName ? `Button--${additionalClassName}` : ""} ${activeClassName ? `Button--${activeClassName}` : ""}`;
 
   if (link)
     return (

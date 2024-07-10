@@ -30,6 +30,10 @@
   &--whiteBorder {
     border: 1px solid $white;
     padding: 12px 30px;
+    &.Button--active {
+      background-color: $white;
+      color: black;
+    }
   }
   &--purple {
     background-color: $buttonPurple;
@@ -46,13 +50,10 @@
     font-size: 14px;
     width: max-content;
   }
-  @include breakpoint(mobile) {
-    @include textBody(16px, -1px);
-    padding: 15px !important;
-    margin: 0 auto !important;
-  }
+  
   &--whiteBorder {
     letter-spacing: -0.25px;
+    
   }
   &--login {
     background-color: $secondary700;
@@ -82,5 +83,10 @@
     width: 80px !important;
     background-color: $secondary700;
     color: $white;
+  }
+  @include breakpoint(mobile) {
+    @include textBody(16px, -1px);
+    padding: 15px !important;
+    margin: 0 auto !important;
   }
 }
