@@ -153,7 +153,12 @@ const SellModal = () => {
       });
       setWalletClient(walletClient);
     }
-  }, []);
+    if (!isModalDisplay) {
+      setIsListed(false)// TO REFACTO
+      setIsApproved(false) // TO REFACTO
+      setNewPrice('')
+    }
+  }, [isModalDisplay]);
 
   const checkAndGrantSellerRole = async () => {
     // Vérifiez si l'utilisateur a déjà le rôle de SELLER
