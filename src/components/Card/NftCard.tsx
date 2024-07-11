@@ -85,7 +85,7 @@ const NftCard = ({ nft }: NftCardProps) => {
             <Link className="NftCard__title" href={`/nfts/${nft.id}`}>
               {name}
             </Link>
-            <span className="NftCard__title">#{nft.tokenId}</span>
+            {/* <span className="NftCard__title">#{nft.tokenId}</span> */}
           </div>
           <div className="NftCard__price">
             <Image
