@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FlameIcon } from 'lucide-react';
-import { toast } from 'sonner';
 
 import Button from '../Button/Button';
 
@@ -10,24 +9,17 @@ import Button from '../Button/Button';
 import { marketplaceAddress } from '@/utils/constants';
 
 import {
-  useWaitForTransactionReceipt,
   useAccount,
-  useWriteContract,
   useReadContract,
 } from 'wagmi';
 
-import {
-  useConnectModal,
-  useAddRecentTransaction,
-} from '@rainbow-me/rainbowkit';
 import { ModalType, NftType } from '@/types';
 import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
-import { Address, parseEther } from 'viem';
+import { Address } from 'viem';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { getCollectionById } from '@/redux/reducers/collections/selectors';
 import { IraIERC721Abi } from '@/web3/IraIERC721Abi';
 import { getArtistByNft } from '@/redux/reducers/artists/selectors';
-import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import { ResourceNftStatuses } from '@prisma/client';
 import { setModalInfos } from '@/redux/reducers/nfts/reducer';
@@ -44,7 +36,7 @@ const NftCard = ({ nft }: NftCardProps) => {
   const artist = useAppSelector((state) => getArtistByNft(state, nft.collectionId || 0))
   const dispatch = useAppDispatch()
 
-  const { data: nftInfo } = useReadContract({
+  const { data: nftInfo, refetch } = useReadContract({
     abi: marketplaceAbi,
     address: marketplaceAddress,
     functionName: "getItem",
@@ -57,7 +49,7 @@ const NftCard = ({ nft }: NftCardProps) => {
     functionName: "getTotalPrice",
     args: [BigInt(nft?.itemId || 0)]
   });
-  const nftTotalPrice_ = Number(nftTotalPrice) * Math.pow(10, -18) < 0.001 ? 0.001 : Number(nftTotalPrice) * Math.pow(10, -18)
+  const nftTotalPrice_ = Number(nftTotalPrice) * Math.pow(10, -18) < 0.000001 ? 0.000001 : Number(nftTotalPrice) * Math.pow(10, -18)
   const isSold = (nft.status === ResourceNftStatuses.SOLD) || nftInfo?.sold
 
   const { data: ownerOf } = useReadContract({
@@ -72,7 +64,8 @@ const NftCard = ({ nft }: NftCardProps) => {
 
   if (!nft.tokenId || !collection?.contractAddress || !nftInfo) return null
   const textButton = isSold ? "SOLD" : (isNftSeller ? "Cancel sell" : "Buy now")
-  
+  console.log(nft.tokenId, nftInfo?.seller);
+
   return (
     <div className="NftCard">
       <Link className="NftCard__image" href={`/nfts/${nft.id}`}>
@@ -92,7 +85,7 @@ const NftCard = ({ nft }: NftCardProps) => {
             <Link className="NftCard__title" href={`/nfts/${nft.id}`}>
               {name}
             </Link>
-            {/* <span className="NftCard__title">#{nft.tokenId}</span> */}
+            <span className="NftCard__title">#{nft.tokenId}</span>
           </div>
           <div className="NftCard__price">
             <Image
@@ -107,7 +100,7 @@ const NftCard = ({ nft }: NftCardProps) => {
           </div>
 
         </div>
-        {(isNftOwned) ? (
+        {(isNftSeller) ? (
           <Button
             action={() => {
               dispatch(setModalInfos({
@@ -115,23 +108,23 @@ const NftCard = ({ nft }: NftCardProps) => {
                 modalType: ModalType.SELL,
                 contractAddress: collection?.contractAddress as Address,
                 price: nftTotalPrice_,
-                success: false
+                success: true
               }))
             }}
-            text="Sell my RWA"
+            text={`${textButton}`}
             additionalClassName="purple"
           />
-        ) : isNftSeller ? <Button
+        ) : isNftOwned ? <Button
           action={() => {
             dispatch(setModalInfos({
               nft,
               modalType: ModalType.SELL,
               contractAddress: collection?.contractAddress as Address,
               price: nftTotalPrice_,
-              success: true
+              success: false
             }))
           }}
-          text={`${textButton}`}
+          text="Sell my RWA"
           additionalClassName="purple"
         /> :
           <Button

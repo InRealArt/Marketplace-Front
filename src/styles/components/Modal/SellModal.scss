@@ -75,5 +75,8 @@
   &__buttons {
     display: flex;
     gap: 15px;
+    .LoginModal__input {
+      width: 20%;
+    }
   }
 }

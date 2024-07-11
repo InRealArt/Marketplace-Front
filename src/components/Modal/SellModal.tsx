@@ -66,10 +66,10 @@ const SellModalContent = ({
       />}
       <div className="SellModal__infos">
         <p className="SellModal__description">
-          This artwork now belongs to you. To list it for sale on our marketplace, please choose a selling price in ETH.
-          2 steps: <br/><br/>
-          &#x2022; Click on &quot;approve&quot; to approve listing your RWA on our marketplace.<br/>
-          &#x2022; Click on &quot;Relist for sale&quot; to list your RWA on our MARKETPLACE with the price of your choice
+          This artwork now belongs to you. To list it for sale on our marketplace, please follow the following steps:
+          <br /><br />
+          &#x2022; Click on &quot;approve&quot; to approve listing your RWA on our marketplace.<br /><br />
+          &#x2022; When approved, select the price of your choice then click on &quot;Relist for sale&quot; to list your RWA on our marketplace.
         </p>
         <div className="SellModal__buttons">
           <Input
@@ -77,6 +77,7 @@ const SellModalContent = ({
             placeholder="10 ETH"
             onChange={(e) => setNewPrice(e?.target?.value)}
             value={newPrice}
+            disabled={!isApproved || isListing}
           />
           {!isApproved && (
             <Button
@@ -167,7 +168,7 @@ const SellModal = () => {
       setIsSeller(true);
       return
     }
-    
+
     // Utilisez le walletClient de l'admin pour accorder le rôle de SELLER
     const adminAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPLACE}` as Address);
     const adminClient = createWalletClient({
@@ -205,11 +206,11 @@ const SellModal = () => {
   const handleApprove = async () => {
     if (walletClient && userAddress && !isSeller) {
       try {
-        await checkAndGrantSellerRole()  
+        await checkAndGrantSellerRole()
       } catch (error) {
         console.error('Error granting SELLER role:', error)
         toast.error('Failed to grant SELLER role.\nPlease contact the admin if the Marketplace')
-        return  
+        return
       }
     }
     if (ownerNft != userAddress) {
@@ -318,6 +319,7 @@ const SellModal = () => {
     //Dernière étape : Créer un enregistrement dans la table 'Transaction'
     const transactionData: TransactionData = {
       tokenId: tokenId_,
+      contractAddress: contractAddress as Address,
       functionName: 'listItem',
       from: userAddress as Address,
       to: marketplaceAddress,
@@ -331,7 +333,7 @@ const SellModal = () => {
     setIsListing(false)
   }
 
-
+  
   return (<Modal
     title={isListed || success ? 'RWA up for sale' : 'List my RWA'}
     show={isModalDisplay}

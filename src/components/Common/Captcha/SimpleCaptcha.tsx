@@ -2,7 +2,6 @@
 import Button from '@/components/Button/Button';
 import React, { useEffect, useState } from 'react'
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
-import { toast } from 'sonner';
 
 export interface SimpleCaptchaProps {
     setButtonSendActive: React.Dispatch<React.SetStateAction<boolean>>

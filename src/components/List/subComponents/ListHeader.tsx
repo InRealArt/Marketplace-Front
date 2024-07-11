@@ -42,12 +42,12 @@ const ListHeader = ({
           onlyToBuy={onlyToBuy}
         />
       </div>
-      <Button
+      {navActive.context === 'nft' && <Button
         action={() => setOnlyToBuy(!onlyToBuy)}
         text="Show only NFTs to buy"
         additionalClassName='whiteBorder onlyToBuy'
         activeClassName={`${onlyToBuy ? "active" : ""}`}
-      />
+      />}
       <SelectedFilters />
     </>
   );

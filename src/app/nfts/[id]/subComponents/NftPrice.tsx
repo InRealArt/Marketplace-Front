@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Button from '@/components/Button/Button';
 import BuyModal from '@/components/Modal/BuyModal';
@@ -8,26 +8,15 @@ import BuyModal from '@/components/Modal/BuyModal';
 import { marketplaceAddress } from '@/utils/constants';
 
 import {
-  useWaitForTransactionReceipt,
   useAccount,
-  useWriteContract,
   useReadContract,
 } from 'wagmi';
 
-import {
-  useConnectModal,
-  useAddRecentTransaction,
-} from '@rainbow-me/rainbowkit';
-import { toast } from 'sonner';
 import { ModalType, NftType } from '@/types';
 import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
 import { IraIERC721Abi } from '@/web3/IraIERC721Abi';
-import { Address, parseEther } from 'viem';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { getArtistByNft } from '@/redux/reducers/artists/selectors';
-import { getUserInfos } from '@/redux/reducers/user/selectors';
-import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
-import SellModal from '@/components/Modal/SellModal';
+import { Address } from 'viem';
+import { useAppDispatch } from '@/redux/hooks';
 import { ResourceNftStatuses } from '@prisma/client';
 import { setModalInfos } from '@/redux/reducers/nfts/reducer';
 
@@ -111,7 +100,7 @@ const NftPrice = ({ nft, contractAddress }: NftPriceProps) => {
               }))
             }}
             text="Sell my RWA"
-            additionalClassName="purple"
+            additionalClassName="gold"
           />
         ) : isNftSeller ? <Button
           action={() => {

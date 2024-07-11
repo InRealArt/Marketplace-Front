@@ -90,15 +90,15 @@ const BuyModalSuccessfulContent = ({ imageUri, certificateUri, tokenId, hide, co
     <div className="BuyModal__buttons">
       <Button
         action={hide}
-        text={'Terminer'}
-        additionalClassName="gold"
+        text={'Close'}
+        additionalClassName="whiteBorder"
       />
       {tokenId && contractAddress &&
         <div>
           <a target='_blank' rel='noreferrer' href={getOpenSeaURL(tokenId, contractAddress)} >
             <Button
               action={hide}
-              text={'Voir mon NFT sur Opensea'}
+              text={'See my NFT Opensea'}
               additionalClassName="purple"
             />
           </a>
@@ -161,6 +161,7 @@ const BuyModal = () => {
           //STEP 1 : Create record in Transaction table
           const transactionData: TransactionData = {
             tokenId: currentNft.tokenId as number,
+            contractAddress: contractAddress as Address,
             functionName: 'purchaseItem',
             from: address as Address,
             to: marketplaceAddress,
@@ -198,7 +199,7 @@ const BuyModal = () => {
 
 
   return (<Modal
-    title={success ? 'Acquisition confirmé 🥳' : currentNft?.name || ''}
+    title={success ? 'Acquisition confirmed 🥳' : currentNft?.name || ''}
     show={isModalDisplay}
     hide={() => dispatch(closeModal())}
     disabledClosing={isLoading}
@@ -216,7 +217,7 @@ const BuyModal = () => {
         isLoading={isLoading}
         purchaseItem={!isConnected ? openConnectModal : !user.infos ? () => dispatch(setLoginModalDisplay(true)) : () => purchaseItem()}
         hide={() => dispatch(closeModal())}
-        price={price}
+        price={Number(price.toFixed(6))}
       />
     )}
   </Modal>)

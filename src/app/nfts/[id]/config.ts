@@ -2,7 +2,7 @@ export const exampleConfig = {
   series: [
     {
       name: 'ETH price',
-      data: [31, 40, 28],
+      data: [31.1, 40, 28],
     },
   ],
   options: {

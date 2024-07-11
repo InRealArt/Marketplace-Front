@@ -69,10 +69,9 @@
 @import './pages/wallet/WalletEmptyState.scss';
 @import './pages/wallet/subComponents/WalletMainInfos.scss';
 @import './pages/wallet/subComponents/WalletMainCoin.scss';
-@import './pages/wallet/subComponents/WalletGlobalView.scss';
 @import './pages/wallet/subComponents/WalletNftList.scss';
 @import './pages/wallet/subComponents/WalletNftMain.scss';
-
+@import './pages/wallet/subComponents/WalletTransactionHistory.scss';
 body {
   color: $white;
   background: $primary700;

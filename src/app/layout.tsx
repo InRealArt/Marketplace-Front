@@ -35,10 +35,10 @@ export default function RootLayout({
             <Header />
             <section className="container">{children}</section>
             <Footer />
-            <LoginModal />
             <Toaster richColors />
             <BuyModal />
             <SellModal />
+            <LoginModal />
           </Providers>
         </body>
       </GoogleCaptchaWrapper>
