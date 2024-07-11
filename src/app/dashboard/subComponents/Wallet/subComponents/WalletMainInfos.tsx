@@ -26,14 +26,12 @@ const WalletTransactionHistory = ({ setShowTransactions, address }: WalletTransa
   }, [])
   return (
     <section className='WalletTransactionHistory'>
-      <ChevronLeft width={40} height={40} onClick={() => setShowTransactions(false)}/>
+      <ChevronLeft className='WalletTransactionHistory__icon' width={40} height={40} onClick={() => setShowTransactions(false)} />
       {transactions?.map(transaction => (
         <div key={transaction.transactionHash} className='WalletTransactionHistory__item'>
+          <p>{transaction.created_at?.toLocaleDateString()} {transaction.created_at?.toLocaleTimeString()}</p>
           <p>Type: {transaction.functionName}</p>
-          <p>Price: {Number(transaction.price)}</p>
-          <p>From: {transaction.transferFrom}</p>
-          <p>To: {transaction.to}</p>
-          <p>Transaction: {transaction.transactionHash}</p>
+          <a className='WalletTransactionHistory__item--link' target='_blank' href={`https://sepolia.etherscan.io/tx/${transaction.transactionHash}`}>See transaction</a>
         </div>
       ))}
     </section>
