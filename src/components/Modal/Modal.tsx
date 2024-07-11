@@ -7,9 +7,10 @@ interface ModalProps extends PropsWithChildren {
   show: boolean;
   hide: () => void;
   additionalClassName?: string
+  disabledClosing?: boolean
 }
 
-const Modal = ({ children, title, show, hide, additionalClassName }: ModalProps) => {
+const Modal = ({ children, title, show, hide, additionalClassName, disabledClosing }: ModalProps) => {
   useEffect(() => {
     if (show) {
       document.body.style.overflow = 'hidden';
@@ -22,11 +23,11 @@ const Modal = ({ children, title, show, hide, additionalClassName }: ModalProps)
   if (!show) return null;
   return (
     <>
-      <div className={`Modal__backdrop Modal__backdrop--${additionalClassName}`} onClick={hide} />
+      <div className={`Modal__backdrop Modal__backdrop--${additionalClassName}`} onClick={!disabledClosing ? hide : () => {}} />
       <div className={`Modal Modal--${additionalClassName}`}>
         <header className="Modal__header">
           <h1 className="Modal__title">{title}</h1>
-          <X className="Modal__close" width={28} height={28} onClick={hide} />
+          {!disabledClosing && <X className="Modal__close" width={28} height={28} onClick={hide} />}
         </header>
         {children}
       </div>

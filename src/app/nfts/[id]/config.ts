@@ -1,8 +1,8 @@
 export const exampleConfig = {
   series: [
     {
-      name: 'NFT Price',
-      data: [31, 40, 28],
+      name: 'ETH price',
+      data: [31.1, 40, 28],
     },
   ],
   options: {
@@ -54,55 +54,55 @@ export const exampleConfig = {
   },
 };
 
-export const donutConfig = {
-  series: [14, 37, 16],
-  options: {
-    chart: {
-      width: 420,
-      type: 'donut',
-    },
-    legend: {
-      position: 'bottom',
-      labels: {
-        colors: ['#ffffff', '#ffffff', '#ffffff'],
-      },
-      fontFamily: 'Poppins, sans-serif',
-    },
-    customLegend: ['nana'],
-    stroke: {
-      width: 0,
-    },
-    colors: ['#836727', '#D1A137', '#B4A073'],
-    labels: ['ETH', 'EURO', 'NFT'],
-    dataLabels: {
-      formatter(val: any, opts: any) {
-        const name = opts.w.globals.labels[opts.seriesIndex];
-        return name;
-      },
-      style: {
-        fontFamily: 'Poppins, sans-serif',
-        fontWeight: '400',
-        colors: ['000000'],
-        fontSize: '15px',
-      },
-      dropShadow: {
-        enabled: false,
-      },
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 250,
-          },
-          dataLabels: {
-            style: {
-              fontSize: '8px',
-            },
-          },
-        },
-      },
-    ],
-  },
-};
+// export const donutConfig = {
+//   series: [14, 37, 16],
+//   options: {
+//     chart: {
+//       width: 420,
+//       type: 'donut',
+//     },
+//     legend: {
+//       position: 'bottom',
+//       labels: {
+//         colors: ['#ffffff', '#ffffff', '#ffffff'],
+//       },
+//       fontFamily: 'Poppins, sans-serif',
+//     },
+//     customLegend: ['nana'],
+//     stroke: {
+//       width: 0,
+//     },
+//     colors: ['#836727', '#D1A137', '#B4A073'],
+//     labels: ['ETH', 'EURO', 'NFT'],
+//     dataLabels: {
+//       formatter(val: any, opts: any) {
+//         const name = opts.w.globals.labels[opts.seriesIndex];
+//         return name;
+//       },
+//       style: {
+//         fontFamily: 'Poppins, sans-serif',
+//         fontWeight: '400',
+//         colors: ['000000'],
+//         fontSize: '15px',
+//       },
+//       dropShadow: {
+//         enabled: false,
+//       },
+//     },
+//     responsive: [
+//       {
+//         breakpoint: 480,
+//         options: {
+//           chart: {
+//             width: 250,
+//           },
+//           dataLabels: {
+//             style: {
+//               fontSize: '8px',
+//             },
+//           },
+//         },
+//       },
+//     ],
+//   },
+// };

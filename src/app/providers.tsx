@@ -13,10 +13,9 @@ import { WagmiProvider, createConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Address, createPublicClient, createWalletClient, custom, http } from "viem";
+import { createPublicClient, http } from "viem";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
-import { privateKeyToAccount } from "viem/accounts";
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? "";
 

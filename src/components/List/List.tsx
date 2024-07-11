@@ -9,6 +9,8 @@ import ListHeader from './subComponents/ListHeader';
 import { ArtistType, CollectionType, ListNavigationType, NftType } from '@/types';
 import CollectionCard from '../Card/CollectionCard';
 import { useState } from 'react';
+import { ResourceNftStatuses } from '@prisma/client';
+import { useAccount } from 'wagmi';
 
 interface ListProps {
   nav: ListNavigationType[];
@@ -17,12 +19,15 @@ interface ListProps {
 }
 
 const List = ({ nav, viewAllLink, filters }: ListProps) => {
+  const { isConnected, address } = useAccount()
   const [navActive, setNavActive] = useState(nav[0]);
+  const [onlyToBuy, setOnlyToBuy] = useState(false);
+
   const methods = useForm();
   const searchFieldText = methods.watch(['search'])[0];
   const filtersSelected: string[] = methods.watch(['filters'])[0];
   const navActiveItem = nav.find(navItem => navItem.tab === navActive.tab)
-  
+
   const listWithQuery =
     searchFieldText?.length > 0
       ? navActiveItem?.list.filter(
@@ -39,7 +44,16 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
     )
     : listWithQuery;
 
-  const showListByType = (item: NftType | ArtistType | CollectionType) => {    
+  const nftsToFilter = (nft: NftType) => {
+    const notOwnedNfts = ((address !== nft.previousOwner) && (address !== nft.owner))
+    const nftsListed = nft.status === ResourceNftStatuses.LISTED
+    
+    return !isConnected && nftsListed || isConnected && nftsListed && notOwnedNfts
+  }
+
+  const listOfNftsToBuyOrNot = onlyToBuy && navActiveItem?.context === 'nft' ? (listWithTags as NftType[])?.filter((nft) => nftsToFilter(nft)) : listWithTags
+
+  const showListByType = (item: NftType | ArtistType | CollectionType) => {
     switch (navActiveItem?.context) {
       case 'nft':
         return <NftCard key={item.id} nft={item as NftType} />
@@ -60,10 +74,12 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
           viewAllLink={viewAllLink}
           navActive={navActive}
           setNavActive={setNavActive}
+          setOnlyToBuy={setOnlyToBuy}
+          onlyToBuy={onlyToBuy}
         />
       </FormProvider>
       <div className="List__items">
-        {listWithTags?.map((item) => showListByType(item))}
+        {listOfNftsToBuyOrNot?.map((item) => showListByType(item))}
       </div>
     </section>
   );

@@ -44,6 +44,7 @@ export interface NftType {
   price?: number
   tags?: string[]
   owner?: string | null
+  previousOwner?: string | null
   transactionHash?: string | null
   mockups?: string[]
   purchasedOnce?: boolean | null
@@ -55,6 +56,11 @@ export interface OrderType {
   userId: UserId
   nftId: number
   orderStatus: OrderStatus
+}
+
+export enum ModalType {
+  BUY,
+  SELL
 }
 
 export type ListType = NftType[] | CollectionType[] | ArtistType[]

@@ -11,7 +11,6 @@ interface ListOfNftsProps {
 
 const ListOfNfts = ({ nav, viewAllLink }: ListOfNftsProps) => {
   const nftsTags = useAppSelector((state) => getNftsTags(state))
-
   return (
     <section className="ListOfNfts">
       <List

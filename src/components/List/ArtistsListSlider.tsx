@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import SwiperArrows from './subComponents/SwiperArrows';
 import { ArtistType } from '@/types';
+import { Autoplay, Pagination } from 'swiper/modules';
 
 interface ArtistsListSliderProps {
   artists: ArtistType[];
@@ -22,6 +23,8 @@ const ArtistsListSlider = ({ artists, title }: ArtistsListSliderProps) => {
       <h1 className="ArtistsListSlider__title">{title}</h1>
       <div className="ArtistsListSlider__container">
         <Swiper
+          autoplay={{delay: 6000}}
+          modules={[Autoplay, Pagination]}
           spaceBetween={20}
           slidesPerView={2}
           onSwiper={(swiper) => {

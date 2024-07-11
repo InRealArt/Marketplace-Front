@@ -279,5 +279,24 @@ export const marketplaceAbi = [
       }
     ],
     stateMutability: "view"
+  },
+  {
+    type: "function",
+    name: "getTotalPrice",
+    inputs: [
+      {
+        name: "_itemId",
+        type: "uint256",
+        internalType: "uint256"
+      }
+    ],
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+        internalType: "uint256"
+      }
+    ],
+    "stateMutability": "view"
   }
 ] as const

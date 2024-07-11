@@ -31,11 +31,11 @@ const ArtistBio = ({ name, description }: ArtistBioProps) => {
           additionalClassName="blur"
           icon={<Share2 className="Button__icon" width={28} height={28} />}
         />
-        <Button
+        {/* <Button
           text="Follow"
           additionalClassName="blur"
           icon={<Heart className="Button__icon" width={28} height={28} />}
-        />
+        /> */}
       </div>
     </div>
   );

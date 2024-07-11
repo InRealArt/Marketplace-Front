@@ -1,13 +1,13 @@
 
 import { fetchArtists } from '@/lib/artists'
 import { fetchCollections } from '@/lib/collections'
-import { getNftsByStatus, getNftsByStatusAndPurchasedOnce } from '@/lib/nfts'
+import { getNftsByStatus } from '@/lib/nfts'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { setArtists } from '@/redux/reducers/artists/reducer'
 import { getArtists, getGalleries } from '@/redux/reducers/artists/selectors'
 import { setCollections } from '@/redux/reducers/collections/reducer'
 import { getCollections } from '@/redux/reducers/collections/selectors'
-import { setCommunautaryNfts, setNfts } from '@/redux/reducers/nfts/reducer'
+import {  setNfts } from '@/redux/reducers/nfts/reducer'
 import { getCommunautaryNfts, getNfts, getNftsByArtist } from '@/redux/reducers/nfts/selectors'
 import { ArtistId, NftType } from '@/types'
 import { IraIERC721Abi } from '@/web3/IraIERC721Abi'
@@ -31,26 +31,9 @@ const useFetchData = (artistId?: ArtistId) => {
   const dispatch = useAppDispatch()
 
   const fetchNfts = async () => {
-    //NFTs in the "IRA Testnet" tab
-    let nfts = await getNftsByStatus([ResourceNftStatuses.LISTED, ResourceNftStatuses.SOLD])
-    
-    nfts = nfts.filter((nft: any) => {
-      return (!nft.purchasedOnce || (nft.purchasedOnce && address == nft.owner))
-    })
-    // console.log('NFT count ', nfts.length)
+    const nfts = await getNftsByStatus([ResourceNftStatuses.LISTED, ResourceNftStatuses.SOLD])
     dispatch(setNfts(nfts));
   }
-
-  const fetchCommunautaryNfts = async () => {
-    //NFTs in the "Communautary Artworks" tab
-    let communautaryNfts = await getNftsByStatus([ResourceNftStatuses.LISTED, ResourceNftStatuses.SOLD])
-    communautaryNfts = communautaryNfts.filter((nft: any) => {
-      return nft.purchasedOnce
-    })
-    // console.log('communautaryNfts count ', communautaryNfts.length)
-    dispatch(setCommunautaryNfts(communautaryNfts));
-  }
-    
 
   const fetchArtistsData = async () => {
     const artists = await fetchArtists()
@@ -72,16 +55,12 @@ const useFetchData = (artistId?: ArtistId) => {
     if (nfts.length === 0) {      
       fetchNfts()
     }
-    if (communautaryNfts.length === 0) {      
-      fetchCommunautaryNfts()
-    }
 
-  }, [[artists, nfts, communautaryNfts, collections]])
+  }, [[artists, nfts, collections]])
 
   const refetch = () => {
     fetchCollectionsData()
     fetchNfts()
-    fetchCommunautaryNfts()
   }
 
   return { artists, nfts, communautaryNfts, collections, nftsByArtist, galleries, refetch }

@@ -35,7 +35,7 @@
         background-color: $secondary700;
       }
     }
-    @include titleMontserrat(36px);
+    @include titleMontserrat(32px);
     @include breakpoint(mobile) {
       @include titleMontserrat(18px);
       padding: 15px 0;
@@ -46,7 +46,7 @@
     justify-content: flex-end;
     align-items: center;
     gap: 20px;
-    width: 60%;
+    width: 45%;
     @include breakpoint(tablet) {
       justify-content: flex-end;
       margin-top: 30px;
@@ -112,5 +112,6 @@
   .Button {
     @include titleMontserrat(20px);
     font-weight: 600;
+    margin-top: 0;
   }
 }

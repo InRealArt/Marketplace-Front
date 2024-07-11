@@ -40,6 +40,7 @@
     border-radius: 20px;
     border: 1px solid $borderColor;
     background: $backgroundGreySecondary;
+    overflow: scroll;
 
     @include breakpoint(tablet) {
       height: auto !important;

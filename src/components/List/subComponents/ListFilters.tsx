@@ -8,9 +8,11 @@ import Popup from '@/components/Popup/Popup';
 interface ListFiltersProps {
   filters: string[];
   viewAllLink?: string;
+  onlyToBuy: boolean;
+  setOnlyToBuy: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ListFilters = ({ filters, viewAllLink }: ListFiltersProps) => {
+const ListFilters = ({ filters, viewAllLink, setOnlyToBuy, onlyToBuy }: ListFiltersProps) => {
   return (
     <section className="ListHeader__filters">
       <Search />
