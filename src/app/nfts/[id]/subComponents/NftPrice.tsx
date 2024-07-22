@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Button from '@/components/Button/Button';
 import BuyModal from '@/components/Modal/BuyModal';
@@ -128,7 +128,7 @@ const NftPrice = ({ nft, contractAddress }: NftPriceProps) => {
             }))}
             text={`${textButton}`}
             additionalClassName={`${isSold ? "purple" : "gold"}`}
-            disabled={isSold || wrongNetwork}
+            disabled={isSold || wrongNetwork}
           />}
       </div>
     </div>

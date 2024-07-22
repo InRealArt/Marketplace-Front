@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import NftPrice from './NftPrice';
-import { exampleConfig } from '../config';
 import { ReadMore } from '@/components/utils/ReadMore';
 import DescriptionModal from '@/components/Modal/DescriptionModal';
 import dynamic from 'next/dynamic';
 import { ArtistType, NftType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import { Address } from 'viem';
-import { ArrowBigLeft, ArrowBigRight, FlameIcon, Share2, StarIcon, StarsIcon } from 'lucide-react';
+import { ArrowBigLeft, ArrowBigRight, Share2, StarsIcon } from 'lucide-react';
 import { TransactionData, fetchTransactionsByNft } from '@/lib/transactions';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
