@@ -13,11 +13,10 @@ import {
   keccak256, toBytes, WalletClient, Address
 } from 'viem'
 import Image from 'next/image';
-import { publicClient } from '@/app/providers';
+import { CHAIN_USED, publicClient } from '@/app/providers';
 import { marketplaceAddress } from '@/utils/constants';
 import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
 import { useAccount, useReadContract } from 'wagmi';
-import { sepolia } from 'viem/chains';
 import { privateKeyToAccount } from 'viem/accounts';
 import { Input } from '../ui/input';
 import { toast } from 'sonner';
@@ -29,6 +28,7 @@ import { closeModal, updateNftById } from '@/redux/reducers/nfts/reducer';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '@/redux/hooks';
 import { currentNftSelected } from '@/redux/reducers/nfts/selectors';
+import useCheckNetwork from '@/customHooks/useCheckNetwork';
 
 interface SellModalSuccessfulProps extends Partial<NftType>, Partial<ArtistType> {
   hide: () => void;
@@ -55,6 +55,8 @@ const SellModalContent = ({
   newPrice,
   setNewPrice
 }: SellModalContentProps) => {
+
+  const wrongNetwork = useCheckNetwork()
 
   return (
     <div className="SellModal">
@@ -84,7 +86,7 @@ const SellModalContent = ({
               action={handleApprove}
               text={isApproving ? 'Approving...' : 'Approve'}
               additionalClassName="purple--marginTop"
-              disabled={isApproving}
+              disabled={isApproving || wrongNetwork}
             />
           )}
           {isApproved && (
@@ -92,7 +94,7 @@ const SellModalContent = ({
               action={handleListNft}
               text={isListing ? 'Relisting...' : 'Relist for sale'}
               additionalClassName="purple--marginTop"
-              disabled={isListing}
+              disabled={isListing || wrongNetwork}
             />
           )}
         </div>
@@ -148,7 +150,7 @@ const SellModal = () => {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
       const walletClient = createWalletClient({
-        chain: sepolia,
+        chain: CHAIN_USED,
         transport: custom(window.ethereum),
       });
       setWalletClient(walletClient);
@@ -177,7 +179,7 @@ const SellModal = () => {
     // Utilisez le walletClient de l'admin pour accorder le rôle de SELLER
     const adminAccount = privateKeyToAccount(`0x${process.env.NEXT_PUBLIC_PRIVATE_KEY_SUPER_ADMIN_MARKETPLACE}` as Address);
     const adminClient = createWalletClient({
-      chain: sepolia,
+      chain: CHAIN_USED,
       transport: http(),
       account: adminAccount,
     });

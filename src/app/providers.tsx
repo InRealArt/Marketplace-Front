@@ -10,7 +10,7 @@ import {
   getDefaultConfig,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider, createConfig } from "wagmi";
-import { sepolia } from "wagmi/chains";
+import { sepolia, mainnet } from "wagmi/chains";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createPublicClient, http } from "viem";
@@ -19,20 +19,30 @@ import { store } from "@/redux/store";
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? "";
 
+export const CHAIN_USED = (process.env.NEXT_PUBLIC_NETWORK === 'sepolia')?sepolia:mainnet
+
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
   projectId,
-  chains: [sepolia],
+  chains: [CHAIN_USED],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
-export const wagmiConfig = createConfig({
-  chains: [sepolia],
-  transports: {
-    [sepolia.id]: http(),
-  },
-})
 
+export const wagmiConfig = (process.env.NEXT_PUBLIC_NETWORK === 'sepolia')?
+  createConfig({
+    chains: [sepolia],
+    transports: {
+      [sepolia.id]: http()
+    }
+  })
+  :
+  createConfig({
+    chains: [mainnet],
+    transports: {
+      [mainnet.id]: http()
+    }
+  })
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
     By connecting your wallet, you agree to the{" "}
@@ -50,10 +60,13 @@ const demoAppInfo = {
 
 const queryClient = new QueryClient();
 
+
 export const publicClient = createPublicClient({
-  chain: sepolia,
+  chain: CHAIN_USED,
   transport: http(),
 })
+
+
 
 
 

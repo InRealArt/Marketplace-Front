@@ -64,7 +64,7 @@ const NftCard = ({ nft }: NftCardProps) => {
 
   if (!nft.tokenId || !collection?.contractAddress || !nftInfo) return null
   const textButton = isSold ? "SOLD" : (isNftSeller ? "Cancel sell" : "Buy now")
-  console.log(nft.tokenId, nftInfo?.seller);
+  //console.log(nft.tokenId, nftInfo?.seller);
 
   return (
     <div className="NftCard">
