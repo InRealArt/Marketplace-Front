@@ -3,9 +3,7 @@ import Image from 'next/image';
 import useFetchData from '@/customHooks/useFetchData';
 import { NftType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
-import { useAccount, useReadContract } from 'wagmi';
-import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
-import { marketplaceAddress } from '@/utils/constants';
+import { useAccount } from 'wagmi';
 import Link from 'next/link';
 
 interface NftItemProps {

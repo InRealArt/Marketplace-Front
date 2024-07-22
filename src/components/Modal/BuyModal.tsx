@@ -1,12 +1,12 @@
 'use client'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@/components/Button/Button';
 import Modal from '@/components/Modal/Modal';
 import { ArtistType, ModalType, NftId, NftType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import Link from 'next/link';
 import { getOpenSeaURL } from '@/utils/getOpenSeaURL';
-import { Address, parseEther } from 'viem';
+import { Address, WalletClient, createWalletClient, custom, encodeFunctionData, parseEther, parseGwei } from 'viem';
 import Image from 'next/image';
 import { useEthPrice } from '@/customHooks/getETHPrice';
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
@@ -25,6 +25,8 @@ import { marketplaceAbi } from '@/web3/IraMarketplaceAbi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
 import { toast } from 'sonner';
+import { CHAIN_USED } from '@/app/providers';
+import useCheckNetwork from '@/customHooks/useCheckNetwork';
 
 export interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
   isLoading: boolean
@@ -35,12 +37,24 @@ export interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
 }
 
 const BuyModalContent = ({ isLoading, purchaseItem, hide, imageUri, collectionId, price }: BuyModalProps) => {
+  const [walletUser, setWalletUser] = useState<WalletClient>();
+  const wrongNetwork = useCheckNetwork()
   const artist = useAppSelector((state) => getArtistByNft(state, collectionId || 0))
   const { ethPrice: ethEuroPrice } = useEthPrice('eur');
   const currentEthValue = ethEuroPrice
     ? Number(price) * ethEuroPrice
     : 0;
-
+    
+    useEffect(() => {
+      if (typeof window !== 'undefined' && window.ethereum) {
+        const walletClient = createWalletClient({
+            chain: CHAIN_USED,
+            transport: custom(window.ethereum),
+        })
+        setWalletUser(walletClient)
+      }
+  }, [])
+    
   return (
     <div className="BuyModal">
       {imageUri && <div
@@ -66,7 +80,7 @@ const BuyModalContent = ({ isLoading, purchaseItem, hide, imageUri, collectionId
             action={purchaseItem as () => void}
             text={isLoading ? 'Buying...' : 'Buy now'}
             additionalClassName="gold"
-            disabled={isLoading}
+            disabled={isLoading || wrongNetwork}
           />
         </div>
       </div>
@@ -121,7 +135,7 @@ const BuyModal = () => {
 
   const { data: hash, writeContract } = useWriteContract();
 
-  const purchaseItem = () => {
+  const purchaseItem = async () => {
     if (currentNft?.itemId && currentNft?.tokenId && contractAddress && price) {
       writeContract({
         address: marketplaceAddress,

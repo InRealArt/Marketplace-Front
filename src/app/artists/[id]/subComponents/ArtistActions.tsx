@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
-import { Heart, Share2 } from 'lucide-react';
+import { Share2 } from 'lucide-react';
 import { ArtistType } from '@/types';
 
 

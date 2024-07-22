@@ -38,6 +38,17 @@ export const IraIERC721Abi = [
   },
   {
     type: "function",
+    name: "transferFrom",
+    inputs: [
+      { name: "from", "type": "address", "internalType": "address" },
+      { name: "to", "type": "address", "internalType": "address" },
+      { name: "tokenId", "type": "uint256", "internalType": "uint256" }
+    ],
+    outputs: [],
+    stateMutability: "nonpayable"
+  },
+  {
+    type: "function",
     name: "setApprovalForAll",
     inputs: [
       {

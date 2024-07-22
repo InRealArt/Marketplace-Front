@@ -35,7 +35,7 @@ export const nftsSlice = createSlice({
             state.list = action.payload
         },
         updateNftById: (state, action: PayloadAction<{ nftId: NftId, status: ResourceNftStatuses, purchasedOnce?: boolean, itemId?: number }>) => {
-            const index = state.list.findIndex(obj => obj.id == action.payload.nftId);
+            const index = state.list.findIndex(obj => obj.id === action.payload.nftId);
             state.list[index].status = action.payload.status
 
             if (action.payload.itemId) state.list[index].itemId = action.payload.itemId

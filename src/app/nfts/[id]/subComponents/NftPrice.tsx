@@ -19,6 +19,7 @@ import { Address } from 'viem';
 import { useAppDispatch } from '@/redux/hooks';
 import { ResourceNftStatuses } from '@prisma/client';
 import { setModalInfos } from '@/redux/reducers/nfts/reducer';
+import useCheckNetwork from '@/customHooks/useCheckNetwork';
 
 interface NftPriceProps {
   nft: Partial<NftType>
@@ -30,6 +31,7 @@ const NftPrice = ({ nft, contractAddress }: NftPriceProps) => {
   const dispatch = useAppDispatch()
 
   const { isConnected, address } = useAccount();
+  const wrongNetwork = useCheckNetwork();
 
   const { data: nftTotalPrice } = useReadContract({
     abi: marketplaceAbi,
@@ -101,6 +103,7 @@ const NftPrice = ({ nft, contractAddress }: NftPriceProps) => {
             }}
             text="Sell my RWA"
             additionalClassName="gold"
+            disabled={wrongNetwork}
           />
         ) : isNftSeller ? <Button
           action={() => {
@@ -125,7 +128,7 @@ const NftPrice = ({ nft, contractAddress }: NftPriceProps) => {
             }))}
             text={`${textButton}`}
             additionalClassName={`${isSold ? "purple" : "gold"}`}
-            disabled={isSold}
+            disabled={isSold || wrongNetwork}
           />}
       </div>
     </div>
