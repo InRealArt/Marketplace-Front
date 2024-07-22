@@ -64,7 +64,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
     const notOwnedNfts = ((address !== nft.previousOwner) && (address !== nft.owner))
     const nftsListed = nft.status === ResourceNftStatuses.LISTED
     
-    return !isConnected && nftsListed || isConnected && nftsListed && notOwnedNfts
+    return !isConnected && nftsListed || (isConnected && nftsListed && notOwnedNfts)
   }
 
   const listOfNftsToBuyOrNot = onlyToBuy && navActiveItem?.context === 'nft' ? (listWithTags as NftType[])?.filter((nft) => nftsToFilter(nft)) : listWithTags
