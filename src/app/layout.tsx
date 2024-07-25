@@ -12,7 +12,7 @@ import SellModal from '@/components/Modal/SellModal';
 
 export const metadata: Metadata = {
   title: 'InRealArt - MarketPlace',
-  description: 'InRealArt is a NFT platform for artists',
+  description: 'InRealArt is a RWA platform for artists',
   icons: {
     icon: '/images/favicon-32x32.png',
     shortcut: '/images/favicon-16x16.png',
