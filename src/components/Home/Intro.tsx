@@ -12,7 +12,7 @@ const Intro = () => {
           Welcome in InRealArt,  the exclusive RWA (Real World Asset) marketplace of high-quality artworks. Explore an exceptional selection tailored for privileged buyers. Excellence and elegance await you, featuring physical canvases, NFTs, copyright, and more.
         </p>
         <div className="Intro__buttons">
-          <Button additionalClassName="gold" text="Buy NFT" link="/nfts" />
+          <Button additionalClassName="gold" text="Buy RWA" link="/nfts" />
         </div>
       </div>
       <div className="Intro__imgs">
