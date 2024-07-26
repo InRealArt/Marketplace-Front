@@ -74,13 +74,14 @@ const SellModalContent = ({
           &#x2022; When approved, select the price of your choice then click on &quot;Relist for sale&quot; to list your RWA on our marketplace.
         </p>
         <div className="SellModal__buttons">
-          <Input
+          {isApproved && <Input
+            type='number'
             className='LoginModal__input'
-            placeholder="10 ETH"
+            placeholder="0.001"
             onChange={(e) => setNewPrice(e?.target?.value)}
             value={newPrice}
-            disabled={!isApproved || isListing}
-          />
+            disabled={isListing}
+          />}
           {!isApproved && (
             <Button
               action={handleApprove}
@@ -340,7 +341,7 @@ const SellModal = () => {
     setIsListing(false)
   }
 
-  
+
   return (<Modal
     title={isListed || success ? 'RWA up for sale' : 'List my RWA'}
     show={isModalDisplay}
