@@ -11,7 +11,7 @@ interface NftItemProps {
 }
 
 const NftItem = ({ nft }: NftItemProps) => {
-  return <Link href={`/nfts/${nft.id}`} key={nft.tokenId} className="WalletNftList__item">
+  return <Link href={`/artworks/${nft.id}`} key={nft.tokenId} className="WalletNftList__item">
     {nft.imageUri && <Image
       className="WalletNftList__item__image"
       width={50}

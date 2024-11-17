@@ -36,8 +36,8 @@ export default function RootLayout({
             <section className="container">{children}</section>
             <Footer />
             <Toaster richColors />
-            <BuyModal />
-            <SellModal />
+            {/* <BuyModal /> */}
+            {/* <SellModal /> */}
             <LoginModal />
           </Providers>
         </body>

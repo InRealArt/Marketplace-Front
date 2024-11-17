@@ -5,6 +5,7 @@ import nftsReducer from './reducers/nfts/reducer'
 import modalsReducer from './reducers/modals/reducer'
 import userReducer from './reducers/user/reducer'
 import ordersReducer from './reducers/orders/reducer'
+import basketReducer from './reducers/basket/reducer'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,9 @@ export const store = configureStore({
     artists: artistsReducer,
     modals: modalsReducer,
     user: userReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
+    basket: basketReducer
+
   },
 })
 

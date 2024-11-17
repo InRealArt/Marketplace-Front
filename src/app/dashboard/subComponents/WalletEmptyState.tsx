@@ -23,6 +23,7 @@ const WalletEmptyState = () => {
                 additionalClassName="gold"
                 action={openConnectModal}
                 text="Connect Wallet"
+                disabled
               />
             );
           }}

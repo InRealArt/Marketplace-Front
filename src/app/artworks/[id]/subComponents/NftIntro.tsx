@@ -17,12 +17,12 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 });
 
 interface NftIntroProps {
-  nft: Partial<NftType>
+  nft: NftType
   artist: ArtistType | null | undefined
   contractAddress: Address
 }
 const NftIntro = ({ nft, artist, contractAddress }: NftIntroProps) => {
-  const { name, description, imageUri, mockups } = nft;
+  const { name, description, imageUri, mockups } = nft || {};
   const [showDescriptionModal, setShowDescriptionModal] = useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
@@ -42,57 +42,57 @@ const NftIntro = ({ nft, artist, contractAddress }: NftIntroProps) => {
   const dates = transactions?.map(transaction => `${transaction.created_at}`)
   const prices = transactions?.map(transaction => Number(transaction.price))
 
-  const series = [
-    {
-      name: 'ETH price',
-      data: prices?.length ? prices : [0]
-    },
-  ]
+  // const series = [
+  //   {
+  //     name: 'ETH price',
+  //     data: prices?.length ? prices : [0]
+  //   },
+  // ]
 
-  const options = {
-    fontFamily: 'Poppins, sans-serif',
-    chart: {
-      height: 350,
-      type: 'area',
-      toolbar: {
-        autoSelected: 'pan',
-        show: false,
-      },
-    },
-    markers: {
-      size: 5
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      width: [5, 5, 4],
-      curve: 'smooth'
-    },
-    colors: ['#b39e73'],
-    yaxis: {
-      labels: {
-        style: {
-          colors: '#ffffff',
-        },
-      },
-    },
-    xaxis: {
-      type: 'datetime',
-      categories: dates?.length ? dates : [new Date()],
-      labels: {
-        style: {
-          colors: '#ffffff',
-        },
-      },
-    },
-    tooltip: {
-      x: {
-        format: 'dd/MM/yy HH:mm',
-      },
-      theme: 'dark',
-    },
-  }
+  // const options = {
+  //   fontFamily: 'Poppins, sans-serif',
+  //   chart: {
+  //     height: 350,
+  //     type: 'area',
+  //     toolbar: {
+  //       autoSelected: 'pan',
+  //       show: false,
+  //     },
+  //   },
+  //   markers: {
+  //     size: 5
+  //   },
+  //   dataLabels: {
+  //     enabled: false,
+  //   },
+  //   stroke: {
+  //     width: [5, 5, 4],
+  //     curve: 'smooth'
+  //   },
+  //   colors: ['#b39e73'],
+  //   yaxis: {
+  //     labels: {
+  //       style: {
+  //         colors: '#ffffff',
+  //       },
+  //     },
+  //   },
+  //   xaxis: {
+  //     type: 'datetime',
+  //     categories: dates?.length ? dates : [new Date()],
+  //     labels: {
+  //       style: {
+  //         colors: '#ffffff',
+  //       },
+  //     },
+  //   },
+  //   tooltip: {
+  //     x: {
+  //       format: 'dd/MM/yy HH:mm',
+  //     },
+  //     theme: 'dark',
+  //   },
+  // }
 
   return (
     <section className="Nft__intro">
@@ -148,14 +148,14 @@ const NftIntro = ({ nft, artist, contractAddress }: NftIntroProps) => {
         nft={nft}
         contractAddress={contractAddress}
       />
-      <ReactApexChart
+      {/* <ReactApexChart
         className="NftGraphic"
         series={series as ApexAxisChartSeries}
         options={options as ApexCharts.ApexOptions | undefined}
         type="area"
         width={'100%'}
         height={250}
-      />
+      /> */}
     </section>
   );
 };

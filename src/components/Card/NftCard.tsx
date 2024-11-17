@@ -23,6 +23,9 @@ import { getArtistByNft } from '@/redux/reducers/artists/selectors';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import { ResourceNftStatuses } from '@prisma/client';
 import { setModalInfos } from '@/redux/reducers/nfts/reducer';
+import { setBasketInfos } from '@/redux/reducers/basket/reducer';
+import { getUserInfos } from '@/redux/reducers/user/selectors';
+import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
 
 interface NftCardProps {
   nft: NftType;
@@ -30,45 +33,57 @@ interface NftCardProps {
 
 const NftCard = ({ nft }: NftCardProps) => {
   const { collectionId, name } = nft;
-
-  const { isConnected, address } = useAccount();
-  const collection = useAppSelector((state) => getCollectionById(state, collectionId || 0))
+  // const collection = useAppSelector((state) => getCollectionById(state, collectionId || 0))
   const artist = useAppSelector((state) => getArtistByNft(state, nft.collectionId || 0))
   const dispatch = useAppDispatch()
 
-  const { data: nftInfo, refetch } = useReadContract({
-    abi: marketplaceAbi,
-    address: marketplaceAddress,
-    functionName: "getItem",
-    args: [BigInt(nft?.itemId || 0)]
-  });
+  const setCheckoutInfos = () => {
+      if (nft.id) {
+      dispatch(setBasketInfos({
+        id: nft.id,
+        title: nft.name,
+        description: nft.description,
+        price: nft.price ?? 0,
+        image: nft.imageUri,
+        artist: {id: artist?.id.toString(), name: artist?.pseudo}
+      }))
+    }
+  }
+  // const { isConnected, address } = useAccount();
 
-  const { data: nftTotalPrice } = useReadContract({
-    abi: marketplaceAbi,
-    address: marketplaceAddress,
-    functionName: "getTotalPrice",
-    args: [BigInt(nft?.itemId || 0)]
-  });
-  const nftTotalPrice_ = Number(nftTotalPrice) * Math.pow(10, -18) < 0.000001 ? 0.000001 : Number(nftTotalPrice) * Math.pow(10, -18)
-  const isSold = (nft.status === ResourceNftStatuses.SOLD) || nftInfo?.sold
+  // const { data: nftInfo, refetch } = useReadContract({
+  //   abi: marketplaceAbi,
+  //   address: marketplaceAddress,
+  //   functionName: "getItem",
+  //   args: [BigInt(nft?.itemId || 0)]
+  // });
 
-  const { data: ownerOf } = useReadContract({
-    abi: IraIERC721Abi,
-    address: collection?.contractAddress as Address,
-    functionName: "ownerOf",
-    args: [BigInt(nft?.tokenId || 0)]
-  });
+  // const { data: nftTotalPrice } = useReadContract({
+  //   abi: marketplaceAbi,
+  //   address: marketplaceAddress,
+  //   functionName: "getTotalPrice",
+  //   args: [BigInt(nft?.itemId || 0)]
+  // });
+  // const nftTotalPrice_ = Number(nftTotalPrice) * Math.pow(10, -18) < 0.000001 ? 0.000001 : Number(nftTotalPrice) * Math.pow(10, -18)
+  // const isSold = (nft.status === ResourceNftStatuses.SOLD) || nftInfo?.sold
 
-  const isNftOwned = isConnected && ownerOf === address
-  const isNftSeller = isConnected && nftInfo?.seller === address
+  // const { data: ownerOf } = useReadContract({
+  //   abi: IraIERC721Abi,
+  //   address: collection?.contractAddress as Address,
+  //   functionName: "ownerOf",
+  //   args: [BigInt(nft?.tokenId || 0)]
+  // });
 
-  if (!nft.tokenId || !collection?.contractAddress || !nftInfo) return null
-  const textButton = isSold ? "SOLD" : (isNftSeller ? "Cancel sell" : "Buy now")
+  // const isNftOwned = isConnected && ownerOf === address
+  // const isNftSeller = isConnected && nftInfo?.seller === address
+
+  // if (!nft.tokenId || !collection?.contractAddress || !nftInfo) return null
+  // const textButton = isSold ? "SOLD" : (isNftSeller ? "Cancel sell" : "Buy now")
   //console.log(nft.tokenId, nftInfo?.seller);
 
   return (
     <div className="NftCard">
-      <Link className="NftCard__image" href={`/nfts/${nft.id}`}>
+      <Link className="NftCard__image" href={`/artworks/${nft.id}`}>
         <picture className="NftCard__picture">
           {nft.imageUri && <Image className='NftCard__img' alt={nft.name} width={300} height={300} src={getImageFromUri(nft.imageUri)} />}
         </picture>
@@ -82,25 +97,31 @@ const NftCard = ({ nft }: NftCardProps) => {
             <Link className="NftCard__artist" href={`/artists/${artist?.id}`}>
               {artist?.pseudo}
             </Link>
-            <Link className="NftCard__title" href={`/nfts/${nft.id}`}>
+            <Link className="NftCard__title" href={`/artworks/${nft.id}`}>
               {name}
             </Link>
-            {/* <span className="NftCard__title">#{nft.tokenId}</span> */}
           </div>
           <div className="NftCard__price">
-            <Image
+            {/* <Image
               className=""
               priority={true}
               alt="ether"
               src="/icons/Ether.png"
               width={60}
               height={60}
-            />{' '}
-            <p>{nftTotalPrice_}</p>
+            />{' '} */}
+            {"10 000"} €
           </div>
 
         </div>
-        {(isNftSeller) ? (
+        <Button
+          text='Buy now'
+          action={setCheckoutInfos}
+          link='/checkout'
+          additionalClassName='gold'
+          activeClassName='large'
+        />
+        {/* {(isNftSeller) ? (
           <Button
             action={() => {
               dispatch(setModalInfos({
@@ -140,7 +161,7 @@ const NftCard = ({ nft }: NftCardProps) => {
             text={`${textButton}`}
             additionalClassName={`${isSold ? "purple" : "gold"}`}
             disabled={isSold}
-          />}
+          />} */}
       </div>
     </div>
   );

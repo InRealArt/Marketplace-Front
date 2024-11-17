@@ -64,6 +64,11 @@
 @import './pages/dashboard/subComponents/Profile.scss';
 @import './pages/dashboard/subComponents/Orders.scss';
 
+// Basket
+@import './pages/checkout/CheckoutPage.scss';
+@import './pages/checkout/subComponents/Cart.scss';
+@import './pages/checkout/subComponents/UserInfos.scss';
+
 // Wallet
 @import './pages/wallet/WalletPage.scss';
 @import './pages/wallet/WalletEmptyState.scss';
@@ -72,6 +77,7 @@
 @import './pages/wallet/subComponents/WalletNftList.scss';
 @import './pages/wallet/subComponents/WalletNftMain.scss';
 @import './pages/wallet/subComponents/WalletTransactionHistory.scss';
+
 body {
   color: $white;
   background: $primary700;
@@ -84,7 +90,7 @@ body {
 .container {
   max-width: $containerMaxWidth;
   margin: 0 auto;
-  margin-top: $headerHeight;
+  margin-top: calc($headerHeight + 40px);
   @include breakpoint(mediumDesktop) {
     max-width: 90%;
   }

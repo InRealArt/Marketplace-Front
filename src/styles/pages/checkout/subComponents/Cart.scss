@@ -1,0 +1,34 @@
+.Cart {
+  height: auto;
+  padding: 20px;
+  border: 1px solid $greyColor;
+  max-width: 300px;
+  width: 100%;
+  border-radius: 20px;
+
+  &__item {
+    position: relative;
+    margin: 20px 0;
+    @include flexBetween;
+    @include textBody(16px);
+    span:first-child {
+      font-weight: 600;
+    }
+    &--last {
+      margin-top: 50px;
+      &::before {
+        content: '';
+        @include positionAbsoluteCenterX;
+        top: -25px;
+        width: 50%;
+        height: 1px;
+        background: $secondary300;
+      }
+    }
+  }
+  .Button {
+    margin: 0 auto;
+    margin-top: 40px;
+    display: block;
+  }
+}

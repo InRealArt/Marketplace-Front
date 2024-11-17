@@ -5,7 +5,7 @@ type Props = {
   text: string;
   additionalClassName?: string;
   activeClassName?: string;
-  action?: (() => void) | ((e: React.MouseEvent<HTMLButtonElement>) => void);
+  action?: (() => void) | ((e: unknown) => void);
   link?: string;
   icon?: JSX.Element;
   disabled?: boolean;
@@ -26,7 +26,7 @@ const Button = ({
 
   if (link)
     return (
-      <Link className={className} href={link}>
+      <Link className={className} href={link} onClick={action}>
         {text}
       </Link>
     );

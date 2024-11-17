@@ -13,6 +13,10 @@
   border: none;
   cursor: pointer;
 
+  &--large {
+    padding: 15px 0;
+  }
+
   &[disabled="disabled"],
   &:disabled {
     background-color: grey;

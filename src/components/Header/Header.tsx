@@ -53,7 +53,7 @@ const Header = () => {
           <Link className={`Header__link`} href={'#footer'}>
             About
           </Link>
-          <Link className={`Header__link`} href={'/nfts'}>
+          <Link className={`Header__link`} href={'/artworks'}>
             Artworks
           </Link>
           <Link className={`Header__link`} href={'/artists'}>

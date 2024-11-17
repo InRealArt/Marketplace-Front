@@ -20,7 +20,7 @@ const WalletLink = ({ hideMenu }: HeaderMenuProps) => {
   const { openConnectModal } = useConnectModal();
   const { address } = useAccount();
   const { data } = useBalance({ address });
-
+  
   return (
     <ConnectButton.Custom>
       {({ account, chain, mounted }) => {
@@ -106,8 +106,8 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
       </div>
       <nav className="HeaderMenu__nav">
         {renderAccountLink()}
-        <WalletLink hideMenu={hideMenu} />
-        <Link onClick={hideMenu} className={`HeaderMenu__link`} href={'/nfts'}>
+        {/* <WalletLink hideMenu={hideMenu} /> */}
+        <Link onClick={hideMenu} className={`HeaderMenu__link`} href={'/artworks'}>
           All Artworks
         </Link>
         <Link

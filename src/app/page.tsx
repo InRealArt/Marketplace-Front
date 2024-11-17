@@ -15,7 +15,7 @@ const Landing = () => {
     <main className="Landing">
       <Intro />
       <ArtistsListSlider artists={artists} title="Artists of the Moment" />
-      <ListOfNfts nav={[{ tab: 'Popular Artworks ', list: iraNfts, context: 'nft' }]} viewAllLink="/nfts" />
+      <ListOfNfts nav={[{ tab: 'Popular Artworks ', list: iraNfts, context: 'nft' }]} viewAllLink="/artwork" />
       <ContactUs />
     </main>
   );
