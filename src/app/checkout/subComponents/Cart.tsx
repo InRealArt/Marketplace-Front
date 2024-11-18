@@ -4,6 +4,12 @@ import { getBasketInfos } from '@/redux/reducers/basket/selectors';
 import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import React from 'react'
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
+
 
 export default function Cart() {
   const dispatch = useAppDispatch()
@@ -22,12 +28,46 @@ export default function Cart() {
   const totalPriceIncludedTva = totalPrice + percent(totalPrice, tvaPourcent)
 
 
-  const submitPayment = () => {
+  const submitPayment = async () => {
     if (!user.infos) {
       dispatch(setLoginModalDisplay(true))
-    } else {
-      // todo stripe
+      return 
+    } 
+
+    //Stripe payment
+    try {
+      const stripe = await stripePromise;
+      if (!stripe) throw new Error('Stripe failed to initialize');
+
+      // Vérification et limitation du montant
+      const priceInCents = Math.min(Math.round(totalPriceIncludedTva * 100), 999999999); // Maximum 9999999.99€
+
+      const response = await fetch('/api/stripe/createCheckoutSession', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          price: priceInCents,
+          title: basket.current?.title,
+          image: basket.current?.image,
+        }),
+      });
+
+      const { sessionId } = await response.json();
+      
+      // Rediriger vers Stripe Checkout
+      const result = await stripe.redirectToCheckout({
+        sessionId,
+      });
+
+      if (result.error) {
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
     }
+
   }
   return (
     <div className='Cart'>
