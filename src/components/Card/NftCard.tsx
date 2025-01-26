@@ -66,6 +66,10 @@ const NftCard = ({ nft }: NftCardProps) => {
   const textButton = isSold ? "SOLD" : (isNftSeller ? "Cancel sell" : "Buy now")
   //console.log(nft.tokenId, nftInfo?.seller);
 
+  // hide boucheix
+  if (artist?.id === 2) {
+    return null
+  }
   return (
     <div className="NftCard">
       <Link className="NftCard__image" href={`/nfts/${nft.id}`}>

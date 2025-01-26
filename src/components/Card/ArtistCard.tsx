@@ -15,6 +15,11 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
   const nfts = useAppSelector((state) => getNftsByArtist(state, id))
   const imgUri = nfts[0]?.imageUri
   const background = imgUri ? getImageFromUri(imgUri) : backgroundImage
+
+  // hide boucheix
+  if (artist.id === 2) {
+    return null;
+  }
   return (
     <div className="ArtistCard">
       <Link href={`/artists/${id}`}>

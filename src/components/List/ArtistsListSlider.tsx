@@ -23,7 +23,7 @@ const ArtistsListSlider = ({ artists, title }: ArtistsListSliderProps) => {
       <h1 className="ArtistsListSlider__title">{title}</h1>
       <div className="ArtistsListSlider__container">
         <Swiper
-          autoplay={{delay: 6000}}
+          autoplay={{ delay: 6000 }}
           modules={[Autoplay, Pagination]}
           spaceBetween={20}
           slidesPerView={2}
@@ -45,7 +45,7 @@ const ArtistsListSlider = ({ artists, title }: ArtistsListSliderProps) => {
             },
           }}
         >
-          {artists.map((artist) => (
+          {artists.map((artist) => artist.id !== 2 && (
             <SwiperSlide key={artist.id}>
               <ArtistCard artist={artist} />
             </SwiperSlide>

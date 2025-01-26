@@ -9,6 +9,7 @@ interface ArtistCardSliderProps {
 
 const ArtistCardSlider = ({ artist }: ArtistCardSliderProps) => {
   const { id, imageUrl, name, surname } = artist;
+
   return (
     <Link href={`/artists/${id}`}>
       <div
