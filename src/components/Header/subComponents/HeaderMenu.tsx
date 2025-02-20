@@ -12,6 +12,7 @@ import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { setUserInfos } from '@/redux/reducers/user/reducer';
 import { toast } from 'sonner';
 import { DashboardTabs } from '@/utils/constants';
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 interface HeaderMenuProps {
   hideMenu: () => void;
 }
@@ -75,8 +76,8 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
 
   const renderAccountLink = () => {
     if (!user.infos) {
-      return <span onClick={displayLoginModal} className={`HeaderMenu__link`} >
-        Sign up / Sign in
+      return <span className={`HeaderMenu__link`} >
+        <DynamicWidget />
       </span>
     }
 

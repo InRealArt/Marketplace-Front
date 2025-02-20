@@ -16,6 +16,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createPublicClient, http } from "viem";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import {
+  DynamicContextProvider,
+  DynamicWidget,
+} from "@dynamic-labs/sdk-react-core";
+import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector";
+import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
+
+
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? "";
 
@@ -32,6 +40,7 @@ const config = getDefaultConfig({
 export const wagmiConfig = (process.env.NEXT_PUBLIC_NETWORK === 'sepolia')?
   createConfig({
     chains: [sepolia],
+    multiInjectedProviderDiscovery: false,
     transports: {
       [sepolia.id]: http()
     }
@@ -39,6 +48,7 @@ export const wagmiConfig = (process.env.NEXT_PUBLIC_NETWORK === 'sepolia')?
   :
   createConfig({
     chains: [mainnet],
+    multiInjectedProviderDiscovery: false,
     transports: {
       [mainnet.id]: http()
     }
@@ -74,18 +84,27 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
   useEffect(() => setMounted(true), []);
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          showRecentTransactions={true}
-          theme={darkTheme()}
-          appInfo={demoAppInfo}
-        >
-          <Provider store={store} stabilityCheck="never">
-            {mounted && children}
-          </Provider>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <DynamicContextProvider
+      settings={{
+        environmentId: "f176580d-2366-46b2-8ab9-39fc7885fed5",
+        walletConnectors: [EthereumWalletConnectors],
+      }}
+    >
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          {/*<RainbowKitProvider
+            showRecentTransactions={true}
+            theme={darkTheme()}
+            appInfo={demoAppInfo}
+          >*/}
+            <Provider store={store} stabilityCheck="never">
+              <DynamicWagmiConnector>
+                {mounted && children}
+              </DynamicWagmiConnector>
+            </Provider>
+          {/*</RainbowKitProvider>*/}
+        </QueryClientProvider>
+      </WagmiProvider>
+    </DynamicContextProvider>
   );
 }
