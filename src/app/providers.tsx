@@ -88,6 +88,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
       settings={{
         environmentId: "f176580d-2366-46b2-8ab9-39fc7885fed5",
         walletConnectors: [EthereumWalletConnectors],
+        events: {
+          onAuthSuccess: ({ user }) => {
+            console.log('New user created !!', user);
+            // Here you can perform any actions with the new user data
+            // For example, you could store it in your app's state or send it to your backend
+          }
+        }
       }}
     >
       <WagmiProvider config={config}>

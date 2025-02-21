@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { LogOutIcon, X } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -13,6 +13,8 @@ import { setUserInfos } from '@/redux/reducers/user/reducer';
 import { toast } from 'sonner';
 import { DashboardTabs } from '@/utils/constants';
 import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
+import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
+
 interface HeaderMenuProps {
   hideMenu: () => void;
 }
@@ -21,6 +23,13 @@ const WalletLink = ({ hideMenu }: HeaderMenuProps) => {
   const { openConnectModal } = useConnectModal();
   const { address } = useAccount();
   const { data } = useBalance({ address });
+  const { user } = useDynamicContext();
+
+  useEffect(() => {
+    if (user) {
+      console.log('Connected User Data !!!:', user);
+    }
+  }, [user]);
   
   return (
     <ConnectButton.Custom>
@@ -63,17 +72,6 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
   const supabase = createClientComponentClient();
 
 
-  const displayLoginModal = () => {
-    hideMenu()
-    dispatch(setLoginModalDisplay(true))
-  }
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    toast.success("You are disconnected")
-    dispatch(setUserInfos(null))
-  };
-
   const renderAccountLink = () => {
     if (!user.infos) {
       return <span className={`HeaderMenu__link`} >
@@ -91,7 +89,7 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
         }
       }}
     >
-      {user.infos.name} <LogOutIcon onClick={handleSignOut} />
+      {user.infos.name}
     </Link>
   }
   return (
