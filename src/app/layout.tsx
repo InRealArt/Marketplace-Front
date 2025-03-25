@@ -9,6 +9,7 @@ import { Toaster } from 'sonner';
 import GoogleCaptchaWrapper from './captcha/google-captcha-wrapper';
 import BuyModal from '@/components/Modal/BuyModal';
 import SellModal from '@/components/Modal/SellModal';
+import '@coinbase/onchainkit/styles.css';
 
 export const metadata: Metadata = {
   title: 'InRealArt - MarketPlace',

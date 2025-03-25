@@ -12,9 +12,7 @@ import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { setUserInfos } from '@/redux/reducers/user/reducer';
 import { toast } from 'sonner';
 import { DashboardTabs } from '@/utils/constants';
-import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
-
+import CoinbaseWallet from '@/components/CoinbaseWallet/CoinbaseWallet';
 interface HeaderMenuProps {
   hideMenu: () => void;
 }
@@ -23,14 +21,7 @@ const WalletLink = ({ hideMenu }: HeaderMenuProps) => {
   const { openConnectModal } = useConnectModal();
   const { address } = useAccount();
   const { data } = useBalance({ address });
-  const { user } = useDynamicContext();
 
-  useEffect(() => {
-    if (user) {
-      console.log('Connected User Data !!!:', user);
-    }
-  }, [user]);
-  
   return (
     <ConnectButton.Custom>
       {({ account, chain, mounted }) => {
@@ -75,7 +66,7 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
   const renderAccountLink = () => {
     if (!user.infos) {
       return <span className={`HeaderMenu__link`} >
-        <DynamicWidget />
+        <CoinbaseWallet />
       </span>
     }
 

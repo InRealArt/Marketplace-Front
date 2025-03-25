@@ -16,13 +16,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createPublicClient, http } from "viem";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
-import {
-  DynamicContextProvider,
-  DynamicWidget,
-} from "@dynamic-labs/sdk-react-core";
-import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector";
-import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
-
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'wagmi/chains';
 
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? "";
@@ -84,34 +79,21 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
   useEffect(() => setMounted(true), []);
   return (
-    <DynamicContextProvider
-      settings={{
-        environmentId: "f176580d-2366-46b2-8ab9-39fc7885fed5",
-        walletConnectors: [EthereumWalletConnectors],
-        events: {
-          onAuthSuccess: ({ user }) => {
-            console.log('New user created !!', user);
-            // Here you can perform any actions with the new user data
-            // For example, you could store it in your app's state or send it to your backend
-          }
+    <OnchainKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+          chain={base}
+          config={{ appearance: { 
+            mode: 'auto',
         }
       }}
     >
-      <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          {/*<RainbowKitProvider
-            showRecentTransactions={true}
-            theme={darkTheme()}
-            appInfo={demoAppInfo}
-          >*/}
             <Provider store={store} stabilityCheck="never">
-              <DynamicWagmiConnector>
+            
                 {mounted && children}
-              </DynamicWagmiConnector>
+              
             </Provider>
-          {/*</RainbowKitProvider>*/}
         </QueryClientProvider>
-      </WagmiProvider>
-    </DynamicContextProvider>
+      </OnchainKitProvider>
   );
 }
