@@ -47,4 +47,43 @@
       cursor: pointer;
     }
   }
+  
+  &__cartBtn {
+    position: relative;
+    margin-right: 1rem;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+    
+    img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+    }
+    
+    span {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: $redError;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+  }
 }
