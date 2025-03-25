@@ -28,7 +28,6 @@ import { closeModal, updateNftById } from '@/redux/reducers/nfts/reducer';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '@/redux/hooks';
 import { currentNftSelected } from '@/redux/reducers/nfts/selectors';
-import useCheckNetwork from '@/customHooks/useCheckNetwork';
 
 interface SellModalSuccessfulProps extends Partial<NftType>, Partial<ArtistType> {
   hide: () => void;
@@ -56,7 +55,6 @@ const SellModalContent = ({
   setNewPrice
 }: SellModalContentProps) => {
 
-  const wrongNetwork = useCheckNetwork()
 
   return (
     <div className="SellModal">
@@ -87,7 +85,7 @@ const SellModalContent = ({
               action={handleApprove}
               text={isApproving ? 'Approving...' : 'Approve'}
               additionalClassName="purple--marginTop"
-              disabled={isApproving || wrongNetwork}
+              disabled={isApproving}
             />
           )}
           {isApproved && (
@@ -95,7 +93,7 @@ const SellModalContent = ({
               action={handleListNft}
               text={isListing ? 'Relisting...' : 'Relist for sale'}
               additionalClassName="purple--marginTop"
-              disabled={isListing || wrongNetwork}
+              disabled={isListing}
             />
           )}
         </div>

@@ -13,7 +13,6 @@ import { ResourceNftStatuses } from '@prisma/client';
 import { useAccount } from 'wagmi';
 import { WalletClient, createWalletClient, custom } from 'viem';
 import { CHAIN_USED } from '@/app/providers';
-import useCheckNetwork from '@/customHooks/useCheckNetwork';
 
 interface ListProps {
   nav: ListNavigationType[];
@@ -25,20 +24,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
   const { isConnected, address } = useAccount()
   const [navActive, setNavActive] = useState(nav[0]);
   const [onlyToBuy, setOnlyToBuy] = useState(false);
-  const [walletUser, setWalletUser] = useState<WalletClient>()
-  const wrongNetwork = useCheckNetwork()
   
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.ethereum) {
-      const walletClient = createWalletClient({
-          chain: CHAIN_USED,
-          transport: custom(window.ethereum),
-      })
-      setWalletUser(walletClient)
-    }
-}, [])
-
-
   const methods = useForm();
   const searchFieldText = methods.watch(['search'])[0];
   const filtersSelected: string[] = methods.watch(['filters'])[0];

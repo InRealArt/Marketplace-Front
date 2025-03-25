@@ -13,7 +13,6 @@ import { ResourceNftStatuses } from '@prisma/client';
 import { useAccount } from 'wagmi';
 import { WalletClient, createWalletClient, custom } from 'viem';
 import { CHAIN_USED } from '@/app/providers';
-import useCheckNetwork from '@/customHooks/useCheckNetwork';
 
 interface ListProps {
   nav: ListNavigationType[];

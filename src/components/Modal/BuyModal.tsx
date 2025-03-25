@@ -26,7 +26,6 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
 import { toast } from 'sonner';
 import { CHAIN_USED } from '@/app/providers';
-import useCheckNetwork from '@/customHooks/useCheckNetwork';
 
 export interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
   isLoading: boolean
@@ -38,7 +37,6 @@ export interface BuyModalProps extends Partial<NftType>, Partial<ArtistType> {
 
 const BuyModalContent = ({ isLoading, purchaseItem, hide, imageUri, collectionId, price }: BuyModalProps) => {
   const [walletUser, setWalletUser] = useState<WalletClient>();
-  const wrongNetwork = useCheckNetwork()
   const artist = useAppSelector((state) => getArtistByNft(state, collectionId || 0))
   const { ethPrice: ethEuroPrice } = useEthPrice('eur');
   const currentEthValue = ethEuroPrice
@@ -80,7 +78,7 @@ const BuyModalContent = ({ isLoading, purchaseItem, hide, imageUri, collectionId
             action={purchaseItem as () => void}
             text={isLoading ? 'Buying...' : 'Buy now'}
             additionalClassName="gold"
-            disabled={isLoading || wrongNetwork}
+            disabled={isLoading}
           />
         </div>
       </div>

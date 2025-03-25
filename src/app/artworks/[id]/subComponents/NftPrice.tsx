@@ -19,7 +19,6 @@ import { Address } from 'viem';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { ResourceNftStatuses } from '@prisma/client';
 import { setModalInfos } from '@/redux/reducers/nfts/reducer';
-import useCheckNetwork from '@/customHooks/useCheckNetwork';
 import Link from 'next/link';
 import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
 import { setBasketInfos } from '@/redux/reducers/basket/reducer';
@@ -35,7 +34,6 @@ const NftPrice = ({ nft, contractAddress }: NftPriceProps) => {
   const artist = useAppSelector((state) => getArtistByNft(state, nft.collectionId || 0))
 
   // const { isConnected, address } = useAccount();
-  // const wrongNetwork = useCheckNetwork();
 
   // const { data: nftTotalPrice } = useReadContract({
   //   abi: marketplaceAbi,
@@ -125,7 +123,6 @@ const NftPrice = ({ nft, contractAddress }: NftPriceProps) => {
             }}
             text="Sell my RWA"
             additionalClassName="gold"
-            disabled={wrongNetwork}
           />
         ) : isNftSeller ? <Button
           action={() => {
@@ -150,7 +147,7 @@ const NftPrice = ({ nft, contractAddress }: NftPriceProps) => {
             }))}
             text={`${textButton}`}
             additionalClassName={`${isSold ? "purple" : "gold"}`}
-            disabled={isSold || wrongNetwork}
+            disabled={isSold}
           />} */}
       </div>
     </div>
