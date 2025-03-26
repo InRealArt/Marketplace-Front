@@ -20,9 +20,6 @@ import { UserRoles } from '@prisma/client';
 import { verifyCaptcha } from '@/lib/captcha/functions';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { PostDataSingleMailing } from '@/types_mailing';
-import { signIn } from "@/lib/auth-client";
-import { signUp } from "@/lib/auth-client";
-import router from 'next/router';
 
 const phoneValidation = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -107,10 +104,6 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
   const dispatch = useAppDispatch()
   const { executeRecaptcha } = useGoogleReCaptcha()
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const defaultValues = {
     name: "",
     surname: "",
@@ -142,7 +135,6 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
     }
 
     //STEP 2 : Send Email Confirmation
-    //@TODO : Uncomment this when we have a real email
     /*
     const dataMail = await sendMail({
       to: email,
@@ -156,30 +148,39 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
     }
     */
 
-    //STEP 3 : USE BETTER-AUTH
-    await signUp.email({
-      email,
-      password,
-      name: `${name} ${surname}`,
-      fetchOptions: {
-        onResponse: () => {
-          setLoading(false);
+    //STEP 3 : Create User in DB
+    if (values) {
+      const { error, data } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+            surname,
+            address,
+            tel
+          },
+          emailRedirectTo: `${window.location.origin}/auth/callback`
         },
-        onRequest: () => {
-          setLoading(true);
-        },
-        onError: (ctx) => {
-          toast.error(ctx.error.message);
-        },
-        onSuccess: async () => {
+      });
+      if (error) {
+        form.setError("confirmPassword", error)
+        toast.error("An error has occured")
+      } else {
+        const { user } = data
+        const { address, name, surname, tel } = user?.user_metadata || {}
+        if (user?.id) {
+          dispatch(setUserInfos({ id: user.id, role: UserRoles.SELLER, orderIds: [], email: user?.email, name, address, surname, tel }))
+          await createProfile({
+            userId: user.id,
+            userRole: UserRoles.SELLER
+          })
+          form.reset(defaultValues);
           dispatch(setLoginModalDisplay(false))
           toast.success("Your account have been created")
-          console.log('Success SIGNUP')
-        },
-      },
-    });
-
-    
+        }
+      }
+    }
   }
 
   const renderItemAddress = (address: string) => (

@@ -62,12 +62,23 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
   const user = useAppSelector((state) => getUserInfos(state))
   const supabase = createClientComponentClient();
 
+  const displayLoginModal = () => {
+    hideMenu()
+    dispatch(setLoginModalDisplay(true))
+  }
 
   const renderAccountLink = () => {
     if (!user.infos) {
-      return <span className={`HeaderMenu__link`} >
-        <CoinbaseWallet />
-      </span>
+      return (
+        <>
+          <span onClick={displayLoginModal} className={`HeaderMenu__link`} >
+            Sign up / Sign in
+          </span>
+        <span className={`HeaderMenu__link`} >
+          <CoinbaseWallet />
+        </span>
+      </>
+      )
     }
 
     return <Link
