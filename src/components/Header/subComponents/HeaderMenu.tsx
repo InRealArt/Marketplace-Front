@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { LogOutIcon, X } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -7,12 +7,13 @@ import { useAccount, useBalance } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setLoginModalDisplay } from '@/redux/reducers/modals/reducer';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { setUserInfos } from '@/redux/reducers/user/reducer';
 import { toast } from 'sonner';
 import { DashboardTabs } from '@/utils/constants';
 import CoinbaseWallet from '@/components/CoinbaseWallet/CoinbaseWallet';
+import { UserRoles } from '@prisma/client';
+
 interface HeaderMenuProps {
   hideMenu: () => void;
 }
@@ -59,8 +60,36 @@ const WalletLink = ({ hideMenu }: HeaderMenuProps) => {
 
 const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
   const dispatch = useAppDispatch()
-  const user = useAppSelector((state) => getUserInfos(state))
-  const supabase = createClientComponentClient();
+  const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await fetch('/api/auth/session')
+        const data = await response.json()
+        
+        if (data.session?.user) {
+          const { user } = data.session
+          const { address, name, surname, tel } = user?.user_metadata || {}
+          dispatch(setUserInfos({ 
+            id: user.id, 
+            role: UserRoles.SELLER, 
+            orderIds: [], 
+            email: user?.email, 
+            name, 
+            address, 
+            surname, 
+            tel 
+          }))
+          setUser(user)
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération de la session:', error)
+      }
+    }
+
+    fetchSession()
+  }, [dispatch])
 
   const displayLoginModal = () => {
     hideMenu()
@@ -68,16 +97,13 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
   }
 
   const renderAccountLink = () => {
-    if (!user.infos) {
+    if (!user) {
       return (
         <>
           <span onClick={displayLoginModal} className={`HeaderMenu__link`} >
             Sign up / Sign in
           </span>
-        <span className={`HeaderMenu__link`} >
-          <CoinbaseWallet />
-        </span>
-      </>
+        </>
       )
     }
 
@@ -91,9 +117,21 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
         }
       }}
     >
-      {user.infos.name}
+      {user.user_metadata?.name || user.email}
     </Link>
   }
+
+  const renderCoineBasWallet = () => {
+    if (user?.id) {
+      return (
+        <span className={`HeaderMenu__link`} >
+          <CoinbaseWallet />
+        </span>
+      )
+    }
+    return null
+  }
+
   return (
     <section className="HeaderMenu">
       <div className="HeaderMenu__topContent">
@@ -107,7 +145,7 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
       </div>
       <nav className="HeaderMenu__nav">
         {renderAccountLink()}
-        {/* <WalletLink hideMenu={hideMenu} /> */}
+        {renderCoineBasWallet()}
         <Link onClick={hideMenu} className={`HeaderMenu__link`} href={'/artworks'}>
           All Artworks
         </Link>
@@ -125,7 +163,6 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
         >
           All Galleries
         </Link>
-
       </nav>
       <div className="HeaderMenu__bottomContent">
         <Link

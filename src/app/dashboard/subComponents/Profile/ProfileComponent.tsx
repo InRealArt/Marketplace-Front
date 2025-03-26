@@ -4,26 +4,33 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setUserInfos } from '@/redux/reducers/user/reducer';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { DashboardTabs } from '@/utils/constants';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { UserCircle } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
-
+import { signOut } from '@/app/actions/auth';
+import { useRouter } from 'next/navigation';
 interface ProfileProps {
   setActiveTab: React.Dispatch<React.SetStateAction<DashboardTabs>>;
 }
 
 const ProfileComponent = ({ setActiveTab }: ProfileProps) => {
   const dispatch = useAppDispatch()
-  const supabase = createClientComponentClient();
   const { infos } = useAppSelector((state) => getUserInfos(state))
   const { address, email, name, role, surname, tel } = infos || {}
-
+  const router = useRouter()
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    toast.success("You are disconnected")
-    dispatch(setUserInfos(null))
-    setActiveTab(DashboardTabs.WALLET)
+    try {
+      const result = await signOut()
+      if (result.success) {
+        dispatch(setUserInfos(null))
+        toast.success('Déconnexion réussie')
+        router.push('/')
+      } else {
+        throw new Error('Échec de la déconnexion')
+      }
+    } catch (error) {
+      toast.error('Une erreur est survenue lors de la déconnexion')
+    }
   };
 
   return (
@@ -49,7 +56,11 @@ const ProfileComponent = ({ setActiveTab }: ProfileProps) => {
             <p className='Profile__item'>
               <span className='Profile__item--label'>Role:</span> {role}
             </p>
-            <Button additionalClassName='logout' text='Log Out' action={handleSignOut} />
+            <Button 
+              additionalClassName='logout' 
+              text='Se déconnecter' 
+              action={handleSignOut}
+            />
           </div>
         </div>
       </div>

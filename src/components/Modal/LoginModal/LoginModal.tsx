@@ -23,6 +23,7 @@ import { PostDataSingleMailing } from '@/types_mailing';
 import { signIn } from "@/lib/auth-client";
 import { signUp } from "@/lib/auth-client";
 import router from 'next/router';
+import Link from 'next/link';
 
 const phoneValidation = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -107,8 +108,6 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
   const dispatch = useAppDispatch()
   const { executeRecaptcha } = useGoogleReCaptcha()
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const defaultValues = {
@@ -134,9 +133,10 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
   async function onSubmit(values: z.infer<typeof formSignUpSchema>) {
     const { email, name, surname, password, address, tel } = values
     
+    setLoading(true)
     //STEP 1 : Verifiy Captcha
     const dataCaptcha = await verifyCaptcha(executeRecaptcha)
-    console.log('dataCaptcha : ', dataCaptcha)
+    //console.log('dataCaptcha : ', dataCaptcha)
     if (dataCaptcha.success === false) {
       return toast.error('According to Captcha system, you seems to be a robot and not human !')
     }
@@ -170,11 +170,13 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
+          setLoading(false)
         },
         onSuccess: async () => {
           dispatch(setLoginModalDisplay(false))
           toast.success("Your account have been created")
           console.log('Success SIGNUP')
+          setLoading
         },
       },
     });
@@ -307,7 +309,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
               </FormItem>
             )}
           />
-          <Button text='Sign up' type="submit" additionalClassName='login' />
+          <Button text='Sign up' type="submit" additionalClassName='login' disabled={loading}/>
         </form>
       </Form>
     </>
@@ -315,8 +317,8 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
 }
 
 const LoginModalSignInContent = ({ setIsSignin }: LoginModalProps) => {
-  const supabase = createClient()
   const dispatch = useAppDispatch()
+  const [loading, setLoading] = useState(false);
 
   const defaultValues = {
     email: "",
@@ -330,22 +332,30 @@ const LoginModalSignInContent = ({ setIsSignin }: LoginModalProps) => {
 
   async function onSubmit(values: z.infer<typeof formSignInSchema>) {
     const { email, password } = values
-
+    
+    setLoading(true)
     if (values) {
-      const { error, data } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { error, data } = await signIn.email({ email, password }, 
+        {
+          onResponse: () => {
+            setLoading(false);
+          },
+          onRequest: () => {
+            setLoading(true);
+          },
+        }
+      );
+      console.log('DATA : ', data)
       if (error) {
-        console.log(error);
-        form.setError("password", error)
-        toast.error("An error has occured")
+        toast.error(error.message)
       } else {
-        const { user } = data
-        const { address, name, surname, tel } = user?.user_metadata || {}
-        dispatch(setUserInfos({ id: user.id, role: UserRoles.SELLER, orderIds: [], email: user?.email, name, address, surname, tel }))
+        const user = data.user
+        const name = user.name
+        // const { address, name, surname, tel } = user?.user_metadata || {}
+        dispatch(setUserInfos({ id: user.id, role: UserRoles.SELLER, orderIds: [], email: user?.email, name, address: '', surname: '', tel: '' }))
         dispatch(setLoginModalDisplay(false))
         toast.success("You are connected")
+
       }
     }
   }
@@ -387,7 +397,7 @@ const LoginModalSignInContent = ({ setIsSignin }: LoginModalProps) => {
               </FormItem>
             )}
           />
-          <Button text='Sign in' type="submit" additionalClassName='login' />
+          <Button text='Sign in' type="submit" additionalClassName='login' disabled={loading}/>
         </form>
       </Form>
     </>

@@ -21,7 +21,7 @@ import { useSearchParams } from 'next/navigation';
 const Wallet = () => {
   const { isConnected } = useAccount();
   const searchParams = useSearchParams();
-  const currentTab = searchParams.get("tab");
+  const currentTab = searchParams?.get("tab");
 
   const [activeTab, setActiveTab] = useState(currentTab as DashboardTabs || DashboardTabs.WALLET);
   const user = useAppSelector((state) => getUserInfos(state))
