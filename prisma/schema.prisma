@@ -7,7 +7,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["auth", "public"]
+  schemas  = ["auth", "public", "marketplace"]
 }
 
 model Artist {
@@ -521,6 +521,27 @@ model Wallet {
 
   @@map("wallets")
   @@schema("public")
+}
+
+// À ajouter dans prisma/schema.prisma
+model Cart {
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique
+  items     Json     // Stockage des items sous forme JSON
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("marketplace")
+}
+
+model AnonymousCart {
+  cartId    String   @id //Id généré par le client dans un Cookie
+  items     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime
+
+  @@schema("marketplace")
 }
 
 model User {
