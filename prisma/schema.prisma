@@ -787,16 +787,6 @@ model AnonymousCart {
   @@schema("marketplace")
 }
 
-model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
 enum Chain {
   eth_mainnet
   sepolia
