@@ -2,9 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArtistType } from '@/types';
-import { useAppSelector } from '@/redux/hooks';
-import { getNftsByArtist } from '@/redux/reducers/nfts/selectors';
-import { getImageFromUri } from '@/utils/getImageFromUri';
 import { useNftsStore } from '@/store/nftsStore';
 
 interface ArtistCardProps {
@@ -12,15 +9,17 @@ interface ArtistCardProps {
 }
 
 const ArtistCard = ({ artist }: ArtistCardProps) => {
-  const { id, name, imageUrl, backgroundImage, slug } = artist;
-  const { getNftsByArtist } = useNftsStore();
+  const { id, name, imageUrl, backgroundImage } = artist;
   
+  const { getNftsByArtist } = useNftsStore();
   const nfts = getNftsByArtist(id);
-  const mainImage = nfts[0]?.mainImageUrl
-  const background = mainImage || backgroundImage
+
+  const imgUri = nfts[0]?.mainImageUrl;
+  const background = imgUri ?? backgroundImage;
+
   return (
     <div className="ArtistCard">
-      <Link href={`/artists/${slug || id}`}>
+      <Link href={`/artists/${id}`}>
         {background ? <div
           className="ArtistCard__background"
           style={{
@@ -48,4 +47,4 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
   );
 };
 
-export default ArtistCard;
+export default ArtistCard; 

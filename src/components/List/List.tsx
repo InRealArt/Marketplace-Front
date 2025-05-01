@@ -9,10 +9,7 @@ import ListHeader from './subComponents/ListHeader';
 import { ArtistType, CollectionType, ListNavigationType, NftType } from '@/types';
 import CollectionCard from '../Card/CollectionCard';
 import { useEffect, useState } from 'react';
-import { ResourceNftStatuses } from '@prisma/client';
-import { useAccount } from 'wagmi';
-import { WalletClient, createWalletClient, custom } from 'viem';
-import { CHAIN_USED } from '@/app/providers';
+import { ItemStatus } from '@prisma/client';
 
 interface ListProps {
   nav: ListNavigationType[];
@@ -21,39 +18,34 @@ interface ListProps {
 }
 
 const List = ({ nav, viewAllLink, filters }: ListProps) => {
-  const { isConnected, address } = useAccount()
-  const [navActive, setNavActive] = useState(nav[0]);
-  const [onlyToBuy, setOnlyToBuy] = useState(false);
-  
   const methods = useForm();
-  const searchFieldText = methods.watch(['search'])[0];
-  const filtersSelected: string[] = methods.watch(['filters'])[0];
-  const navActiveItem = nav.find(navItem => navItem.tab === navActive.tab)
+  
+  const [navActive, setNavActive] = useState<ListNavigationType>(nav[0]);
+  const [navActiveItem, setNavActiveItem] = useState<ListNavigationType | undefined>(nav[0]);
+  const [onlyToBuy, setOnlyToBuy] = useState(false);
 
-  const listWithQuery =
-    searchFieldText?.length > 0
-      ? navActiveItem?.list.filter(
-        (item) =>
-          ((item as NftType | ArtistType).name || (item as CollectionType).symbol).toLowerCase().indexOf(searchFieldText?.toLowerCase()) !==
-          -1,
-      )
-      : navActiveItem?.list;
+  useEffect(() => {
+    if (!navActive) {
+      setNavActive(nav[0])
+      setNavActiveItem(nav[0])
+    } else {
+      const newNavActive = nav.find((item) => item.tab === navActive.tab)
+      if (newNavActive) {
+        setNavActive(newNavActive)
+        setNavActiveItem(newNavActive)
+      } else {
+        setNavActive(nav[0])
+        setNavActiveItem(nav[0])
+      }
+    }
+  }, [nav, navActive])
 
-  const listWithTags = (filtersSelected?.length > 0)
-    ? listWithQuery?.filter(
-      (nft) =>
-        filtersSelected?.every((item) => (nft as NftType).tags?.includes(item)),
+  // Si NFT, filtrer pour OnlyToBuy
+  const listOfNftsToBuyOrNot = navActiveItem?.context === 'nft' && onlyToBuy
+    ? (navActiveItem.list as NftType[]).filter(
+      nft => nft.status === ItemStatus.listed
     )
-    : listWithQuery;
-
-  const nftsToFilter = (nft: NftType) => {
-    const notOwnedNfts = ((address !== nft.previousOwner) && (address !== nft.owner))
-    const nftsListed = nft.status === ResourceNftStatuses.LISTED
-    
-    return !isConnected && nftsListed || (isConnected && nftsListed && notOwnedNfts)
-  }
-
-  const listOfNftsToBuyOrNot = onlyToBuy && navActiveItem?.context === 'nft' ? (listWithTags as NftType[])?.filter((nft) => nftsToFilter(nft)) : listWithTags
+    : navActiveItem?.list
 
   const showListByType = (item: NftType | ArtistType | CollectionType) => {
     switch (navActiveItem?.context) {
@@ -65,7 +57,6 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
         return <CollectionCard key={item.id} collection={item as CollectionType} />
     }
   }
-
 
   return (
     <section className="List">
@@ -87,4 +78,4 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
   );
 };
 
-export default List;
+export default List; 

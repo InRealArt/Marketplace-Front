@@ -2,9 +2,6 @@ import { useEffect } from 'react'
 import { useArtistsStore } from '@/store/artistsStore'
 import { ArtistId, ArtistType } from '@/types'
 
-/**
- * Hook personnalisé pour accéder et gérer les données des artistes avec Zustand
- */
 export function useArtistsData(artistId?: ArtistId) {
     const {
         artists,

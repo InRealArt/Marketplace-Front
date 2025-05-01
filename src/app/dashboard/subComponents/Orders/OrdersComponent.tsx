@@ -7,6 +7,7 @@ import { getNftBySlug } from '@/redux/reducers/nfts/selectors';
 import { setOrders } from '@/redux/reducers/orders/reducer';
 import { getOrders } from '@/redux/reducers/orders/selectors';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
+import { useNftsStore } from '@/store/nftsStore';
 import { OrderType } from '@/types';
 import { OrderStatus } from '@prisma/client';
 import React, { useEffect } from 'react';
@@ -23,8 +24,9 @@ const OrderStatusMapping = {
 }
 const OrderItem = ({ order }: OrderProps) => {
   const { id, created_at, userId, nftId, orderStatus } = order
-  const nft = useAppSelector((state) => getNftBySlug(state, nftId))
-  const artist = useAppSelector((state) => getArtistByNft(state, nft?.collectionId || 0))
+  const { getNftById } = useNftsStore()
+  const nft = getNftById(nftId)
+  const artist = useAppSelector((state) => getArtistByNft(state, nft?.categoryId || 0))
   useFetchData()
 
   return (

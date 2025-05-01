@@ -1,8 +1,7 @@
 'use client'
 import List from './List';
 import { ListNavigationType } from '@/types';
-import { useAppSelector } from '@/redux/hooks';
-import { getNftsTags } from '@/redux/reducers/nfts/selectors';
+import { useNftsStore } from '@/store/nftsStore';
 
 interface ListOfNftsProps {
   nav: ListNavigationType[];
@@ -10,7 +9,12 @@ interface ListOfNftsProps {
 }
 
 const ListOfNfts = ({ nav, viewAllLink }: ListOfNftsProps) => {
-  const nftsTags = useAppSelector((state) => getNftsTags(state))
+  const { nfts } = useNftsStore();
+  const nftsTags = nfts
+    .map(nft => nft.tags !== undefined ? nft.tags : [])
+    .flat(1)
+    .filter((item, index, self) => self.indexOf(item) === index);
+
   return (
     <section className="ListOfNfts">
       <List
@@ -22,4 +26,4 @@ const ListOfNfts = ({ nav, viewAllLink }: ListOfNftsProps) => {
   );
 };
 
-export default ListOfNfts;
+export default ListOfNfts; 
