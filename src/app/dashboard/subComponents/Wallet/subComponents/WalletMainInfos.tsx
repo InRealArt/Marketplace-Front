@@ -1,5 +1,3 @@
-import { useAppSelector } from '@/redux/hooks';
-import { getCommunautaryNfts } from '@/redux/reducers/nfts/selectors';
 import { ChevronLeft, ChevronRightIcon, LucideListOrdered } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
@@ -8,48 +6,55 @@ import { ResourceNftStatuses } from '@prisma/client';
 import Button from '@/components/Button/Button';
 import { TransactionData, fetchTransactionsByAddress } from '@/lib/transactions';
 import { Address } from 'viem';
+import { useNftsStore } from '@/store/nftsStore';
 
 interface WalletTransactionHistoryProps {
   address: Address
   setShowTransactions: React.Dispatch<React.SetStateAction<boolean>>
 }
-const WalletTransactionHistory = ({ setShowTransactions, address }: WalletTransactionHistoryProps) => {
-  const [transactions, setTransactions] = useState<TransactionData[]>();
-  const fetchTransactionsData = async () => {
-    const transactionsByNft = await fetchTransactionsByAddress(address as Address)
-    setTransactions(transactionsByNft as TransactionData[])
-  };
+
+const WalletTransactionHistory = ({ address, setShowTransactions }: WalletTransactionHistoryProps) => {
+  const [transactions, setTransactions] = useState<TransactionData[]>([]);
 
   useEffect(() => {
-    fetchTransactionsData()
-  }, [])
-  return (
-    <section className='WalletTransactionHistory'>
-      <ChevronLeft className='WalletTransactionHistory__icon' width={40} height={40} onClick={() => setShowTransactions(false)} />
-      {transactions?.map(transaction => (
-        <div key={transaction.transactionHash} className='WalletTransactionHistory__item'>
-          <p>{transaction.created_at?.toLocaleDateString()} {transaction.created_at?.toLocaleTimeString()}</p>
-          <p>Type: {transaction.functionName}</p>
-          <a className='WalletTransactionHistory__item--link' target='_blank' href={`https://sepolia.etherscan.io/tx/${transaction.transactionHash}`}>See transaction</a>
-        </div>
-      ))}
-    </section>
-  )
-}
-const WalletMainInfos = () => {
-  const { address } = useAccount()
-  const { disconnect } = useDisconnect()
-  const nfts = useAppSelector((state) => getCommunautaryNfts(state))
-  const [showTransactions, setShowTransactions] = useState(false)
-  //Les NFTs des users sont les NFT dont le champ "owner" est valorisé à l'adresse du wallet Metamask connecté 
-  // Ces Nfts sont forcément au statut 'SOLD'
-  //Il faut ajouter à ces NFT ceux qui ont été listé par le vendeur sur la MarketPlace donc ceux qui respectent les critéres : 
-  //  statut = LISTED & previousOwner = currentWallet
-  const nftsOwned = nfts.filter(nft => nft.owner === address)
-  const nftsListedOwned = nfts.filter(nft => (nft.previousOwner === address && nft.status == ResourceNftStatuses.LISTED))
-  const nftsOwnedTotal = [...nftsOwned, ...nftsListedOwned]
+    const fetchTransactions = async () => {
+      const data = await fetchTransactionsByAddress(address);
+      setTransactions(data);
+    };
+    fetchTransactions();
+  }, [address]);
 
-  if (showTransactions && address) return <WalletTransactionHistory address={address} setShowTransactions={setShowTransactions} />
+  return (
+    <div className="WalletTransactionHistory">
+      <div className="WalletTransactionHistory__header">
+        <ChevronLeft onClick={() => setShowTransactions(false)} />
+        <h2>Transaction History</h2>
+      </div>
+      <div className="WalletTransactionHistory__list">
+        {transactions.map((transaction) => (
+          <div key={transaction.id} className="WalletTransactionHistory__item">
+            <p>{transaction.functionName}</p>
+            <p>{transaction.price} €</p>
+            <p>{new Date(transaction.created_at).toLocaleDateString()}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const WalletMainInfos = () => {
+  const { address } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { getCommunautaryNfts } = useNftsStore();
+  const [showTransactions, setShowTransactions] = useState(false);
+  
+  const nfts = getCommunautaryNfts();
+  const nftsOwned = nfts.filter(nft => nft.owner === address);
+  const nftsListedOwned = nfts.filter(nft => (nft.previousOwner === address && nft.status == ResourceNftStatuses.LISTED));
+  const nftsOwnedTotal = [...nftsOwned, ...nftsListedOwned];
+
+  if (showTransactions && address) return <WalletTransactionHistory address={address} setShowTransactions={setShowTransactions} />;
 
   return (
     <section className="WalletMainInfos">

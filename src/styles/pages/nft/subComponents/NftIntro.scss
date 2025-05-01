@@ -157,15 +157,6 @@
       }
     }
   }
-  &__ethLogo {
-    display: inline-block;
-  }
-  &__ethPrice {
-    margin: 0;
-    display: inline-block;
-    @include textBody(32px, -0.25px);
-    font-weight: 600;
-  }
 
   &__infos,
   &__price {

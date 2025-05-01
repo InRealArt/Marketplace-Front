@@ -15,10 +15,10 @@ const ArtistCardZustand = ({ artist }: ArtistCardProps) => {
   // Utiliser Zustand au lieu de Redux
   const { getNftsByArtist } = useNftsStore();
   const nfts = getNftsByArtist(id);
-  
-  const imgUri = nfts[0]?.imageUri;
-  const background = imgUri ? getImageFromUri(imgUri) : backgroundImage;
-  
+
+  const imgUri = nfts[0]?.mainImageUrl;
+  const background = imgUri ?? backgroundImage;
+
   return (
     <div className="ArtistCard">
       <Link href={`/artists/${id}`}>

@@ -3,7 +3,7 @@ import useFetchData from '@/customHooks/useFetchData';
 import { fetchOrdersByUser } from '@/lib/orders';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { getArtistByNft } from '@/redux/reducers/artists/selectors';
-import { getNftById } from '@/redux/reducers/nfts/selectors';
+import { getNftBySlug } from '@/redux/reducers/nfts/selectors';
 import { setOrders } from '@/redux/reducers/orders/reducer';
 import { getOrders } from '@/redux/reducers/orders/selectors';
 import { getUserInfos } from '@/redux/reducers/user/selectors';
@@ -23,7 +23,7 @@ const OrderStatusMapping = {
 }
 const OrderItem = ({ order }: OrderProps) => {
   const { id, created_at, userId, nftId, orderStatus } = order
-  const nft = useAppSelector((state) => getNftById(state, nftId))
+  const nft = useAppSelector((state) => getNftBySlug(state, nftId))
   const artist = useAppSelector((state) => getArtistByNft(state, nft?.collectionId || 0))
   useFetchData()
 

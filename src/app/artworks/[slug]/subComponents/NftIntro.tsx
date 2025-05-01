@@ -7,7 +7,6 @@ import { ReadMore } from '@/components/utils/ReadMore';
 import DescriptionModal from '@/components/Modal/DescriptionModal';
 import dynamic from 'next/dynamic';
 import { ArtistType, NftType } from '@/types';
-import { getImageFromUri } from '@/utils/getImageFromUri';
 import { Address } from 'viem';
 import { ArrowBigLeft, ArrowBigRight, Share2, StarsIcon } from 'lucide-react';
 import { TransactionData, fetchTransactionsByNft } from '@/lib/transactions';
@@ -19,28 +18,27 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 interface NftIntroProps {
   nft: NftType
   artist: ArtistType | null | undefined
-  contractAddress: Address
+  // contractAddress: Address
 }
-const NftIntro = ({ nft, artist, contractAddress }: NftIntroProps) => {
-  const { name, description, imageUri, mockups } = nft || {};
+
+const NftIntro = ({ nft, artist }: NftIntroProps) => {
+  const { name, description, mainImageUrl, secondaryImagesUrl } = nft || {};
   const [showDescriptionModal, setShowDescriptionModal] = useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
-  const [transactions, setTransactions] = useState<TransactionData[]>();
+  const images = secondaryImagesUrl ? [mainImageUrl, ...secondaryImagesUrl] : [mainImageUrl]
 
-  const images = mockups ? [...[getImageFromUri(imageUri || "")], ...mockups] : [getImageFromUri(imageUri || "")]
+  // const fetchTransactionsData = async () => {
+  //   const transactionsByNft = await fetchTransactionsByNft(nft.id, contractAddress)
+  //   setTransactions(transactionsByNft.filter(transaction => transaction.functionName === 'purchaseItem') as TransactionData[])
+  // };
 
-  const fetchTransactionsData = async () => {
-    const transactionsByNft = await fetchTransactionsByNft(nft.tokenId, contractAddress)
-    setTransactions(transactionsByNft.filter(transaction => transaction.functionName === 'purchaseItem') as TransactionData[])
-  };
+  // useEffect(() => {
+  //   fetchTransactionsData()
+  // }, [])
 
-  useEffect(() => {
-    fetchTransactionsData()
-  }, [])
-
-  const dates = transactions?.map(transaction => `${transaction.created_at}`)
-  const prices = transactions?.map(transaction => Number(transaction.price))
+  // const dates = transactions?.map(transaction => `${transaction.created_at}`)
+  // const prices = transactions?.map(transaction => Number(transaction.price))
 
   // const series = [
   //   {
@@ -96,7 +94,7 @@ const NftIntro = ({ nft, artist, contractAddress }: NftIntroProps) => {
 
   return (
     <section className="Nft__intro">
-      {imageUri && <div
+      {mainImageUrl && <div
         className="Nft__image"
         style={{
           backgroundImage: ` url('${images[currentImageIndex]}')`,
@@ -123,7 +121,7 @@ const NftIntro = ({ nft, artist, contractAddress }: NftIntroProps) => {
             />
           )}
           <div className="Nft__artist__name">
-            <Link href={`/artists/${artist?.id}`}>{artist?.pseudo}</Link>
+            <Link href={`/artists/${artist?.slug}`}>{artist?.pseudo}</Link>
             <h3>{name}</h3>
           </div>
         </div>
@@ -143,11 +141,8 @@ const NftIntro = ({ nft, artist, contractAddress }: NftIntroProps) => {
             name={name || ''}
           />
         </div>
+        <NftPrice nft={nft} />
       </div>
-      <NftPrice
-        nft={nft}
-        contractAddress={contractAddress}
-      />
       {/* <ReactApexChart
         className="NftGraphic"
         series={series as ApexAxisChartSeries}

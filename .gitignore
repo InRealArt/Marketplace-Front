@@ -13,6 +13,9 @@
 /.next/
 /out/
 
+# Cursor
+/.cursor/
+
 # production
 /build
 

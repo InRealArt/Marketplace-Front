@@ -5,7 +5,7 @@ import { getCollectionsByArtist } from "../collections/selectors"
 export const getNfts = (state: RootState) => state.nfts.list
 export const getIraNfts = (state: RootState) => state.nfts.list.filter(nft => !nft.purchasedOnce)
 export const getCommunautaryNfts = (state: RootState) => state.nfts.list.filter(nft => nft.purchasedOnce)
-export const getNftById = (state: RootState, nftId: NftId) => state.nfts.list.find(nft => nft.id === nftId)
+export const getNftBySlug = (state: RootState, nftId: NftId) => state.nfts.list.find(nft => nft.id === nftId)
 export const getNftsByCollection = (state: RootState, collectionId: CollectionId) => state.nfts.list.filter(nft => nft.collectionId === collectionId)
 export const getNftsByArtist = (state: RootState, artistId: ArtistId) => {
   const collections = getCollectionsByArtist(state, artistId)

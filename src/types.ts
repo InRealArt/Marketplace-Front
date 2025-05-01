@@ -1,22 +1,25 @@
-import { OrderStatus, ResourceNftStatuses, ResourceTypes } from "@prisma/client"
+import { ItemStatus, OrderStatus, ResourceNftStatuses, ResourceTypes } from "@prisma/client"
+import { Decimal } from "@prisma/client/runtime/library"
 import { Address } from "viem"
 
 export type UserId = string
 export type ArtistId = number
+export type CollectionId = number
 export type OrderId = number
+
 export interface ArtistType {
   id: ArtistId
   name: string
   surname: string
   pseudo: string
   description: string
-  imageUrl: string
   publicKey: string
-  isGallery?: boolean | null
+  imageUrl: string
+  isGallery: boolean
   backgroundImage?: string | null
+  artworkStyle?: string | null
+  slug?: string | null
 }
-
-export type CollectionId = number
 
 export interface CollectionType {
   id: CollectionId
@@ -27,27 +30,38 @@ export interface CollectionType {
 }
 
 export type NftId = number
+export type NftSlug = string | null
 
 export interface NftType {
-  id?: NftId
-  tokenId?: number | null
-  tokenUri?: string | null
-  itemId?: number | null
-  certificateUri?: string | null
-  status: ResourceNftStatuses
-  type: ResourceTypes
-  minter?: string | Address
-  imageUri: string | null,
-  name: string
-  description: string
-  collectionId: number
-  price?: number
-  tags?: string[]
+  id: number
+  status: ItemStatus
+  idUser: number
+  idNftResource?: number | null
+  height: Decimal | null
+  width: Decimal | null
+  intellectualProperty: boolean | null
+  intellectualPropertyEndDate: Date | null
+  tags: string[]
+  priceNftBeforeTax: number
+  artworkSupport: string | null
+  realViewCount: number
+  fakeViewCount: number
+  categoryId: number | null
+  pricePhysicalBeforeTax: number | null
+  priceNftPlusPhysicalBeforeTax: number | null
+  creationYear: number | null
+  weight: Decimal | null
+  name: string | null
+  slug: NftSlug
+  metaTitle: string | null
+  metaDescription: string | null
+  description: string | null
+  mainImageUrl: string | null
+  secondaryImagesUrl: string[]
+  qtyPhysicalArt: number | null
   owner?: string | null
   previousOwner?: string | null
-  transactionHash?: string | null
-  mockups?: string[]
-  purchasedOnce?: boolean | null
+  itemId?: number | null
 }
 
 export interface OrderType {

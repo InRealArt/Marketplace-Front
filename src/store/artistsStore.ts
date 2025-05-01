@@ -31,5 +31,5 @@ export const useArtistsStore = create<ArtistsState>((set, get) => ({
         } catch (error) {
             set({ isLoading: false, error: error as Error })
         }
-    }
+    },
 })) 

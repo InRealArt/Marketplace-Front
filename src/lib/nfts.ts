@@ -1,36 +1,27 @@
 'use server'
 import prisma from "./prisma"
-import { ResourceNftStatuses } from "@prisma/client"
+import { ItemStatus, ResourceNftStatuses } from "@prisma/client"
 import { NftId, NftType } from "@/types"
 
-async function getNftById(id: number) {
-    const nft = await prisma.resourceNft.findUnique({
+async function getNftBySlug(id: number) {
+    const nft = await prisma.item.findUnique({
         where: {
             id
+        },
+        include: {
+            NftResource: true
         }
     })
     return nft
 }
 
-async function getNftsByStatus(status: ResourceNftStatuses[]) {
-    const nfts: NftType[] = await prisma.resourceNft.findMany({
+async function getNftsByStatus(status: ItemStatus[]) {
+    const nfts = await prisma.item.findMany({
         where: {
             status: { in: status }
         },
-        orderBy: [
-            {
-              id: 'asc'
-            }
-          ]
-    })
-    return nfts
-}
-
-async function getNftsByStatusAndPurchasedOnce(status: ResourceNftStatuses[], purchasedOnce: boolean) {
-    let nfts: NftType[] = await prisma.resourceNft.findMany({
-        where: {
-            status: { in: status },
-            purchasedOnce: purchasedOnce
+        include: {
+            NftResource: true
         },
         orderBy: [
             {
@@ -38,10 +29,27 @@ async function getNftsByStatusAndPurchasedOnce(status: ResourceNftStatuses[], pu
             }
           ]
     })
-    return nfts
+    return nfts.map(nft => ({
+        ...nft,
+        owner: nft.NftResource?.owner,
+        previousOwner: nft.NftResource?.previousOwner,
+        itemId: nft.NftResource?.blockchainItemId
+    })) as NftType[]
 }
 
 async function updateNft(data: Partial<NftType>, id: NftId) {
+    const nft = await prisma.item.update({
+        where: {
+            id
+        }, data: data
+    })
+    return nft
+}
+
+async function updateResourceNft(data: { status: ResourceNftStatuses }, id: number | undefined) {
+    if (!id) {
+        throw new Error('ID is required to update a ResourceNft')
+    }
     const nft = await prisma.resourceNft.update({
         where: {
             id
@@ -50,4 +58,4 @@ async function updateNft(data: Partial<NftType>, id: NftId) {
     return nft
 }
 
-export { getNftsByStatus, getNftById, updateNft, getNftsByStatusAndPurchasedOnce }
+export { getNftsByStatus, getNftBySlug, updateNft, updateResourceNft }

@@ -28,7 +28,7 @@ const useZustandFetchData = (artistId?: ArtistId) => {
         nfts,
         getIraNfts,
         getCommunautaryNfts,
-        getNftsByArtist,
+        // getNftsByArtist,
         fetchNfts
     } = useNftsStore()
 

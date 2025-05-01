@@ -5,19 +5,22 @@ import { ArtistType } from '@/types';
 import { useAppSelector } from '@/redux/hooks';
 import { getNftsByArtist } from '@/redux/reducers/nfts/selectors';
 import { getImageFromUri } from '@/utils/getImageFromUri';
+import { useNftsStore } from '@/store/nftsStore';
 
 interface ArtistCardProps {
   artist: ArtistType;
 }
 
 const ArtistCard = ({ artist }: ArtistCardProps) => {
-  const { id, name, imageUrl, backgroundImage } = artist;
-  const nfts = useAppSelector((state) => getNftsByArtist(state, id))
-  const imgUri = nfts[0]?.imageUri
-  const background = imgUri ? getImageFromUri(imgUri) : backgroundImage
+  const { id, name, imageUrl, backgroundImage, slug } = artist;
+  const { getNftsByArtist } = useNftsStore();
+  
+  const nfts = getNftsByArtist(id);
+  const mainImage = nfts[0]?.mainImageUrl
+  const background = mainImage || backgroundImage
   return (
     <div className="ArtistCard">
-      <Link href={`/artists/${id}`}>
+      <Link href={`/artists/${slug || id}`}>
         {background ? <div
           className="ArtistCard__background"
           style={{

@@ -9,7 +9,7 @@ import ListHeader from './subComponents/ListHeader';
 import { ArtistType, CollectionType, ListNavigationType, NftType } from '@/types';
 import CollectionCard from '../Card/CollectionCard';
 import { useEffect, useState } from 'react';
-import { ResourceNftStatuses } from '@prisma/client';
+import { ItemStatus, ResourceNftStatuses } from '@prisma/client';
 import { useAccount } from 'wagmi';
 import { WalletClient, createWalletClient, custom } from 'viem';
 import { CHAIN_USED } from '@/app/providers';
@@ -47,7 +47,7 @@ const ListZustand = ({ nav, viewAllLink, filters }: ListProps) => {
   // Si NFT, filtrer pour OnlyToBuy
   const listOfNftsToBuyOrNot = navActiveItem?.context === 'nft' && onlyToBuy
     ? (navActiveItem.list as NftType[]).filter(
-      nft => nft.status === ResourceNftStatuses.LISTED
+      nft => nft.status === ItemStatus.listed
     )
     : navActiveItem?.list
 
