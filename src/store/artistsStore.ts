@@ -8,6 +8,7 @@ interface ArtistsState {
     isLoading: boolean
     error: Error | null
     fetchArtists: () => Promise<void>
+    getArtistById: (id: number) => ArtistType | undefined
 }
 
 export const useArtistsStore = create<ArtistsState>((set, get) => ({
@@ -32,4 +33,8 @@ export const useArtistsStore = create<ArtistsState>((set, get) => ({
             set({ isLoading: false, error: error as Error })
         }
     },
+    getArtistById: (id: number) => {
+        const { artists, galleries } = get()
+        return [...artists].concat([...galleries]).find(artist => artist.id === id)
+    }
 })) 

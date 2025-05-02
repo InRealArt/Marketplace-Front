@@ -3,7 +3,7 @@ import { MoveLeft, MoveRight } from 'lucide-react';
 import { useSwiper } from 'swiper/react';
 
 interface SwiperArrowsProps {
-  className: string;
+  className?: string;
   artistsLength: number;
   activeSlide: number;
 }
@@ -18,19 +18,19 @@ const SwiperArrows = ({
   const rightDisabled: boolean = activeSlide >= artistsLength - 1;
 
   return (
-    <div className={`${className}__arrows`}>
+    <div className={className}>
       <MoveLeft
         onClick={() => swiper.slidePrev()}
-        className={`${className}__arrow ${
-          leftDisabled && `${className}__arrow--disabled`
+        className={`cursor-pointer sm:w-[40px] sm:h-auto ${
+          leftDisabled ? 'pointer-events-none text-[#a7a7a7]' : ''
         }`}
         width={100}
         height={80}
       />
       <MoveRight
         onClick={() => swiper.slideNext()}
-        className={`${className}__arrow ${
-          rightDisabled && `${className}__arrow--disabled`
+        className={`cursor-pointer sm:w-[40px] sm:h-auto ${
+          rightDisabled ? 'pointer-events-none text-[#a7a7a7]' : ''
         }`}
         width={100}
         height={80}

@@ -55,38 +55,38 @@ const NftPrice = ({ nft }: NftPriceProps) => {
   };
 
   return (
-    <div className="Nft__price">
-      <div className="Nft__price__options">
+    <div className="flex flex-col gap-6 p-6 bg-gradient-to-b from-[rgba(30,30,30,0.5)] to-[rgba(20,20,20,0.8)] rounded-[8px] border border-[rgba(255,255,255,0.1)] shadow-[0_4px_20px_rgba(0,0,0,0.25)] backdrop-blur-[5px]">
+      <div className="flex gap-3 justify-center flex-wrap">
         {PRICE_OPTIONS.map((option) => (
           <Button
             key={option.value}
             text={option.label}
             action={() => setActiveOption(option.value)}
-            additionalClassName={activeOption === option.value ? 'gold' : 'secondary'}
+            additionalClassName={activeOption === option.value ? 'gold' : 'whiteBorder'}
             disabled={option.disabled}
           />
         ))}
       </div>
-      <div className="Nft__price__content">
-        <div className="Nft__price__details">
-          <p className="Nft__price__label">
+      <div className="flex items-center gap-4 bg-[rgba(0,0,0,0.2)] p-4 rounded-[8px]">
+        <div className="flex flex-col gap-1">
+          <p className="text-sm text-[rgba(255,255,255,0.7)]">
             {PRICE_OPTIONS.find(opt => opt.value === activeOption)?.label}
           </p>
-          <p className="Nft__price__label">{getCurrentPrice()} euros</p>
+          <p className="text-sm text-[rgba(255,255,255,0.7)]">{getCurrentPrice()} euros</p>
         </div>
       </div>
-      <div className="Nft__price__actions">
+      <div className="flex gap-4 mt-2">
         <Button
           text='Buy now'
           link={`/artworks/${nft.slug}`}
           additionalClassName='gold'
-          activeClassName='large'
+          className='flex-1'
         />
         <Button
           text='Add to cart'
           link={`/artworks/${nft.slug}`}
-          additionalClassName='secondary'
-          activeClassName='large'
+          additionalClassName='whiteBorder'
+          className='flex-1'
         />
       </div>
     </div>

@@ -29,6 +29,9 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '@/redux/hooks';
 import { currentNftSelected } from '@/redux/reducers/nfts/selectors';
 
+// Input styling constant for consistency with other forms
+const InputStyle = "text-white rounded-[10px] border-2 border-[#b39e73] bg-transparent w-full h-[64px] py-[10px] px-[15px] font-poppins text-[18px] tracking-[-0.25px] mt-[15px] focus:bg-transparent focus:outline-none";
+
 interface SellModalSuccessfulProps extends Partial<NftType>, Partial<ArtistType> {
   hide: () => void;
 }
@@ -57,24 +60,24 @@ const SellModalContent = ({
 
 
   return (
-    <div className="SellModal">
+    <div className="flex flex-col items-center gap-[30px] mt-[20px] md:flex-row">
       {imageUri && <div
-        className="SellModal__img"
+        className="w-full h-[250px] rounded-[10px] bg-no-repeat bg-cover bg-center md:w-[230px] md:h-[270px] md:flex-none"
         style={{
           backgroundImage: ` url('${getImageFromUri(imageUri)}')`,
         }}
       />}
-      <div className="SellModal__infos">
-        <p className="SellModal__description">
+      <div className="flex flex-col gap-[15px] md:gap-[25px]">
+        <p className="m-0 font-poppins text-[16px]">
           This artwork now belongs to you. To list it for sale on our marketplace, please follow the following steps:
           <br /><br />
           &#x2022; Click on &quot;approve&quot; to approve listing your RWA on our marketplace.<br /><br />
           &#x2022; When approved, select the price of your choice then click on &quot;Relist for sale&quot; to list your RWA on our marketplace.
         </p>
-        <div className="SellModal__buttons">
+        <div className="flex gap-[15px]">
           {isApproved && <Input
             type='number'
-            className='LoginModal__input'
+            className={InputStyle}
             placeholder="0.001"
             onChange={(e) => setNewPrice(e?.target?.value)}
             value={newPrice}
@@ -103,15 +106,15 @@ const SellModalContent = ({
 };
 
 const SellModalSuccessfulContent = ({ hide, imageUri, name }: SellModalSuccessfulProps) => (
-  <div className="SellModal SellModal--successful">
-    <p className="SellModal__description">
+  <div className="flex flex-col items-center gap-[30px] mt-[20px]">
+    <p className="m-0 font-poppins text-[16px]">
       Your artwork <b>{name}</b> is now listed on the InRealArt marketplace!
     </p>
     {(imageUri) && <>
-      <Image width={100} height={100} className="SellModal__miniature" alt='nft-image' src={getImageFromUri(imageUri)} />
+      <Image width={100} height={100} className="rounded-[10px] w-1/2 h-auto" alt='nft-image' src={getImageFromUri(imageUri)} />
     </>
     }
-    <div className="SellModal__buttons">
+    <div className="flex gap-[15px]">
       <Button
         action={hide}
         text={'Cancel Listing'}
@@ -196,55 +199,43 @@ const SellModal = () => {
       args: [userAddress as Address],
       account: adminAccount,
     });
-
-
-    // await publicClient.waitForTransactionReceipt({ hash })
-    setIsSeller(true);
   };
 
-  const { data: ownerNft } = useReadContract({
-    abi: IraIERC721Abi,
-    address: contractAddress as Address,
-    functionName: "ownerOf",
-    args: [BigInt(currentNft?.tokenId || 0)]
-  })
-
   const handleApprove = async () => {
-    if (walletClient && userAddress && !isSeller) {
-      try {
+    try {
+      setIsApproving(true)
+      const _hasRole = await publicClient.readContract({
+        address: marketplaceAddress,
+        abi: marketplaceAbi,
+        functionName: 'hasRole',
+        args: [SELLER_ROLE, userAddress as Address],
+      })
+
+      if (!_hasRole) {
         await checkAndGrantSellerRole()
-      } catch (error) {
-        console.error('Error granting SELLER role:', error)
-        toast.error('Failed to grant SELLER role.\nPlease contact the admin if the Marketplace')
-        return
       }
+      // Add check since the user might refuse to approve
+      if (!walletClient) {
+        setIsApproving(false)
+        return null
+      }
+      const hashApproval = await walletClient.writeContract({
+        account: userAddress as Address,
+        address: contractAddress as Address,
+        abi: IraIERC721Abi,
+        functionName: 'approve',
+        args: [marketplaceAddress, BigInt(currentNft.tokenId)],
+      })
+      setHashApproval(hashApproval)
+      toast.success("Your approval transaction has been submitted")
+      await publicClient.waitForTransactionReceipt({ hash: hashApproval })
+      setIsApproving(false)
+      setIsApproved(true)
+      toast.success("Your approval transaction has been mined")
+    } catch (err) {
+      console.log(err)
+      setIsApproving(false)
     }
-    if (ownerNft != userAddress) {
-      toast.error(`You are not the owner of the tokenId ${currentNft?.tokenId}`)
-      return
-    }
-    setIsApproving(true)
-    const collectionAddress = contractAddress as Address
-    const tokenId_ = currentNft?.tokenId as number
-    const { request } = await publicClient.simulateContract({
-      address: collectionAddress,
-      abi: IraIERC721Abi,
-      functionName: 'approve',
-      args: [
-        marketplaceAddress as Address,
-        BigInt(tokenId_),
-      ],
-      account: userAddress
-    })
-
-    const hashApproval = await walletClient?.writeContract(request)
-
-    setHashApproval(hashApproval)
-
-    // Attendre la fin de la transaction d'approbation
-    await publicClient.waitForTransactionReceipt({ hash: hashApproval as Address })
-    setIsApproved(true)
-    setIsApproving(false)
   }
 
   const updateNftToListedStatus = async (itemCount: number) => {
@@ -261,110 +252,100 @@ const SellModal = () => {
     }
   }
 
-  //----------------------------------------------------------
   const updateNftWithPreviousOwner = async (previousOwner: Address) => {
-    console.log(`Update NFT tokenId ${currentNft?.tokenId} with previousOwner ${previousOwner}`)
-
     try {
       await updateNft({
-        previousOwner: previousOwner
+        transactionHash: hash,
+        previousOwner,
+        owner: marketplaceAddress,
+        status: ResourceNftStatuses.LISTED,
       }, currentNft?.id as number)
     }
     catch (err) {
-      console.error("Error Update NFT with previous owner", err)
+      console.error("Error Update NFT with previous Owner", err)
     }
   }
 
-  //STEP 1 : User must approve current smart contract (Marketplace) to send his tokenId to the address of the SC
   const handleListNft = async () => {
-    if (!hashApproval) {
-      toast.error('You need to approve the transaction first')
-      return
+    if (!newPrice || parseFloat(newPrice) <= 0) {
+      return toast.error("Please set a valid price (above 0)")
     }
-    if (ownerNft != userAddress) {
-      toast.error(`You are not the owner of the tokenId ${currentNft?.tokenId}`)
+    try {
+      setIsListing(true)
+      if (!walletClient) {
+        setIsListing(false)
+        return
+      }
+
+      // Get count of items for making Id unique
+      const itemCount = await publicClient.readContract({
+        address: marketplaceAddress,
+        abi: marketplaceAbi,
+        functionName: 'itemCount',
+      }) as bigint
+
+      const hash = await walletClient.writeContract({
+        account: userAddress as Address,
+        address: marketplaceAddress,
+        abi: marketplaceAbi,
+        functionName: 'listItem',
+        args: [contractAddress as Address, BigInt(currentNft.tokenId), parseFloat(newPrice) * 10 ** 18],
+      })
+
+      setHash(hash)
+      toast.success("Your transaction to list item has been submitted")
+      const receipt = await publicClient.waitForTransactionReceipt({ hash })
+      setReceipt(receipt)
+      await Promise.all([
+        updateNftToListedStatus(Number(itemCount)),
+        updateNftWithPreviousOwner(userAddress as Address)
+      ])
+
+      toast.success("Your transaction to list item has been mined")
+      setIsListed(true)
+      // Update Transactions collection
+      // await createTransactionData({
+      //   hash: hash,
+      //   from: receipt.from,
+      //   to: receipt.to as string,
+      //   type: TransactionData.LIST,
+      //   chainId: Number(CHAIN_USED.id),
+      //   nftId: currentNft.id as number,
+      //   gasPrice: Number(receipt.gasPrice) / 10 ** 18,
+      //   value: parseFloat(newPrice)
+      // })
+    } catch (err) {
+      console.log(err)
+      setIsListing(false)
     }
-    if (!isSeller) {
-      toast.error(`You must be granted by the ADMIN as a SELLER. Please contact the admin of the Marketplace`)
-    }
-
-    setIsListing(true)
-    const tokenId_ = currentNft?.tokenId as number
-
-    const { request } = await publicClient.simulateContract({
-      address: marketplaceAddress,
-      abi: marketplaceAbi,
-      functionName: 'listItem',
-      args: [
-        contractAddress as Address,
-        BigInt(tokenId_),
-        BigInt(Number(newPrice) * Math.pow(10, 18)),
-      ],
-      account: userAddress
-    })
-    const hash = await walletClient?.writeContract(request)
-    setHash(hash as Address)
-
-    // Appeler updateNftToListedStatus après la fin de handleListNft
-    const receipt = await publicClient.waitForTransactionReceipt({ hash: hash as `0x${string}` })
-    setReceipt(receipt)
-
-    // Lire le dernier itemCount depuis le smart contract
-    const itemCount = await publicClient.readContract({
-      address: marketplaceAddress,
-      abi: marketplaceAbi,
-      functionName: 'getItemCount',
-    })
-
-    // Update le record dans la table ResourceNft 
-    await updateNftToListedStatus(Number(itemCount))
-    await updateNftWithPreviousOwner(userAddress as Address)
-
-    dispatch(updateNftById({ nftId: currentNft?.id as NftId, status: ResourceNftStatuses.LISTED, itemId: Number(itemCount) }))
-
-    //Dernière étape : Créer un enregistrement dans la table 'Transaction'
-    const transactionData: TransactionData = {
-      tokenId: tokenId_,
-      contractAddress: contractAddress as Address,
-      functionName: 'listItem',
-      from: userAddress as Address,
-      to: marketplaceAddress,
-      transferFrom: userAddress as Address,
-      transferTo: marketplaceAddress,
-      price: Number(newPrice),
-      transactionHash: hash as Address
-    }
-    await createTransactionData(transactionData)
-    setIsListed(true)
-    setIsListing(false)
   }
-
-
-  return (<Modal
-    title={isListed || success ? 'RWA up for sale' : 'List my RWA'}
-    show={isModalDisplay}
-    hide={() => dispatch(closeModal())}
-    disabledClosing={isApproving || isListing}
-  >
-    {isListed || success ? (
-      <SellModalSuccessfulContent
-        {...currentNft}
-        hide={() => dispatch(closeModal())}
-      />
-    ) : (
-      <SellModalContent
-        {...currentNft}
-        handleListNft={handleListNft}
-        handleApprove={handleApprove}
-        isApproved={isApproved}
-        isApproving={isApproving}
-        isListing={isListing}
-        newPrice={newPrice}
-        setNewPrice={setNewPrice}
-        hide={() => dispatch(closeModal())}
-      />
-    )}
-  </Modal>)
-}
+  
+  return (
+    <Modal
+      title="Sell your artwork"
+      show={isModalDisplay}
+      hide={() => dispatch(closeModal())}
+    >
+      {isListed ?
+        <SellModalSuccessfulContent
+          hide={() => dispatch(closeModal())}
+          imageUri={currentNft?.tokenURI}
+          name={currentNft?.name}
+        /> :
+        <SellModalContent
+          hide={() => dispatch(closeModal())}
+          imageUri={currentNft?.tokenURI}
+          handleListNft={handleListNft}
+          handleApprove={handleApprove}
+          isApproved={isApproved}
+          isApproving={isApproving}
+          isListing={isListing}
+          newPrice={newPrice}
+          setNewPrice={setNewPrice}
+        />
+      }
+    </Modal>
+  );
+};
 
 export default SellModal;

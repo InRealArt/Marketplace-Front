@@ -5,7 +5,7 @@ interface ReadMoreProps {
   id: string;
   text: string;
   amountOfWords?: number;
-  additionalClassName: string;
+  additionalClassName?: string;
   action?: () => void;
 }
 
@@ -40,7 +40,7 @@ export const ReadMore = ({
   return (
     <>
       <span
-        className={`${additionalClassName}__text`}
+        className={additionalClassName}
         dangerouslySetInnerHTML={{ __html: beginText }}
       />
       {itCanOverflow && (
@@ -48,15 +48,13 @@ export const ReadMore = ({
           {!isExpanded && <span>... </span>}
           &nbsp;
           <span
-            className={`${additionalClassName}__text ${
-              !isExpanded && `${additionalClassName}__text--hidden`
-            }`}
+            className={`${additionalClassName} ${!isExpanded ? 'hidden' : ''}`}
             aria-hidden={!isExpanded}
             dangerouslySetInnerHTML={{ __html: endText }}
           />
           &nbsp;
           <span
-            className={`${additionalClassName}__more`}
+            className="cursor-pointer text-[#b39e73] font-bold"
             role="button"
             tabIndex={0}
             aria-expanded={isExpanded}

@@ -11,31 +11,26 @@ interface ArtistBioProps {
 
 const ArtistBio = ({ name, description }: ArtistBioProps) => {
   return (
-    <div className="Artist__bio">
+    <div className="w-full flex justify-between items-start">
       <div>
-        <h1 className="Artist__name">{name}</h1>
+        <h1 className="font-semibold mt-[15px] text-[24px] sm:text-[36px]">{name}</h1>
 
-        <div className="Artist__description">
-          <h3 className="Artist__description__title">Biographie</h3>
+        <div className="mt-[20px] w-full sm:w-[70%]">
+          <h3 className="font-medium mb-[20px] text-[18px]">Biographie</h3>
           <ReadMore
-            additionalClassName="Artist__description"
+            additionalClassName="text-[16px] font-poppins text-gray-400"
             id="read-more-text"
             text={description || ''}
             amountOfWords={40}
           />
         </div>
       </div>
-      <div className="Artist__actions">
+      <div className="gap-[10px] hidden sm:flex">
         <Button
           text="Share"
           additionalClassName="blur"
           icon={<Share2 className="Button__icon" width={28} height={28} />}
         />
-        {/* <Button
-          text="Follow"
-          additionalClassName="blur"
-          icon={<Heart className="Button__icon" width={28} height={28} />}
-        /> */}
       </div>
     </div>
   );

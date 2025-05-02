@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 
 import ArtistHeader from './subComponents/ArtistHeader';
@@ -13,14 +13,17 @@ const Artist = () => {
   const { id: currentId } = useParams() as { id: string };
   const numericId = Number(currentId);
 
-  console.log('Artist', numericId)
   const { getNftsByArtist } = useNftsStore()
   const nftsByArtist = getNftsByArtist(numericId)
   const { getCollectionsByArtist } = useCollectionsStore();
   const collectionsByArtist = getCollectionsByArtist(numericId);
 
-  const artistStore = useArtistsStore();
-  const artist = artistStore.artists.concat(artistStore.galleries).find(a => a.id === numericId);
+  const { getArtistById, fetchArtists } = useArtistsStore();
+  const artist = getArtistById(numericId);
+
+  useEffect(() => {
+    fetchArtists()
+  }, [fetchArtists])
 
   const imgUri = nftsByArtist[0]?.mainImageUrl || "";
 
@@ -32,9 +35,9 @@ const Artist = () => {
   if (artist === undefined) return null;
 
   return (
-    <main className="Artist">
+    <main>
       <ArtistHeader artist={artist} imgNft={imgUri} />
-      {!artist.isGallery && <ListOfNfts nav={navigationInfos} />}
+      {!artist.isGallery && <div className="mt-5"><ListOfNfts nav={navigationInfos} /></div>}
     </main>
   );
 };

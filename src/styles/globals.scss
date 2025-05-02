@@ -1,83 +1,34 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-
 // FONTS
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Montserrat:wght@400;600;700;800&family=Poppins:wght@100;300;400;500;600;700&family=Syncopate:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Montserrat:wght@400;600;700;800&family=Poppins:wght@100;300;400;500;600;700&family=Syncopate:wght@700&display=swap");
 
 // UTILS
-@import './utils/mixins.scss';
-@import './utils/variables.scss';
-
-// COMPONENTS
-@import './components/Header/Header.scss';
-@import './components/Header/HeaderMenu.scss';
-@import './components/Header/CartSidebar.scss';
-
-@import './components/Footer.scss';
-
-@import './components/Button.scss';
-
-// CARD
-@import './components/Card/ArtistCard.scss';
-@import './components/Card/ArtistCardSlider.scss';
-@import './components/Card/NftCard.scss';
-
-// LIST
-@import './components/List/List.scss';
-@import './components/List/ListHeader.scss';
-@import './components/List/ArtistsListSlider.scss';
-
-// MODAL
-@import './components/Modal/Modal.scss';
-@import './components/Modal/BuyModal.scss';
-@import './components/Modal/SellModal.scss';
-@import './components/Modal/DescriptionModal.scss';
-@import './components/Modal/LoginModal.scss';
-
-// COMMON
-@import './components/Common/Captcha/SimpleCaptcha.scss';
-
-
-// POPUP
-@import './components/Popup/Popup.scss';
-@import './components/Popup/FilterPopup.scss';
+@import "./utils/mixins.scss";
+@import "./utils/variables.scss";
 
 // Pages
 
-// LANDING
-@import './pages/landing/Intro.scss';
-@import './pages/landing/ContactUs.scss';
-
 // NFT
-@import './pages/nft/NftPage.scss';
-@import './pages/nft/subComponents/NftTags.scss';
-@import './pages/nft/subComponents/NftIntro.scss';
-@import './pages/nft/subComponents/NftPrice.scss';
-@import './pages/nft/subComponents/NftGraphic.scss';
-
-// ARTIST
-@import './pages/artist/ArtistPage.scss';
 
 // Dashboard
-@import './pages/dashboard/DashboardNav.scss';
-@import './pages/dashboard/Dashboard.scss';
-@import './pages/dashboard/subComponents/Profile.scss';
-@import './pages/dashboard/subComponents/Orders.scss';
+@import "./pages/dashboard/DashboardNav.scss";
+@import "./pages/dashboard/Dashboard.scss";
+@import "./pages/dashboard/subComponents/Profile.scss";
+@import "./pages/dashboard/subComponents/Orders.scss";
 
 // Basket
-@import './pages/checkout/CheckoutPage.scss';
-@import './pages/checkout/subComponents/Cart.scss';
-@import './pages/checkout/subComponents/UserInfos.scss';
+@import "./pages/checkout/CheckoutPage.scss";
+@import "./pages/checkout/subComponents/Cart.scss";
+@import "./pages/checkout/subComponents/UserInfos.scss";
 
 // Wallet
-@import './pages/wallet/WalletPage.scss';
-@import './pages/wallet/WalletEmptyState.scss';
-@import './pages/wallet/subComponents/WalletMainInfos.scss';
-@import './pages/wallet/subComponents/WalletMainCoin.scss';
-@import './pages/wallet/subComponents/WalletNftList.scss';
-@import './pages/wallet/subComponents/WalletNftMain.scss';
-@import './pages/wallet/subComponents/WalletTransactionHistory.scss';
+@import "./pages/wallet/WalletPage.scss";
+@import "./pages/wallet/WalletEmptyState.scss";
+@import "./pages/wallet/subComponents/WalletMainInfos.scss";
+@import "./pages/wallet/subComponents/WalletMainCoin.scss";
+@import "./pages/wallet/subComponents/WalletNftList.scss";
+@import "./pages/wallet/subComponents/WalletNftMain.scss";
+@import "./pages/wallet/subComponents/WalletTransactionHistory.scss";
+
 
 body {
   color: $white;
@@ -137,7 +88,7 @@ video {
 ::after {
   border-width: 0;
   border-style: solid;
-  border-color: theme('borderColor.DEFAULT', currentColor);
+  border-color: theme("borderColor.DEFAULT", currentColor);
 }
 
 a {

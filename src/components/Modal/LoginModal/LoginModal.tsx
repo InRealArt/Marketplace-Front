@@ -25,6 +25,12 @@ import { signUp } from "@/lib/auth-client";
 import router from 'next/router';
 import Link from 'next/link';
 
+// Label styling constant
+const FormLabelStyle = "absolute font-montserrat text-[14px] tracking-[0px] z-10 top-[5px] left-[35px] bg-[#313130] px-[10px]";
+
+// Input styling constant
+const InputStyle = "text-white rounded-[10px] border-2 border-[#b39e73] bg-transparent w-full h-[64px] py-[10px] px-[15px] font-poppins text-[18px] tracking-[-0.25px] mt-[15px] focus:bg-transparent focus:outline-none";
+
 const phoneValidation = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
@@ -186,7 +192,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
 
   const renderItemAddress = (address: string) => (
     <span key={address}
-      className='LoginModal__addressDescription'
+      className='cursor-pointer font-poppins text-sm py-2.5 px-1.5 bg-[#525252] border-b-[0.5px] border-[#a6a6a6] text-[#D9D9D9] hover:bg-[#313130]'
       onClick={() => {
         setCurrentAddress(address)
         form.setValue('address', address);
@@ -196,51 +202,59 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
 
   return (
     <>
-      <div className='LoginModal__infos'>
-        <h1 className='LoginModal__title'>
+      <div className="mt-[30px]">
+        <h1 className="font-montserrat text-[28px] tracking-[0px] font-bold text-white md:text-[48px]">
           Create an account
         </h1>
-        <p className='LoginModal__description'>Do you already have an account with InRealArt ?</p>
-        <span className='LoginModal__link' onClick={() => setIsSignin(true)}>Sign in</span>
+        <p className="font-poppins text-[14px] font-normal text-left mt-[2px] mb-[2px]">Already a member of InRealArt?</p>
+        <span 
+          className="font-poppins text-[14px] text-[#b39e73] cursor-pointer" 
+          onClick={() => setIsSignin(true)}
+        >
+          Sign in !
+        </span>
       </div>
       <Form {...form}>
-        <form className='LoginModal__form LoginModal__form--signup' onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Name *</FormLabel>
-                <FormControl>
-                  <Input className='LoginModal__input' placeholder="Name" {...field} />
-                </FormControl>
-                <FormMessage className="LoginModal__errorMessage" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="surname"
-            render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Surname *</FormLabel>
-                <FormControl>
-                  <Input className='LoginModal__input' placeholder="Surname" {...field} />
-                </FormControl>
-                <FormMessage className="LoginModal__errorMessage" />
-              </FormItem>
-            )}
-          />
+        <form className="w-full max-w-[420px] mx-auto mt-[15px]" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex items-center gap-5 w-full">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="relative w-full">
+                  <FormLabel className={FormLabelStyle}>First name *</FormLabel>
+                  <FormControl>
+                    <Input className={InputStyle} placeholder="John" {...field} />
+                  </FormControl>
+                  <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="surname"
+              render={({ field }) => (
+                <FormItem className="relative w-full">
+                  <FormLabel className={FormLabelStyle}>Last name *</FormLabel>
+                  <FormControl>
+                    <Input className={InputStyle} placeholder="Doe" {...field} />
+                  </FormControl>
+                  <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Email address *</FormLabel>
+              <FormItem className="relative w-full">
+                <FormLabel className={FormLabelStyle}>Email *</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' placeholder="inrealart@gmail.com" {...field} />
+                  <Input className={InputStyle} placeholder="johndoe@example.com" {...field} />
                 </FormControl>
-                <FormMessage className="LoginModal__errorMessage" />
+                <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
               </FormItem>
             )}
           />
@@ -248,37 +262,42 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
             control={form.control}
             name="tel"
             render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Phone number *</FormLabel>
+              <FormItem className="relative w-full">
+                <FormLabel className={FormLabelStyle}>Phone *</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' placeholder="+330600000000" {...field} />
+                  <Input className={InputStyle} placeholder="+33612345678" {...field} />
                 </FormControl>
-                <FormMessage className="LoginModal__errorMessage" />
+                <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="address"
             render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Adresse postal *</FormLabel>
+              <FormItem className="relative w-full">
+                <FormLabel className={FormLabelStyle}>Address *</FormLabel>
                 <FormControl>
                   <Input
-                    ref={inputAddressRef}
-                    className='LoginModal__input'
-                    placeholder="3 street...."
+                    className={InputStyle}
+                    placeholder="Search an address"
+                    {...field}
                     onChange={(e) => {
-                      field.onChange(e.target.value)
-                      setCurrentAddress(e.target.value)
-                      getPlacePredictions({ input: e.target.value })
+                      field.onChange(e);
+                      getPlacePredictions({ input: e.target.value });
                     }}
-                    value={currentAddress}
-                    name={field.name}
                   />
                 </FormControl>
-                <div className='LoginModal__addressResult'>{placePredictions.map((item) => renderItemAddress(item.description))}</div>
-                <FormMessage className="LoginModal__errorMessage" />
+                {currentAddress !== '' && (
+                  <p className="text-white bg-[#2C2C2C] p-2 text-sm mt-2 rounded-lg">{currentAddress}</p>
+                )}
+                {placePredictions.length > 0 && (
+                  <div className="flex flex-col justify-center absolute top-20 z-100 w-full mt-[5px] rounded-[10px]">
+                    {placePredictions.map(({ description }) => renderItemAddress(description))}
+                  </div>
+                )}
+                <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
               </FormItem>
             )}
           />
@@ -287,100 +306,117 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Password *</FormLabel>
+              <FormItem className="relative w-full">
+                <FormLabel className={FormLabelStyle}>Password *</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' type='password' placeholder="Password" {...field} />
+                  <Input
+                    type="password"
+                    className={InputStyle}
+                    placeholder="***********"
+                    {...field}
+                  />
                 </FormControl>
-                <FormMessage className="LoginModal__errorMessage" />
+                <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="confirmPassword"
             render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Confirm Password</FormLabel>
+              <FormItem className="relative w-full">
+                <FormLabel className={FormLabelStyle}>Confirm password *</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' type='password' placeholder="Confirm Password" {...field} />
+                  <Input
+                    type="password"
+                    className={InputStyle}
+                    placeholder="***********"
+                    {...field}
+                  />
                 </FormControl>
-                <FormMessage className="LoginModal__errorMessage" />
+                <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
               </FormItem>
             )}
           />
-          <Button text='Sign up' type="submit" additionalClassName='login' disabled={loading}/>
+          <Button
+            type="submit"
+            text={loading ? 'Loading...' : 'Sign up'}
+            additionalClassName="login"
+            className="w-full mt-5"
+            disabled={loading}
+          />
         </form>
       </Form>
     </>
-  )
-}
+  );
+};
 
 const LoginModalSignInContent = ({ setIsSignin }: LoginModalProps) => {
-  const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false);
-
-  const defaultValues = {
-    email: "",
-    password: ""
-  };
+  const dispatch = useAppDispatch()
 
   const form = useForm<z.infer<typeof formSignInSchema>>({
     resolver: zodResolver(formSignInSchema),
-    defaultValues,
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof formSignInSchema>) {
     const { email, password } = values
-    
-    setLoading(true)
-    if (values) {
-      const { error, data } = await signIn.email({ email, password }, 
-        {
-          onResponse: () => {
-            setLoading(false);
-          },
-          onRequest: () => {
-            setLoading(true);
-          },
-        }
-      );
-      console.log('DATA : ', data)
-      if (error) {
-        toast.error(error.message)
-      } else {
-        const user = data.user
-        const name = user.name
-        // const { address, name, surname, tel } = user?.user_metadata || {}
-        dispatch(setUserInfos({ id: user.id, role: UserRoles.SELLER, orderIds: [], email: user?.email, name, address: '', surname: '', tel: '' }))
-        dispatch(setLoginModalDisplay(false))
-        toast.success("You are connected")
 
-      }
-    }
+    await signIn.email({
+      email,
+      password,
+      fetchOptions: {
+        onResponse: () => {
+          setLoading(false);
+        },
+        onRequest: () => {
+          setLoading(true);
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+          setLoading(false)
+        },
+        onSuccess: async () => {
+          dispatch(setLoginModalDisplay(false))
+          toast.success("You are connected !")
+        },
+      },
+    });
+
+    
   }
 
   return (
     <>
-      <div className='LoginModal__infos'>
-        <h1 className='LoginModal__title'>
-          Connexion
+      <div className="mt-[30px]">
+        <h1 className="font-montserrat text-[28px] tracking-[0px] font-bold text-white md:text-[48px]">
+          Welcome to In Real Art
         </h1>
-        <p className='LoginModal__description'>Are you not yet a member of InRealArt?</p>
-        <span className='LoginModal__link' onClick={() => setIsSignin(false)}>Sign up !</span>
+        <p className="font-poppins text-[14px] font-normal text-left mt-[2px] mb-[2px]">Don't have an account?</p>
+        <span 
+          className="font-poppins text-[14px] text-[#b39e73] cursor-pointer" 
+          onClick={() => setIsSignin(false)}
+        >
+          Create one
+        </span>
       </div>
       <Form {...form}>
-        <form className='LoginModal__form' onSubmit={form.handleSubmit(onSubmit)} >
+        <form className="w-full max-w-[300px] mx-auto mt-[15px]" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Email Address</FormLabel>
+              <FormItem className="relative w-full">
+                <FormLabel className={FormLabelStyle}>Email</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' placeholder="inrealart@gmail.com" {...field} />
+                  <Input className={InputStyle} placeholder="johndoe@example.com" {...field} />
                 </FormControl>
-                <FormMessage className="LoginModal__errorMessage" />
+                <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
               </FormItem>
             )}
           />
@@ -388,48 +424,70 @@ const LoginModalSignInContent = ({ setIsSignin }: LoginModalProps) => {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className='LoginModal__formItem'>
-                <FormLabel className='LoginModal__label'>Password</FormLabel>
+              <FormItem className="relative w-full">
+                <FormLabel className={FormLabelStyle}>Password</FormLabel>
                 <FormControl>
-                  <Input className='LoginModal__input' placeholder="Password" type='password' {...field} />
+                  <Input
+                    type="password"
+                    className={InputStyle}
+                    placeholder="***********"
+                    {...field}
+                  />
                 </FormControl>
-                <FormMessage className="LoginModal__errorMessage" />
+                <FormMessage className="font-poppins text-[14px] text-[#9d4141] mt-[5px]" />
               </FormItem>
             )}
           />
-          <Button text='Sign in' type="submit" additionalClassName='login' disabled={loading}/>
+          <Button
+            type="submit"
+            text={loading ? 'Loading...' : 'Sign in'}
+            additionalClassName="login"
+            className="w-full mt-5"
+            disabled={loading}
+          />
         </form>
       </Form>
     </>
-  )
-}
+  );
+};
 
 const LoginModal = () => {
-  const [isSignin, setIsSignin] = useState(true)
-  const showLoginModal = useAppSelector((state) => isLoginModalDisplay(state))
-  const dispatch = useAppDispatch()
+  const isLoginModalOpen = useAppSelector(isLoginModalDisplay);
+  const dispatch = useAppDispatch();
+  const [isSignin, setIsSignin] = useState<boolean>(true);
 
-  return (<Modal
-    additionalClassName='login'
-    title={""}
-    show={showLoginModal}
-    hide={() => dispatch(setLoginModalDisplay(false))}
-  >
-    <div className="LoginModal">
-      <Image
-        className="LoginModal__introImg"
-        priority={true}
-        alt="LoginHeader"
-        src="/images/LoginHeader.png"
-        width={1042}
-        height={173}
-      />
-      <div className="LoginModal__content">
-        {isSignin ? <LoginModalSignInContent setIsSignin={setIsSignin} /> : <LoginModalSignUpContent setIsSignin={setIsSignin} />}
+  return (
+    <Modal
+      title={''}
+      show={isLoginModalOpen}
+      hide={() => {
+        dispatch(setLoginModalDisplay(false));
+      }}
+      additionalClassName="login"
+      withoutHeader
+    >
+      <div className="pb-[50px] max-h-[90vh] overflow-hidden">
+        <Image
+          src="/images/HeaderIntro.jpg"
+          width={740}
+          height={200}
+          alt="HeaderLoginModal"
+          className="w-full h-auto rounded-t-[20px] md:w-full md:h-[100px]"
+        />
+        <div className="flex flex-col items-center w-[75%] mx-auto max-h-[78vh] overflow-x-hidden overflow-y-scroll md:w-[85%]">
+          {isSignin ? (
+            <LoginModalSignInContent
+              setIsSignin={setIsSignin}
+            />
+          ) : (
+            <LoginModalSignUpContent
+              setIsSignin={setIsSignin}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  </Modal>
-  )
+    </Modal>
+  );
 };
 
 export default LoginModal;

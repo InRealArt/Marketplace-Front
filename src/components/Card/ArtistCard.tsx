@@ -18,19 +18,23 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
   const background = imgUri ?? backgroundImage;
 
   return (
-    <div className="ArtistCard">
+    <div className="relative w-card-1col sm:w-card-2col md:w-card-3col lg:w-card-4col mt-10 h-auto rounded-[17px] bg-white">
       <Link href={`/artists/${id}`}>
-        {background ? <div
-          className="ArtistCard__background"
-          style={{
-            backgroundImage: ` url('${background}')`,
-          }}
-        /> : <div className="ArtistCard__emptyBackground"></div>}
+        {background ? (
+          <div
+            className="relative w-auto h-[180px] md:h-[150px] lg:h-[185px] rounded-t-[17px] bg-no-repeat bg-cover bg-center"
+            style={{
+              backgroundImage: `url('${background}')`,
+            }}
+          />
+        ) : (
+          <div className="relative w-auto h-[180px] md:h-[150px] lg:h-[185px] rounded-t-[17px] bg-[#525252]"></div>
+        )}
       </Link>
-      <div className="ArtistCard__infos">
+      <div className="relative flex items-end p-0 px-2.5 -top-2.5 md:p-5 md:items-center md:top-0">
         {imageUrl && (
           <Image
-            className="ArtistCard__miniature"
+            className="mr-6 rounded-lg border-[3px] border-[#b39e73] w-[60px] h-[60px]"
             priority={true}
             alt="artist miniature"
             src={imageUrl}
@@ -39,8 +43,14 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
           />
         )}{' '}
         <div>
-          <h2 className="ArtistCard__title">{name}</h2>
-          {!artist.isGallery && <p className="ArtistCard__nfts">{nfts.length} nfts</p>}
+          <h2 className="font-poppins text-base font-medium md:text-[22px] md:font-semibold text-[#1d1d1b] mb-1.5 md:mb-0">
+            {name}
+          </h2>
+          {!artist.isGallery && (
+            <p className="hidden md:block font-poppins text-base font-medium text-[#1d1d1b] m-0">
+              {nfts.length} nfts
+            </p>
+          )}
         </div>
       </div>
     </div>

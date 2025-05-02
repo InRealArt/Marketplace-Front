@@ -17,7 +17,28 @@ const config = {
         "2xl": "1400px",
       },
     },
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      'desktop': '1414px',
+      '2xl': '1536px',
+    },
     extend: {
+      width: {
+        'card-1col': '100%',
+        'card-2col': 'calc(50% - 10px)',
+        'card-3col': 'calc(33.333% - 20px)',
+        'card-4col': 'calc(25% - 20px)',
+      },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+        syncopate: ['Syncopate', 'sans-serif'],
+        unbounded: ['Unbounded', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

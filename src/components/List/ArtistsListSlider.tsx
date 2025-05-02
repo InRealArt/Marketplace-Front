@@ -19,11 +19,13 @@ const ArtistsListSlider = ({ artists, title }: ArtistsListSliderProps) => {
   const swiperRef = useRef<any>(null);
 
   return (
-    <section className="ArtistsListSlider">
-      <h1 className="ArtistsListSlider__title">{title}</h1>
-      <div className="ArtistsListSlider__container">
+    <section className="mt-[100px] md:mt-[60px]">
+      <h1 className="inline-block font-semibold font-montserrat text-[36px] sm:text-[24px] py-[25px] border-b-[3px] border-[#b39e73] mb-[35px]">
+        {title}
+      </h1>
+      <div className="overflow-hidden w-full transition-all duration-500 ease">
         <Swiper
-          autoplay={{delay: 6000}}
+          // autoplay={{delay: 6000}}
           modules={[Autoplay, Pagination]}
           spaceBetween={20}
           slidesPerView={2}
@@ -52,7 +54,7 @@ const ArtistsListSlider = ({ artists, title }: ArtistsListSliderProps) => {
           ))}
 
           <SwiperArrows
-            className="ArtistsListSlider"
+            className="flex justify-end mt-[50px] ml-auto sm:mt-[15px]"
             artistsLength={artists.length}
             activeSlide={activeSlide}
           />

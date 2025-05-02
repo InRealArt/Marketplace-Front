@@ -15,9 +15,9 @@ const DescriptionModal = (props: DescriptionModalProps) => (
     show={props.showDescriptionModal}
     hide={() => props.setShowDescriptionModal(false)}
   >
-    <div className="DescriptionModal">
+    <div className="overflow-auto max-h-[70vh] py-4">
       <p
-        className="DescriptionModal__infos"
+        className="font-poppins text-[15px] tracking-[-0.25px] leading-relaxed"
         dangerouslySetInnerHTML={{ __html: props.description }}
       />
     </div>

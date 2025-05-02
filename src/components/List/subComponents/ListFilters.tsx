@@ -14,7 +14,7 @@ interface ListFiltersProps {
 
 const ListFilters = ({ filters, viewAllLink, setOnlyToBuy, onlyToBuy }: ListFiltersProps) => {
   return (
-    <section className="ListHeader__filters">
+    <section className="flex justify-end items-center gap-5 w-full mt-[30px] lg:w-[45%] lg:mt-0">
       <Search />
 
       {filters.length > 0 && <FilterTags filters={filters} />}
@@ -24,6 +24,7 @@ const ListFilters = ({ filters, viewAllLink, setOnlyToBuy, onlyToBuy }: ListFilt
           link={viewAllLink}
           text="View All"
           additionalClassName="viewAll"
+          className="hidden lg:flex"
         />
       )}
     </section>
@@ -33,14 +34,14 @@ const ListFilters = ({ filters, viewAllLink, setOnlyToBuy, onlyToBuy }: ListFilt
 const Search = () => {
   const { register } = useFormContext();
   return (
-    <div className="ListHeader__searchContainer">
+    <div className="relative w-full flex-auto">
       <input
-        className="ListHeader__search"
+        className="flex w-full h-[54px] items-center py-[15px] px-[30px] rounded-[10px] border border-white text-white bg-transparent font-semibold font-montserrat text-base lg:text-xl"
         type="search"
         placeholder="Research"
         {...register('search')}
       />
-      <SearchIcon className="ListHeader__search--icon" width={28} height={28} />
+      <SearchIcon className="absolute right-5 top-1/2 transform -translate-y-1/2" width={28} height={28} />
     </div>
   );
 };
@@ -50,26 +51,27 @@ const FilterTags = ({ filters }: { filters: string[] }) => {
   const placement = 'bottom-end';
 
   return (
-    <div className="ListHeader__filterContainer">
+    <div>
       <Popup
         placement={placement}
         buttonTrigger={
-          <PopoverButton className="Button Button--whiteBorder">
+          <PopoverButton className="font-poppins text-lg md:text-base tracking-[-1px] font-medium flex py-[15px] px-[30px] text-center justify-center items-center gap-2.5 rounded-[10px] border border-white text-white bg-transparent cursor-pointer md:py-[15px] md:px-[15px]">
             Filter
             <ChevronDown width={28} height={28} />
           </PopoverButton>
         }
       >
-        <div className="Popup FilterPopup">
+        <div className="flex flex-col gap-[15px] max-h-[70vh] overflow-auto">
           {filters.map((filter) => {
             return (
-              <div key={`${filter}__popup`} className="FilterPopup__filter">
+              <div key={`${filter}__popup`} className="flex items-center font-medium font-poppins text-[18px] tracking-[-0.25px]">
                 <input
                   {...register('filters')}
                   type="checkbox"
                   value={filter}
+                  className="cursor-pointer appearance-none bg-transparent w-[28px] h-[28px] border-2 border-white rounded-[5px] grid place-content-center before:content-[''] before:w-[14px] before:h-[14px] before:rounded-[2px] before:scale-0 before:transition-transform before:duration-120 before:ease-in-out before:bg-[#b39e73] checked:before:scale-100"
                 />
-                <label htmlFor={filter}>{filter}</label>
+                <label htmlFor={filter} className="ml-[20px]">{filter}</label>
               </div>
             );
           })}

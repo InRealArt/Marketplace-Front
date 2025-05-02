@@ -28,7 +28,7 @@ const ListHeader = ({
 }: ListHeaderProps) => {
   return (
     <>
-      <div className={`ListHeader ListHeader--${additionalClassName}`}>
+      <div className={`flex flex-col items-start justify-start border-none ${additionalClassName} font-montserrat lg:border-solid lg:flex-row lg:items-center lg:justify-between lg:border-b-2 lg:border-[#3d3d3d]`}>
         <ListNavigation
           nav={nav}
           navActive={navActive}

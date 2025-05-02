@@ -71,19 +71,19 @@ function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
     <>
       {isOpen && (
         <div 
-          className="CartSidebar__overlay"
+          className="fixed inset-0 bg-black/70 z-40"
           onClick={onClose}
         />
       )}
       
-      <div className={`CartSidebar__panel ${!isOpen ? 'CartSidebar__panel--closed' : ''}`}>
-        <div className="CartSidebar__container">
+      <div className={`fixed top-0 right-0 h-screen w-full max-w-sm sm:max-w-xs bg-[#52524c] text-white z-50 shadow-[-2px_0_10px_rgba(0,0,0,0.3)] transform transition-transform duration-300 ease-in-out ${!isOpen ? 'translate-x-full' : 'translate-x-0'}`}>
+        <div className="flex flex-col h-full">
           {/* En-tête du panier */}
-          <div className="CartSidebar__header">
-            <h2 className="CartSidebar__title">Votre Panier</h2>
+          <div className="flex items-center justify-between p-6 border-b border-[#6b6b66]">
+            <h2 className="text-xl font-semibold text-white">Votre Panier</h2>
             <button 
               onClick={onClose}
-              className="CartSidebar__closeBtn"
+              className="p-2 rounded-full cursor-pointer hover:bg-[#6b6b66] transition-colors"
               aria-label="Fermer"
             >
               <Image 
@@ -96,16 +96,16 @@ function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
           </div>
 
           {/* Contenu du panier */}
-          <div className="CartSidebar__content">
+          <div className="flex-grow overflow-y-auto p-6">
             {mockCartItems.length === 0 ? (
-              <div className="CartSidebar__emptyMessage">
+              <div className="text-center py-8 text-white">
                 <p>Votre panier est vide</p>
               </div>
             ) : (
-              <ul className="CartSidebar__itemsList">
+              <ul className="flex flex-col gap-6">
                 {mockCartItems.map((item) => (
-                  <li key={item.id} className="CartSidebar__item">
-                    <div className="CartSidebar__itemImage">
+                  <li key={item.id} className="flex items-center justify-between gap-6 pb-6 border-b border-[#6b6b66]">
+                    <div className="w-20 h-20 relative flex-shrink-0 rounded overflow-hidden">
                       <Image 
                         src={item.imageUrl}
                         alt={item.name}
@@ -119,16 +119,16 @@ function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                         }}
                       />
                     </div>
-                    <div className="CartSidebar__itemInfo">
-                      <h3 className="CartSidebar__itemName">{item.name}</h3>
-                      <p className="CartSidebar__itemPrice">{item.price} €</p>
-                      <div className="CartSidebar__quantityControl">
-                        <button className="CartSidebar__quantityBtn">-</button>
-                        <span className="CartSidebar__quantity">{item.quantity}</span>
-                        <button className="CartSidebar__quantityBtn">+</button>
+                    <div className="flex-grow">
+                      <h3 className="font-medium text-white mb-2">{item.name}</h3>
+                      <p className="text-[#b39e73] font-semibold">{item.price} €</p>
+                      <div className="flex items-center mt-3">
+                        <button className="w-8 h-8 flex items-center justify-center border border-[#b39e73] bg-[#1d1d1b] text-white cursor-pointer transition-all hover:bg-[#b39e73]">-</button>
+                        <span className="w-10 h-8 flex items-center justify-center text-white font-medium">{item.quantity}</span>
+                        <button className="w-8 h-8 flex items-center justify-center border border-[#b39e73] bg-[#1d1d1b] text-white cursor-pointer transition-all hover:bg-[#b39e73]">+</button>
                       </div>
                     </div>
-                    <button aria-label="Supprimer" className="CartSidebar__removeBtn">
+                    <button aria-label="Supprimer" className="p-2 rounded-full cursor-pointer hover:bg-[#6b6b66]">
                       <Image 
                         src="/icons/Cross.png" 
                         alt="Supprimer" 
@@ -143,20 +143,20 @@ function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
           </div>
 
           {/* Bas du panier */}
-          <div className="CartSidebar__footer">
-            <div className="CartSidebar__total">
+          <div className="border-t border-[#6b6b66] p-6 bg-[#1d1d1b]">
+            <div className="flex items-center justify-between font-semibold mb-6 text-white text-lg">
               <span>Total</span>
               <span>{cartTotal} €</span>
             </div>
             <Link 
               href="/checkout" 
-              className="CartSidebar__checkoutBtn"
+              className="block w-full bg-[#b39e73] text-white py-3.5 text-center font-medium mb-4 cursor-pointer transition-colors hover:bg-[#8a7a57]"
             >
               Passer la commande
             </Link>
             <button 
               onClick={onClose}
-              className="CartSidebar__continueBtn"
+              className="block w-full border border-[#b39e73] text-white py-3.5 text-center font-medium cursor-pointer transition-colors hover:bg-[#b39e73]/20"
             >
               Continuer vos achats
             </button>

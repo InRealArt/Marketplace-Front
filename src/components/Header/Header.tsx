@@ -30,49 +30,54 @@ const Header = () => {
   }, [])
 
   return (
-    <header className="Header">
-      <section className="Header__container">
-        <Link href={'/'} className="Header__logo">
-          <Image
-            priority={true}
-            alt="logo"
-            src="/images/Logo.png"
-            width={180}
-            height={30}
-          />
-        </Link>
-        <Link href={'/'} className="Header__logo Header__logo--mobile">
+    <header className="fixed top-0 left-0 w-full h-[50px] md:h-[60px] lg:h-[80px] z-[99] bg-[rgba(31,31,29,0.5)] backdrop-blur-[60px]">
+      <section className="relative z-10 mx-auto h-full flex justify-between items-center max-w-[90%] desktop:max-w-[1414px]">
+        {/* Mobile logo */}
+        <Link href={'/'} className="block md:hidden">
           <Image
             priority={true}
             alt="logo"
             src="/images/LogoMobile.png"
-            width={34}
-            height={34}
+            width={28}
+            height={28}
+            className="w-7 h-7"
+          />
+        </Link>
+        
+        {/* Desktop logo */}
+        <Link href={'/'} className="hidden md:block">
+          <Image
+            priority={true}
+            alt="logo"
+            src="/images/Logo.png"
+            width={150}
+            height={25}
+            className="w-[120px] h-auto lg:w-[180px]"
           />
         </Link>
 
-        <nav className="Header__nav">
-          <Link className={`Header__link`} href={'/'}>
+        {/* Navigation - hidden on mobile, visible on md and up */}
+        <nav className="hidden md:flex font-semibold justify-between items-center text-sm lg:text-base gap-5 lg:gap-[35px]">
+          <Link href={'/'}>
             Home
           </Link>
-          <Link className={`Header__link`} href={'#footer'}>
+          <Link href={'#footer'}>
             About
           </Link>
-          <Link className={`Header__link`} href={'/artworks'}>
+          <Link href={'/artworks'}>
             Artworks
           </Link>
-          <Link className={`Header__link`} href={'/artists'}>
+          <Link href={'/artists'}>
             Artists
           </Link>
-          <Link className={`Header__link`} href={'/galleries'}>
+          <Link href={'/galleries'}>
             Galleries
           </Link>
-          
         </nav>
 
-        <div className="Header__rightMenu">
+        <div className="flex justify-between items-center">
           <button 
-            className="Header__cartBtn relative mr-4" 
+            className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110" 
             onClick={() => setShowCart(true)}
             aria-label="Ouvrir le panier"
           >
@@ -80,11 +85,12 @@ const Header = () => {
               priority={true}
               alt="Panier"
               src="/icons/cart.png"
-              width={24}
-              height={24}
+              width={20}
+              height={20}
+              className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 brightness-0 invert"
             />
             {cartItemsCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              <span className="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2 bg-red-500 text-white rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-[10px] md:text-xs font-semibold">
                 {cartItemsCount}
               </span>
             )}
@@ -92,10 +98,11 @@ const Header = () => {
           <Image
             onClick={() => setShowMenu(!showMenu)}
             priority={true}
-            alt="logo"
+            alt="menu"
             src="/icons/menu.png"
             width={24}
             height={24}
+            className="cursor-pointer"
           />
         </div>
 

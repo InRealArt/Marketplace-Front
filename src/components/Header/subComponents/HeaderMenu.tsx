@@ -30,7 +30,7 @@ const WalletLink = ({ hideMenu }: HeaderMenuProps) => {
         const connected = ready && account && chain;
         if (!connected) {
           return (
-            <p className="HeaderMenu__link" onClick={openConnectModal}>
+            <p className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer" onClick={openConnectModal}>
               Connect my wallet
             </p>
           );
@@ -38,7 +38,7 @@ const WalletLink = ({ hideMenu }: HeaderMenuProps) => {
 
         return (
           <Link
-            className="HeaderMenu__link HeaderMenu__link--wallet"
+            className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer border border-[#dedcd8] rounded-[14px]"
             onClick={hideMenu}
             href={{
               pathname: "/dashboard",
@@ -47,8 +47,8 @@ const WalletLink = ({ hideMenu }: HeaderMenuProps) => {
               },
             }}
           >
-            <span className="HeaderMenu__adress">My Wallet - {account.address}</span>
-            <p className="HeaderMenu__balance">
+            <span className="truncate max-w-[70%] whitespace-nowrap overflow-hidden">My Wallet - {account.address}</span>
+            <p className="m-0">
               {Number(data?.formatted)?.toFixed(1)} {data?.symbol}
             </p>
           </Link>
@@ -100,7 +100,7 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
     if (!user) {
       return (
         <>
-          <span onClick={displayLoginModal} className={`HeaderMenu__link`} >
+          <span onClick={displayLoginModal} className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer">
             Sign up / Sign in
           </span>
         </>
@@ -108,7 +108,7 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
     }
 
     return <Link
-      className={`HeaderMenu__link`}
+      className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer"
       onClick={hideMenu}
       href={{
         pathname: "/dashboard",
@@ -124,7 +124,7 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
   const renderCoineBasWallet = () => {
     if (user?.id) {
       return (
-        <span className={`HeaderMenu__link`} >
+        <span className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer">
           <CoinbaseWallet />
         </span>
       )
@@ -133,46 +133,46 @@ const HeaderMenu = ({ hideMenu }: HeaderMenuProps) => {
   }
 
   return (
-    <section className="HeaderMenu">
-      <div className="HeaderMenu__topContent">
-        <h1 className="HeaderMenu__title">Menu</h1>
+    <section className="max-w-[330px] w-full sm:w-[90%] h-[550px] sm:h-[600px] rounded-[20px] border border-[#a6a6a6] bg-[#313130] p-[30px] absolute right-0 top-[80px]">
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="font-montserrat text-3xl tracking-[0] font-semibold relative after:content-[''] after:absolute after:left-0 after:bottom-[-10px] after:h-[2px] after:w-[30px] after:bg-[#b39e73]">Menu</h1>
         <X
-          className="HeaderMenu__close"
+          className="cursor-pointer"
           onClick={hideMenu}
           width={28}
           height={28}
         />
       </div>
-      <nav className="HeaderMenu__nav">
+      <nav>
         {renderAccountLink()}
         {renderCoineBasWallet()}
-        <Link onClick={hideMenu} className={`HeaderMenu__link`} href={'/artworks'}>
+        <Link onClick={hideMenu} className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer" href={'/artworks'}>
           All Artworks
         </Link>
         <Link
           onClick={hideMenu}
-          className={`HeaderMenu__link`}
+          className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer"
           href={'/artists'}
         >
           All Artists
         </Link>
         <Link
           onClick={hideMenu}
-          className={`HeaderMenu__link`}
+          className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer"
           href={'/galleries'}
         >
           All Galleries
         </Link>
       </nav>
-      <div className="HeaderMenu__bottomContent">
+      <div className="absolute bottom-0">
         <Link
-          className={`HeaderMenu__link HeaderMenu__link--bottom`}
+          className="flex justify-between text-white font-poppins text-sm py-2.5 mb-2.5 cursor-pointer"
           href={'/'}
         >
           Info
         </Link>
         <Link
-          className={`HeaderMenu__link HeaderMenu__link--bottom`}
+          className="flex justify-between text-white font-poppins text-sm py-2.5 mb-2.5 cursor-pointer"
           href={'/'}
         >
           Terms of use

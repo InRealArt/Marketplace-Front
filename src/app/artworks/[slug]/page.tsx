@@ -39,7 +39,7 @@ const NftPage = () => {
   if (!nft) return null;
 
   return (
-    <main className="Nft">
+    <main className="mt-[100px] md:mt-[90px]">
       <NftIntro
         nft={nft}
         artist={artist}

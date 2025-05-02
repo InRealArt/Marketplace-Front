@@ -59,7 +59,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
   }
 
   return (
-    <section className="List">
+    <section className="mt-[60px] lg:mt-[100px]">
       <FormProvider {...methods}>
         <ListHeader
           nav={nav}
@@ -71,7 +71,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
           onlyToBuy={onlyToBuy}
         />
       </FormProvider>
-      <div className="List__items">
+      <div className="flex flex-wrap justify-start gap-5 lg:gap-[26px] xl:gap-[30px]">
         {listOfNftsToBuyOrNot?.map((item) => showListByType(item))}
       </div>
     </section>

@@ -8,7 +8,6 @@ export interface SimpleCaptchaProps {
     buttonSendActive: boolean,
     setCaptchaToken: React.Dispatch<React.SetStateAction<string>>
     captchaToken: string, 
-
 }
 
 const SimpleCaptcha : React.FC<SimpleCaptchaProps> = ({
@@ -95,59 +94,49 @@ const SimpleCaptcha : React.FC<SimpleCaptchaProps> = ({
       };
 
   return (
-
-    <div className='containerCaptcha'>
-        {
-            notificationCaptchaSuccess ? (
-                <div className='challengeComplete'>
-                    {notificationCaptchaSuccess}
-                </div>    
-            )
-            : 
-            (
-
-                    <div className="subContainerCaptcha"> {/* Add a top margin for better spacing */}
-                        <div className="subContainerCaptchaQuestion"> {/* Add a top margin for better spacing */}
-                          <span className='questionCaptcha'>Verify that you are human : </span><br/>
-                          <span className='questionCaptcha'>What is the sum of these 2 numbers : </span>
-                          <span className='questionCaptcha'>{num1} &amp; </span>
-                          <span className='questionCaptchaHidden'>five</span>
-                          <span className='questionCaptchaHidden'>seven</span>
-                          <span className='questionCaptcha'>{num2}</span>
-                          <span className='questionCaptcha'>&nbsp;?</span>    
-                        </div>
-                        
-                        <div className='containerCaptchaInputButton'>
-                            <div className='containerCaptchaInput'>
-                              <input
-                                  type="text"
-                                  name="captchaAnswer"
-                                  value={captchaAnswer}
-                                  onChange={(e) => setCaptchaAnswer(e?.target?.value)}
-                                  className='inputCaptchaAnswer'
-                                  placeholder="Your answer"
-                              />
-                            </div>
-                            <div className='containerCaptchaButton'>
-                              <Button text='Verify' action={handleSubmitCatchpaForm} additionalClassName='verifyCaptcha' />
-                            </div>
-                            <div>
-                              {notificationCaptchaError && <p className='challengeFailed'>{notificationCaptchaError}</p>}
-                            </div>
-                            
-                        </div>
-                    </div>
+    <div className='pt-4 flex flex-col gap-2 mx-auto sm:pt-5 sm:gap-2.5'>
+        {notificationCaptchaSuccess ? (
+            <div className='font-unbounded text-xs text-green-500 sm:text-sm'>
+                {notificationCaptchaSuccess}
+            </div>    
+        ) : (
+            <div className="pt-4 flex flex-col gap-2 mx-auto sm:pt-5 sm:gap-2.5">
+                <div className="pt-1 mx-auto sm:pt-1.5">
+                    <span className='font-unbounded text-xs text-red-500 sm:text-sm'>Verify that you are human : </span><br/>
+                    <span className='font-unbounded text-xs text-red-500 sm:text-sm'>What is the sum of these 2 numbers : </span>
+                    <span className='font-unbounded text-xs text-red-500 sm:text-sm'>{num1} &amp; </span>
+                    <span className='hidden'>five</span>
+                    <span className='hidden'>seven</span>
+                    <span className='font-unbounded text-xs text-red-500 sm:text-sm'>{num2}</span>
+                    <span className='font-unbounded text-xs text-red-500 sm:text-sm'>&nbsp;?</span>    
+                </div>
                 
+                <div className='flex flex-col gap-2 mx-auto sm:gap-2.5'>
+                    <div className='flex flex-col mx-auto'>
+                        <input
+                            type="text"
+                            name="captchaAnswer"
+                            value={captchaAnswer}
+                            onChange={(e) => setCaptchaAnswer(e?.target?.value)}
+                            className='border-2 border-red-500 rounded-md py-1.5 px-2 w-full bg-transparent font-poppins text-sm focus:outline-none focus:ring-2 focus:ring-red-500 sm:py-2 sm:px-3 sm:text-base'
+                            placeholder="Your answer"
+                        />
+                    </div>
+                    <div className='flex flex-col mx-auto'>
+                        <Button text='Verify' action={handleSubmitCatchpaForm} additionalClassName='verifyCaptcha' />
+                    </div>
+                    <div>
+                        {notificationCaptchaError && <p className='font-unbounded text-xs text-red-500 sm:text-sm'>{notificationCaptchaError}</p>}
+                    </div>
+                </div>
+            </div>
+        )}        
 
-            )
-        }        
-
-        <p className='challengeFailed'>
+        <p className='font-unbounded text-xs text-red-500 sm:text-sm'>
             {challengeFailed && (
                 <span>Oups ! Wrong answer</span>
             )}
         </p>
-        
     </div>
   )
 }

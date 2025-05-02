@@ -1,5 +1,6 @@
 import Button from "@/components/Button/Button";
 import { ListNavigationType } from "@/types";
+
 interface ListNavigationProps {
   nav: ListNavigationType[];
   navActive: ListNavigationType;
@@ -14,13 +15,13 @@ const ListNavigation = ({
   viewAllLink
 }: ListNavigationProps) => {
   return (
-    <nav className="ListHeader__nav">
+    <nav className="flex items-center w-full lg:w-auto">
       {nav.map((navItem) => (
         <h1
           key={navItem.tab}
           onClick={() => setNavActive(navItem)}
-          className={`ListHeader__title ${
-            navActive.tab === navItem.tab ? 'ListHeader__title--active' : ''
+          className={`relative cursor-pointer inline-block font-semibold py-[15px] pr-[25px] font-montserrat text-lg lg:text-3xl lg:py-[25px] ${
+            navActive.tab === navItem.tab ? 'after:content-[""] after:absolute after:w-full after:h-[2px] after:bottom-[-2px] after:left-0 after:bg-[#b39e73]' : ''
           }`}
         >
           {navItem.tab}
@@ -30,7 +31,8 @@ const ListNavigation = ({
         <Button
           link={viewAllLink}
           text="View All"
-          additionalClassName="viewAll Button--viewAll--mobile"
+          additionalClassName="viewAll"
+          className="flex ml-auto lg:hidden"
         />
       )}
     </nav>

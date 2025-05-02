@@ -11,7 +11,9 @@ const Popup = ({ placement, buttonTrigger, children }: PopupProps) => {
     <>
       <Popover key={placement} placement={placement} showArrow>
         <PopoverTrigger>{buttonTrigger}</PopoverTrigger>
-        <PopoverContent>{children}</PopoverContent>
+        <PopoverContent className="rounded-[20px] border border-[#a6a6a6] bg-[#313130] p-[40px] mt-[12px] w-[200px]">
+          {children}
+        </PopoverContent>
       </Popover>
     </>
   );

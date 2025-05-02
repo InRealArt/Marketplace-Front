@@ -33,7 +33,7 @@ export default function RootLayout({
         <body suppressHydrationWarning={true}>
           <Providers>
             <Header />
-            <section className="container">{children}</section>
+            <section className="max-w-[90%] desktop:max-w-[1414px] mx-auto mt-[80px] 2xl:mt-[80px + 40px]">{children}</section>
             <Footer />
             <Toaster richColors />
             {/* <BuyModal /> */}

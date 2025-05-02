@@ -14,7 +14,7 @@ const Artists = () => {
   }, []);
 
   return (
-    <main className="Artists">
+    <main>
       {/* <ListOfArtists nav={[{ tab: 'All Artists', list: artists, context: 'artist' }]} /> */}
       <ListOfArtists nav={[{ tab: 'All Artists', list: artists, context: 'artist' }]} />
     </main>
