@@ -26,16 +26,12 @@ export function useCart() {
   const [initialized, setInitialized] = useState(false);
   // Initialize anonymous cart ID if not exists
   useEffect(() => {
-    console.log('anonymousId', anonymousId);
-    console.log('userId', userId);
     const firstTimeOrUserJustDeconnect = !anonymousId && !userId
     const userJustConnect = anonymousId && userId
 
     if (firstTimeOrUserJustDeconnect) {
-      console.log("no user or anonymous id or user just deconnect");
       const newAnonymousId = uuidv4();
       setAnonymousId(newAnonymousId);
-      console.log('newAnonymousId', newAnonymousId);
       setInitialized(true);
     }
     if (userJustConnect) {
@@ -57,13 +53,10 @@ export function useCart() {
     try {
       setLoading(true);
       let serverItems: CartItem[] = [];
-      console.log("trying to get user or anonymous", userId, anonymousId);
       if (userId) {
-        console.log('new user');
 
         // Get user cart from server using direct Prisma call
         const cart = await getUserCart(userId);
-        console.log('ayy', cart);
 
         if (cart?.items) {
           serverItems = cart.items as CartItem[];
@@ -75,7 +68,6 @@ export function useCart() {
 
             // Then add all server items
             serverItems.forEach(item => addItem(item));
-            console.log('Replaced local cart with user server cart');
           } else {
             // Normal sync: Add server items that don't exist locally
             serverItems.forEach(serverItem => {
@@ -92,7 +84,6 @@ export function useCart() {
           }
         }
       } else if (anonymousId) {
-        console.log('new anonymous user');
 
         // Clear local cart first
         clearCartStore();
