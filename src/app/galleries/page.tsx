@@ -1,11 +1,10 @@
 'use client'
 import React from 'react';
 import ListOfArtists from '@/components/List/ListOfArtists';
-import useFetchData from '@/customHooks/useFetchData';
+import { useArtistsStore } from '@/store/artistsStore';
 
 const Galleries = () => {
-  const { galleries } = useFetchData()
-  console.log(galleries);
+  const { galleries } = useArtistsStore()
   return (
     <main className="Artists">
       <ListOfArtists nav={[{ tab: 'All galleries', list: galleries, context: 'artist' }]} />

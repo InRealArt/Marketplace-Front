@@ -3,47 +3,29 @@
 import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useCart } from '@/hooks/useCart'
+import { toast } from 'sonner'
 
-interface CartSidebarProps {
+interface CartProps {
   isOpen: boolean
   onClose: () => void
 }
 
-interface CartItem {
-  id: string
-  name: string
-  price: number
-  quantity: number
-  imageUrl: string
-}
+function Cart({ isOpen, onClose }: CartProps) {
+  const {
+    items,
+    removeFromCart,
+    getCartTotal
+  } = useCart();
 
-// Mock data pour le panier (à remplacer par de vraies données du state)
-const mockCartItems: CartItem[] = [
-  {
-    id: '1',
-    name: 'Artwork 1',
-    price: 120,
-    quantity: 1,
-    imageUrl: '/images/placeholder.jpg'
-  },
-  {
-    id: '2',
-    name: 'Artwork 2',
-    price: 250,
-    quantity: 1,
-    imageUrl: '/images/placeholder.jpg'
-  }
-]
-
-function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
   // Ferme le panier quand on clique sur Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
-    
+
     window.addEventListener('keydown', handleKeyDown)
-    
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
@@ -62,53 +44,62 @@ function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
     }
   }, [isOpen])
 
-  // Calcul du total du panier
-  const cartTotal = mockCartItems.reduce((total, item) => {
-    return total + (item.price * item.quantity)
-  }, 0)
+  // Handle removing item from cart
+  const handleRemoveItem = async (nftId: number, purchaseType: string) => {
+    const result = await removeFromCart(nftId, purchaseType);
+    
+    if (result.success) {
+      toast.success(result.message);
+    } else if (result.error) {
+      toast.error(result.error);
+    }
+  };
+
+  // Calculate cart total using the Zustand store method
+  const cartTotal = getCartTotal();
 
   return (
     <>
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/70 z-40"
           onClick={onClose}
         />
       )}
-      
+
       <div className={`fixed top-0 right-0 h-screen w-full max-w-sm sm:max-w-xs bg-[#52524c] text-white z-50 shadow-[-2px_0_10px_rgba(0,0,0,0.3)] transform transition-transform duration-300 ease-in-out ${!isOpen ? 'translate-x-full' : 'translate-x-0'}`}>
         <div className="flex flex-col h-full">
           {/* En-tête du panier */}
           <div className="flex items-center justify-between p-6 border-b border-[#6b6b66]">
             <h2 className="text-xl font-semibold text-white">Votre Panier</h2>
-            <button 
+            <button
               onClick={onClose}
               className="p-2 rounded-full cursor-pointer hover:bg-[#6b6b66] transition-colors"
               aria-label="Fermer"
             >
-              <Image 
-                src="/icons/Cross.png" 
-                alt="Fermer" 
-                width={20} 
-                height={20} 
+              <Image
+                src="/icons/Cross.png"
+                alt="Fermer"
+                width={20}
+                height={20}
               />
             </button>
           </div>
 
           {/* Contenu du panier */}
           <div className="flex-grow overflow-y-auto p-6">
-            {mockCartItems.length === 0 ? (
+            {items.length === 0 ? (
               <div className="text-center py-8 text-white">
                 <p>Votre panier est vide</p>
               </div>
             ) : (
               <ul className="flex flex-col gap-6">
-                {mockCartItems.map((item) => (
-                  <li key={item.id} className="flex items-center justify-between gap-6 pb-6 border-b border-[#6b6b66]">
+                {items.map((item) => (
+                  <li key={`${item.nft.id}-${item.purchaseType}`} className="flex items-center justify-between gap-6 pb-6 border-b border-[#6b6b66]">
                     <div className="w-20 h-20 relative flex-shrink-0 rounded overflow-hidden">
-                      <Image 
-                        src={item.imageUrl}
-                        alt={item.name}
+                      <Image
+                        src={item.nft.mainImageUrl || '/icons/Nft.png'}
+                        alt={item.nft.name || 'NFT Image'}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover"
@@ -120,20 +111,28 @@ function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                       />
                     </div>
                     <div className="flex-grow">
-                      <h3 className="font-medium text-white mb-2">{item.name}</h3>
-                      <p className="text-[#b39e73] font-semibold">{item.price} €</p>
-                      <div className="flex items-center mt-3">
-                        <button className="w-8 h-8 flex items-center justify-center border border-[#b39e73] bg-[#1d1d1b] text-white cursor-pointer transition-all hover:bg-[#b39e73]">-</button>
-                        <span className="w-10 h-8 flex items-center justify-center text-white font-medium">{item.quantity}</span>
-                        <button className="w-8 h-8 flex items-center justify-center border border-[#b39e73] bg-[#1d1d1b] text-white cursor-pointer transition-all hover:bg-[#b39e73]">+</button>
+                      <h3 className="font-medium text-white mb-2">{item.nft.name}</h3>
+                      <p className="text-[#b39e73] font-semibold">
+                        {item.purchaseType === 'physical' && `${item.nft.pricePhysicalBeforeTax} €`}
+                        {item.purchaseType === 'nft' && `${item.nft.priceNftBeforeTax} €`}
+                        {item.purchaseType === 'nftPlusPhysical' && `${item.nft.priceNftPlusPhysicalBeforeTax} €`}
+                      </p>
+                      <div className="mt-2 text-sm text-white opacity-75">
+                        Type: {item.purchaseType === 'physical' ? 'Physical Only' :
+                          item.purchaseType === 'nft' ? 'NFT Only' :
+                            'NFT + Physical'}
                       </div>
                     </div>
-                    <button aria-label="Supprimer" className="p-2 rounded-full cursor-pointer hover:bg-[#6b6b66]">
-                      <Image 
-                        src="/icons/Cross.png" 
-                        alt="Supprimer" 
-                        width={16} 
-                        height={16} 
+                    <button
+                      aria-label="Supprimer"
+                      className="p-2 rounded-full cursor-pointer hover:bg-[#6b6b66]"
+                      onClick={() => handleRemoveItem(item.nft.id, item.purchaseType)}
+                    >
+                      <Image
+                        src="/icons/Cross.png"
+                        alt="Supprimer"
+                        width={16}
+                        height={16}
                       />
                     </button>
                   </li>
@@ -148,13 +147,13 @@ function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
               <span>Total</span>
               <span>{cartTotal} €</span>
             </div>
-            <Link 
-              href="/checkout" 
+            <Link
+              href="/checkout"
               className="block w-full bg-[#b39e73] text-white py-3.5 text-center font-medium mb-4 cursor-pointer transition-colors hover:bg-[#8a7a57]"
             >
               Passer la commande
             </Link>
-            <button 
+            <button
               onClick={onClose}
               className="block w-full border border-[#b39e73] text-white py-3.5 text-center font-medium cursor-pointer transition-colors hover:bg-[#b39e73]/20"
             >
@@ -167,4 +166,4 @@ function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
   )
 }
 
-export default CartSidebar 
+export default Cart 

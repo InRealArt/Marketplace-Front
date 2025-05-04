@@ -4,8 +4,6 @@ import Link from 'next/link';
 import { FlameIcon } from 'lucide-react';
 import Button from '../Button/Button';
 import { NftType } from '@/types';
-import { useAppSelector } from '@/redux/hooks';
-import { getArtistByNft } from '@/redux/reducers/artists/selectors';
 
 interface NftCardProps {
   nft: NftType;
@@ -13,7 +11,6 @@ interface NftCardProps {
 
 const NftCard = ({ nft }: NftCardProps) => {
   const { name, slug } = nft;
-  const artist = useAppSelector((state) => getArtistByNft(state, nft.idUser))
 
   return (
     <div className="flex flex-col items-center relative w-full mt-10 h-auto p-2.5 rounded-[17px] sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-40px)]">
@@ -39,12 +36,12 @@ const NftCard = ({ nft }: NftCardProps) => {
       <div className="w-[calc(100%-30px)] rounded-[17px] mt-2.5 px-[15px] py-0">
         <div className="relative flex items-center justify-between py-[15px] w-full">
           <div className="max-w-[60%]">
-            <Link 
+            {/* <Link 
               className="block font-poppins text-base text-[#dedcd8] m-0 mb-2.5 truncate whitespace-nowrap overflow-hidden" 
               href={`/artists/${artist?.slug || artist?.id}`}
             >
               {artist?.pseudo}
-            </Link>
+            </Link> */}
             <Link 
               className="block font-poppins text-lg font-semibold truncate whitespace-nowrap overflow-hidden" 
               href={`/artworks/${slug || nft.id}`}

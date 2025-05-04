@@ -1,16 +1,13 @@
 'use client';
-import useFetchData from '@/customHooks/useFetchData';
 import { fetchOrdersByUser } from '@/lib/orders';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { getArtistByNft } from '@/redux/reducers/artists/selectors';
-import { getNftBySlug } from '@/redux/reducers/nfts/selectors';
 import { setOrders } from '@/redux/reducers/orders/reducer';
 import { getOrders } from '@/redux/reducers/orders/selectors';
-import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { useNftsStore } from '@/store/nftsStore';
 import { OrderType } from '@/types';
 import { OrderStatus } from '@prisma/client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSession } from '@/lib/auth-client';
 
 interface OrderProps {
   order: OrderType
@@ -26,8 +23,6 @@ const OrderItem = ({ order }: OrderProps) => {
   const { id, created_at, userId, nftId, orderStatus } = order
   const { getNftById } = useNftsStore()
   const nft = getNftById(nftId)
-  const artist = useAppSelector((state) => getArtistByNft(state, nft?.categoryId || 0))
-  useFetchData()
 
   return (
     <div className="Orders__item">
@@ -41,7 +36,7 @@ const OrderItem = ({ order }: OrderProps) => {
       </p>}
       <p className="Orders__item--sub">
         <span>Artwork</span>: <br />
-        {nft?.name} by {artist?.pseudo}
+        {/* {nft?.name} by  {artist?.pseudo} */}
       </p>
       <p className="Orders__item--sub">
         <span>Status</span>: <br />
@@ -50,20 +45,31 @@ const OrderItem = ({ order }: OrderProps) => {
   )
 }
 const OrdersComponent = () => {
-  const user = useAppSelector((state) => getUserInfos(state))
+  const { data } = useSession();
+  const sessionData = data
+  const isAuthenticated = !!sessionData?.user?.id;
   const orders = useAppSelector((state) => getOrders(state))
   const dispatch = useAppDispatch()
+  
+  // Track authentication state changes
+  const [authState, setAuthState] = useState(isAuthenticated);
+  
+  useEffect(() => {
+    if (authState !== isAuthenticated) {
+      setAuthState(isAuthenticated);
+    }
+  }, [isAuthenticated, authState]);
 
   useEffect(() => {
     const fetchOrdersData = async () => {
-      if (user.infos?.id) {
-        const orders = await fetchOrdersByUser(user.infos.id)
+      if (isAuthenticated && sessionData?.user?.id) {
+        const orders = await fetchOrdersByUser(sessionData.user.id)
         const ordersFormatted = orders.map(order => ({ ...order, id: Number(order.id), created_at: order.created_at?.toDateString() }))
         dispatch(setOrders(ordersFormatted));
       }
     };
     fetchOrdersData()
-  }, [])
+  }, [isAuthenticated, sessionData, dispatch])
 
   return (
     <section className="Wallet__main">

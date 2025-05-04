@@ -1,35 +1,63 @@
 'use client';
 import Button from '@/components/Button/Button';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { setUserInfos } from '@/redux/reducers/user/reducer';
-import { getUserInfos } from '@/redux/reducers/user/selectors';
 import { DashboardTabs } from '@/utils/constants';
 import { UserCircle } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
 import { signOut } from '@/app/actions/auth';
 import { useRouter } from 'next/navigation';
+import { useCartStore } from '@/store/cartStore';
+import { useSession } from '@/lib/auth-client';
+import { useAppDispatch } from '@/redux/hooks';
+import { setOrders } from '@/redux/reducers/orders/reducer';
+import { useNftsStore } from '@/store/nftsStore';
+import { useCollectionsStore } from '@/store/collectionsStore';
+import { useArtistsStore } from '@/store/artistsStore';
+import { v4 as uuidv4 } from 'uuid';
+import { useCart } from '@/hooks/useCart';
+
 interface ProfileProps {
   setActiveTab: React.Dispatch<React.SetStateAction<DashboardTabs>>;
 }
 
 const ProfileComponent = ({ setActiveTab }: ProfileProps) => {
-  const dispatch = useAppDispatch()
-  const { infos } = useAppSelector((state) => getUserInfos(state))
-  const { address, email, name, role, surname, tel } = infos || {}
-  const router = useRouter()
+  const { data, refetch } = useSession();
+  const sessionData = data as any;
+  const sessionUser = sessionData?.user;
+  const { setAnonymousId } = useCartStore();
+
+  const userMetadata = sessionUser?.user_metadata || {};
+  const { address, tel, surname } = userMetadata;
+  const name = userMetadata.name;
+  const email = sessionUser?.email;
+  const role = 'SELLER'; // Default role
+
+  // Helper function to clear localStorage cart data
+  const clearLocalStorageCartData = () => {
+    try {
+      // Remove the cart data from localStorage
+      localStorage.removeItem('ira-cart-storage');
+      console.log('Cleared localStorage cart data');
+    } catch (error) {
+      console.error('Failed to clear localStorage:', error);
+    }
+  };
+
   const handleSignOut = async () => {
     try {
-      const result = await signOut()
-      if (result.success) {
-        dispatch(setUserInfos(null))
-        toast.success('Déconnexion réussie')
-        router.push('/')
+      // Perform sign out
+      const result = await signOut();
+      if (result.success) {        
+        // First reset the cart completely
+        setAnonymousId(uuidv4());
+        // clearLocalStorageCartData()
+        toast.success('Déconnexion réussie');
+        refetch();
       } else {
-        throw new Error('Échec de la déconnexion')
+        throw new Error('Échec de la déconnexion');
       }
     } catch (error) {
-      toast.error('Une erreur est survenue lors de la déconnexion')
+      toast.error('Une erreur est survenue lors de la déconnexion');
     }
   };
 
@@ -56,9 +84,9 @@ const ProfileComponent = ({ setActiveTab }: ProfileProps) => {
             <p className='Profile__item'>
               <span className='Profile__item--label'>Role:</span> {role}
             </p>
-            <Button 
-              additionalClassName='logout' 
-              text='Se déconnecter' 
+            <Button
+              additionalClassName='logout'
+              text='Se déconnecter'
               action={handleSignOut}
             />
           </div>

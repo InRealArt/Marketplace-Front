@@ -7,7 +7,6 @@ import { Providers } from './providers';
 import LoginModal from '@/components/Modal/LoginModal/LoginModal';
 import { Toaster } from 'sonner';
 import GoogleCaptchaWrapper from './captcha/google-captcha-wrapper';
-import SellModal from '@/components/Modal/SellModal';
 import '@coinbase/onchainkit/styles.css';
 
 export const metadata: Metadata = {
@@ -36,8 +35,6 @@ export default function RootLayout({
             <section className="max-w-[90%] desktop:max-w-[1414px] mx-auto mt-[80px] 2xl:mt-[80px + 40px]">{children}</section>
             <Footer />
             <Toaster richColors />
-            {/* <BuyModal /> */}
-            {/* <SellModal /> */}
             <LoginModal />
           </Providers>
         </body>

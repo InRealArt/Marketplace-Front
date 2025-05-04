@@ -1,34 +1,20 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import HeaderMenu from './subComponents/HeaderMenu';
-import { useAppDispatch } from '@/redux/hooks';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { setUserInfos } from '@/redux/reducers/user/reducer';
-import { UserRoles } from '@prisma/client';
-import CartSidebar from './subComponents/CartSidebar';
+import HeaderMenu from './HeaderMenu';
+import Cart from './Cart';
+import { useCart } from '@/hooks/useCart';
+import { useSession } from '@/lib/auth-client';
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
-  const supabase = createClientComponentClient();
-  const dispatch = useAppDispatch()
+  const { getItemCount } = useCart();
   
-  // Nombre d'articles dans le panier (à remplacer avec les données réelles)
-  const cartItemsCount = 2;
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data.session) {
-        const { address, name, surname, tel } = data.session?.user?.user_metadata || {}
-        dispatch(setUserInfos({ id: data.session?.user.id, role: UserRoles.SELLER, orderIds: [], email: data.session?.user?.email, name, address, surname, tel }))
-      }
-    };
-    fetchUserData()
-  }, [])
-
+  // Get cart items count from the Zustand store
+  const cartItemsCount = getItemCount();
+  
   return (
     <header className="fixed top-0 left-0 w-full h-[50px] md:h-[60px] lg:h-[80px] z-[99] bg-[rgba(31,31,29,0.5)] backdrop-blur-[60px]">
       <section className="relative z-10 mx-auto h-full flex justify-between items-center max-w-[90%] desktop:max-w-[1414px]">
@@ -106,8 +92,8 @@ const Header = () => {
           />
         </div>
 
-        {showMenu && <HeaderMenu hideMenu={() => setShowMenu(false)} />}
-        <CartSidebar isOpen={showCart} onClose={() => setShowCart(false)} />
+        <HeaderMenu hide={!showMenu} hideMenu={() => setShowMenu(false)} />
+        <Cart isOpen={showCart} onClose={() => setShowCart(false)} />
       </section>
     </header>
   );

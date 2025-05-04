@@ -13,17 +13,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import Button from '../../Button/Button';
 import { Input } from '../../ui/input';
 import { toast } from 'sonner';
-import { setUserInfos } from '@/redux/reducers/user/reducer';
 import { createClient } from '@/lib/supabase/client';
-import { createProfile } from '@/lib/profiles';
-import { UserRoles } from '@prisma/client';
 import { verifyCaptcha } from '@/lib/captcha/functions';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { PostDataSingleMailing } from '@/types_mailing';
-import { signIn } from "@/lib/auth-client";
-import { signUp } from "@/lib/auth-client";
-import router from 'next/router';
-import Link from 'next/link';
+import { signIn, signUp } from "@/lib/auth-client";
 
 // Label styling constant
 const FormLabelStyle = "absolute font-montserrat text-[14px] tracking-[0px] z-10 top-[5px] left-[35px] bg-[#313130] px-[10px]";
@@ -141,11 +135,11 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
     
     setLoading(true)
     //STEP 1 : Verifiy Captcha
-    const dataCaptcha = await verifyCaptcha(executeRecaptcha)
+    // const dataCaptcha = await verifyCaptcha(executeRecaptcha)
     //console.log('dataCaptcha : ', dataCaptcha)
-    if (dataCaptcha.success === false) {
-      return toast.error('According to Captcha system, you seems to be a robot and not human !')
-    }
+    // if (dataCaptcha.success === false) {
+    //   return toast.error('According to Captcha system, you seems to be a robot and not human !')
+    // }
 
     //STEP 2 : Send Email Confirmation
     //@TODO : Uncomment this when we have a real email
@@ -182,7 +176,7 @@ const LoginModalSignUpContent = ({ setIsSignin }: LoginModalProps) => {
           dispatch(setLoginModalDisplay(false))
           toast.success("Your account have been created")
           console.log('Success SIGNUP')
-          setLoading
+          setLoading(false)
         },
       },
     });
@@ -468,7 +462,7 @@ const LoginModal = () => {
     >
       <div className="pb-[50px] max-h-[90vh] overflow-hidden">
         <Image
-          src="/images/HeaderIntro.jpg"
+          src="/images/LoginHeader.png"
           width={740}
           height={200}
           alt="HeaderLoginModal"

@@ -6,7 +6,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["auth", "public", "marketplace"]
+  schemas  = ["auth", "marketplace", "public"]
 }
 
 model Artist {
@@ -673,6 +673,151 @@ model Wallet {
   @@schema("public")
 }
 
+model Cart {
+  id        Int       @id(map: "cart_pkey") @default(autoincrement())
+  userId    String    @unique(map: "cart_userId_key")
+  items     Json
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @updatedAt @db.Timestamptz(6)
+
+  @@schema("marketplace")
+}
+
+model AnonymousCart {
+  cartId    String   @id
+  items     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime
+
+  @@schema("marketplace")
+}
+
+model Invoice {
+  id                      Int         @id @default(autoincrement())
+  invoiceNumber           String      @unique
+  createdAt               DateTime    @default(now()) @db.Timestamp(6)
+  dueDate                 DateTime?   @db.Timestamp(6)
+  orderId                 Int         @unique
+  orderNumber             String
+  orderDate               DateTime    @db.Timestamp(6)
+  subtotalPrice           Decimal     @db.Decimal(10, 2)
+  vatAmount               Decimal     @db.Decimal(10, 2)
+  totalPrice              Decimal     @db.Decimal(10, 2)
+  vatRate                 Decimal     @db.Decimal(5, 2)
+  paidAt                  DateTime?   @db.Timestamp(6)
+  paymentMethod           String
+  isPaid                  Boolean     @default(false)
+  sellerName              String
+  sellerAddress           String
+  sellerVatNumber         String?
+  sellerSiret             String
+  sellerEmail             String
+  customerName            String
+  customerEmail           String
+  customerId              String
+  billingAddressFullname  String
+  billingAddressStreet    String
+  billingAddressCity      String
+  billingAddressPostCode  String
+  billingAddressCountry   String
+  billingAddressVatNumber String?
+  legalMentions           String
+  paymentTerms            String
+  invoiceType             InvoiceType @default(INVOICE)
+
+  @@index([customerId])
+  @@index([invoiceNumber])
+  @@index([orderNumber])
+  @@schema("marketplace")
+}
+
+model InvoiceItem {
+  id          Int     @id @default(autoincrement())
+  invoiceId   Int
+  title       String
+  description String?
+  isNft       Boolean @default(false)
+  artworkId   Int
+  unitPrice   Decimal @db.Decimal(10, 2)
+  vatRate     Decimal @db.Decimal(5, 2)
+  vatAmount   Decimal @db.Decimal(10, 2)
+  totalPrice  Decimal @db.Decimal(10, 2)
+
+  @@index([invoiceId])
+  @@schema("marketplace")
+}
+
+model marketplace_Order {
+  id                   Int       @id(map: "order_pkey") @default(autoincrement())
+  orderNumber          String    @unique(map: "order_ordernumber_key")
+  createdAt            DateTime  @default(now()) @db.Timestamptz(6)
+  subtotalPrice        Decimal   @db.Decimal(10, 2)
+  vatAmount            Decimal   @db.Decimal(10, 2)
+  totalPrice           Decimal   @db.Decimal(10, 2)
+  vatRate              Decimal   @db.Decimal(5, 2)
+  invoiceNumber        String?
+  paidAt               DateTime? @db.Timestamptz(6)
+  paymentMethod        String
+  customerId           String
+  billingAddressId     Int
+  billingStreetAddress String
+  billingPostalCode    String
+  billingCity          String
+  billingCountry       String
+  billingVatNumber     String?
+  customerName         String
+  customerEmail        String
+
+  @@index([customerId], map: "idx_order_customerid")
+  @@index([orderNumber], map: "idx_order_ordernumber")
+  @@map("Order")
+  @@schema("marketplace")
+}
+
+model OrderItem {
+  id         Int     @id(map: "orderitem_pkey") @default(autoincrement())
+  orderid    Int
+  artworkid  Int
+  title      String
+  isnft      Boolean @default(false)
+  unitprice  Decimal @db.Decimal(10, 2)
+  vatrate    Decimal @db.Decimal(5, 2)
+  vatamount  Decimal @db.Decimal(10, 2)
+  totalprice Decimal @db.Decimal(10, 2)
+
+  @@index([artworkid], map: "idx_orderitem_artworkid")
+  @@index([orderid], map: "idx_orderitem_orderid")
+  @@schema("marketplace")
+}
+
+model Address {
+  id               Int     @id @default(autoincrement())
+  firstName        String
+  lastName         String
+  streetAddress    String
+  postalCode       String
+  city             String
+  country          String
+  vatNumber        String?
+  customerId       String?
+  backofficeUserId Int?
+  name             String
+  countryCode      String
+
+  @@index([backofficeUserId], map: "idx_address_backofficeUserId")
+  @@index([customerId], map: "idx_address_customerId")
+  @@schema("public")
+}
+
+model ThirdPartyAddress {
+  id        String @id
+  addressId Int?
+
+  @@index([addressId], map: "idx_thirdpartyaddress_addressId")
+  @@schema("public")
+}
+
 enum ResourceTypes {
   IMAGE
   VIDEO
@@ -766,27 +911,6 @@ enum BackofficeUserRoles {
   @@schema("public")
 }
 
-// À ajouter dans prisma/schema.prisma
-model Cart {
-  id        Int      @id @default(autoincrement())
-  userId    String   @unique
-  items     Json     // Stockage des items sous forme JSON
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@schema("marketplace")
-}
-
-model AnonymousCart {
-  cartId    String   @id //Id généré par le client dans un Cookie
-  items     Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  expiresAt DateTime
-
-  @@schema("marketplace")
-}
-
 enum Chain {
   eth_mainnet
   sepolia
@@ -851,4 +975,13 @@ enum collectionstatus {
   failed
 
   @@schema("public")
+}
+
+enum InvoiceType {
+  INVOICE
+  CREDIT_NOTE
+  PROFORMA
+  RECEIPT
+
+  @@schema("marketplace")
 }

@@ -1,12 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import Button from '@/components/Button/Button';
 import { NftType } from '@/types';
-import { Address } from 'viem';
-import { useAppSelector } from '@/redux/hooks';
-import { getArtistByNft } from '@/redux/reducers/artists/selectors';
+import { useCart } from '@/hooks/useCart';
+import { toast } from 'sonner';
 
 interface NftPriceProps {
   nft: NftType
@@ -47,11 +44,22 @@ const PRICE_OPTIONS: PriceOptionConfig[] = [
 
 const NftPrice = ({ nft }: NftPriceProps) => {
   const [activeOption, setActiveOption] = useState<PriceOption>(PriceOption.PHYSICAL);
+  const { addToCart } = useCart();
 
   const getCurrentPrice = () => {
     const option = PRICE_OPTIONS.find(opt => opt.value === activeOption);
     const price = option ? nft[option.priceKey] : 0;
     return typeof price === 'number' ? price : 0;
+  };
+
+  const handleAddToCart = async () => {
+    const result = await addToCart(nft, activeOption);
+    
+    if (result.success) {
+      toast.success(`${nft.name} added to cart`);
+    } else if (result.error) {
+      toast.error(result.error);
+    }
   };
 
   return (
@@ -84,7 +92,7 @@ const NftPrice = ({ nft }: NftPriceProps) => {
         />
         <Button
           text='Add to cart'
-          link={`/artworks/${nft.slug}`}
+          action={handleAddToCart}
           additionalClassName='whiteBorder'
           className='flex-1'
         />

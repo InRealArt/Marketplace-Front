@@ -1,8 +1,7 @@
 import React from 'react';
 import { CollectionType } from '@/types';
-import { useAppSelector } from '@/redux/hooks';
-import { getNftsByCollection } from '@/redux/reducers/nfts/selectors';
 import { getImageFromUri } from '@/utils/getImageFromUri';
+import { useNftsStore } from '@/store/nftsStore';
 
 interface CollectionCardProps {
   collection: CollectionType;
@@ -10,7 +9,8 @@ interface CollectionCardProps {
 
 const CollectionCard = ({ collection }: CollectionCardProps) => {
   const { id, symbol } = collection;
-  const nfts = useAppSelector((state) => getNftsByCollection(state, id))
+  const { getNftsByCollection } = useNftsStore();
+  const nfts = getNftsByCollection(id)
   const imgUri = nfts[0]?.mainImageUrl
 
   return (
