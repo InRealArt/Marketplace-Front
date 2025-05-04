@@ -19,10 +19,9 @@ interface CartState {
   addItem: (item: CartItem) => void;
   removeItem: (nftId: number, purchaseType: string) => void;
   clearCart: () => void;
-  setAnonymousId: (anonymousId: string) => void;
+  setAnonymousId: (anonymousId: string | null) => void;
   setLoading: (isLoading: boolean) => void;
   getCartTotal: () => number;
-  resetCart: () => void;
 }
 
 // Create store with persistence
@@ -50,7 +49,6 @@ export const useCartStore = create<CartState>()(
         // Add new item
         set({ items: [...currentItems, item] });
       },
-      
       // Remove an item from the cart
       removeItem: (nftId, purchaseType) => {
         const currentItems = get().items;
@@ -74,14 +72,6 @@ export const useCartStore = create<CartState>()(
       // Set loading state
       setLoading: (isLoading) => {
         set({ isLoading });
-      },
-      
-      // Reset the cart completely on logout
-      resetCart: () => {        
-        set({ 
-          items: [],
-          isLoading: false
-        });
       },
       
       // Calculate cart total

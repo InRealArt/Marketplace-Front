@@ -19,35 +19,37 @@ export function useCart() {
     setAnonymousId,
     setLoading,
     getCartTotal,
-    resetCart
   } = useCartStore();
 
-  const [initialized, setInitialized] = useState(false);
-
   const { data } = useSession();
-  const user = data?.user;
-  const userId = user?.id;
-  console.log('user', user);
-
-
-  // Load cart data from server when userId or anonymousId changes
+  const userId = data?.user?.id;
+  const [initialized, setInitialized] = useState(false);
+  // Initialize anonymous cart ID if not exists
   useEffect(() => {
-    console.log('userId', userId, anonymousId, initialized);
+    console.log('anonymousId', anonymousId);
+    console.log('userId', userId);
+    const firstTimeOrUserJustDeconnect = !anonymousId && !userId
+    const userJustConnect = anonymousId && userId
 
+    if (firstTimeOrUserJustDeconnect) {
+      console.log("no user or anonymous id or user just deconnect");
+      const newAnonymousId = uuidv4();
+      setAnonymousId(newAnonymousId);
+      console.log('newAnonymousId', newAnonymousId);
+      setInitialized(true);
+    }
+    if (userJustConnect) {
+      console.log("user just connect");
+      setAnonymousId(null)
+      setInitialized(true);
+    }
+  }, [anonymousId, userId, setAnonymousId]);
+
+  useEffect(() => {
     if (initialized) {
       loadCartFromServer();
     }
-  }, [userId, anonymousId, initialized]);
-
-
-  // Initialize anonymous cart ID if not exists
-  useEffect(() => {
-    if (!initialized && !anonymousId && !userId) {
-      const newAnonymousId = uuidv4();
-      setAnonymousId(newAnonymousId);
-    }
-    setInitialized(true);
-  }, [anonymousId, userId, setAnonymousId, initialized]);
+  }, [initialized]);
 
 
   // Load cart data from server
@@ -55,19 +57,21 @@ export function useCart() {
     try {
       setLoading(true);
       let serverItems: CartItem[] = [];
-
+      console.log("trying to get user or anonymous", userId, anonymousId);
       if (userId) {
+        console.log('new user');
+
         // Get user cart from server using direct Prisma call
         const cart = await getUserCart(userId);
         console.log('ayy', cart);
 
         if (cart?.items) {
           serverItems = cart.items as CartItem[];
+          clearCartStore();
 
           // On login, replace the local cart with the server cart
           if (isLoginEvent && serverItems.length > 0) {
             // Clear local cart first
-            clearCartStore();
 
             // Then add all server items
             serverItems.forEach(item => addItem(item));
@@ -88,7 +92,11 @@ export function useCart() {
           }
         }
       } else if (anonymousId) {
-        resetCart()
+        console.log('new anonymous user');
+
+        // Clear local cart first
+        clearCartStore();
+
         // Get anonymous cart from server using direct Prisma call
         const cart = await getAnonymousCart(anonymousId);
         if (cart?.items) {
@@ -110,6 +118,7 @@ export function useCart() {
       }
 
       setLoading(false);
+      setInitialized(false);
     } catch (error) {
       console.error('Failed to load cart data:', error);
       setLoading(false);
@@ -124,7 +133,7 @@ export function useCart() {
       setLoading(true);
 
       // Get the latest items from the store
-      const currentItems = [...useCartStore.getState().items];
+      const currentItems = [...items];
 
       if (userId) {
         // Update user cart using direct Prisma call with current items
@@ -148,7 +157,7 @@ export function useCart() {
    */
   const addToCart = async (nft: NftType, purchaseType: 'physical' | 'nft' | 'nftPlusPhysical') => {
     // First check if this item already exists in the cart
-    const currentItems = useCartStore.getState().items;
+    const currentItems = items;
     const existingItem = currentItems.find(
       item => item.nft.id === nft.id && item.purchaseType === purchaseType
     );
@@ -174,7 +183,7 @@ export function useCart() {
       await new Promise(resolve => setTimeout(resolve, 0));
 
       // Use the updated items from the store after addition
-      const currentItems = [...useCartStore.getState().items];
+      const currentItems = [...items];
 
       console.log('Adding to cart and syncing with DB:', currentItems.length, 'items');
       if (userId) {
@@ -197,7 +206,7 @@ export function useCart() {
    */
   const removeFromCart = async (nftId: number, purchaseType: string) => {
     // First get the item name before removing it
-    const currentItems = useCartStore.getState().items;
+    const currentItems = items;
     const itemToRemove = currentItems.find(
       item => item.nft.id === nftId && item.purchaseType === purchaseType
     );
@@ -215,7 +224,7 @@ export function useCart() {
       await new Promise(resolve => setTimeout(resolve, 0));
 
       // Use the updated items from the store after removal
-      const currentItems = [...useCartStore.getState().items];
+      const currentItems = [...items];
 
       if (userId) {
         // Update user cart with the current items (after removal)
@@ -284,8 +293,6 @@ export function useCart() {
     clearCart,
     getItemCount,
     getCartTotal,
-    user,
     synchronizeCart,
-    resetCart
   };
 } 

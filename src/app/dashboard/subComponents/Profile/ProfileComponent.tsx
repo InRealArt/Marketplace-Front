@@ -5,16 +5,7 @@ import { UserCircle } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
 import { signOut } from '@/app/actions/auth';
-import { useRouter } from 'next/navigation';
-import { useCartStore } from '@/store/cartStore';
 import { useSession } from '@/lib/auth-client';
-import { useAppDispatch } from '@/redux/hooks';
-import { setOrders } from '@/redux/reducers/orders/reducer';
-import { useNftsStore } from '@/store/nftsStore';
-import { useCollectionsStore } from '@/store/collectionsStore';
-import { useArtistsStore } from '@/store/artistsStore';
-import { v4 as uuidv4 } from 'uuid';
-import { useCart } from '@/hooks/useCart';
 
 interface ProfileProps {
   setActiveTab: React.Dispatch<React.SetStateAction<DashboardTabs>>;
@@ -24,7 +15,6 @@ const ProfileComponent = ({ setActiveTab }: ProfileProps) => {
   const { data, refetch } = useSession();
   const sessionData = data as any;
   const sessionUser = sessionData?.user;
-  const { setAnonymousId } = useCartStore();
 
   const userMetadata = sessionUser?.user_metadata || {};
   const { address, tel, surname } = userMetadata;
@@ -32,28 +22,15 @@ const ProfileComponent = ({ setActiveTab }: ProfileProps) => {
   const email = sessionUser?.email;
   const role = 'SELLER'; // Default role
 
-  // Helper function to clear localStorage cart data
-  const clearLocalStorageCartData = () => {
-    try {
-      // Remove the cart data from localStorage
-      localStorage.removeItem('ira-cart-storage');
-      console.log('Cleared localStorage cart data');
-    } catch (error) {
-      console.error('Failed to clear localStorage:', error);
-    }
-  };
-
   const handleSignOut = async () => {
     try {
       // Perform sign out
       const result = await signOut();
-      if (result.success) {        
-        // First reset the cart completely
-        setAnonymousId(uuidv4());
-        // clearLocalStorageCartData()
+      if (result.success) {
         toast.success('Déconnexion réussie');
         refetch();
       } else {
+        toast.error('Une erreur est survenue lors de la déconnexion');
         throw new Error('Échec de la déconnexion');
       }
     } catch (error) {

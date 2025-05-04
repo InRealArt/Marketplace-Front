@@ -10,11 +10,11 @@ import { useSession } from '@/lib/auth-client';
 const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
-  const { getItemCount } = useCart();
-  
+  const { getItemCount, items, removeFromCart, getCartTotal } = useCart();
+
   // Get cart items count from the Zustand store
   const cartItemsCount = getItemCount();
-  
+
   return (
     <header className="fixed top-0 left-0 w-full h-[50px] md:h-[60px] lg:h-[80px] z-[99] bg-[rgba(31,31,29,0.5)] backdrop-blur-[60px]">
       <section className="relative z-10 mx-auto h-full flex justify-between items-center max-w-[90%] desktop:max-w-[1414px]">
@@ -29,7 +29,7 @@ const Header = () => {
             className="w-7 h-7"
           />
         </Link>
-        
+
         {/* Desktop logo */}
         <Link href={'/'} className="hidden md:block">
           <Image
@@ -62,8 +62,8 @@ const Header = () => {
         </nav>
 
         <div className="flex justify-between items-center">
-          <button 
-            className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110" 
+          <button
+            className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110"
             onClick={() => setShowCart(true)}
             aria-label="Ouvrir le panier"
           >
@@ -93,7 +93,7 @@ const Header = () => {
         </div>
 
         <HeaderMenu hide={!showMenu} hideMenu={() => setShowMenu(false)} />
-        <Cart isOpen={showCart} onClose={() => setShowCart(false)} />
+        <Cart isOpen={showCart} onClose={() => setShowCart(false)} items={items} removeFromCart={removeFromCart} getCartTotal={getCartTotal} />
       </section>
     </header>
   );

@@ -5,19 +5,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/hooks/useCart'
 import { toast } from 'sonner'
+import { CartItem } from '@/store/cartStore'
 
 interface CartProps {
   isOpen: boolean
   onClose: () => void
+  items: CartItem[]
+  removeFromCart: (nftId: number, purchaseType: string) => Promise<{ success: boolean, message?: string, error?: string }>
+  getCartTotal: () => number
 }
 
-function Cart({ isOpen, onClose }: CartProps) {
-  const {
-    items,
-    removeFromCart,
-    getCartTotal
-  } = useCart();
-
+function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProps) {
   // Ferme le panier quand on clique sur Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
