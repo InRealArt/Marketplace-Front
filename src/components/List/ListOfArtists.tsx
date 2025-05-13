@@ -2,7 +2,7 @@ import { useBackofficeUserStore } from '@/store/backofficeUserStore';
 import List from './List';
 import { ListNavigationType } from '@/types';
 import { useEffect } from 'react';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 
 interface ListOfArtistsProps {
   nav: ListNavigationType[];
@@ -10,11 +10,11 @@ interface ListOfArtistsProps {
 
 const ListOfArtists = ({ nav }: ListOfArtistsProps) => {
   const { fetchUsers, isLoading } = useBackofficeUserStore();
-  const { fetchNfts } = useNftsStore();
+  const { fetchItems } = useItemsStore();
   useEffect(() => {
     fetchUsers();
-    fetchNfts();
-  }, [fetchUsers, fetchNfts]);
+    fetchItems();
+  }, [fetchUsers, fetchItems]);
   
   return (
     <section className="ListOfArtists">

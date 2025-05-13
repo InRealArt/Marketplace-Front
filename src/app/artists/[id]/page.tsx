@@ -7,13 +7,13 @@ import ListOfNfts from '@/components/List/ListOfNfts';
 import { ListNavigationType } from '@/types';
 import { useArtistsStore } from '@/store/artistsStore';
 import { useCollectionsStore } from '@/store/collectionsStore';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 
 const Artist = () => {
   const { id: currentId } = useParams() as { id: string };
   const numericId = Number(currentId);
 
-  const { getItemsByArtist } = useNftsStore()
+  const { getItemsByArtist } = useItemsStore()
   const nftsByArtist = getItemsByArtist(numericId)
   const { getCollectionsByArtist } = useCollectionsStore();
   const collectionsByArtist = getCollectionsByArtist(numericId);

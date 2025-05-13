@@ -149,13 +149,13 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
               href="/checkout"
               className="block w-full bg-[#b39e73] text-white py-3.5 text-center font-medium mb-4 cursor-pointer transition-colors hover:bg-[#8a7a57]"
             >
-              Passer la commande
+              Checkout
             </Link>
             <button
               onClick={onClose}
               className="block w-full border border-[#b39e73] text-white py-3.5 text-center font-medium cursor-pointer transition-colors hover:bg-[#b39e73]/20"
             >
-              Continuer vos achats
+              Continue shopping
             </button>
           </div>
         </div>

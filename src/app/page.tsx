@@ -4,16 +4,16 @@ import Intro from '@/components/Home/Intro';
 import ArtistsListSlider from '@/components/List/ArtistsListSlider';
 import ListOfNfts from '@/components/List/ListOfNfts';
 import { useArtistsStore } from '@/store/artistsStore';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 import { useEffect } from 'react';
 
 const Landing = () => {
   const { artists, fetchArtists } = useArtistsStore();
-  const { nfts, fetchNfts } = useNftsStore();
+  const { nfts, fetchItems } = useItemsStore();
   
   useEffect(() => {
     if (nfts.length === 0) {
-      fetchNfts();
+      fetchItems();
     }
     if (artists.length === 0) {
       fetchArtists();

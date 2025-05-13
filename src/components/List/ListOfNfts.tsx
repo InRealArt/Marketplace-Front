@@ -1,7 +1,7 @@
 'use client'
 import List from './List';
 import { ListNavigationType } from '@/types';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 
 interface ListOfNftsProps {
   nav: ListNavigationType[];
@@ -9,7 +9,7 @@ interface ListOfNftsProps {
 }
 
 const ListOfNfts = ({ nav, viewAllLink }: ListOfNftsProps) => {
-  const { nfts } = useNftsStore();
+  const { nfts } = useItemsStore();
   const nftsTags = nfts
     .map(nft => nft.tags !== undefined ? nft.tags : [])
     .flat(1)

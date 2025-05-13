@@ -1,15 +1,15 @@
 'use client'
 import React, { useEffect } from 'react';
 import ListOfNfts from '@/components/List/ListOfNfts';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 
 const Nfts = () => {
-  const { fetchNfts, getCommunautaryNfts, getIraNfts, nfts } = useNftsStore()
+  const { fetchItems, getCommunautaryNfts, getIraNfts, nfts } = useItemsStore()
   console.log(nfts);
   
   useEffect(() => {
     if (nfts.length === 0) {
-      fetchNfts()
+      fetchItems()
     }
   }, [])
 

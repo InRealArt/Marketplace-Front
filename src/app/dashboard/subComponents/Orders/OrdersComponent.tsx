@@ -3,7 +3,7 @@ import { fetchOrdersByUser } from '@/lib/orders';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setOrders } from '@/redux/reducers/orders/reducer';
 import { getOrders } from '@/redux/reducers/orders/selectors';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 import { OrderType } from '@/types';
 import { OrderStatus } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ const OrderStatusMapping = {
 }
 const OrderItem = ({ order }: OrderProps) => {
   const { id, created_at, userId, nftId, orderStatus } = order
-  const { getNftById } = useNftsStore()
+  const { getNftById } = useItemsStore()
   const nft = getNftById(nftId)
 
   return (

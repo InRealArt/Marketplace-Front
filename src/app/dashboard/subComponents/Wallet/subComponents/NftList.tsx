@@ -4,7 +4,7 @@ import { NftType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import { useAccount } from 'wagmi';
 import Link from 'next/link';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 
 interface NftItemProps {
   nft: NftType;
@@ -31,12 +31,12 @@ const NftItem = ({ nft }: NftItemProps) => {
 
 const NftList = () => {
   const { address } = useAccount();
-  const { getCommunautaryNfts, fetchNfts } = useNftsStore();
+  const { getCommunautaryNfts, fetchItems } = useItemsStore();
   const communautaryNfts = getCommunautaryNfts();
   const nftsOwned = communautaryNfts.filter((nft: NftType) => (nft.owner === address || nft.previousOwner === address));
 
   useEffect(() => {
-    fetchNfts();
+    fetchItems();
   }, []);
 
   if (!nftsOwned.length) {

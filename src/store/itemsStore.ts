@@ -9,7 +9,7 @@ interface NftsState {
     nfts: NftType[]
     isLoading: boolean
     error: Error | null
-    fetchNfts: () => Promise<void>
+    fetchItems: () => Promise<void>
     getItemBySlug: (slug: NftSlug) => NftType | undefined
     getNftById: (id: NftId) => NftType | undefined
     getNftsByCollection: (collectionId: CollectionId) => NftType[]
@@ -18,11 +18,11 @@ interface NftsState {
     getCommunautaryNfts: () => NftType[]
 }
 
-export const useNftsStore = create<NftsState>((set, get) => ({
+export const useItemsStore = create<NftsState>((set, get) => ({
     nfts: [],
     isLoading: false,
     error: null,
-    fetchNfts: async () => {
+    fetchItems: async () => {
         // Ne fetch pas si on a déjà des NFTs
         if (get().nfts.length > 0) return
 

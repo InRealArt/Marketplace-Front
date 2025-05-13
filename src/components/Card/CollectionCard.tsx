@@ -1,7 +1,7 @@
 import React from 'react';
 import { CollectionType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 
 interface CollectionCardProps {
   collection: CollectionType;
@@ -9,7 +9,7 @@ interface CollectionCardProps {
 
 const CollectionCard = ({ collection }: CollectionCardProps) => {
   const { id, symbol } = collection;
-  const { getNftsByCollection } = useNftsStore();
+  const { getNftsByCollection } = useItemsStore();
   const nfts = getNftsByCollection(id)
   const imgUri = nfts[0]?.mainImageUrl
 

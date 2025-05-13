@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArtistType } from '@/types';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 
 interface ArtistCardProps {
   artist: ArtistType;
@@ -11,7 +11,7 @@ interface ArtistCardProps {
 const ArtistCard = ({ artist }: ArtistCardProps) => {
   const { id, name, imageUrl, backgroundImage } = artist;
   
-  const { getItemsByArtist } = useNftsStore();
+  const { getItemsByArtist } = useItemsStore();
   const nfts = getItemsByArtist(id);
 
   const imgUri = nfts[0]?.mainImageUrl;
@@ -48,7 +48,7 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
           </h2>
           {!artist.isGallery && (
             <p className="hidden md:block font-poppins text-base font-medium text-[#1d1d1b] m-0">
-              {nfts.length} nfts
+              {nfts.length} artworks
             </p>
           )}
         </div>

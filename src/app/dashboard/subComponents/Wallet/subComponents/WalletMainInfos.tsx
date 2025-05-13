@@ -6,7 +6,7 @@ import { ResourceNftStatuses } from '@prisma/client';
 import Button from '@/components/Button/Button';
 import { TransactionData, fetchTransactionsByAddress } from '@/lib/transactions';
 import { Address } from 'viem';
-import { useNftsStore } from '@/store/nftsStore';
+import { useItemsStore } from '@/store/itemsStore';
 
 interface WalletTransactionHistoryProps {
   address: Address
@@ -46,7 +46,7 @@ const WalletTransactionHistory = ({ address, setShowTransactions }: WalletTransa
 const WalletMainInfos = () => {
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
-  const { getCommunautaryNfts } = useNftsStore();
+  const { getCommunautaryNfts } = useItemsStore();
   const [showTransactions, setShowTransactions] = useState(false);
   
   const nfts = getCommunautaryNfts();
