@@ -11,8 +11,8 @@ interface ArtistCardProps {
 const ArtistCard = ({ artist }: ArtistCardProps) => {
   const { id, name, imageUrl, backgroundImage } = artist;
   
-  const { getNftsByArtist } = useNftsStore();
-  const nfts = getNftsByArtist(id);
+  const { getItemsByArtist } = useNftsStore();
+  const nfts = getItemsByArtist(id);
 
   const imgUri = nfts[0]?.mainImageUrl;
   const background = imgUri ?? backgroundImage;

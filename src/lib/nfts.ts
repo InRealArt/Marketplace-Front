@@ -3,7 +3,7 @@ import prisma from "./prisma"
 import { ItemStatus, ResourceNftStatuses } from "@prisma/client"
 import { NftId, NftType } from "@/types"
 
-async function getNftBySlug(id: number) {
+async function getItemBySlug(id: number) {
     const nft = await prisma.item.findUnique({
         where: {
             id
@@ -15,7 +15,7 @@ async function getNftBySlug(id: number) {
     return nft
 }
 
-async function getNftsByStatus(status: ItemStatus[]) {
+async function getItemsByStatus(status: ItemStatus[]) {
     const nfts = await prisma.item.findMany({
         where: {
             status: { in: status }
@@ -25,9 +25,9 @@ async function getNftsByStatus(status: ItemStatus[]) {
         },
         orderBy: [
             {
-              id: 'asc'
+                id: 'asc'
             }
-          ]
+        ]
     })
     return nfts.map(nft => ({
         ...nft,
@@ -58,4 +58,4 @@ async function updateResourceNft(data: { status: ResourceNftStatuses }, id: numb
     return nft
 }
 
-export { getNftsByStatus, getNftBySlug, updateNft, updateResourceNft }
+export { getItemsByStatus, getItemBySlug, updateNft, updateResourceNft }

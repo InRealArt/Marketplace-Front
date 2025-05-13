@@ -13,8 +13,8 @@ const Artist = () => {
   const { id: currentId } = useParams() as { id: string };
   const numericId = Number(currentId);
 
-  const { getNftsByArtist } = useNftsStore()
-  const nftsByArtist = getNftsByArtist(numericId)
+  const { getItemsByArtist } = useNftsStore()
+  const nftsByArtist = getItemsByArtist(numericId)
   const { getCollectionsByArtist } = useCollectionsStore();
   const collectionsByArtist = getCollectionsByArtist(numericId);
 

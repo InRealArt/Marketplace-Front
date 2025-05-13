@@ -11,9 +11,9 @@ import { ArtistType, NftSlug } from '@/types';
 const NftPage = () => {
   const { slug } = useParams();
   const { artists } = useArtistsStore();
-  const { getNftBySlug, fetchNfts } = useNftsStore();
+  const { getItemBySlug, fetchNfts } = useNftsStore();
 
-  const nft = getNftBySlug(slug as NftSlug);
+  const nft = getItemBySlug(slug as NftSlug);
   const artistMock = { id: 1, name: 'John', surname: 'Doe', pseudo: 'John Doe', imageUrl: 'https://via.placeholder.com/150', description: 'John Doe is a famous artist', publicKey: '0x1234567890abcdef', isGallery: true, backgroundImage: 'https://via.placeholder.com/150', artworkStyle: 'Abstract', slug: 'john-doe' } as ArtistType
 
   useEffect(() => {
