@@ -80,3 +80,12 @@ export enum ModalType {
 export type ListType = NftType[] | CollectionType[] | ArtistType[]
 
 export interface ListNavigationType { tab: string; list: ListType; context: 'artist' | 'collection' | 'nft' }
+
+
+export enum PriceOption {
+  NFT = 'nft',
+  PHYSICAL = 'physical',
+  NFT_PLUS_PHYSICAL = 'nftPlusPhysical'
+}
+
+export type PurchaseType = PriceOption.PHYSICAL | PriceOption.NFT | PriceOption.NFT_PLUS_PHYSICAL

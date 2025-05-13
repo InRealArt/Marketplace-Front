@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useCartStore, CartItem } from '@/store/cartStore';
-import { NftType } from '@/types';
+import { NftType, PriceOption, PurchaseType } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { useSession } from "@/lib/auth-client";
-import { getUserCart, getAnonymousCart, upsertUserCart, upsertAnonymousCart } from '@/lib/cart';
+import { getUserCart, getAnonymousCart, upsertUserCart, upsertAnonymousCart, deleteUserCart, deleteAnonymousCart } from '@/lib/cart';
+import { VAT_RATE } from '@/lib/constants';
 
 /**
  * Hook to handle cart functionality
@@ -117,6 +118,33 @@ export function useCart() {
   };
 
   /**
+   * Calcule le prix total du panier avec TVA
+   */
+  const calculateTotalWithTax = (items: CartItem[]) => {
+    const subtotal = items.reduce((total, item) => {
+      let price = 0;
+
+      // Get price based on purchase type
+      switch (item.purchaseType) {
+        case PriceOption.PHYSICAL:
+          price = item.nft.pricePhysicalBeforeTax || 0;
+          break;
+        case PriceOption.NFT:
+          price = item.nft.priceNftBeforeTax || 0;
+          break;
+        case PriceOption.NFT_PLUS_PHYSICAL:
+          price = item.nft.priceNftPlusPhysicalBeforeTax || 0;
+          break;
+      }
+
+      return total + price;
+    }, 0);
+
+    // Calcul du prix avec TVA (arrondi à 2 décimales)
+    return Math.round(subtotal * (1 + VAT_RATE) * 100) / 100;
+  };
+
+  /**
    * Synchronize cart with server
    */
   const synchronizeCart = async () => {
@@ -126,10 +154,13 @@ export function useCart() {
       // Get the latest items from the store
       const currentItems = [...items];
 
+      // Calculer le prix total avec TVA
+      const totalPrice = calculateTotalWithTax(currentItems);
+
       if (userId) {
         // Update user cart using direct Prisma call with current items
-        console.log('Syncing user cart to DB:', currentItems.length, 'items');
-        await upsertUserCart(userId, currentItems);
+        console.log('Syncing user cart to DB:', currentItems.length, 'items, total:', totalPrice);
+        await upsertUserCart(userId, currentItems, totalPrice);
       } else if (anonymousId) {
         // Update anonymous cart using direct Prisma call with current items
         console.log('Syncing anonymous cart to DB:', currentItems.length, 'items');
@@ -146,10 +177,9 @@ export function useCart() {
   /**
    * Add NFT to cart
    */
-  const addToCart = async (nft: NftType, purchaseType: 'physical' | 'nft' | 'nftPlusPhysical') => {
+  const addToCart = async (nft: NftType, purchaseType: PurchaseType) => {
     // First check if this item already exists in the cart
-    const currentItems = items;
-    const existingItem = currentItems.find(
+    const existingItem = items.find(
       item => item.nft.id === nft.id && item.purchaseType === purchaseType
     );
 
@@ -163,30 +193,31 @@ export function useCart() {
       purchaseType
     };
 
-    // Add to local state
+    // Add to local state first
     addItem(cartItem);
 
-    // Then ensure database is updated with the new state
     try {
       setLoading(true);
 
-      // Wait for the state update to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      // Ensure we use the updated items array that includes the new item
+      const updatedItems = [...items, cartItem];
 
-      // Use the updated items from the store after addition
-      const currentItems = [...items];
+      // Calcul du prix total avec TVA
+      const totalPrice = calculateTotalWithTax(updatedItems);
 
-      console.log('Adding to cart and syncing with DB:', currentItems.length, 'items');
+      // Save to database
       if (userId) {
-        await upsertUserCart(userId, currentItems);
+        console.log('Adding to user cart and syncing:', updatedItems.length, 'items, total:', totalPrice);
+        await upsertUserCart(userId, updatedItems, totalPrice);
       } else if (anonymousId) {
-        await upsertAnonymousCart(anonymousId, currentItems);
+        console.log('Adding to anonymous cart and syncing:', updatedItems.length, 'items');
+        await upsertAnonymousCart(anonymousId, updatedItems);
       }
 
       setLoading(false);
       return { success: true };
     } catch (error) {
-      console.error('Failed to update cart after addition:', error);
+      console.error('Failed to add item to cart:', error);
       setLoading(false);
       return { success: false, error: 'Failed to add item to cart' };
     }
@@ -195,42 +226,57 @@ export function useCart() {
   /**
    * Remove item from cart
    */
-  const removeFromCart = async (nftId: number, purchaseType: string) => {
-    // First get the item name before removing it
-    const currentItems = items;
-    const itemToRemove = currentItems.find(
+  const removeFromCart = async (nftId: number, purchaseType: PurchaseType) => {
+    // Check if cart has only one item before removal
+    const isLastItem = items.length === 1;
+    const isTargetItemInCart = items.some(
       item => item.nft.id === nftId && item.purchaseType === purchaseType
     );
+    const willBeEmptyAfterRemoval = isLastItem && isTargetItemInCart;
 
+    // First get the item name before removing it
+    const itemToRemove = items.find(
+      item => item.nft.id === nftId && item.purchaseType === purchaseType
+    );
     const itemName = itemToRemove?.nft.name || 'Item';
 
-    // Then remove from local state
+    // Remove item from local state
     removeItem(nftId, purchaseType);
 
-    // Then ensure database is updated with the new state
     try {
       setLoading(true);
 
-      // Wait for the state update to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      // If this was the last item, delete the entire cart record
+      if (willBeEmptyAfterRemoval) {
+        console.log('Removing last item, deleting cart record');
 
-      // Use the updated items from the store after removal
-      const currentItems = [...items];
+        if (userId) {
+          await deleteUserCart(userId);
+        } else if (anonymousId) {
+          await deleteAnonymousCart(anonymousId);
+        }
+      } else {
+        // Otherwise, update the cart with the remaining items
+        const updatedItems = items.filter(
+          item => !(item.nft.id === nftId && item.purchaseType === purchaseType)
+        );
 
-      if (userId) {
-        // Update user cart with the current items (after removal)
-        await upsertUserCart(userId, currentItems);
-      } else if (anonymousId) {
-        // Update anonymous cart with the current items (after removal)
-        await upsertAnonymousCart(anonymousId, currentItems);
+        // Calcul du prix total avec TVA
+        const totalPrice = calculateTotalWithTax(updatedItems);
+
+        if (userId) {
+          await upsertUserCart(userId, updatedItems, totalPrice);
+        } else if (anonymousId) {
+          await upsertAnonymousCart(anonymousId, updatedItems);
+        }
       }
 
       setLoading(false);
-      return { success: true, message: `${itemName} removed from cart`, itemName };
+      return { success: true, message: `${itemName} supprimé du panier`, itemName };
     } catch (error) {
-      console.error('Failed to update cart after removal:', error);
+      console.error('Échec de la mise à jour du panier après suppression:', error);
       setLoading(false);
-      return { success: false, error: 'Failed to remove item from cart' };
+      return { success: false, error: 'Impossible de supprimer l\'article du panier' };
     }
   };
 
@@ -248,30 +294,33 @@ export function useCart() {
     // Clear local state
     clearCartStore();
 
-    // Then ensure database is updated with the new state
     try {
       setLoading(true);
 
-      // Wait for the state update to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
-
-      // Empty array for cleared cart
-      const emptyItems: CartItem[] = [];
-
-      console.log('Clearing cart and syncing with DB');
+      // Delete the entire cart record instead of updating with empty items
       if (userId) {
-        await upsertUserCart(userId, emptyItems);
+        console.log('Clearing cart by deleting record');
+        await deleteUserCart(userId);
       } else if (anonymousId) {
-        await upsertAnonymousCart(anonymousId, emptyItems);
+        console.log('Clearing anonymous cart by deleting record');
+        await deleteAnonymousCart(anonymousId);
       }
 
       setLoading(false);
-      return { success: true, message: 'Cart cleared successfully' };
+      return { success: true, message: 'Panier vidé avec succès' };
     } catch (error) {
-      console.error('Failed to update cart after clearing:', error);
+      console.error('Échec de la suppression du panier:', error);
       setLoading(false);
-      return { success: false, error: 'Failed to clear cart' };
+      return { success: false, error: 'Impossible de vider le panier' };
     }
+  };
+
+  /**
+   * Get cart total with VAT
+   */
+  const getCartTotalWithVAT = () => {
+    const subtotal = getCartTotal();
+    return Math.round(subtotal * (1 + VAT_RATE) * 100) / 100;
   };
 
   return {
@@ -284,6 +333,7 @@ export function useCart() {
     clearCart,
     getItemCount,
     getCartTotal,
+    getCartTotalWithVAT,
     synchronizeCart,
   };
 } 

@@ -1,18 +1,12 @@
 'use client';
 import React, { useState } from 'react';
 import Button from '@/components/Button/Button';
-import { NftType } from '@/types';
+import { NftType, PriceOption } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { toast } from 'sonner';
 
 interface NftPriceProps {
   nft: NftType
-}
-
-enum PriceOption {
-  NFT = 'nft',
-  PHYSICAL = 'physical',
-  NFT_PLUS_PHYSICAL = 'nftPlusPhysical'
 }
 
 interface PriceOptionConfig {

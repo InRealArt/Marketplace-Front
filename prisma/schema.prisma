@@ -674,11 +674,12 @@ model Wallet {
 }
 
 model Cart {
-  id        Int       @id(map: "cart_pkey") @default(autoincrement())
-  userId    String    @unique(map: "cart_userId_key")
-  items     Json
-  createdAt DateTime? @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime? @updatedAt @db.Timestamptz(6)
+  id         Int       @id(map: "cart_pkey") @default(autoincrement())
+  userId     String    @unique(map: "cart_userId_key")
+  items      Json
+  totalPrice Decimal   @default(0) @db.Decimal(10, 2)
+  createdAt  DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime? @updatedAt @db.Timestamptz(6)
 
   @@schema("marketplace")
 }

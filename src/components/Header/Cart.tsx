@@ -6,6 +6,9 @@ import Link from 'next/link'
 import { useCart } from '@/hooks/useCart'
 import { toast } from 'sonner'
 import { CartItem } from '@/store/cartStore'
+import { VAT_RATE } from '@/lib/constants'
+import { PriceOption } from '@/types'
+
 
 interface CartProps {
   isOpen: boolean
@@ -55,6 +58,11 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
 
   // Calculate cart total using the Zustand store method
   const cartTotal = getCartTotal();
+  
+  // Calcul de la TVA et du montant TTC
+  const totalHT = cartTotal;
+  const tva = parseFloat((totalHT * VAT_RATE).toFixed(2));
+  const totalTTC = parseFloat((totalHT + tva).toFixed(2));
 
   return (
     <>
@@ -69,7 +77,7 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
         <div className="flex flex-col h-full">
           {/* En-tête du panier */}
           <div className="flex items-center justify-between p-6 border-b border-[#6b6b66]">
-            <h2 className="text-xl font-semibold text-white">Votre Panier</h2>
+            <h2 className="text-xl font-semibold text-white">Your Cart</h2>
             <button
               onClick={onClose}
               className="p-2 rounded-full cursor-pointer hover:bg-[#6b6b66] transition-colors"
@@ -88,7 +96,7 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
           <div className="flex-grow overflow-y-auto p-6">
             {items.length === 0 ? (
               <div className="text-center py-8 text-white">
-                <p>Votre panier est vide</p>
+                <p>Your cart is empty</p>
               </div>
             ) : (
               <ul className="flex flex-col gap-6">
@@ -111,13 +119,13 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
                     <div className="flex-grow">
                       <h3 className="font-medium text-white mb-2">{item.nft.name}</h3>
                       <p className="text-[#b39e73] font-semibold">
-                        {item.purchaseType === 'physical' && `${item.nft.pricePhysicalBeforeTax} €`}
-                        {item.purchaseType === 'nft' && `${item.nft.priceNftBeforeTax} €`}
-                        {item.purchaseType === 'nftPlusPhysical' && `${item.nft.priceNftPlusPhysicalBeforeTax} €`}
+                        {item.purchaseType === PriceOption.PHYSICAL && `${item.nft.pricePhysicalBeforeTax} €`}
+                        {item.purchaseType === PriceOption.NFT && `${item.nft.priceNftBeforeTax} €`}
+                        {item.purchaseType === PriceOption.NFT_PLUS_PHYSICAL && `${item.nft.priceNftPlusPhysicalBeforeTax} €`}
                       </p>
                       <div className="mt-2 text-sm text-white opacity-75">
-                        Type: {item.purchaseType === 'physical' ? 'Physical Only' :
-                          item.purchaseType === 'nft' ? 'NFT Only' :
+                        Type: {item.purchaseType === PriceOption.PHYSICAL ? 'Physical Only' :
+                          item.purchaseType === PriceOption.NFT ? 'NFT Only' :
                             'NFT + Physical'}
                       </div>
                     </div>
@@ -141,9 +149,19 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
 
           {/* Bas du panier */}
           <div className="border-t border-[#6b6b66] p-6 bg-[#1d1d1b]">
-            <div className="flex items-center justify-between font-semibold mb-6 text-white text-lg">
-              <span>Total</span>
-              <span>{cartTotal} €</span>
+            <div className="flex flex-col gap-2 mb-6">
+              <div className="flex items-center justify-between text-white">
+                <span>Subtotal (Tax free)</span>
+                <span>{totalHT} €</span>
+              </div>
+              <div className="flex items-center justify-between text-white">
+                <span>VAT (20%)</span>
+                <span>{tva} €</span>
+              </div>
+              <div className="flex items-center justify-between font-semibold text-white text-lg mt-2">
+                <span>Total (Including VAT)</span>
+                <span>{totalTTC} €</span>
+              </div>
             </div>
             <Link
               href="/checkout"

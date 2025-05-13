@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { NftType } from '@/types';
+import { NftType, PriceOption, PurchaseType } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 
 // Define cart item type
 export interface CartItem {
   nft: NftType;
-  purchaseType: 'physical' | 'nft' | 'nftPlusPhysical';
+  purchaseType: PurchaseType;
 }
 
 // Define cart store state and actions
@@ -17,7 +17,7 @@ interface CartState {
   
   // Actions
   addItem: (item: CartItem) => void;
-  removeItem: (nftId: number, purchaseType: string) => void;
+  removeItem: (nftId: number, purchaseType: PurchaseType) => void;
   clearCart: () => void;
   setAnonymousId: (anonymousId: string | null) => void;
   setLoading: (isLoading: boolean) => void;
@@ -81,13 +81,13 @@ export const useCartStore = create<CartState>()(
           
           // Get price based on purchase type
           switch (item.purchaseType) {
-            case 'physical':
+            case PriceOption.PHYSICAL:
               price = item.nft.pricePhysicalBeforeTax || 0;
               break;
-            case 'nft':
+            case PriceOption.NFT:
               price = item.nft.priceNftBeforeTax || 0;
               break;
-            case 'nftPlusPhysical':
+            case PriceOption.NFT_PLUS_PHYSICAL:
               price = item.nft.priceNftPlusPhysicalBeforeTax || 0;
               break;
           }
