@@ -3,16 +3,25 @@
 import { useState, useEffect } from 'react'
 import { CheckoutForm } from '@/components/stripe/CheckoutForm'
 import { useRouter } from 'next/navigation'
+import { useCart } from '@/hooks/useCart'
+import { VAT_RATE } from '@/lib/constants'
+import { PriceOption, PurchaseType, NftType } from '@/types'
+import { CartItem } from '@/store/cartStore'
 
 export function CheckoutClient() {
   const [clientSecret, setClientSecret] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
+  const { getCartTotal, items } = useCart()
 
-  // Pour les besoins de la démonstration, on utilise un montant statique
-  // Dans une application réelle, ce montant proviendrait du panier de l'utilisateur
-  const amount = 2000 // 20€ en centimes
+  // Calcul du montant total TTC basé sur le panier de l'utilisateur
+  const totalHT: number = getCartTotal()
+  const tva = parseFloat((totalHT * VAT_RATE).toFixed(2))
+  const totalTTC = parseFloat((totalHT + tva).toFixed(2))
+  
+  // Conversion en centimes pour Stripe
+  const amountInCents = Math.round(totalTTC * 100)
 
   useEffect(() => {
     // Fonction pour créer l'intention de paiement
@@ -21,16 +30,26 @@ export function CheckoutClient() {
         setIsLoading(true)
         setError(null)
 
+        // Vérifier si le panier est vide
+        if (items.length === 0) {
+          router.push('/')
+          return
+        }
+
         const response = await fetch('/api/stripe/createPaymentIntent', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount,
+            amount: amountInCents,
             currency: 'eur',
             metadata: {
-              order_id: 'demo-123', // Remplacer par un ID de commande réel
+              order_id: `order-${Date.now()}`, // Génère un ID de commande temporaire
+              items: JSON.stringify(items.map((item: CartItem) => ({
+                nftId: item.nft.id,
+                purchaseType: item.purchaseType
+              })))
             },
           }),
         })
@@ -50,7 +69,7 @@ export function CheckoutClient() {
     }
 
     createPaymentIntent()
-  }, [])
+  }, [amountInCents, items, router])
 
   // Affichage de l'état de chargement
   if (isLoading) {
@@ -78,17 +97,53 @@ export function CheckoutClient() {
     )
   }
 
+  // Si le panier est vide, rediriger vers la page d'accueil
+  if (items.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <p className="text-gray-600 mb-4">Votre panier est vide</p>
+        <button 
+          onClick={() => router.push('/')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Retour à l'accueil
+        </button>
+      </div>
+    )
+  }
+
   // Récapitulatif de la commande et formulaire de paiement
   return (
     <div className="space-y-8">
       <div className="border-b pb-4">
-        <div className="flex justify-between mb-2 text-gray-800">
-          <span className="font-medium">Produit de démonstration</span>
-          <span>{(amount / 100).toFixed(2)} €</span>
+        <h3 className="text-lg font-medium mb-4 text-gray-900">Récapitulatif de votre commande</h3>
+        
+        {items.map((item: CartItem) => (
+          <div key={`${item.nft.id}-${item.purchaseType}`} className="flex justify-between mb-2 text-gray-800">
+            <span className="font-medium">
+              {item.nft.name} ({item.purchaseType})
+            </span>
+            <span>
+              {item.purchaseType === PriceOption.PHYSICAL && `${item.nft.pricePhysicalBeforeTax} €`}
+              {item.purchaseType === PriceOption.NFT && `${item.nft.priceNftBeforeTax} €`}
+              {item.purchaseType === PriceOption.NFT_PLUS_PHYSICAL && `${item.nft.priceNftPlusPhysicalBeforeTax} €`}
+            </span>
+          </div>
+        ))}
+        
+        <div className="flex justify-between text-gray-800 mt-2 pt-2 border-t">
+          <span>Sous-total (HT)</span>
+          <span>{totalHT.toFixed(2)} €</span>
         </div>
+        
+        <div className="flex justify-between text-gray-800">
+          <span>TVA ({(VAT_RATE * 100).toFixed(0)}%)</span>
+          <span>{tva.toFixed(2)} €</span>
+        </div>
+        
         <div className="flex justify-between font-semibold text-lg pt-2 text-gray-900">
-          <span>Total</span>
-          <span>{(amount / 100).toFixed(2)} €</span>
+          <span>Total (TTC)</span>
+          <span>{totalTTC.toFixed(2)} €</span>
         </div>
       </div>
 
