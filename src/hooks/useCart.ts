@@ -36,7 +36,6 @@ export function useCart() {
       setInitialized(true);
     }
     if (userJustConnect) {
-      console.log("user just connect");
       setAnonymousId(null)
       setInitialized(true);
     }

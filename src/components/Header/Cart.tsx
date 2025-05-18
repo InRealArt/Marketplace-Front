@@ -63,7 +63,6 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
   const totalHT = cartTotal;
   const tva = parseFloat((totalHT * VAT_RATE).toFixed(2));
   const totalTTC = parseFloat((totalHT + tva).toFixed(2));
-console.log(items);
 
   return (
     <>

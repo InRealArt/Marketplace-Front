@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import NftIntro from './subComponents/NftIntro';
+import ArtworkPresentation from '../../../components/Artwork/ArtworkPresentation';
 import ArtistsListSlider from '@/components/List/ArtistsListSlider';
 import { useItemsStore } from '@/store/itemsStore';
-import NftTags from './subComponents/NftTags';
+import ArtworkTags from '../../../components/Artwork/ArtworkTags';
 import { useArtistsStore } from '@/store/artistsStore';
 import { ArtistType, NftSlug } from '@/types';
 
@@ -20,17 +20,20 @@ const NftPage = () => {
     if (nft === undefined) {
       fetchItems();
     }
-  }, []);  
+  }, [nft]);  
 
-  if (!nft) return null;
+  if (!nft) {
+    return null;
+  }
 
   return (
     <main className="mt-[100px] md:mt-[90px]">
-      <NftIntro
+      <ArtworkPresentation
+        key={`nft-${nft.id}`}
         nft={nft}
         artist={artistMock}
       />
-      <NftTags tags={nft.tags} />
+      <ArtworkTags tags={nft.Item.tags} />
       <ArtistsListSlider artists={artists} title="Associated Artists" />
     </main>
   );

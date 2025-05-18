@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-interface NftPriceProps {
+interface ArtworkPriceProps {
   nft: ItemPhysicalType
 }
 
@@ -38,7 +38,7 @@ const PRICE_OPTIONS: PriceOptionConfig[] = [
   }
 ];
 
-const NftPrice = ({ nft }: NftPriceProps) => {
+const ArtworkPrice = ({ nft }: ArtworkPriceProps) => {
   const [activeOption, setActiveOption] = useState<PriceOption>(PriceOption.PHYSICAL);
   const { addToCart } = useCart();
 
@@ -118,4 +118,4 @@ const NftPrice = ({ nft }: NftPriceProps) => {
   );
 };
 
-export default NftPrice;
+export default ArtworkPrice;

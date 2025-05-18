@@ -1,0 +1,40 @@
+/* Add custom styles for the artwork thumbnails gallery */
+.thumbnails-swiper {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.thumbnails-swiper .swiper-slide {
+  height: auto;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.thumbnails-swiper .swiper-slide:hover {
+  opacity: 1;
+}
+
+.thumbnails-swiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .thumbnails-swiper {
+    height: 100px !important;
+    width: 100%;
+    padding: 0 0 10px 0;
+  }
+  
+  /* Make thumbnails horizontal on mobile */
+  .thumbnails-swiper .swiper-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .thumbnails-swiper .swiper-slide {
+    width: auto !important;
+    margin-right: 10px;
+  }
+} 

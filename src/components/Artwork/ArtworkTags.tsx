@@ -1,10 +1,10 @@
 import React from 'react';
 import { ItemPhysicalType } from '@/types';
 
-interface NftTagsProps {
-  tags?: ItemPhysicalType['tags'];
+interface ArtworkTagsProps {
+  tags?: ItemPhysicalType['Item']['tags'];
 }
-const NftTags = ({ tags }: NftTagsProps) => {
+const ArtworkTags = ({ tags }: ArtworkTagsProps) => {
   return (
     <section className="mt-5">
       <h1 className="mb-4 text-2xl font-medium text-white">Associated Tags</h1>
@@ -22,4 +22,4 @@ const NftTags = ({ tags }: NftTagsProps) => {
   );
 };
 
-export default NftTags;
+export default ArtworkTags;
