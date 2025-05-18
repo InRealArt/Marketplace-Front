@@ -10,7 +10,7 @@ import NftList from './subComponents/NftList';
 import WalletMainInfos from './subComponents/WalletMainInfos';
 
 const WalletPage = () => {
-  // const [currentNft, setCurrentNft] = useState<NftType | null>()
+  // const [currentNft, setCurrentNft] = useState<ItemPhysicalType | null>()
   const { address } = useAccount();
   const { data } = useBalance({ address });
   const { ethPrice: ethEuroPrice } = useEthPrice('eur');

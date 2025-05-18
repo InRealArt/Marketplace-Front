@@ -6,10 +6,10 @@ import NftCard from '../Card/NftCard';
 import { useForm, FormProvider } from 'react-hook-form';
 import ArtistCard from '../Card/ArtistCard';
 import ListHeader from './subComponents/ListHeader';
-import { ArtistType, CollectionType, ListNavigationType, NftType } from '@/types';
+import { ArtistType, CollectionType, ListNavigationType, ItemPhysicalType } from '@/types';
 import CollectionCard from '../Card/CollectionCard';
 import { useEffect, useState } from 'react';
-import { ItemStatus } from '@prisma/client';
+import { PhysicalItemStatus } from '@prisma/client';
 
 interface ListProps {
   nav: ListNavigationType[];
@@ -42,15 +42,15 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
 
   // Si NFT, filtrer pour OnlyToBuy
   const listOfNftsToBuyOrNot = navActiveItem?.context === 'nft' && onlyToBuy
-    ? (navActiveItem.list as NftType[]).filter(
-      nft => nft.status === ItemStatus.listed
+    ? (navActiveItem.list as ItemPhysicalType[]).filter(
+      nft => nft.status === PhysicalItemStatus.listed
     )
     : navActiveItem?.list
 
-  const showListByType = (item: NftType | ArtistType | CollectionType) => {
+  const showListByType = (item: ItemPhysicalType | ArtistType | CollectionType) => {
     switch (navActiveItem?.context) {
       case 'nft':
-        return <NftCard key={item.id} nft={item as NftType} />
+        return <NftCard key={item.id} nft={item as ItemPhysicalType} />
       case 'artist':
         return <ArtistCard key={item.id} artist={item as ArtistType} />
       case 'collection':

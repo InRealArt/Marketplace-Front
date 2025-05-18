@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import { NftType } from '@/types';
+import { ItemPhysicalType } from '@/types';
 import { getImageFromUri } from '@/utils/getImageFromUri';
 import { useAccount } from 'wagmi';
 import Link from 'next/link';
 import { useItemsStore } from '@/store/itemsStore';
 
 interface NftItemProps {
-  nft: NftType;
+  nft: ItemPhysicalType;
 }
 
 const NftItem = ({ nft }: NftItemProps) => {
@@ -33,7 +33,7 @@ const NftList = () => {
   const { address } = useAccount();
   const { getCommunautaryNfts, fetchItems } = useItemsStore();
   const communautaryNfts = getCommunautaryNfts();
-  const nftsOwned = communautaryNfts.filter((nft: NftType) => (nft.owner === address || nft.previousOwner === address));
+  const nftsOwned = communautaryNfts.filter((nft: ItemPhysicalType) => (nft.owner === address || nft.previousOwner === address));
 
   useEffect(() => {
     fetchItems();
@@ -44,7 +44,7 @@ const NftList = () => {
   }
   return (
     <div className="WalletNftList">
-      {nftsOwned.map((nft: NftType) => (
+      {nftsOwned.map((nft: ItemPhysicalType) => (
         <NftItem key={nft.id} nft={nft} />
       ))}
     </div>

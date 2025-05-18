@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { NftType, PriceOption, PurchaseType } from '@/types';
+import { ItemPhysicalType, PriceOption, PurchaseType } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 
 // Define cart item type
 export interface CartItem {
-  nft: NftType;
+  nft: ItemPhysicalType;
   purchaseType: PurchaseType;
 }
 
@@ -14,7 +14,7 @@ interface CartState {
   items: CartItem[];
   isLoading: boolean;
   anonymousId: string | null; // For non-authenticated users
-  
+
   // Actions
   addItem: (item: CartItem) => void;
   removeItem: (nftId: number, purchaseType: PurchaseType) => void;
@@ -35,17 +35,17 @@ export const useCartStore = create<CartState>()(
       // Add an item to the cart
       addItem: (item) => {
         const currentItems = get().items;
-        
+
         // Check if item already exists in cart
         const existingItemIndex = currentItems.findIndex(
           cartItem => cartItem.nft.id === item.nft.id && cartItem.purchaseType === item.purchaseType
         );
-        
+
         if (existingItemIndex >= 0) {
           // Item already exists, no need to add (NFTs are unique)
           return;
         }
-        
+
         // Add new item
         set({ items: [...currentItems, item] });
       },
@@ -55,44 +55,29 @@ export const useCartStore = create<CartState>()(
         const updatedItems = currentItems.filter(
           item => !(item.nft.id === nftId && item.purchaseType === purchaseType)
         );
-        
+
         set({ items: updatedItems });
       },
-      
+
       // Clear all items from the cart
       clearCart: () => {
         set({ items: [] });
       },
-      
+
       // Set anonymous ID (for non-authenticated users)
       setAnonymousId: (anonymousId) => {
         set({ anonymousId });
       },
-      
+
       // Set loading state
       setLoading: (isLoading) => {
         set({ isLoading });
       },
-      
+
       // Calculate cart total
       getCartTotal: () => {
         return get().items.reduce((total, item) => {
-          let price = 0;
-          
-          // Get price based on purchase type
-          switch (item.purchaseType) {
-            case PriceOption.PHYSICAL:
-              price = item.nft.pricePhysicalBeforeTax || 0;
-              break;
-            case PriceOption.NFT:
-              price = item.nft.priceNftBeforeTax || 0;
-              break;
-            case PriceOption.NFT_PLUS_PHYSICAL:
-              price = item.nft.priceNftPlusPhysicalBeforeTax || 0;
-              break;
-          }
-          
-          return total + price;
+          return total + item.nft.price;
         }, 0);
       },
     }),

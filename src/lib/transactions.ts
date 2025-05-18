@@ -1,7 +1,7 @@
 'use server'
 import { Address } from "viem"
 import prisma from "./prisma"
-import { CollectionType, NftType } from "@/types"
+import { CollectionType, ItemPhysicalType } from "@/types"
 import { Decimal } from "@prisma/client/runtime/library"
 
 export interface TransactionData {
@@ -33,7 +33,7 @@ async function fetchTransactionsByAddress(address: Address) {
     return transactions
 }
 
-async function fetchTransactionsByNft(tokenId: NftType['tokenId'], contractAddress: CollectionType['contractAddress']) {
+async function fetchTransactionsByNft(tokenId: ItemPhysicalType['tokenId'], contractAddress: CollectionType['contractAddress']) {
     const transactions = await prisma.transaction.findMany({
         where: {
             tokenId,

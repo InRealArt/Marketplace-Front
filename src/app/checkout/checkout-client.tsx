@@ -5,7 +5,7 @@ import { CheckoutForm } from '@/components/stripe/CheckoutForm'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/hooks/useCart'
 import { VAT_RATE } from '@/lib/constants'
-import { PriceOption, PurchaseType, NftType } from '@/types'
+import { PriceOption, PurchaseType, ItemPhysicalType } from '@/types'
 import { CartItem } from '@/store/cartStore'
 
 export function CheckoutClient() {

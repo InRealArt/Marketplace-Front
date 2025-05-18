@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useCartStore, CartItem } from '@/store/cartStore';
-import { NftType, PriceOption, PurchaseType } from '@/types';
+import { ItemPhysicalType, PriceOption, PurchaseType } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { useSession } from "@/lib/auth-client";
 import { getUserCart, getAnonymousCart, upsertUserCart, upsertAnonymousCart, deleteUserCart, deleteAnonymousCart } from '@/lib/cart';
@@ -127,13 +127,13 @@ export function useCart() {
       // Get price based on purchase type
       switch (item.purchaseType) {
         case PriceOption.PHYSICAL:
-          price = item.nft.pricePhysicalBeforeTax || 0;
+          price = item.nft.price || 0;
           break;
         case PriceOption.NFT:
-          price = item.nft.priceNftBeforeTax || 0;
+          price = item.nft.price || 0;
           break;
         case PriceOption.NFT_PLUS_PHYSICAL:
-          price = item.nft.priceNftPlusPhysicalBeforeTax || 0;
+          price = item.nft.price || 0;
           break;
       }
 
@@ -177,7 +177,7 @@ export function useCart() {
   /**
    * Add NFT to cart
    */
-  const addToCart = async (nft: NftType, purchaseType: PurchaseType) => {
+  const addToCart = async (nft: ItemPhysicalType, purchaseType: PurchaseType) => {
     // First check if this item already exists in the cart
     const existingItem = items.find(
       item => item.nft.id === nft.id && item.purchaseType === purchaseType
@@ -238,7 +238,7 @@ export function useCart() {
     const itemToRemove = items.find(
       item => item.nft.id === nftId && item.purchaseType === purchaseType
     );
-    const itemName = itemToRemove?.nft.name || 'Item';
+    const itemName = itemToRemove?.nft.Item.name || 'Item';
 
     // Remove item from local state
     removeItem(nftId, purchaseType);

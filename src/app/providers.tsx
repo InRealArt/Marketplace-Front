@@ -4,8 +4,6 @@ import React, { useEffect } from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import {
-  RainbowKitProvider,
-  darkTheme,
   DisclaimerComponent,
   getDefaultConfig,
 } from "@rainbow-me/rainbowkit";
@@ -18,6 +16,7 @@ import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { base } from 'wagmi/chains';
+import { NextUIProvider } from "@nextui-org/react";
 
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID ?? "";
@@ -79,21 +78,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
   useEffect(() => setMounted(true), []);
   return (
-    <OnchainKitProvider
-      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base}
-          config={{ appearance: { 
-            mode: 'auto',
-        }
-      }}
-    >
-        <QueryClientProvider client={queryClient}>
-            <Provider store={store} stabilityCheck="never">
-            
-                {mounted && children}
+    <NextUIProvider>
+      <OnchainKitProvider
+        apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+            chain={base}
+            config={{ appearance: { 
+              mode: 'auto',
+          }
+        }}
+      >
+          <QueryClientProvider client={queryClient}>
+              <Provider store={store} stabilityCheck="never">
               
-            </Provider>
-        </QueryClientProvider>
-      </OnchainKitProvider>
+                  {mounted && children}
+                
+              </Provider>
+          </QueryClientProvider>
+        </OnchainKitProvider>
+    </NextUIProvider>
   );
 }

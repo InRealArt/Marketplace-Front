@@ -6,7 +6,7 @@ import NftPrice from './NftPrice';
 import { ReadMore } from '@/components/utils/ReadMore';
 import DescriptionModal from '@/components/Modal/DescriptionModal';
 import dynamic from 'next/dynamic';
-import { ArtistType, NftType } from '@/types';
+import { ArtistType, ItemPhysicalType } from '@/types';
 import { Address } from 'viem';
 import { ArrowBigLeft, ArrowBigRight, Share2, StarsIcon } from 'lucide-react';
 import { TransactionData, fetchTransactionsByNft } from '@/lib/transactions';
@@ -16,13 +16,13 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 });
 
 interface NftIntroProps {
-  nft: NftType
+  nft: ItemPhysicalType
   artist: ArtistType | null | undefined
   // contractAddress: Address
 }
 
 const NftIntro = ({ nft, artist }: NftIntroProps) => {
-  const { name, description, mainImageUrl, secondaryImagesUrl } = nft || {};
+  const { name, description, mainImageUrl, secondaryImagesUrl } = nft.Item || {};
   const [showDescriptionModal, setShowDescriptionModal] = useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 

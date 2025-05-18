@@ -112,7 +112,7 @@ const HeaderMenu = ({ hideMenu, hide }: HeaderMenuProps) => {
       </div>
       <nav>
         {renderAccountLink()}
-        {renderCoineBasWallet()}
+        {/* {renderCoineBasWallet()} */}
         <Link onClick={hideMenu} className="flex justify-between text-white font-poppins text-lg py-2.5 mb-5 cursor-pointer" href={'/artworks'}>
           All Artworks
         </Link>

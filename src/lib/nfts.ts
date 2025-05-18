@@ -1,61 +1,34 @@
 'use server'
 import prisma from "./prisma"
-import { ItemStatus, ResourceNftStatuses } from "@prisma/client"
-import { NftId, NftType } from "@/types"
+import { PhysicalItemStatus, ResourceNftStatuses } from "@prisma/client"
+import { NftId, ItemPhysicalType } from "@/types"
 
 async function getItemBySlug(id: number) {
-    const nft = await prisma.item.findUnique({
+    const nft = await prisma.physicalItem.findUnique({
         where: {
             id
         },
-        include: {
-            NftResource: true
-        }
     })
+    
     return nft
 }
 
-async function getItemsByStatus(status: ItemStatus[]) {
-    const nfts = await prisma.item.findMany({
+async function getItemsByStatus(status: PhysicalItemStatus[]) {
+    const nfts = await prisma.physicalItem.findMany({
         where: {
             status: { in: status }
         },
         include: {
-            NftResource: true
+            Item: true
         },
         orderBy: [
             {
                 id: 'asc'
             }
         ]
-    })
-    return nfts.map(nft => ({
-        ...nft,
-        owner: nft.NftResource?.owner,
-        previousOwner: nft.NftResource?.previousOwner,
-        itemId: nft.NftResource?.blockchainItemId
-    })) as NftType[]
+    })    
+    return nfts
 }
 
-async function updateNft(data: Partial<NftType>, id: NftId) {
-    const nft = await prisma.item.update({
-        where: {
-            id
-        }, data: data
-    })
-    return nft
-}
 
-async function updateResourceNft(data: { status: ResourceNftStatuses }, id: number | undefined) {
-    if (!id) {
-        throw new Error('ID is required to update a ResourceNft')
-    }
-    const nft = await prisma.resourceNft.update({
-        where: {
-            id
-        }, data: data
-    })
-    return nft
-}
-
-export { getItemsByStatus, getItemBySlug, updateNft, updateResourceNft }
+export { getItemsByStatus, getItemBySlug }

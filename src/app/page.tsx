@@ -10,17 +10,11 @@ import { useEffect } from 'react';
 const Landing = () => {
   const { artists, fetchArtists } = useArtistsStore();
   const { nfts, fetchItems } = useItemsStore();
-  
   useEffect(() => {
-    if (nfts.length === 0) {
       fetchItems();
-    }
-    if (artists.length === 0) {
       fetchArtists();
-    }
   }, []);
 
-  
   return (
     <main className="Landing">
       <Intro />

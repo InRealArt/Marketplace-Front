@@ -1,4 +1,4 @@
-import { ItemStatus, OrderStatus, ResourceNftStatuses, ResourceTypes } from "@prisma/client"
+import { PhysicalItemStatus, OrderStatus, ResourceNftStatuses, ResourceTypes, Item, PhysicalItem } from "@prisma/client"
 import { Decimal } from "@prisma/client/runtime/library"
 import { Address } from "viem"
 
@@ -32,36 +32,8 @@ export interface CollectionType {
 export type NftId = number
 export type NftSlug = string | null
 
-export interface NftType {
-  id: number
-  status: ItemStatus
-  idUser: number
-  idNftResource?: number | null
-  height: Decimal | null
-  width: Decimal | null
-  intellectualProperty: boolean | null
-  intellectualPropertyEndDate: Date | null
-  tags: string[]
-  priceNftBeforeTax: number
-  artworkSupport: string | null
-  realViewCount: number
-  fakeViewCount: number
-  categoryId: number | null
-  pricePhysicalBeforeTax: number | null
-  priceNftPlusPhysicalBeforeTax: number | null
-  creationYear: number | null
-  weight: Decimal | null
-  name: string | null
-  slug: NftSlug
-  metaTitle: string | null
-  metaDescription: string | null
-  description: string | null
-  mainImageUrl: string | null
-  secondaryImagesUrl: string[]
-  qtyPhysicalArt: number | null
-  owner?: string | null
-  previousOwner?: string | null
-  itemId?: number | null
+export type ItemPhysicalType = PhysicalItem & {
+  Item: Item
 }
 
 export interface OrderType {
@@ -77,7 +49,7 @@ export enum ModalType {
   SELL
 }
 
-export type ListType = NftType[] | CollectionType[] | ArtistType[]
+export type ListType = ItemPhysicalType[] | CollectionType[] | ArtistType[]
 
 export interface ListNavigationType { tab: string; list: ListType; context: 'artist' | 'collection' | 'nft' }
 

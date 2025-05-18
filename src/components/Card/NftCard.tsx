@@ -3,14 +3,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FlameIcon } from 'lucide-react';
 import Button from '../Button/Button';
-import { NftType } from '@/types';
+import { ItemPhysicalType } from '@/types';
 
 interface NftCardProps {
-  nft: NftType;
+  nft: ItemPhysicalType;
 }
 
 const NftCard = ({ nft }: NftCardProps) => {
-  const { name, slug } = nft;
+  const { Item, price} = nft;
+
+  const { name, slug, mainImageUrl, } = Item;
 
   return (
     <div className="flex flex-col items-center relative w-full mt-10 h-auto p-2.5 rounded-[17px] sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-40px)]">
@@ -19,13 +21,13 @@ const NftCard = ({ nft }: NftCardProps) => {
         href={`/artworks/${slug || nft.id}`}
       >
         <picture className="h-full w-full flex items-center justify-center">
-          {nft.mainImageUrl && (
+          {mainImageUrl && (
             <Image 
               className="w-full h-full max-h-[80%] max-w-[80%] object-center object-contain" 
-              alt={nft.name || ''} 
+              alt={name || ''} 
               width={300} 
               height={300} 
-              src={nft.mainImageUrl} 
+              src={mainImageUrl} 
             />
           )}
         </picture>
@@ -50,7 +52,7 @@ const NftCard = ({ nft }: NftCardProps) => {
             </Link>
           </div>
           <div className="flex items-center font-poppins text-base">
-            {nft.priceNftBeforeTax} €
+            {price} €
           </div>
         </div>
         <Button

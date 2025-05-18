@@ -1,8 +1,8 @@
 import React from 'react';
 import Modal from '@/components/Modal/Modal';
-import { NftType } from '@/types';
+import { ItemPhysicalType } from '@/types';
 
-interface DescriptionModalProps extends Partial<NftType> {
+interface DescriptionModalProps extends Partial<ItemPhysicalType> {
   showDescriptionModal: boolean;
   setShowDescriptionModal: React.Dispatch<React.SetStateAction<boolean>>;
   description: string;

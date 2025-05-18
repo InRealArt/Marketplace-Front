@@ -1,41 +1,40 @@
 import { create } from 'zustand'
 import { getItemsByStatus } from '@/lib/nfts'
-import { ArtistId, CollectionId, NftId, NftSlug, NftType } from '@/types'
-import { ItemStatus } from '@prisma/client'
-import { useCollectionsStore } from './collectionsStore'
+import { ArtistId, CollectionId, NftId, NftSlug, ItemPhysicalType } from '@/types'
+import { PhysicalItemStatus } from '@prisma/client'
 import { useBackofficeUserStore } from './backofficeUserStore'
 
 interface NftsState {
-    nfts: NftType[]
+    nfts: ItemPhysicalType[]
     isLoading: boolean
     error: Error | null
     fetchItems: () => Promise<void>
-    getItemBySlug: (slug: NftSlug) => NftType | undefined
-    getNftById: (id: NftId) => NftType | undefined
-    getNftsByCollection: (collectionId: CollectionId) => NftType[]
-    getItemsByArtist: (artistId: ArtistId) => NftType[]
-    getIraNfts: () => NftType[]
-    getCommunautaryNfts: () => NftType[]
+    getItemBySlug: (slug: NftSlug) => ItemPhysicalType | undefined
+    getNftById: (id: NftId) => ItemPhysicalType | undefined
+    getNftsByCollection: (collectionId: CollectionId) => ItemPhysicalType[]
+    getItemsByArtist: (artistId: ArtistId) => ItemPhysicalType[]
+    getIraNfts: () => ItemPhysicalType[]
+    getCommunautaryNfts: () => ItemPhysicalType[]
 }
 
 export const useItemsStore = create<NftsState>((set, get) => ({
     nfts: [],
     isLoading: false,
     error: null,
-    fetchItems: async () => {
+    fetchItems: async () => {        
         // Ne fetch pas si on a déjà des NFTs
         if (get().nfts.length > 0) return
 
         try {
             set({ isLoading: true, error: null })
-            const data = await getItemsByStatus([ItemStatus.listed])
+            const data =  await getItemsByStatus([PhysicalItemStatus.pending])            
             set({ nfts: data, isLoading: false })
         } catch (error) {
             set({ isLoading: false, error: error as Error })
         }
     },
     getItemBySlug: (slug: NftSlug) => {
-        return get().nfts.find(nft => nft.slug === slug)
+        return get().nfts.find(nft => nft.Item.slug === slug)
     },
     getNftById: (id: NftId) => {
         return get().nfts.find(nft => nft.id === id)
@@ -54,7 +53,7 @@ export const useItemsStore = create<NftsState>((set, get) => ({
         }
 
         // Step 2: Get all NFTs owned by this user
-        const userNfts = get().nfts.filter(nft => nft.idUser === backofficeUser.id);
+        const userNfts = get().nfts.filter(nft => nft.Item.idUser === backofficeUser.id);
 
         return userNfts;
     },
@@ -62,6 +61,6 @@ export const useItemsStore = create<NftsState>((set, get) => ({
         return get().nfts
     },
     getCommunautaryNfts: () => {
-        return get().nfts.filter(nft => nft.status === ItemStatus.minted)
+        return get().nfts.filter(nft => nft.status === PhysicalItemStatus.created)
     }
 })) 

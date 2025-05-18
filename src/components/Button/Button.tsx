@@ -56,9 +56,16 @@ const Button = ({
     className
   );
 
+  const actionOnClick = (e: unknown) => {
+    if (disabled) {
+      return;
+    }
+    action?.(e)
+  }
+
   if (link) {
     return (
-      <Link className={computedClassNames} href={link} onClick={action}>
+      <Link className={computedClassNames} href={link} onClick={actionOnClick}>
         {text}
       </Link>
     );
@@ -69,7 +76,7 @@ const Button = ({
       disabled={disabled}
       className={computedClassNames}
       type={type}
-      onClick={action}
+      onClick={actionOnClick}
     >
       {icon}
       <span>{text}</span>

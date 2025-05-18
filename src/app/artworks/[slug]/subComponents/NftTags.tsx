@@ -1,8 +1,8 @@
 import React from 'react';
-import { NftType } from '@/types';
+import { ItemPhysicalType } from '@/types';
 
 interface NftTagsProps {
-  tags?: NftType['tags'];
+  tags?: ItemPhysicalType['tags'];
 }
 const NftTags = ({ tags }: NftTagsProps) => {
   return (

@@ -48,7 +48,7 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
   // Handle removing item from cart
   const handleRemoveItem = async (nftId: number, purchaseType: string) => {
     const result = await removeFromCart(nftId, purchaseType);
-    
+
     if (result.success) {
       toast.success(result.message);
     } else if (result.error) {
@@ -58,11 +58,12 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
 
   // Calculate cart total using the Zustand store method
   const cartTotal = getCartTotal();
-  
+
   // Calcul de la TVA et du montant TTC
   const totalHT = cartTotal;
   const tva = parseFloat((totalHT * VAT_RATE).toFixed(2));
   const totalTTC = parseFloat((totalHT + tva).toFixed(2));
+console.log(items);
 
   return (
     <>
@@ -104,8 +105,8 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
                   <li key={`${item.nft.id}-${item.purchaseType}`} className="flex items-center justify-between gap-6 pb-6 border-b border-[#6b6b66]">
                     <div className="w-20 h-20 relative flex-shrink-0 rounded overflow-hidden">
                       <Image
-                        src={item.nft.mainImageUrl || '/icons/Nft.png'}
-                        alt={item.nft.name || 'NFT Image'}
+                        src={item.nft.Item.mainImageUrl || '/icons/Nft.png'}
+                        alt={item.nft.Item.name || 'NFT Image'}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover"
@@ -117,11 +118,9 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
                       />
                     </div>
                     <div className="flex-grow">
-                      <h3 className="font-medium text-white mb-2">{item.nft.name}</h3>
+                      <h3 className="font-medium text-white mb-2">{item.nft.Item.name}</h3>
                       <p className="text-[#b39e73] font-semibold">
-                        {item.purchaseType === PriceOption.PHYSICAL && `${item.nft.pricePhysicalBeforeTax} €`}
-                        {item.purchaseType === PriceOption.NFT && `${item.nft.priceNftBeforeTax} €`}
-                        {item.purchaseType === PriceOption.NFT_PLUS_PHYSICAL && `${item.nft.priceNftPlusPhysicalBeforeTax} €`}
+                        {item.nft.price} €
                       </p>
                       <div className="mt-2 text-sm text-white opacity-75">
                         Type: {item.purchaseType === PriceOption.PHYSICAL ? 'Physical Only' :
