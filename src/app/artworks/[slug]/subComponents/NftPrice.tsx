@@ -4,7 +4,12 @@ import Button from '@/components/Button/Button';
 import { ItemPhysicalType, PriceOption } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { toast } from 'sonner';
-// import Tooltip from '@/components/Tooltip/Tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface NftPriceProps {
   nft: ItemPhysicalType
@@ -57,21 +62,34 @@ const NftPrice = ({ nft }: NftPriceProps) => {
     <div className="flex flex-col gap-6 p-6 bg-gradient-to-b from-[rgba(30,30,30,0.5)] to-[rgba(20,20,20,0.8)] rounded-[8px] border border-[rgba(255,255,255,0.1)] shadow-[0_4px_20px_rgba(0,0,0,0.25)] backdrop-blur-[5px]">
       <div className="flex gap-3 justify-center flex-wrap">
         {PRICE_OPTIONS.map((option) => (
-          // <div key={option.value} className="inline-block">
-          // <Tooltip
-          //   key={option.value}
-          //   content="Available soon"
-          //   isDisabled={!option.disabled}
-          //   placement='top'
-          // >
-            <Button
-              text={option.label}
-              action={() => setActiveOption(option.value)}
-              additionalClassName={activeOption === option.value ? 'gold' : 'whiteBorder'}
-              disabled={option.disabled}
-            />
-          // </Tooltip>
-          // </div>
+          <div key={option.value} className="inline-block">
+            {option.disabled ? (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>
+                      <Button
+                        text={option.label}
+                        action={() => {}}
+                        additionalClassName='whiteBorder'
+                        disabled={true}
+                      />
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Available soon</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <Button
+                text={option.label}
+                action={() => setActiveOption(option.value)}
+                additionalClassName={activeOption === option.value ? 'gold' : 'whiteBorder'}
+                disabled={false}
+              />
+            )}
+          </div>
         ))}
       </div>
       <div className="flex items-center gap-4 bg-[rgba(0,0,0,0.2)] p-4 rounded-[8px]">
