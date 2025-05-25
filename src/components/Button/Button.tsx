@@ -40,7 +40,8 @@ const Button = ({
     viewAll: "w-20 border border-white py-3 px-[30px] m-0 md:hidden",
     'viewAll--mobile': "hidden md:flex md:ml-auto",
     verifyCaptcha: "w-20 bg-[#b39e73] text-white",
-    large: "py-[15px] px-0"
+    large: "py-[15px] px-0",
+    small: "!py-[10px] !px-[12px] !md:py-[12px] !md:px-[15px] !text-xs"
   };
 
   const activeStyles = activeClassName === 'active' && additionalClassName === 'whiteBorder' 

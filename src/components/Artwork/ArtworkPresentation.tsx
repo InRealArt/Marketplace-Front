@@ -13,8 +13,9 @@ interface ArtworkPresentationProps {
 }
 
 const ArtworkPresentation = ({ nft, artist }: ArtworkPresentationProps) => {  
+  
   return (
-    <section className="grid grid-rows-auto grid-cols-auto md:grid-cols-[calc(60%-10px)_calc(40%-10px)] gap-[20px]">
+    <section className="flex flex-col md:flex-row gap-[20px]">
       <ArtworkGallery nft={nft} />
       <ArtworkInfos nft={nft} artist={artist} />
     </section>

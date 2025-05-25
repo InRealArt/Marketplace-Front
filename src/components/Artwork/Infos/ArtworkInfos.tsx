@@ -22,7 +22,7 @@ const ArtworkInfos = ({ nft, artist }: ArtworkInfosProps) => {
   const [showDescriptionModal, setShowDescriptionModal] = useState<boolean>(false);
   
   return (      
-      <div className="row-1 rounded-[10px] border border-[#a6a6a6] bg-[#313130] p-[20px_15px] md:p-[25px_20px]">
+      <div className="rounded-[10px] border border-[#a6a6a6] bg-[#313130] p-[20px_15px] md:p-[25px_20px] w-full md:w-[40%] h-full">
         <div className="flex p-[15px_20px] items-center rounded-[14px] bg-[#2c2c29] mb-[30px]">
           {artist?.imageUrl && (
             <Image

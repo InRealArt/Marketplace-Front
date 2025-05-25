@@ -60,18 +60,18 @@ const ArtworkPrice = ({ nft }: ArtworkPriceProps) => {
 
   return (
     <div className="flex flex-col gap-6 p-6 bg-gradient-to-b from-[rgba(30,30,30,0.5)] to-[rgba(20,20,20,0.8)] rounded-[8px] border border-[rgba(255,255,255,0.1)] shadow-[0_4px_20px_rgba(0,0,0,0.25)] backdrop-blur-[5px]">
-      <div className="flex gap-3 justify-center flex-wrap">
+      <div className="flex gap-3 flex-wrap">
         {PRICE_OPTIONS.map((option) => (
           <div key={option.value} className="inline-block">
             {option.disabled ? (
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger asChild>
+                  <TooltipTrigger disabled asChild>
                     <span>
                       <Button
                         text={option.label}
                         action={() => {}}
-                        additionalClassName='whiteBorder'
+                        additionalClassName='whiteBorder small'
                         disabled={true}
                       />
                     </span>
@@ -85,7 +85,7 @@ const ArtworkPrice = ({ nft }: ArtworkPriceProps) => {
               <Button
                 text={option.label}
                 action={() => setActiveOption(option.value)}
-                additionalClassName={activeOption === option.value ? 'gold' : 'whiteBorder'}
+                additionalClassName={activeOption === option.value ? 'gold small' : 'whiteBorder small'}
                 disabled={false}
               />
             )}

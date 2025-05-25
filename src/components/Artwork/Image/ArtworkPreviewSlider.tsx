@@ -1,9 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import ShareModal from '@/components/Modal/ShareModal';
 import dynamic from 'next/dynamic';
-import {  ItemPhysicalType } from '@/types';
+import { ItemPhysicalType } from '@/types';
 import { ArrowBigLeft, ArrowBigRight, Share2, StarsIcon, Eye, Flame } from 'lucide-react';
 import { useViewCounter } from '@/hooks/useViewCounter';
 
@@ -20,41 +20,66 @@ interface ArtworkThumbnailSliderProps {
   nft: ItemPhysicalType
   currentImageIndex: number
   setCurrentImageIndex: (index: number) => void
-  images: string[]  
+  images: string[]
 }
+
+const SLIDER_HEIGHT = 88;
 
 const ArtworkThumbnailSlider = ({ nft, currentImageIndex, setCurrentImageIndex, images }: ArtworkThumbnailSliderProps) => {
   const { name } = nft.Item || {};
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Check if mobile on initial render and when window resizes
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Check on mount
+    checkIfMobile();
+    
+    // Add event listener for resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+  
+  // Scroll to the current thumbnail
+  useEffect(() => {
+    if (!sliderRef.current) return;
+    
+    sliderRef.current.scrollTo({
+      // For mobile: scroll horizontally (left), for desktop: scroll vertically (top)
+      ...(isMobile 
+        ? { left: (currentImageIndex * SLIDER_HEIGHT) } 
+        : { top: (currentImageIndex * SLIDER_HEIGHT) }),
+      behavior: 'smooth',
+    });
+  }, [currentImageIndex, isMobile]);
   
   return (
-        <div className="md:w-[100px] h-full overflow-scroll">
-          <Swiper
-            direction="vertical"
-            spaceBetween={10}
-            slidesPerView="auto"
-            freeMode={true}
-            watchSlidesProgress={true}
-            modules={[FreeMode, Navigation]}
-            className="h-full thumbnails-swiper"
-          >
-            {images.map((img, index) => (
-              <SwiperSlide key={`thumb-${index}`} className="!h-auto cursor-pointer">
-                <div 
-                  className={`w-[80px] h-[80px] rounded-[6px] overflow-hidden ${index === currentImageIndex ? 'ring-2 ring-amber-500' : ''}`}
-                  onClick={() => setCurrentImageIndex(index)}
-                >
-                  <Image 
-                    src={img || ''} 
-                    alt={`${name} thumbnail ${index + 1}`} 
-                    width={80} 
-                    height={80} 
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+    <div
+      ref={sliderRef}
+      className="h-[100px] md:h-full md:w-[100px] overflow-scroll mt-2 max-h-[75vh] md:flex md:flex-col gap-2 items-center pl-2 md:pl-0 pt-2 whitespace-nowrap no-scrollbar"
+    >
+      {images.map((img, index) => (
+        <div
+          key={`thumbnail-${index}`}
+          className={`cursor-pointer inline-block mr-2 md:mr-0`}
+          onClick={() => setCurrentImageIndex(index)}
+        >
+          <Image
+            src={img || ''}
+            alt={`${name} thumbnail ${index + 1}`}
+            width={80}
+            height={80}
+            className={`object-cover rounded-[6px] w-[80px] h-[80px] ${index === currentImageIndex ? 'ring-2 ring-amber-500' : ''}`}
+          />
         </div>
+      ))}
+    </div>
   );
 };
 
