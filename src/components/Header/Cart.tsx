@@ -104,8 +104,8 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
                   <li key={`${item.nft.id}-${item.purchaseType}`} className="flex items-center justify-between gap-6 pb-6 border-b border-[#6b6b66]">
                     <div className="w-20 h-20 relative flex-shrink-0 rounded overflow-hidden">
                       <Image
-                        src={item.nft.Item.mainImageUrl || '/icons/Nft.png'}
-                        alt={item.nft.Item.name || 'NFT Image'}
+                        src={item.nft.Item?.mainImageUrl || '/icons/Nft.png'}
+                        alt={item.nft.Item?.name || 'NFT Image'}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover"
@@ -117,7 +117,7 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
                       />
                     </div>
                     <div className="flex-grow">
-                      <h3 className="font-medium text-white mb-2">{item.nft.Item.name}</h3>
+                      <h3 className="font-medium text-white mb-2">{item.nft.Item?.name || 'NFT without name'}</h3>
                       <p className="text-[#b39e73] font-semibold">
                         {item.nft.price} €
                       </p>
