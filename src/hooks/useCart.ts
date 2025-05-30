@@ -27,85 +27,56 @@ export function useCart() {
   const [initialized, setInitialized] = useState(false);
   // Initialize anonymous cart ID if not exists
   useEffect(() => {
-    const firstTimeOrUserJustDeconnect = !anonymousId && !userId
-    const userJustConnect = anonymousId && userId
+    const firstTimeOrUserJustDeconnect = !anonymousId && !userId;
+    const userJustConnect = anonymousId && userId;
 
     if (firstTimeOrUserJustDeconnect) {
       const newAnonymousId = uuidv4();
       setAnonymousId(newAnonymousId);
       setInitialized(true);
     }
+    
     if (userJustConnect) {
-      setAnonymousId(null)
+      // We'll handle the anonymous cart cleanup in loadCartFromServer
+      // Just set initialized to true to trigger the loadCartFromServer effect
       setInitialized(true);
     }
   }, [anonymousId, userId, setAnonymousId]);
 
   useEffect(() => {
     if (initialized) {
-      loadCartFromServer();
+      // Pass true as isLoginEvent if user just connected (has both anonymousId and userId)
+      const isLoginEvent = !!(anonymousId && userId);
+      loadCartFromServer(isLoginEvent);
     }
-  }, [initialized]);
+  }, [initialized, anonymousId, userId]);
 
 
   // Load cart data from server
   const loadCartFromServer = async (isLoginEvent = false) => {
     try {
       setLoading(true);
-      let serverItems: CartItem[] = [];
+      
+      // Save current local cart items for potential merging
+      const localItems = [...items];
+      
+      // Clear local cart state to prepare for new data
+      clearCartStore();
+      
+      // Handle user cart (logged in user)
       if (userId) {
-
-        // Get user cart from server using direct Prisma call
-        const cart = await getUserCart(userId);
-
-        if (cart?.items) {
-          serverItems = cart.items as CartItem[];
-          clearCartStore();
-
-          // On login, replace the local cart with the server cart
-          if (isLoginEvent && serverItems.length > 0) {
-            // Clear local cart first
-
-            // Then add all server items
-            serverItems.forEach(item => addItem(item));
-          } else {
-            // Normal sync: Add server items that don't exist locally
-            serverItems.forEach(serverItem => {
-              const exists = items.some(
-                localItem =>
-                  localItem.nft.id === serverItem.nft.id &&
-                  localItem.purchaseType === serverItem.purchaseType
-              );
-
-              if (!exists) {
-                addItem(serverItem);
-              }
-            });
-          }
+        // Delete anonymous cart if user just logged in
+        if (isLoginEvent && anonymousId) {
+          await deleteAnonymousCartAfterLogin(anonymousId);
+          // Clear the anonymousId from store after successful login
+          setAnonymousId(null);
         }
-      } else if (anonymousId) {
-
-        // Clear local cart first
-        clearCartStore();
-
-        // Get anonymous cart from server using direct Prisma call
-        const cart = await getAnonymousCart(anonymousId);
-        if (cart?.items) {
-          serverItems = cart.items as CartItem[];
-
-          // Merge server items with local items
-          serverItems.forEach(serverItem => {
-            const exists = items.some(
-              localItem =>
-                localItem.nft.id === serverItem.nft.id &&
-                localItem.purchaseType === serverItem.purchaseType
-            );
-
-            if (!exists) {
-              addItem(serverItem);
-            }
-          });
-        }
+        
+        await handleUserCart(userId, localItems, isLoginEvent);
+      } 
+      // Handle anonymous cart
+      else if (anonymousId) {
+        await handleAnonymousCart(anonymousId);
       }
 
       setLoading(false);
@@ -114,6 +85,64 @@ export function useCart() {
       console.error('Failed to load cart data:', error);
       setLoading(false);
     }
+  };
+
+  // Helper function to handle user cart logic
+  const handleUserCart = async (userId: string, localItems: CartItem[], isLoginEvent: boolean) => {
+    // Get user cart from server
+    const cart = await getUserCart(userId);
+    const serverItems = cart?.items as CartItem[] || [];
+    
+    // For login/signup events, merge local and server carts
+    if (isLoginEvent) {
+      await mergeAndSaveCart(userId, serverItems, localItems);
+    } 
+    // For normal sync, just load server items
+    else {
+      loadItemsToLocalCart(serverItems);
+    }
+  };
+
+  // Helper function to handle anonymous cart logic
+  const handleAnonymousCart = async (anonymousId: string) => {
+    const cart = await getAnonymousCart(anonymousId);
+    const serverItems = cart?.items as CartItem[] || [];
+    
+    // Load server items to local cart
+    loadItemsToLocalCart(serverItems);
+  };
+
+  // Helper function to merge and save carts
+  const mergeAndSaveCart = async (userId: string, serverItems: CartItem[], localItems: CartItem[]) => {
+    // Create a merged items array starting with server items
+    const mergedItems: CartItem[] = [...serverItems];
+    
+    // Add local items that don't exist on server
+    for (const localItem of localItems) {
+      const existsOnServer = serverItems.some(
+        serverItem => 
+          serverItem.nft.id === localItem.nft.id && 
+          serverItem.purchaseType === localItem.purchaseType
+      );
+      
+      if (!existsOnServer) {
+        mergedItems.push(localItem);
+      }
+    }
+    
+    // Load merged items to local cart
+    loadItemsToLocalCart(mergedItems);
+    
+    // Save merged cart to server if there are items to save
+    if (mergedItems.length > 0) {
+      const totalPrice = calculateTotalWithTax(mergedItems);
+      await upsertUserCart(userId, mergedItems, totalPrice);
+    }
+  };
+
+  // Helper function to load items to local cart
+  const loadItemsToLocalCart = (items: CartItem[]) => {
+    items.forEach(item => addItem(item));
   };
 
   /**
@@ -322,6 +351,16 @@ export function useCart() {
     return Math.round(subtotal * (1 + VAT_RATE) * 100) / 100;
   };
 
+  // Helper function to delete anonymous cart after login
+  const deleteAnonymousCartAfterLogin = async (anonymousId: string) => {
+    try {
+      console.log('Deleting anonymous cart after login:', anonymousId);
+      await deleteAnonymousCart(anonymousId);
+    } catch (error) {
+      console.error('Failed to delete anonymous cart after login:', error);
+    }
+  };
+
   return {
     items,
     isLoading,
@@ -334,5 +373,6 @@ export function useCart() {
     getCartTotal,
     getCartTotalWithVAT,
     synchronizeCart,
+    loadCartFromServer,
   };
 } 
