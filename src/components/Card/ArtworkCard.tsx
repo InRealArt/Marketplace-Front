@@ -5,20 +5,20 @@ import { FlameIcon } from 'lucide-react';
 import Button from '../Button/Button';
 import { ItemPhysicalType } from '@/types';
 
-interface NftCardProps {
-  nft: ItemPhysicalType;
+interface ArtworkCardProps {
+  artwork: ItemPhysicalType;
 }
 
-const NftCard = ({ nft }: NftCardProps) => {
-  const { Item, price} = nft;
+const ArtworkCard = ({ artwork }: ArtworkCardProps) => {
+  const { Item, price, stockQty} = artwork;
 
-  const { name, slug, mainImageUrl, } = Item;
+  const { name, slug, mainImageUrl,  } = Item;
 
   return (
     <div className="flex flex-col items-center relative w-full mt-10 h-auto p-2.5 rounded-[17px] sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-40px)]">
       <Link 
         className="relative w-full h-[350px] flex items-center justify-center overflow-hidden transition-all duration-200 ease-in-out rounded-[17px] bg-gradient-to-r from-white/30 via-[rgb(88,88,88,0.74)] to-white/30 sm:h-[410px] lg:h-[440px]" 
-        href={`/artworks/${slug || nft.id}`}
+        href={`/artworks/${slug || artwork.id}`}
       >
         <picture className="h-full w-full flex items-center justify-center">
           {mainImageUrl && (
@@ -46,7 +46,7 @@ const NftCard = ({ nft }: NftCardProps) => {
             </Link> */}
             <Link 
               className="block font-poppins text-lg font-semibold truncate whitespace-nowrap overflow-hidden" 
-              href={`/artworks/${slug || nft.id}`}
+              href={`/artworks/${slug || artwork.id}`}
             >
               {name}
             </Link>
@@ -56,15 +56,16 @@ const NftCard = ({ nft }: NftCardProps) => {
           </div>
         </div>
         <Button
-          text='Buy now'
-          link={`/artworks/${slug || nft.id}`}
-          additionalClassName='gold'
+          text={`${stockQty === 0 ? 'Sold out' : 'Buy now'}`}
+          link={`/artworks/${slug || artwork.id}`}
+          additionalClassName={`${stockQty === 0 ? 'disabled' : 'gold'}`}
           activeClassName='large'
           className="w-full"
+          disabled={stockQty === 0}
         />
       </div>
     </div>
   );
 };
 
-export default NftCard;
+export default ArtworkCard;

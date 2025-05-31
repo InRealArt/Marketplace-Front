@@ -7,6 +7,7 @@ import DescriptionModal from '@/components/Modal/DescriptionModal';
 import dynamic from 'next/dynamic';
 import { ArtistType, ItemPhysicalType } from '@/types';
 import ArtworkPrice from './ArtworkPrice';
+import TrustSignals from './TrustSignals';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
@@ -60,6 +61,7 @@ const ArtworkInfos = ({ nft, artist }: ArtworkInfosProps) => {
         </div>
         
         <ArtworkPrice nft={nft} />
+        <TrustSignals />
       </div>
   );
 };

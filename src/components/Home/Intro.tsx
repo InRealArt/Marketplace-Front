@@ -34,7 +34,7 @@ const Intro = () => {
         />
       </div>
       <div className="absolute z-[-1] bg-[#525252] h-[200px] w-[70%] left-0 bottom-0 max-desktop:hidden" />
-      <span className="text-[48px] font-light absolute uppercase right-0 top-0 origin-bottom-right rotate-[-90deg] before:content-[''] before:w-[200px] before:h-[2px] before:bg-white before:block before:absolute before:top-1/2 before:left-[-140px] before:transform before:-translate-y-1/2 max-desktop:text-base">Limited edition</span>
+      <span className="text-[48px] font-light absolute uppercase right-0 top-0 origin-bottom-right rotate-[-90deg] before:content-[''] before:w-[200px] before:h-[2px] before:bg-white before:block before:absolute before:top-1/2 before:left-[-230px] before:transform before:-translate-y-1/2 max-desktop:text-base">Limited edition</span>
 
       <Image
         className="hidden mx-auto mt-[60px] max-desktop:block"

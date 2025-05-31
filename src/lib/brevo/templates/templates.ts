@@ -2107,5 +2107,82 @@ export const templateMarketplaceAccountCreationconfirmation =
 </body>
 
 </html>
+`
 
+export const templatePasswordReset = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Your Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8ff;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .logo {
+            max-width: 150px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #000000;
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://inrealart.com/images/logo.png" alt="InRealArt Logo" class="logo">
+        </div>
+        <div class="content">
+            <h2>Reset Your Password</h2>
+            <p>Hello {{params.name}},</p>
+            <p>We received a request to reset your password for your InRealArt account. If you didn't make this request, you can ignore this email.</p>
+            <p>To reset your password, please click the button below:</p>
+            <p style="text-align: center;">
+                <a href="{{params.resetUrl}}" class="button">Reset Password</a>
+            </p>
+            <p>Or copy and paste this URL into your browser:</p>
+            <p>{{params.resetUrl}}</p>
+            <p>This link will expire in 24 hours for security reasons.</p>
+            <p>If you have any questions, please contact our support team.</p>
+            <p>Best regards,<br>The InRealArt Team</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2023 InRealArt. All rights reserved.</p>
+            <p>This email was sent to you because you requested a password reset.</p>
+        </div>
+    </div>
+</body>
+</html>
 `

@@ -4,12 +4,7 @@ import Button from '@/components/Button/Button';
 import { ItemPhysicalType, PriceOption } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { toast } from 'sonner';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import CustomTooltip from '@/components/ui/CustomTooltip';
 
 interface ArtworkPriceProps {
   nft: ItemPhysicalType
@@ -64,23 +59,17 @@ const ArtworkPrice = ({ nft }: ArtworkPriceProps) => {
         {PRICE_OPTIONS.map((option) => (
           <div key={option.value} className="inline-block">
             {option.disabled ? (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger disabled asChild>
-                    <span>
-                      <Button
-                        text={option.label}
-                        action={() => {}}
-                        additionalClassName='whiteBorder small'
-                        disabled={true}
-                      />
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Available soon</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <CustomTooltip
+                trigger={
+                  <Button
+                    text={option.label}
+                    action={() => { }}
+                    additionalClassName='whiteBorder small'
+                    disabled={true}
+                  />
+                }
+                content={<p>Available soon</p>}
+              />
             ) : (
               <Button
                 text={option.label}
@@ -101,18 +90,25 @@ const ArtworkPrice = ({ nft }: ArtworkPriceProps) => {
         </div>
       </div>
       <div className="flex gap-4 mt-2">
-        <Button
-          text='Buy now'
-          link={`/artworks/${nft.Item.slug}`}
-          additionalClassName='gold'
-          className='flex-1'
-        />
-        <Button
-          text='Add to cart'
-          action={handleAddToCart}
-          additionalClassName='whiteBorder'
-          className='flex-1'
-        />
+        {nft.stockQty > 0 ? <>
+          <Button
+            text='Buy now'
+            link={`/artworks/${nft.Item.slug}`}
+            additionalClassName='gold'
+            className='flex-1'
+          />
+          <Button
+            text='Add to cart'
+            action={handleAddToCart}
+            additionalClassName='whiteBorder'
+            className='flex-1'
+          />
+        </> :
+          <Button
+            text='Sold out'
+            additionalClassName='disabled'
+            className='flex-1'
+          />}
       </div>
     </div>
   );

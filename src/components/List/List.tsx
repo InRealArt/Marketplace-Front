@@ -2,7 +2,7 @@
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import NftCard from '../Card/NftCard';
+import ArtworkCard from '../Card/ArtworkCard';
 import { useForm, FormProvider } from 'react-hook-form';
 import ArtistCard from '../Card/ArtistCard';
 import ListHeader from './subComponents/ListHeader';
@@ -41,7 +41,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
   }, [nav, navActive])
 
   // Si NFT, filtrer pour OnlyToBuy
-  const listOfNftsToBuyOrNot = navActiveItem?.context === 'nft' && onlyToBuy
+  const listOfNftsToArtworksOrNot = navActiveItem?.context === 'nft' && onlyToBuy
     ? (navActiveItem.list as ItemPhysicalType[]).filter(
       nft => nft.status === PhysicalItemStatus.listed
     )
@@ -50,7 +50,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
   const showListByType = (item: ItemPhysicalType | ArtistType | CollectionType) => {
     switch (navActiveItem?.context) {
       case 'nft':
-        return <NftCard key={item.id} nft={item as ItemPhysicalType} />
+        return <ArtworkCard key={item.id} artwork={item as ItemPhysicalType} />
       case 'artist':
         return <ArtistCard key={item.id} artist={item as ArtistType} />
       case 'collection':
@@ -72,7 +72,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
         />
       </FormProvider>
       <div className="flex flex-wrap justify-start gap-5 lg:gap-[26px] xl:gap-[30px]">
-        {listOfNftsToBuyOrNot?.map((item) => showListByType(item))}
+        {listOfNftsToArtworksOrNot?.map((item) => showListByType(item))}
       </div>
     </section>
   );

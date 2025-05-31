@@ -31,7 +31,7 @@ const Button = ({
   const variantStyles = {
     gold: "bg-[#b39e73]",
     goldBorder: "border-[3px] border-[#b39e73]",
-    whiteBorder: "border border-white py-3 px-[30px] active:bg-white active:text-black",
+    whiteBorder: "border border-solid border-white py-3 px-[30px] active:bg-white active:text-black",
     purple: "bg-[#786df2]",
     'purple--marginTop': "bg-[#786df2] mt-5",
     blur: "py-[13px] px-[15px] border border-white bg-white/30 backdrop-blur-[26px] text-sm w-max",
@@ -41,7 +41,8 @@ const Button = ({
     'viewAll--mobile': "hidden md:flex md:ml-auto",
     verifyCaptcha: "w-20 bg-[#b39e73] text-white",
     large: "py-[15px] px-0",
-    small: "!py-[10px] !px-[12px] !md:py-[12px] !md:px-[15px] !text-xs"
+    small: "!py-[10px] !px-[12px] !md:py-[12px] !md:px-[15px] !text-xs",
+    disabled: "bg-gray-500 opacity-50 cursor-not-allowed pointer-events-none"
   };
 
   const activeStyles = activeClassName === 'active' && additionalClassName === 'whiteBorder' 

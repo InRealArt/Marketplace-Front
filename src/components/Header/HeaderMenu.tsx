@@ -29,7 +29,7 @@ const HeaderMenu = () => {
   return (
     <section 
       ref={menuRef}
-      className={`max-w-[330px] w-full sm:w-[90%] h-[550px] sm:h-[600px] rounded-[20px] border border-[#a6a6a6] bg-[#313130] p-[30px] absolute right-0 top-[80px] z-[100] ${!showMenu ? 'hidden' : ''}`}
+      className={`max-w-[330px] w-full sm:w-[90%] h-[550px] sm:h-[600px] rounded-[20px] border border-[#a6a6a6] bg-[#313130] p-[30px] fixed right-0 top-[80px] z-[100] ${!showMenu ? 'hidden' : ''}`}
     >
       <div className="flex justify-between items-center mb-10">
         <h1 className="font-montserrat text-3xl tracking-[0] font-semibold relative after:content-[''] after:absolute after:left-0 after:bottom-[-10px] after:h-[2px] after:w-[30px] after:bg-[#b39e73]">Menu</h1>

@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from '@/components/ui/form';
 import { useAppDispatch } from '@/redux/hooks';
 import { toast } from 'sonner';
-import { forgetPassword } from '@/lib/auth-client';
 import { FormHeader, EmailField, SubmitButton } from './FormComponents';
 import { forgotPasswordSchema } from './ValidationSchemas';
 
@@ -30,31 +29,31 @@ const ForgotPasswordContent = ({ setIsSignin, setShowForgotPassword }: ForgotPas
   const onSubmit = async (values: z.infer<typeof forgotPasswordSchema>) => {
     setLoading(true);
     try {
-      // Use forgetPassword from auth-client directly
-      // This will automatically check if the email exists in the database
-      // and only send a reset link if it exists
-      await forgetPassword({
-        email: values.email,
-        redirectTo: `${window.location.origin}/reset-password`,
-      }, {
-        onResponse: () => {
-          setLoading(false);
+      // Directly call our custom password reset API
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        onError: (ctx) => {
-          // If the email doesn't exist in the database, we'll get an error
-          // But for security reasons, we don't want to reveal this to the user
-          console.error("Error in forgot password:", ctx.error);
-          setLoading(false);
-          // Show the same success message to prevent email enumeration attacks
-          toast.success("If this email is registered, a password reset link has been sent");
-          setShowForgotPassword(false);
-        },
-        onSuccess: () => {
-          toast.success("Password reset link has been sent to your email");
-          setShowForgotPassword(false);
-          setLoading(false);
-        },
+        body: JSON.stringify({
+          email: values.email,
+          redirectUrl: `${window.location.origin}/reset-password`,
+        }),
       });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        console.error("Error in forgot password:", data.error);
+        // Show the same success message regardless of the outcome
+        // to prevent email enumeration attacks
+        toast.success("If this email is registered, a password reset link has been sent");
+      } else {
+        toast.success("Password reset link has been sent to your email");
+      }
+      
+      setShowForgotPassword(false);
+      setLoading(false);
     } catch (error) {
       console.error("Error resetting password:", error);
       // Show the same success message to prevent email enumeration attacks

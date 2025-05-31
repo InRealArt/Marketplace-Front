@@ -61,7 +61,7 @@ const UserMenu = () => {
   return (
     <section 
       ref={menuRef}
-      className={`max-w-[250px] w-full sm:w-[90%] rounded-[20px] border border-[#a6a6a6] bg-[#313130] p-[20px] absolute right-0 top-[80px] z-[100] ${!showUserMenu ? 'hidden' : ''}`}
+      className={`max-w-[250px] w-full sm:w-[90%] rounded-[20px] border border-[#a6a6a6] bg-[#313130] p-[20px] fixed right-0 top-[80px] z-[100] ${!showUserMenu ? 'hidden' : ''}`}
     >
       <div className="flex justify-between items-center mb-5">
         <h1 className="font-montserrat text-xl tracking-[0] font-semibold relative after:content-[''] after:absolute after:left-0 after:bottom-[-5px] after:h-[2px] after:w-[20px] after:bg-[#b39e73]">Account</h1>
