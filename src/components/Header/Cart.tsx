@@ -8,17 +8,15 @@ import { toast } from 'sonner'
 import { CartItem } from '@/store/cartStore'
 import { VAT_RATE } from '@/lib/constants'
 import { PriceOption } from '@/types'
+import { useModalStore } from '@/store/modalStore'
 
+function Cart() {
+  const { showCart, setShowCart } = useModalStore();
+  const { items, removeFromCart, getCartTotal } = useCart();
+  
+  const onClose = () => setShowCart(false);
+  const isOpen = showCart;
 
-interface CartProps {
-  isOpen: boolean
-  onClose: () => void
-  items: CartItem[]
-  removeFromCart: (nftId: number, purchaseType: string) => Promise<{ success: boolean, message?: string, error?: string }>
-  getCartTotal: () => number
-}
-
-function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProps) {
   // Ferme le panier quand on clique sur Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -34,20 +32,22 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
 
   // Empêche le défilement du body quand le panier est ouvert
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
+    // if (isOpen) {
+    //   document.body.style.overflow = 'hidden'
+    // } else {
+    //   document.body.style.overflow = 'auto'
+    // }
 
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
+    // return () => {
+    //   document.body.style.overflow = 'auto'
+    // }
   }, [isOpen])
 
   // Handle removing item from cart
   const handleRemoveItem = async (nftId: number, purchaseType: string) => {
-    const result = await removeFromCart(nftId, purchaseType);
+    // Convert string to PurchaseType
+    const typedPurchaseType = purchaseType as PriceOption;
+    const result = await removeFromCart(nftId, typedPurchaseType);
 
     if (result.success) {
       toast.success(result.message);
@@ -73,7 +73,7 @@ function Cart({ isOpen, onClose, items, removeFromCart, getCartTotal }: CartProp
         />
       )}
 
-      <div className={`fixed top-0 right-0 h-screen w-full max-w-sm sm:max-w-xs bg-[#52524c] text-white z-50 shadow-[-2px_0_10px_rgba(0,0,0,0.3)] transform transition-transform duration-300 ease-in-out ${!isOpen ? 'translate-x-full' : 'translate-x-0'}`}>
+      <div className={`fixed z-[100] top-0 right-0 h-screen w-full max-w-xs sm:max-w-sm bg-[#52524c] text-white z-50 shadow-[-2px_0_10px_rgba(0,0,0,0.3)] transform transition-transform duration-300 ease-in-out ${!isOpen ? 'translate-x-full' : 'translate-x-0'}`}>
         <div className="flex flex-col h-full">
           {/* En-tête du panier */}
           <div className="flex items-center justify-between p-6 border-b border-[#6b6b66]">

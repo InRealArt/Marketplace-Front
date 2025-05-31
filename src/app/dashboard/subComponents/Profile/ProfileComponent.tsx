@@ -61,11 +61,6 @@ const ProfileComponent = ({ setActiveTab }: ProfileProps) => {
             <p className='Profile__item'>
               <span className='Profile__item--label'>Role:</span> {role}
             </p>
-            <Button
-              additionalClassName='logout'
-              text='Se déconnecter'
-              action={handleSignOut}
-            />
           </div>
         </div>
       </div>

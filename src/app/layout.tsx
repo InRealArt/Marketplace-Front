@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import Header from '@/components/Header/Header';
+import HeaderMenu from '@/components/Header/HeaderMenu';
+import UserMenu from '@/components/Header/UserMenu';
+import Cart from '@/components/Header/Cart';
 import Footer from '@/components/Footer';
 import '@/styles/globals.scss';
 import '@/styles/globals.css';
@@ -32,6 +35,9 @@ export default function RootLayout({
         <body suppressHydrationWarning={true}>
           <Providers>
             <Header />
+            <HeaderMenu />
+            <UserMenu />
+            <Cart />
             <section className="max-w-[90%] desktop:max-w-[1414px] mx-auto mt-[80px] 2xl:mt-[80px + 40px]">{children}</section>
             <Footer />
             <Toaster richColors />

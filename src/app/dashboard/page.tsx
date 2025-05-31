@@ -39,18 +39,6 @@ const Wallet = () => {
     icon: JSX.Element;
     callBack?: () => unknown;
   }[] = [
-      // {
-      //   id: DashboardTabs.WALLET,
-      //   text: 'Wallet',
-      //   icon: <WalletIcon width={28} height={28} />,
-      //   callBack: () => setActiveTab(DashboardTabs.WALLET),
-      // },
-      {
-        id: DashboardTabs.SEPARATOR,
-        text: "",
-        icon: <span></span>,
-        callBack: () => { }
-      },
       {
         id: DashboardTabs.PROFILE,
         text: 'My Profile',
@@ -77,8 +65,6 @@ const Wallet = () => {
 
   const renderActiveTabContent = () => {
     switch (activeTab) {
-      // case DashboardTabs.WALLET:
-      //   return isConnected ? <WalletPage /> : <WalletEmptyState />
       case DashboardTabs.PROFILE:
         return isAuthenticated ? <ProfileComponent setActiveTab={setActiveTab} /> : null
       case DashboardTabs.ORDERS:

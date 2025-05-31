@@ -1,16 +1,15 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import HeaderMenu from './HeaderMenu';
-import Cart from './Cart';
 import { useCart } from '@/hooks/useCart';
 import { useSession } from '@/lib/auth-client';
+import { UserCircle } from 'lucide-react';
+import { useModalStore } from '@/store/modalStore';
 
 const Header = () => {
-  const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [showCart, setShowCart] = useState<boolean>(false);
-  const { getItemCount, items, removeFromCart, getCartTotal } = useCart();
+  const { toggleMenu, toggleUserMenu, toggleCart } = useModalStore();
+  const { getItemCount } = useCart();
 
   // Get cart items count from the Zustand store
   const cartItemsCount = getItemCount();
@@ -62,9 +61,18 @@ const Header = () => {
         </nav>
 
         <div className="flex justify-between items-center">
+          {/* User icon */}
           <button
             className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110"
-            onClick={() => setShowCart(true)}
+            onClick={toggleUserMenu}
+            aria-label="User account"
+          >
+            <UserCircle className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
+          </button>
+          
+          <button
+            className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110"
+            onClick={toggleCart}
             aria-label="Ouvrir le panier"
           >
             <Image
@@ -82,7 +90,7 @@ const Header = () => {
             )}
           </button>
           <Image
-            onClick={() => setShowMenu(!showMenu)}
+            onClick={toggleMenu}
             priority={true}
             alt="menu"
             src="/icons/menu.png"
@@ -91,9 +99,6 @@ const Header = () => {
             className="cursor-pointer"
           />
         </div>
-
-        <HeaderMenu hide={!showMenu} hideMenu={() => setShowMenu(false)} />
-        <Cart isOpen={showCart} onClose={() => setShowCart(false)} items={items} removeFromCart={removeFromCart} getCartTotal={getCartTotal} />
       </section>
     </header>
   );
