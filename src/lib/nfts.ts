@@ -9,7 +9,7 @@ async function getItemBySlug(id: number) {
             id
         },
     })
-    
+
     return nft
 }
 
@@ -26,9 +26,26 @@ async function getItemsByStatus(status: PhysicalItemStatus[]) {
                 id: 'asc'
             }
         ]
-    })    
+    })
     return nfts
 }
 
+async function getItemsByStatusAndStock(status: PhysicalItemStatus[], minStock: number = 0) {
+    const nfts = await prisma.physicalItem.findMany({
+        where: {
+            status: { in: status },
+            stockQty: { gte: minStock }
+        },
+        include: {
+            Item: true
+        },
+        orderBy: [
+            {
+                id: 'asc'
+            }
+        ]
+    })
+    return nfts
+}
 
-export { getItemsByStatus, getItemBySlug }
+export { getItemsByStatus, getItemsByStatusAndStock, getItemBySlug }

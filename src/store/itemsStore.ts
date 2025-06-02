@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getItemsByStatus } from '@/lib/nfts'
+import { getItemsByStatus, getItemsByStatusAndStock } from '@/lib/nfts'
 import { ArtistId, CollectionId, NftId, NftSlug, ItemPhysicalType } from '@/types'
 import { PhysicalItemStatus } from '@prisma/client'
 import { useBackofficeUserStore } from './backofficeUserStore'
@@ -27,7 +27,7 @@ export const useItemsStore = create<NftsState>((set, get) => ({
 
         try {
             set({ isLoading: true, error: null })
-            const data =  await getItemsByStatus([PhysicalItemStatus.pending])            
+            const data =  await await getItemsByStatusAndStock([PhysicalItemStatus.listed], 1)
             set({ nfts: data, isLoading: false })
         } catch (error) {
             set({ isLoading: false, error: error as Error })
@@ -48,10 +48,11 @@ export const useItemsStore = create<NftsState>((set, get) => ({
         const backofficeUser = backofficeUserStore.getUserByArtistId(artistId);
 
         if (!backofficeUser) {
-            console.log('No backoffice user found for artist ID:', artistId);
+            // console.log('No backoffice user found for artist ID:', artistId);
             return [];
         }
-
+        console.log('backofficeUser *******', backofficeUser);
+        console.log('nfts *******', get().nfts);
         // Step 2: Get all NFTs owned by this user
         const userNfts = get().nfts.filter(nft => nft.Item.idUser === backofficeUser.id);
 
