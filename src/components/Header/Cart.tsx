@@ -164,7 +164,12 @@ function Cart() {
             <Link
               href="/checkout"
               onClick={onClose}
-              className="block w-full bg-[#b39e73] text-white py-3.5 text-center font-medium mb-4 cursor-pointer transition-colors hover:bg-[#8a7a57]"
+              className={`block w-full py-3.5 text-center font-medium mb-4 transition-colors ${
+                totalTTC === 0 
+                  ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+                  : 'bg-[#b39e73] text-white cursor-pointer hover:bg-[#8a7a57]'
+              }`}
+              style={totalTTC === 0 ? { pointerEvents: 'none' } : {}}
             >
               Checkout
             </Link>
