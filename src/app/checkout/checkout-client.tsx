@@ -150,7 +150,7 @@ export function CheckoutClient() {
         {items.map((item: CartItem) => (
           <div key={`${item.nft.id}-${item.purchaseType}`} className="flex justify-between mb-2 text-gray-800">
             <span className="font-medium">
-              {item.nft.Item.name} ({item.purchaseType})
+              {item.nft.item.name} ({item.purchaseType})
             </span>
           </div>
         ))}

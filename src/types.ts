@@ -1,4 +1,4 @@
-import { PhysicalItemStatus, OrderStatus, ResourceNftStatuses, ResourceTypes, Item, PhysicalItem } from "@prisma/client"
+import { PhysicalItemStatus, OrderStatus, ResourceNftStatuses, ResourceTypes, Item, PhysicalItem, NftItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique } from "@prisma/client"
 import { Decimal } from "@prisma/client/runtime/library"
 import { Address } from "viem"
 
@@ -33,7 +33,15 @@ export type NftId = number
 export type NftSlug = string | null
 
 export type ItemPhysicalType = PhysicalItem & {
-  Item: Item
+  item: Item
+}
+
+export type ItemWithRelations = Item & {
+  physicalItem: PhysicalItem | null
+  nftItem: NftItem | null
+  medium: ArtworkMedium | null
+  style: ArtworkStyle | null
+  technique: ArtworkTechnique | null
 }
 
 export interface OrderType {

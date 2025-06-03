@@ -19,7 +19,7 @@ async function getItemsByStatus(status: PhysicalItemStatus[]) {
             status: { in: status }
         },
         include: {
-            Item: true
+            item: true
         },
         orderBy: [
             {
@@ -37,7 +37,7 @@ async function getItemsByStatusAndStock(status: PhysicalItemStatus[], minStock: 
             stockQty: { gte: minStock }
         },
         include: {
-            Item: true
+            item: true
         },
         orderBy: [
             {
@@ -48,4 +48,37 @@ async function getItemsByStatusAndStock(status: PhysicalItemStatus[], minStock: 
     return nfts
 }
 
-export { getItemsByStatus, getItemsByStatusAndStock, getItemBySlug }
+async function getAvailableItems() {
+    const items = await prisma.item.findMany({
+        where: {
+            OR: [
+                {
+                    physicalItem: {
+                        status: PhysicalItemStatus.listed,
+                        stockQty: { gt: 0 }
+                    }
+                },
+                {
+                    nftItem: {
+                        isNot: null
+                    }
+                }
+            ]
+        },
+        include: {
+            physicalItem: true,
+            nftItem: true,
+            medium: true,
+            style: true,
+            technique: true
+        },
+        orderBy: [
+            {
+                id: 'asc'
+            }
+        ]
+    })
+    return items
+}
+
+export { getItemsByStatus, getItemsByStatusAndStock, getItemBySlug, getAvailableItems }

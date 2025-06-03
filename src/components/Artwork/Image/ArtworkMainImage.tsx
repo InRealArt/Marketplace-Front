@@ -26,10 +26,10 @@ interface ArtworkMainImageProps {
 }
 
 const ArtworkMainImage = ({ nft, currentImageIndex, setCurrentImageIndex, images, onSwiperInit }: ArtworkMainImageProps) => {
-  const { name, realViewCount, fakeViewCount } = nft.Item || {};
+  const { name, realViewCount, fakeViewCount } = nft.item || {};
   // Use the view counter hook
   const { displayViewCount, isPopular } = useViewCounter(
-    nft.Item?.id,
+    nft.item?.id,
     realViewCount || 0,
     fakeViewCount || 0
   );
@@ -86,7 +86,7 @@ const ArtworkMainImage = ({ nft, currentImageIndex, setCurrentImageIndex, images
           <View width={20} height={20} /> View all images
         </p>
         <ShareModal
-          url={`/artworks/${nft.Item.slug}`}
+          url={`/artworks/${nft.item.slug}`}
           title={name || 'Check out this amazing artwork'}
         >
           <p className="flex m-0 gap-[10px] p-[13px_15px] items-center rounded-[10px] border border-white bg-[rgba(255,255,255,0.3)] backdrop-blur-[26px] text-[14px] cursor-pointer hover:bg-[rgba(255,255,255,0.4)] transition-colors">

@@ -1,25 +1,17 @@
 'use client'
-import React, { useEffect } from 'react';
-import ListOfNfts from '@/components/List/ListOfNfts';
-import { useItemsStore } from '@/store/itemsStore';
+import React from 'react'
+import ListOfItems from '@/components/List/ListOfItems'
 
-const Nfts = () => {
-  const { fetchItems, getCommunautaryNfts, getIraNfts, nfts } = useItemsStore()
-  console.log(nfts);
-  
-  useEffect(() => {
-    if (nfts.length === 0) {
-      fetchItems()
-    }
-  }, [])
-
+const Artworks = () => {
   return (
-    <main className="Nfts">
-      <ListOfNfts
-        nav={[{ tab: 'Ira Artworks', list: getIraNfts(), context: 'nft' }, { tab: 'Communautary Artworks', list: getCommunautaryNfts(), context: 'nft' }]}
-      />
+    <main className="Artworks">
+      <div className="container">
+        <h2 className="text-[70px] font-medium leading-[78px] tracking-[-1.5px] max-desktop:text-[32px] max-desktop:leading-[40px]">
+          Available Artworks</h2>
+        <ListOfItems />
+      </div>
     </main>
-  );
-};
+  )
+}
 
-export default Nfts;
+export default Artworks

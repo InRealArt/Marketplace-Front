@@ -1,0 +1,177 @@
+.applied-filters {
+  margin: 24px 0 0 0;
+  
+  &__separator {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0.2) 80%,
+      transparent 100%
+    );
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 70px;
+    margin-bottom: 20px;
+
+    @media (max-width: 768px) {
+      gap: 10px;
+      min-height: 65px;
+    }
+
+    @media (max-width: 480px) {
+      min-height: 60px;
+    }
+  }
+
+  &__placeholder {
+    height: 100%;
+    width: 100%;
+  }
+
+  &__label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+
+    @media (max-width: 480px) {
+      font-size: 13px;
+    }
+  }
+
+  &__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    @media (max-width: 480px) {
+      gap: 8px;
+    }
+  }
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: white;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+
+  @media (max-width: 480px) {
+    padding: 6px 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  &--clear-all {
+    background: rgba(255, 107, 107, 0.15);
+    border-color: rgba(255, 107, 107, 0.3);
+    color: #ff9999;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+
+    &:hover {
+      background: rgba(255, 107, 107, 0.25);
+      border-color: rgba(255, 107, 107, 0.5);
+      color: #ffaaaa;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+    }
+
+    span {
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 11px;
+
+      @media (max-width: 480px) {
+        font-size: 10px;
+      }
+    }
+  }
+
+  span {
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 480px) {
+      max-width: 150px;
+    }
+  }
+
+  &__remove {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    min-width: 20px;
+    min-height: 20px;
+    opacity: 0.7;
+
+    @media (max-width: 480px) {
+      min-width: 18px;
+      min-height: 18px;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    svg {
+      pointer-events: none;
+    }
+  }
+}
+
+// Animation d'apparition pour les badges
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filter-badge {
+  animation: fadeInUp 0.3s ease-out;
+} 

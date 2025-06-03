@@ -448,12 +448,15 @@ model Verification {
 }
 
 model AuthCertificate {
-  id        Int     @id(map: "AuthCertificate_pkey1") @default(autoincrement())
-  nftItemId Int
-  file      Bytes
-  NftItem   NftItem @relation(fields: [nftItemId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id             Int           @id @default(autoincrement())
+  nftItemId      Int?          @unique
+  nftItem        NftItem?      @relation(fields: [nftItemId], references: [id], onDelete: Cascade)
+  physicalItemId Int?          @unique
+  physicalItem   PhysicalItem? @relation(fields: [physicalItemId], references: [id], onDelete: Cascade)
+  file           Bytes
 
   @@index([nftItemId])
+  @@index([physicalItemId])
   @@schema("public")
 }
 
@@ -482,24 +485,37 @@ model BackofficeUser {
 }
 
 model Item {
-  id                 Int            @id(map: "Item_pkey1") @default(autoincrement())
+  id                 Int            @id @default(autoincrement())
   name               String
   description        String
   idUser             Int
+  user               BackofficeUser @relation(fields: [idUser], references: [id])
   tags               String[]       @default([])
-  slug               String?        @unique(map: "Item_slug_key1")
+  slug               String?        @unique
   metaDescription    String
   metaTitle          String
   mainImageUrl       String?
   secondaryImagesUrl String[]       @default([])
   realViewCount      Int            @default(0)
   fakeViewCount      Int            @default(0)
-  itemCategoryId     Int?
-  BackofficeUser     BackofficeUser @relation(fields: [idUser], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ItemCategory       ItemCategory?  @relation(fields: [itemCategoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  NftItem            NftItem?
-  PhysicalItem       PhysicalItem?
 
+  mediumId    Int?
+  medium      ArtworkMedium?    @relation(fields: [mediumId], references: [id])
+  styleId     Int?
+  style       ArtworkStyle?     @relation(fields: [styleId], references: [id])
+  techniqueId Int?
+  technique   ArtworkTechnique? @relation(fields: [techniqueId], references: [id])
+
+  // Relations
+  nftItem        NftItem?
+  physicalItem   PhysicalItem?
+  ItemCategory   ItemCategory? @relation(fields: [itemCategoryId], references: [id])
+  itemCategoryId Int?
+
+  @@index([idUser])
+  @@index([mediumId])
+  @@index([styleId])
+  @@index([techniqueId])
   @@schema("public")
 }
 
@@ -702,24 +718,31 @@ model OrderItem {
 }
 
 model Address {
-  id               Int                 @id @default(autoincrement())
-  firstName        String
-  lastName         String
-  streetAddress    String
-  postalCode       String
-  city             String
-  country          String
-  vatNumber        String?
-  customerId       String?
-  backofficeUserId Int?
-  name             String
-  countryCode      String
-  Order            marketplace_Order[]
-  User             User?               @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  BackofficeUser   BackofficeUser?     @relation(fields: [backofficeUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id            Int    @id @default(autoincrement())
+  name          String //Name for the adddress
+  // Champs minimums obligatoires pour facturation valide
+  firstName     String
+  lastName      String
+  streetAddress String
+  postalCode    String
+  city          String
+  country       String // Country name (for VAT rules)
+  countryCode   String // Country code (for VAT rules)
 
-  @@index([backofficeUserId], map: "idx_address_backofficeUserId")
-  @@index([customerId], map: "idx_address_customerId")
+  // Numéro TVA pour B2B (obligatoire si client professionnel)
+  vatNumber String?
+
+  // Relations Customer (adress d'un client dans la marketplace)
+  customer         User?           @relation(fields: [customerId], references: [id])
+  customerId       String?
+  // Relations BackofficeUser (adress d'un artiste dans le backoffice)
+  backofficeUser   BackofficeUser? @relation(fields: [backofficeUserId], references: [id], onDelete: Cascade)
+  backofficeUserId Int?
+
+  orders              marketplace_Order[]
+  physicalItems       PhysicalItem[]      @relation("PhysicalItemShipping")
+
+  @@map("Address")
   @@schema("public")
 }
 
@@ -731,29 +754,29 @@ model ThirdPartyAddress {
   @@schema("public")
 }
 
-model AuthCertificate_old {
-  id     Int   @id(map: "AuthCertificate_pkey") @default(autoincrement())
-  idItem Int
-  file   Bytes
+// model AuthCertificate_old {
+//   id     Int   @id(map: "AuthCertificate_pkey") @default(autoincrement())
+//   idItem Int
+//   file   Bytes
 
-  @@index([idItem], map: "AuthCertificate_idItem_idx")
-  @@schema("public")
-}
+//   @@index([idItem], map: "AuthCertificate_idItem_idx")
+//   @@schema("public")
+// }
 
 model NftItem {
-  id              Int               @id @default(autoincrement())
-  itemId          Int               @unique
+  id              Int              @id @default(autoincrement())
+  itemId          Int              @unique
+  item            Item             @relation(fields: [itemId], references: [id], onDelete: Cascade)
   idNftResource   Int?
-  price           Int               @default(0)
-  status          NftItemStatus     @default(created)
-  InvoiceItem     InvoiceItem[]
-  OrderItem       OrderItem[]
-  AuthCertificate AuthCertificate[]
-  NftResource     NftResource?      @relation(fields: [idNftResource], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Item            Item              @relation(fields: [itemId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  nftResource     NftResource?     @relation(fields: [idNftResource], references: [id])
+  price           Int              @default(0)
+  status          NftItemStatus    @default(created)
+  authCertificate AuthCertificate?
+  orderItems      OrderItem[]
+  invoiceItems    InvoiceItem[]
 
-  @@index([idNftResource])
   @@index([itemId])
+  @@index([idNftResource])
   @@schema("public")
 }
 
@@ -798,28 +821,31 @@ model Order_old {
 }
 
 model PhysicalItem {
-  id             Int                @id @default(autoincrement())
-  itemId         Int                @unique
-  Item           Item               @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  price          Int                @default(0)
-  status         PhysicalItemStatus @default(created)
-  stockQty       Int                @default(0)
-  initialQty     Int                @default(1)
-  categoryId     Int?
-  category       ItemCategory?      @relation(fields: [categoryId], references: [id])
-  height         Decimal?           @db.Decimal(10, 2)
-  width          Decimal?           @db.Decimal(10, 2)
-  weight         Decimal?           @db.Decimal(10, 2)
-  unitHeight     String?
-  unitWidth      String?
-  unitWeight     String?
-  creationYear   Int?
-  artworkSupport String?
-  orderItems     OrderItem[]
-  invoiceItems   InvoiceItem[]
+  id                Int                @id @default(autoincrement())
+  itemId            Int                @unique
+  item              Item               @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  price             Int                @default(0)
+  status            PhysicalItemStatus @default(created)
+  stockQty          Int                @default(0)
+  initialQty        Int                @default(1)
+  categoryId        Int?
+  category          ItemCategory?      @relation(fields: [categoryId], references: [id])
+  height            Decimal?           @db.Decimal(10, 2)
+  width             Decimal?           @db.Decimal(10, 2)
+  weight            Decimal?           @db.Decimal(10, 2)
+  unitHeight        String?
+  unitWidth         String?
+  unitWeight        String?
+  creationYear      Int?
+  shippingAddressId Int?
+  shippingAddress   Address?           @relation("PhysicalItemShipping", fields: [shippingAddressId], references: [id])
+  orderItems        OrderItem[]
+  invoiceItems      InvoiceItem[]
+  authCertificate   AuthCertificate?
 
   @@index([itemId])
   @@index([categoryId])
+  @@index([shippingAddressId])
   @@schema("public")
 }
 
@@ -1018,6 +1044,30 @@ enum PhysicalItemStatus {
   pending
   listed
   sold
+
+  @@schema("public")
+}
+
+model ArtworkMedium {
+  id    Int    @id @default(autoincrement())
+  name  String
+  items Item[]
+
+  @@schema("public")
+}
+
+model ArtworkStyle {
+  id    Int    @id @default(autoincrement())
+  name  String
+  items Item[]
+
+  @@schema("public")
+}
+
+model ArtworkTechnique {
+  id    Int    @id @default(autoincrement())
+  name  String
+  items Item[]
 
   @@schema("public")
 }

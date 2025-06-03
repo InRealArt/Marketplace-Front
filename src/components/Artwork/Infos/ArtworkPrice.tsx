@@ -47,7 +47,7 @@ const ArtworkPrice = ({ nft }: ArtworkPriceProps) => {
     const result = await addToCart(nft, activeOption);
 
     if (result.success) {
-      toast.success(`${nft.Item.name} added to cart`);
+      toast.success(`${nft.item.name} added to cart`);
     } else if (result.error) {
       toast.error(result.error);
     }
@@ -93,7 +93,7 @@ const ArtworkPrice = ({ nft }: ArtworkPriceProps) => {
         {nft.stockQty > 0 ? <>
           <Button
             text='Buy now'
-            link={`/artworks/${nft.Item.slug}`}
+            link={`/artworks/${nft.item.slug}`}
             additionalClassName='gold'
             className='flex-1'
           />

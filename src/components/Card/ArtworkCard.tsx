@@ -10,9 +10,9 @@ interface ArtworkCardProps {
 }
 
 const ArtworkCard = ({ artwork }: ArtworkCardProps) => {
-  const { Item, price, stockQty} = artwork;
+  const { item, price, stockQty} = artwork;
 
-  const { name, slug, mainImageUrl,  } = Item;
+  const { name, slug, mainImageUrl,  } = item;
 
   return (
     <div className="flex flex-col items-center relative w-full mt-10 h-auto p-2.5 rounded-[17px] sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-40px)]">

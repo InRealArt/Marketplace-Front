@@ -25,7 +25,7 @@ const Artist = () => {
     fetchArtists()
   }, [fetchArtists])
 
-  const imgUri = nftsByArtist[0]?.mainImageUrl || "";
+  const imgUri = nftsByArtist[0]?.item.mainImageUrl || "";
 
   const navigationInfos = [
     { tab: 'All Artworks', list: nftsByArtist, context: 'nft' },

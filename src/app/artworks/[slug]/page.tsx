@@ -9,7 +9,7 @@ import { useArtistsStore } from '@/store/artistsStore';
 import { ArtistType, NftSlug } from '@/types';
 
 const NftPage = () => {
-  const { slug } = useParams();
+  const { slug } = useParams() as { slug: string };
   const { artists } = useArtistsStore();
   const { getItemBySlug, fetchItems } = useItemsStore();
 
@@ -33,7 +33,7 @@ const NftPage = () => {
         nft={nft}
         artist={artistMock}
       />
-      <ArtworkTags tags={nft.Item.tags} />
+      <ArtworkTags tags={nft.item.tags} />
       <ArtistsListSlider artists={artists} title="Associated Artists" />
     </main>
   );
