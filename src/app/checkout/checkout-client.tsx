@@ -4,19 +4,36 @@ import { useState, useEffect } from 'react'
 import { CheckoutForm } from '@/components/stripe/CheckoutForm'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/hooks/useCart'
+import { useShipping } from '@/hooks/useShipping'
 import { VAT_RATE } from '@/lib/constants'
 import { PriceOption, PurchaseType, ItemPhysicalType } from '@/types'
 import { CartItem } from '@/store/cartStore'
+import { ShippingAddressForm } from '@/components/checkout/ShippingAddressForm'
+import { ShippingOptions } from '@/components/checkout/ShippingOptions'
 
 export function CheckoutClient() {
   const [clientSecret, setClientSecret] = useState<string>('')
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingPayment, setIsLoadingPayment] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const { getCartTotal, items } = useCart()
+  
+  // Intégration du hook de livraison
+  const {
+    isLoading: isLoadingShipping,
+    error: shippingError,
+    shippingOptions,
+    selectedShipping,
+    hasPhysicalItems,
+    calculateShipping,
+    selectShippingOption,
+    getShippingCost
+  } = useShipping()
 
-  // Calcul du montant total TTC basé sur le panier de l'utilisateur
-  const totalHT: number = getCartTotal()
+  // Calcul du montant total TTC basé sur le panier + frais de livraison
+  const subtotalHT: number = getCartTotal()
+  const shippingCost = getShippingCost()
+  const totalHT = subtotalHT + shippingCost
   const tva = parseFloat((totalHT * VAT_RATE).toFixed(2))
   const totalTTC = parseFloat((totalHT + tva).toFixed(2))
   
@@ -27,12 +44,18 @@ export function CheckoutClient() {
     // Fonction pour créer l'intention de paiement
     const createPaymentIntent = async () => {
       try {
-        setIsLoading(true)
+        setIsLoadingPayment(true)
         setError(null)
 
         // Vérifier si le panier est vide
         if (items.length === 0) {
           router.push('/')
+          return
+        }
+
+        // Pour les articles physiques, attendre qu'une option de livraison soit sélectionnée
+        if (hasPhysicalItems && !selectedShipping) {
+          setIsLoadingPayment(false)
           return
         }
 
@@ -45,11 +68,13 @@ export function CheckoutClient() {
             amount: amountInCents,
             currency: 'eur',
             metadata: {
-              order_id: `order-${Date.now()}`, // Génère un ID de commande temporaire
+              order_id: `order-${Date.now()}`,
               items: JSON.stringify(items.map((item: CartItem) => ({
                 nftId: item.nft.id,
                 purchaseType: item.purchaseType
-              })))
+              }))),
+              shipping_cost: shippingCost.toString(),
+              shipping_service: selectedShipping?.serviceName || 'none'
             },
           }),
         })
@@ -64,15 +89,20 @@ export function CheckoutClient() {
         console.error('Erreur:', err)
         setError('An error occurred. Please try again later.')
       } finally {
-        setIsLoading(false)
+        setIsLoadingPayment(false)
       }
     }
 
     createPaymentIntent()
-  }, [amountInCents, items, router])
+  }, [amountInCents, items, router, hasPhysicalItems, selectedShipping, shippingCost])
+
+  // Gestionnaire pour le changement d'adresse de livraison
+  const handleAddressChange = (address: any) => {
+    calculateShipping(address)
+  }
 
   // Affichage de l'état de chargement
-  if (isLoading) {
+  if (isLoadingPayment && (!hasPhysicalItems || selectedShipping)) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
@@ -115,26 +145,27 @@ export function CheckoutClient() {
   // Récapitulatif de la commande et formulaire de paiement
   return (
     <div className="space-y-8">
+      {/* Récapitulatif de la commande */}
       <div className="border-b pb-4">
-        {/* <h3 className="text-lg font-medium mb-4 text-gray-900">Order summary</h3> */}
-        
         {items.map((item: CartItem) => (
           <div key={`${item.nft.id}-${item.purchaseType}`} className="flex justify-between mb-2 text-gray-800">
             <span className="font-medium">
               {item.nft.Item.name} ({item.purchaseType})
             </span>
-            {/* <span>
-              {item.purchaseType === PriceOption.PHYSICAL && `${item.nft.Item.pricePhysicalBeforeTax} €`}
-              {item.purchaseType === PriceOption.NFT && `${item.nft.Item.priceNftBeforeTax} €`}
-              {item.purchaseType === PriceOption.NFT_PLUS_PHYSICAL && `${item.nft.Item.priceNftPlusPhysicalBeforeTax} €`}
-            </span> */}
           </div>
         ))}
         
         <div className="flex justify-between text-gray-800 mt-2 pt-2 border-t">
           <span>Subtotal (excl. VAT)</span>
-          <span>{totalHT.toFixed(2)} €</span>
+          <span>{subtotalHT.toFixed(2)} €</span>
         </div>
+        
+        {hasPhysicalItems && (
+          <div className="flex justify-between text-gray-800">
+            <span>Shipping</span>
+            <span>{shippingCost.toFixed(2)} €</span>
+          </div>
+        )}
         
         <div className="flex justify-between text-gray-800">
           <span>VAT ({(VAT_RATE * 100).toFixed(0)}%)</span>
@@ -147,10 +178,39 @@ export function CheckoutClient() {
         </div>
       </div>
 
-      <div>
-        <h3 className="text-lg font-medium mb-4 text-gray-900">Payment method</h3>
-        <CheckoutForm clientSecret={clientSecret} />
-      </div>
+      {/* Section livraison (si articles physiques) */}
+      {hasPhysicalItems && (
+        <div className="space-y-6">
+          <ShippingAddressForm
+            onAddressChange={handleAddressChange}
+            isLoading={isLoadingShipping}
+          />
+          
+          <ShippingOptions
+            options={shippingOptions}
+            onSelectOption={selectShippingOption}
+            isLoading={isLoadingShipping}
+            error={shippingError}
+          />
+        </div>
+      )}
+
+      {/* Formulaire de paiement */}
+      {(!hasPhysicalItems || selectedShipping) && clientSecret && (
+        <div>
+          <h3 className="text-lg font-medium mb-4 text-gray-900">Payment method</h3>
+          <CheckoutForm clientSecret={clientSecret} />
+        </div>
+      )}
+
+      {/* Message d'attente pour la sélection de livraison */}
+      {hasPhysicalItems && !selectedShipping && (
+        <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+          <p className="text-blue-800">
+            Please select a shipping option to continue to payment.
+          </p>
+        </div>
+      )}
     </div>
   )
 } 

@@ -391,6 +391,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Order         marketplace_Order[]
+  Address       Address[]
 
   @@map("User")
   @@schema("auth")
@@ -472,6 +473,7 @@ model BackofficeUser {
   artistId         Int?
   Artist           Artist?              @relation(fields: [artistId], references: [id])
   Item             Item[]
+  Address          Address[]
 
   @@index([artistId])
   @@index([email], map: "shopifyUser_email_idx")
@@ -713,6 +715,8 @@ model Address {
   name             String
   countryCode      String
   Order            marketplace_Order[]
+  User             User?               @relation(fields: [customerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  BackofficeUser   BackofficeUser?     @relation(fields: [backofficeUserId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([backofficeUserId], map: "idx_address_backofficeUserId")
   @@index([customerId], map: "idx_address_customerId")
