@@ -38,7 +38,7 @@ const ArtworkMainImage = ({ nft, currentImageIndex, setCurrentImageIndex, images
   const [showZoomGallery, setShowZoomGallery] = useState(false);
 
   return (
-    <div className="w-full md:w-[calc(100%-100px)] h-full ">
+    <div className="w-full lg:w-[calc(100%-100px)] h-full ">
       <Swiper
         navigation={true}
         modules={[Navigation]}

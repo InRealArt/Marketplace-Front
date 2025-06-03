@@ -15,7 +15,7 @@ interface ArtworkPresentationProps {
 const ArtworkPresentation = ({ nft, artist }: ArtworkPresentationProps) => {  
   
   return (
-    <section className="flex flex-col md:flex-row gap-[20px]">
+    <section className="flex flex-col lg:flex-row gap-[20px] relative">
       <ArtworkGallery nft={nft} />
       <ArtworkInfos nft={nft} artist={artist} />
     </section>

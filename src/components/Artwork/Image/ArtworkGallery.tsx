@@ -42,7 +42,7 @@ const ArtworkGallery = ({ nft }: ArtworkGalleryProps) => {
   };
 
   return (
-    <div className="w-full md:w-[60%] relative rounded-[10px] flex flex-col md:flex-row gap-2 h-auto md:h-[75vh]">
+    <div className="lg:sticky lg:top-[85px] w-full lg:w-[60%] relative rounded-[10px] flex flex-col lg:flex-row gap-2 h-auto lg:h-[75vh]">
       {/* Thumbnail Vertical Slider */}
       <ArtworkThumbnailSlider
         nft={nft}

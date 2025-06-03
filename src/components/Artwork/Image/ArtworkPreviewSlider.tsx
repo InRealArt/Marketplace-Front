@@ -62,12 +62,12 @@ const ArtworkThumbnailSlider = ({ nft, currentImageIndex, setCurrentImageIndex, 
   return (
     <div
       ref={sliderRef}
-      className="h-[100px] md:h-full md:w-[100px] overflow-scroll mt-2 max-h-[75vh] md:flex md:flex-col gap-2 items-center pl-2 md:pl-0 pt-2 whitespace-nowrap no-scrollbar"
+      className="h-[100px] lg:h-full lg:w-[100px] overflow-scroll mt-2 max-h-[75vh] lg:flex lg:flex-col gap-2 items-center pl-2 lg:pl-0 pt-2 whitespace-nowrap no-scrollbar"
     >
       {images.map((img, index) => (
         <div
           key={`thumbnail-${index}`}
-          className={`cursor-pointer inline-block mr-2 md:mr-0`}
+          className={`cursor-pointer inline-block mr-2 lg:mr-0`}
           onClick={() => setCurrentImageIndex(index)}
         >
           <Image
