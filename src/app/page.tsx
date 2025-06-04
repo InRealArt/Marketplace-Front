@@ -22,7 +22,7 @@ const Landing = () => {
     <main className="Landing">
       <Intro />
       <ArtistsListSlider artists={artists} title="Artists of the Moment" />
-      <ListOfFeaturedArtworks nav={[{ tab: 'Popular Artworks ', list: featuredArtworks, context: 'artwork' }]} viewAllLink="/artwork" />
+      <ListOfFeaturedArtworks nav={[{ tab: 'Popular Artworks ', list: featuredArtworks, context: 'artwork' }]} viewAllLink="/artworks" />
       <ContactUs />
     </main>
   );
