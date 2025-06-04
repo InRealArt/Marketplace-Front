@@ -20,6 +20,7 @@ model Artist {
   isGallery       Boolean          @default(false)
   backgroundImage String?
   artworkStyle    String?
+  slug            String?          @unique
   BackofficeUser  BackofficeUser[]
   collections     Collection[]
   NftCollection   NftCollection[]
@@ -739,8 +740,8 @@ model Address {
   backofficeUser   BackofficeUser? @relation(fields: [backofficeUserId], references: [id], onDelete: Cascade)
   backofficeUserId Int?
 
-  orders              marketplace_Order[]
-  physicalItems       PhysicalItem[]      @relation("PhysicalItemShipping")
+  orders        marketplace_Order[]
+  physicalItems PhysicalItem[]      @relation("PhysicalItemShipping")
 
   @@map("Address")
   @@schema("public")

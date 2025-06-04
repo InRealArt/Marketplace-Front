@@ -3,6 +3,7 @@ import { getItemsByStatus, getItemsByStatusAndStock, getAvailableItems } from '@
 import { ArtistId, CollectionId, NftId, NftSlug, ItemPhysicalType, ItemWithRelations } from '@/types'
 import { PhysicalItemStatus } from '@prisma/client'
 import { useBackofficeUserStore } from './backofficeUserStore'
+import { useArtistsStore } from './artistsStore'
 
 interface FilterState {
     priceRange: [number, number]
@@ -26,6 +27,7 @@ interface NftsState {
     getNftById: (id: NftId) => ItemPhysicalType | undefined
     getNftsByCollection: (collectionId: CollectionId) => ItemPhysicalType[]
     getItemsByArtist: (artistId: ArtistId) => ItemPhysicalType[]
+    getItemsByArtistSlug: (artistSlug: string) => ItemPhysicalType[]
     getIraNfts: () => ItemPhysicalType[]
     getCommunautaryNfts: () => ItemPhysicalType[]
 
@@ -158,6 +160,18 @@ export const useItemsStore = create<NftsState>((set, get) => ({
         const userNfts = get().nfts.filter(nft => nft.item.idUser === backofficeUser.id);
 
         return userNfts;
+    },
+    getItemsByArtistSlug: (artistSlug: string) => {
+        // Step 1: Get the artist by slug
+        const artistsStore = useArtistsStore.getState();
+        const artist = artistsStore.getArtistBySlug(artistSlug);
+
+        if (!artist) {
+            return [];
+        }
+
+        // Step 2: Get items by artist ID
+        return get().getItemsByArtist(artist.id);
     },
     getIraNfts: () => {
         return get().nfts

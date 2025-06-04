@@ -15,4 +15,13 @@ async function fetchArtistById(artistId: number) {
     return artists
 }
 
-export { fetchArtists, fetchArtistById }
+async function fetchArtistBySlug(slug: string) {
+    const artist = await prisma.artist.findUnique({
+        where: {
+            slug: slug
+        }
+    })
+    return artist
+}
+
+export { fetchArtists, fetchArtistById, fetchArtistBySlug }

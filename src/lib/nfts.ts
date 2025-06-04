@@ -70,7 +70,12 @@ async function getAvailableItems() {
             nftItem: true,
             medium: true,
             style: true,
-            technique: true
+            technique: true,
+            user: {
+                include: {
+                    Artist: true
+                }
+            }
         },
         orderBy: [
             {

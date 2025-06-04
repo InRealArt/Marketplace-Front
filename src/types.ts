@@ -42,6 +42,18 @@ export type ItemWithRelations = Item & {
   medium: ArtworkMedium | null
   style: ArtworkStyle | null
   technique: ArtworkTechnique | null
+  user: {
+    id: number
+    firstName: string | null
+    lastName: string | null
+    Artist: {
+      id: number
+      name: string
+      surname: string
+      pseudo: string
+      slug: string | null
+    } | null
+  }
 }
 
 export interface OrderType {

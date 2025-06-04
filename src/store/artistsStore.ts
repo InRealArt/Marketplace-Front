@@ -9,6 +9,7 @@ interface ArtistsState {
     error: Error | null
     fetchArtists: () => Promise<void>
     getArtistById: (id: number) => ArtistType | undefined
+    getArtistBySlug: (slug: string) => ArtistType | undefined
 }
 
 export const useArtistsStore = create<ArtistsState>((set, get) => ({
@@ -36,5 +37,9 @@ export const useArtistsStore = create<ArtistsState>((set, get) => ({
     getArtistById: (id: number) => {
         const { artists, galleries } = get()
         return [...artists].concat([...galleries]).find(artist => artist.id === id)
+    },
+    getArtistBySlug: (slug: string) => {
+        const { artists, galleries } = get()
+        return [...artists].concat([...galleries]).find(artist => artist.slug === slug)
     }
 })) 

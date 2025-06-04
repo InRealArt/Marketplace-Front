@@ -74,7 +74,7 @@ const AppliedFilters = () => {
       <div className="applied-filters__content">
         {hasActiveFilters ? (
           <>
-            <span className="applied-filters__label">Filtres appliqués :</span>
+            <span className="applied-filters__label">Applied filters :</span>
             
             <div className="applied-filters__badges">
               {/* Badge Prix */}
@@ -147,7 +147,7 @@ const AppliedFilters = () => {
                 onClick={clearFilters}
                 className="filter-badge filter-badge--clear-all"
               >
-                <span>Tout effacer</span>
+                <span>Clear all</span>
                 <X size={14} />
               </button>
             </div>

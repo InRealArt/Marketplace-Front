@@ -9,7 +9,7 @@ interface ArtistCardProps {
 }
 
 const ArtistCard = ({ artist }: ArtistCardProps) => {
-  const { id, name, imageUrl, backgroundImage } = artist;
+  const { id, name, imageUrl, backgroundImage, slug } = artist;
   
   const { getItemsByArtist } = useItemsStore();
   const nfts = getItemsByArtist(id);
@@ -19,7 +19,7 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
 
   return (
     <div className="relative w-card-1col sm:w-card-2col md:w-card-3col lg:w-card-4col mt-10 h-auto rounded-[17px] bg-white">
-      <Link href={`/artists/${id}`}>
+      <Link href={`/artists/${slug || id}`}>
         {background ? (
           <div
             className="relative w-auto h-[180px] md:h-[150px] lg:h-[185px] rounded-t-[17px] bg-no-repeat bg-cover bg-center"
