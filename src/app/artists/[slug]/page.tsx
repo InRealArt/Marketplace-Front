@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'next/navigation'
 
 import ArtistHeader from './subComponents/ArtistHeader'
-import ListOfNfts from '@/components/List/ListOfNfts'
+import ListOfNfts from '@/components/List/ListOfFeaturedArtworks'
 import { ListNavigationType } from '@/types'
 import { useArtistsStore } from '@/store/artistsStore'
 import { useCollectionsStore } from '@/store/collectionsStore'
@@ -64,7 +64,7 @@ const Artist = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Artist not found</h1>
-          <p>The artist with the slug "{slug}" does not exist.</p>
+          <p>The artist with the slug &quote;{slug}&quote; does not exist.</p>
           <p className="mt-2">
             <a href="/artists" className="text-blue-500 hover:underline">
               Back to artists

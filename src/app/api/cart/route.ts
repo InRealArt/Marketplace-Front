@@ -3,7 +3,7 @@ import { getUserCart, upsertUserCart } from '@/lib/cart';
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId, items } = await request.json();
+    const { userId, items, totalPrice } = await request.json();
 
     if (!userId) {
       return NextResponse.json(
@@ -12,8 +12,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Calculate totalPrice if not provided
+    const calculatedTotalPrice = totalPrice || items.reduce((total: number, item: any) => {
+      return total + (item.price || 0) * (item.quantity || 1);
+    }, 0);
+
     // Update cart in the database using our server function
-    const cart = await upsertUserCart(userId, items);
+    const cart = await upsertUserCart(userId, items, calculatedTotalPrice);
 
     return NextResponse.json({ success: true, cart });
   } catch (error) {

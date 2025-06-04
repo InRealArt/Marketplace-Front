@@ -266,7 +266,7 @@ export function useCart() {
     const itemToRemove = items.find(
       item => item.nft.id === nftId && item.purchaseType === purchaseType
     );
-    const itemName = itemToRemove?.nft.Item.name || 'Item';
+    const itemName = itemToRemove?.nft.item.name || 'Item';
 
     // Remove item from local state
     removeItem(nftId, purchaseType);

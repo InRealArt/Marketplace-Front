@@ -14,7 +14,7 @@ const ArtistCard = ({ artist }: ArtistCardProps) => {
   const { getItemsByArtist } = useItemsStore();
   const nfts = getItemsByArtist(id);
 
-  const imgUri = nfts[0]?.mainImageUrl;
+  const imgUri = nfts[0]?.item.mainImageUrl;
   const background = imgUri ?? backgroundImage;
 
   return (

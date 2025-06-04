@@ -45,7 +45,7 @@ export default function ResetPasswordPage() {
 
   useEffect(() => {
     // Get token from URL
-    const urlToken = searchParams.get('token');
+    const urlToken = searchParams?.get('token');
     if (urlToken) {
       setToken(urlToken);
     } else {

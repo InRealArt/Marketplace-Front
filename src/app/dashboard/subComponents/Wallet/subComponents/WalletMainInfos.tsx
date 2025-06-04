@@ -19,7 +19,12 @@ const WalletTransactionHistory = ({ address, setShowTransactions }: WalletTransa
   useEffect(() => {
     const fetchTransactions = async () => {
       const data = await fetchTransactionsByAddress(address);
-      setTransactions(data);
+      // Transform data to match TransactionData type
+      const transformedData = data.map((transaction: any) => ({
+        ...transaction,
+        contractAddress: transaction.contractAddress as `0x${string}` | null
+      }));
+      setTransactions(transformedData);
     };
     fetchTransactions();
   }, [address]);
@@ -31,11 +36,11 @@ const WalletTransactionHistory = ({ address, setShowTransactions }: WalletTransa
         <h2>Transaction History</h2>
       </div>
       <div className="WalletTransactionHistory__list">
-        {transactions.map((transaction) => (
-          <div key={transaction.id} className="WalletTransactionHistory__item">
+        {transactions.map((transaction, index) => (
+          <div key={index} className="WalletTransactionHistory__item">
             <p>{transaction.functionName}</p>
-            <p>{transaction.price} €</p>
-            <p>{new Date(transaction.created_at).toLocaleDateString()}</p>
+            <p>{transaction.price?.toString()} €</p>
+            <p>{transaction.created_at ? new Date(transaction.created_at).toLocaleDateString() : 'N/A'}</p>
           </div>
         ))}
       </div>
@@ -50,8 +55,8 @@ const WalletMainInfos = () => {
   const [showTransactions, setShowTransactions] = useState(false);
   
   const nfts = getCommunautaryNfts();
-  const nftsOwned = nfts.filter(nft => nft.owner === address);
-  const nftsListedOwned = nfts.filter(nft => (nft.previousOwner === address && nft.status == ResourceNftStatuses.LISTED));
+  const nftsOwned = nfts.filter(nft => (nft as any).owner === address);
+  const nftsListedOwned = nfts.filter(nft => ((nft as any).previousOwner === address && (nft as any).status === 'LISTED'));
   const nftsOwnedTotal = [...nftsOwned, ...nftsListedOwned];
 
   if (showTransactions && address) return <WalletTransactionHistory address={address} setShowTransactions={setShowTransactions} />;

@@ -30,6 +30,7 @@ interface NftsState {
     getItemsByArtistSlug: (artistSlug: string) => ItemPhysicalType[]
     getIraNfts: () => ItemPhysicalType[]
     getCommunautaryNfts: () => ItemPhysicalType[]
+    getFeaturedItems: () => ItemPhysicalType[]
 
     // Nouvelles actions pour les items disponibles
     fetchAvailableItems: () => Promise<void>
@@ -61,8 +62,28 @@ export const useItemsStore = create<NftsState>((set, get) => ({
 
         try {
             set({ isLoading: true, error: null })
-            const data = await await getItemsByStatusAndStock([PhysicalItemStatus.listed], 1)
-            set({ nfts: data, isLoading: false })
+            const data = await getAvailableItems()
+            // Transformer les ItemWithRelations en ItemPhysicalType pour maintenir la compatibilité
+            const transformedData = data.map(item => {
+                if (item.physicalItem) {
+                    return {
+                        ...item.physicalItem,
+                        item: item
+                    }
+                } else if (item.nftItem) {
+                    // Créer un objet compatible avec ItemPhysicalType pour les NFT
+                    return {
+                        id: item.nftItem.id,
+                        price: item.nftItem.price,
+                        stockQty: 1, // Les NFT ont toujours une quantité de 1
+                        status: 'listed' as any, // Convertir le statut NFT vers le format attendu
+                        item: item
+                    }
+                }
+                return null
+            }).filter(Boolean) as ItemPhysicalType[]
+
+            set({ nfts: transformedData, isLoading: false })
         } catch (error) {
             set({ isLoading: false, error: error as Error })
         }
@@ -178,5 +199,8 @@ export const useItemsStore = create<NftsState>((set, get) => ({
     },
     getCommunautaryNfts: () => {
         return get().nfts.filter(nft => nft.status === PhysicalItemStatus.created)
+    },
+    getFeaturedItems: () => {
+        return get().nfts.filter(nft => nft.item.featured === true)
     }
 })) 

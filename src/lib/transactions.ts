@@ -33,7 +33,7 @@ async function fetchTransactionsByAddress(address: Address) {
     return transactions
 }
 
-async function fetchTransactionsByNft(tokenId: ItemPhysicalType['tokenId'], contractAddress: CollectionType['contractAddress']) {
+async function fetchTransactionsByNft(tokenId: number, contractAddress: CollectionType['contractAddress']) {
     const transactions = await prisma.transaction.findMany({
         where: {
             tokenId,

@@ -26,7 +26,7 @@ interface ArtworkThumbnailSliderProps {
 const SLIDER_HEIGHT = 88;
 
 const ArtworkThumbnailSlider = ({ nft, currentImageIndex, setCurrentImageIndex, images }: ArtworkThumbnailSliderProps) => {
-  const { name } = nft.Item || {};
+  const { name } = nft.item || {};
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   

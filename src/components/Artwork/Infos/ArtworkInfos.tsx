@@ -19,7 +19,7 @@ interface ArtworkInfosProps {
 }
 
 const ArtworkInfos = ({ nft, artist }: ArtworkInfosProps) => {
-  const { name, description } = nft.Item || {};
+  const { name, description } = nft.item || {};
   const [showDescriptionModal, setShowDescriptionModal] = useState<boolean>(false);
   
   return (      

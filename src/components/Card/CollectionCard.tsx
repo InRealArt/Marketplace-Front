@@ -11,7 +11,7 @@ const CollectionCard = ({ collection }: CollectionCardProps) => {
   const { id, symbol } = collection;
   const { getNftsByCollection } = useItemsStore();
   const nfts = getNftsByCollection(id)
-  const imgUri = nfts[0]?.mainImageUrl
+  const imgUri = nfts[0]?.item.mainImageUrl
 
   return (
     <div className="relative w-full mt-10 h-auto rounded-[17px] bg-white sm:w-[calc(50%-10px)] md:w-[calc(33.333%-20px)] lg:w-[calc(25%-20px)]">

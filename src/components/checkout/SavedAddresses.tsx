@@ -23,8 +23,8 @@ export function SavedAddresses({
 }: SavedAddressesProps) {
   const [expandedAddressId, setExpandedAddressId] = useState<number | null>(null)
 
-  const handleSelectAddress = (address: SavedAddress) => {
-    const shippingAddress = savedAddressToShippingAddress(address)
+  const handleSelectAddress = async (address: SavedAddress) => {
+    const shippingAddress = await savedAddressToShippingAddress(address)
     onSelectAddress(shippingAddress)
   }
 

@@ -23,7 +23,7 @@ interface ArtworkGalleryProps {
 }
 
 const ArtworkGallery = ({ nft }: ArtworkGalleryProps) => {
-  const { mainImageUrl, secondaryImagesUrl } = nft.Item || {};
+  const { mainImageUrl, secondaryImagesUrl } = nft.item || {};
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const mainSwiperRef = useRef<any>(null);
 

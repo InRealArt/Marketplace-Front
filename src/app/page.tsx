@@ -2,24 +2,27 @@
 import ContactUs from '@/components/Home/ContactUs';
 import Intro from '@/components/Home/Intro';
 import ArtistsListSlider from '@/components/List/ArtistsListSlider';
-import ListOfNfts from '@/components/List/ListOfNfts';
+import ListOfFeaturedArtworks from '@/components/List/ListOfFeaturedArtworks';
 import { useArtistsStore } from '@/store/artistsStore';
 import { useItemsStore } from '@/store/itemsStore';
 import { useEffect } from 'react';
 
 const Landing = () => {
   const { artists, fetchArtists } = useArtistsStore();
-  const { nfts, fetchItems } = useItemsStore();
+  const { fetchItems, getFeaturedItems } = useItemsStore();
+  
   useEffect(() => {
       fetchItems();
       fetchArtists();
   }, []);
 
+  const featuredArtworks = getFeaturedItems();
+
   return (
     <main className="Landing">
       <Intro />
       <ArtistsListSlider artists={artists} title="Artists of the Moment" />
-      <ListOfNfts nav={[{ tab: 'Popular Artworks ', list: nfts, context: 'nft' }]} viewAllLink="/artwork" />
+      <ListOfFeaturedArtworks nav={[{ tab: 'Popular Artworks ', list: featuredArtworks, context: 'artwork' }]} viewAllLink="/artwork" />
       <ContactUs />
     </main>
   );

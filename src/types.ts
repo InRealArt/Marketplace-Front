@@ -26,7 +26,7 @@ export interface CollectionType {
   artistId: ArtistId
   symbol: string
   addressAdmin: string
-  contractAddress: string
+  contractAddress: string | null
 }
 
 export type NftId = number
@@ -71,7 +71,7 @@ export enum ModalType {
 
 export type ListType = ItemPhysicalType[] | CollectionType[] | ArtistType[]
 
-export interface ListNavigationType { tab: string; list: ListType; context: 'artist' | 'collection' | 'nft' }
+export interface ListNavigationType { tab: string; list: ListType; context: 'artist' | 'collection' | 'artwork' }
 
 
 export enum PriceOption {

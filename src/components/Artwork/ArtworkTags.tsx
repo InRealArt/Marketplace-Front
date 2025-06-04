@@ -2,7 +2,7 @@ import React from 'react';
 import { ItemPhysicalType } from '@/types';
 
 interface ArtworkTagsProps {
-  tags?: ItemPhysicalType['Item']['tags'];
+  tags?: ItemPhysicalType['item']['tags'];
 }
 const ArtworkTags = ({ tags }: ArtworkTagsProps) => {
   return (

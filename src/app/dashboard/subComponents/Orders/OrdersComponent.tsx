@@ -64,7 +64,7 @@ const OrdersComponent = () => {
     const fetchOrdersData = async () => {
       if (isAuthenticated && sessionData?.user?.id) {
         const orders = await fetchOrdersByUser(sessionData.user.id)
-        const ordersFormatted = orders.map(order => ({ ...order, id: Number(order.id), created_at: order.created_at?.toDateString() }))
+        const ordersFormatted = orders.map((order: any) => ({ ...order, id: Number(order.id), created_at: order.created_at?.toDateString() }))
         dispatch(setOrders(ordersFormatted));
       }
     };

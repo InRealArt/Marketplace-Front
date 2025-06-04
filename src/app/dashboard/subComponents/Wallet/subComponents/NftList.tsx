@@ -16,14 +16,14 @@ const NftItem = ({ nft }: NftItemProps) => {
       <Image
         priority={true}
         className="WalletNftList__item__image"
-        alt={nft.name || ''}
+        alt={nft.item?.name || ''}
         width={100}
         height={100}
-        src={getImageFromUri(nft.mainImageUrl || '')}
+        src={getImageFromUri(nft.item?.mainImageUrl || '')}
       />
       <div className="WalletNftList__item__infos">
-        <h3>{nft.name}</h3>
-        <p>{nft.priceNftBeforeTax} €</p>
+        <h3>{nft.item?.name}</h3>
+        <p>{(nft as any).priceNftBeforeTax} €</p>
       </div>
     </Link>
   );
@@ -33,7 +33,7 @@ const NftList = () => {
   const { address } = useAccount();
   const { getCommunautaryNfts, fetchItems } = useItemsStore();
   const communautaryNfts = getCommunautaryNfts();
-  const nftsOwned = communautaryNfts.filter((nft: ItemPhysicalType) => (nft.owner === address || nft.previousOwner === address));
+  const nftsOwned = communautaryNfts.filter((nft: ItemPhysicalType) => ((nft as any).owner === address || (nft as any).previousOwner === address));
 
   useEffect(() => {
     fetchItems();

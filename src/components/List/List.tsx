@@ -40,8 +40,8 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
     }
   }, [nav, navActive])
 
-  // Si NFT, filtrer pour OnlyToBuy
-  const listOfNftsToArtworksOrNot = navActiveItem?.context === 'nft' && onlyToBuy
+  // Si Artwork, filtrer pour OnlyToBuy
+  const listOfNftsToArtworksOrNot = navActiveItem?.context === 'artwork' && onlyToBuy
     ? (navActiveItem.list as ItemPhysicalType[]).filter(
       nft => nft.status === PhysicalItemStatus.listed
     )
@@ -49,7 +49,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
 
   const showListByType = (item: ItemPhysicalType | ArtistType | CollectionType) => {
     switch (navActiveItem?.context) {
-      case 'nft':
+      case 'artwork':
         return <ArtworkCard key={item.id} artwork={item as ItemPhysicalType} />
       case 'artist':
         return <ArtistCard key={item.id} artist={item as ArtistType} />
@@ -63,7 +63,7 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
       <FormProvider {...methods}>
         <ListHeader
           nav={nav}
-          filters={navActiveItem?.context === 'nft' && filters ? filters : []}
+          filters={navActiveItem?.context === 'artwork' && filters ? filters : []}
           viewAllLink={viewAllLink}
           navActive={navActive}
           setNavActive={setNavActive}

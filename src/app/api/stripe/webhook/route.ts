@@ -1,7 +1,7 @@
 // See https://github.com/stripe/stripe-node/blob/master/examples/webhook-signing/nextjs/pages/api/webhooks.ts
 import { stripe } from '@/lib/stripe/config';
 import Stripe from 'stripe';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from 'next/server';
 
 async function handleStripeWebhook(body: any) {
   // const mode = body.data?.object?.mode;
@@ -56,7 +56,7 @@ async function handleStripeWebhook(body: any) {
         status: 200,
       });
 
-    case 'checkout.session.completed':
+    case 'checkout.session.completed': {
       // metadata to use in DB functions
       const session = body.data.object;
       const metadata = session.metadata || {};
@@ -72,7 +72,7 @@ async function handleStripeWebhook(body: any) {
 
         // DB ACTIONS HERE : TODO
         const updateDb = async () => {
-          
+
         };
 
         updateDb();
@@ -84,6 +84,7 @@ async function handleStripeWebhook(body: any) {
           status: 200,
         }
       );
+    }
     /*
      * =~~~~~~~~~~~~~~~~~~~~~~~=
      * Charge: Refunded.
@@ -197,65 +198,59 @@ async function handleStripeWebhook(body: any) {
 /**
  * Webhook declaration
  * @param request 
- * @param response 
- * @returns 
  */
-export async function POST(request: NextApiRequest, response: NextApiResponse) {
+export async function POST(request: Request) {
+  try {
+    const body = await request.text();
+    const sig = request.headers.get('stripe-signature');
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+    let event: Stripe.Event;
 
-    const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET as string;
-
-    if (request.method === 'POST') {
-        const sig = request.headers['stripe-signature'];
-
-        let event: Stripe.Event;
-
-        try {
-        const body = await buffer(request);
-        const signature = sig as string;
-        event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-        } catch (err) {
-        // On error, log and return the error message
-        console.log(`❌ Error message: ${err}`);
-        response.status(400).send(`Webhook Error: ${err}`);
-        return;
-        }
-
-        // Successfully constructed event
-        console.log('✅ Success:', event.id);
-
-        // Cast event data to Stripe object
-        try {
-            await handleStripeWebhook(event);
-            response.status(200).json({ received: true });
-        } catch (error) {
-            console.error('Erreur lors du traitement du webhook:', error);
-            response.status(500).json({ error: 'Erreur interne du serveur' });
-        }
-
-        // Return a response to acknowledge receipt of the event
-        response.json({ received: true });
-    } else {
-        response.setHeader('Allow', 'POST');
-        response.status(405).end('Method Not Allowed');
+    try {
+      event = stripe.webhooks.constructEvent(body, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
+    } catch (err: any) {
+      console.log(`❌ Error message: ${err.message}`);
+      return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
     }
+
+    // Successfully constructed event.
+    console.log('✅ Success:', event.id);
+
+    const permittedEvents: string[] = [
+      'checkout.session.completed',
+      'payment_intent.succeeded',
+      'payment_intent.payment_failed',
+    ];
+
+    if (permittedEvents.includes(event.type)) {
+      let data;
+
+      try {
+        switch (event.type) {
+          case 'checkout.session.completed':
+            data = event.data.object as Stripe.Checkout.Session;
+            console.log(`💰 CheckoutSession status: ${data.payment_status}`);
+            break;
+          case 'payment_intent.payment_failed':
+            data = event.data.object as Stripe.PaymentIntent;
+            console.log(`❌ Payment failed: ${data.last_payment_error?.message}`);
+            break;
+          case 'payment_intent.succeeded':
+            data = event.data.object as Stripe.PaymentIntent;
+            console.log(`💰 PaymentIntent status: ${data.status}`);
+            break;
+          default:
+            throw new Error(`Unhandled relevant event!`);
+        }
+      } catch (error) {
+        console.log(error);
+        return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
+      }
+    }
+    // Return a response to acknowledge receipt of the event.
+    return NextResponse.json({ received: true }, { status: 200 });
+  } catch {
+    return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
+  }
 }
 
-const buffer = (req: NextApiRequest) => {
-    return new Promise<Buffer>((resolve, reject) => {
-      const chunks: Buffer[] = [];
-  
-      req.on('data', (chunk: Buffer) => {
-        chunks.push(chunk);
-      });
-  
-      req.on('end', () => {
-        //@ts-ignore
-        resolve(Buffer.concat(chunks));
-      });
-  
-      req.on('error', reject);
-    });
-  };
-  
