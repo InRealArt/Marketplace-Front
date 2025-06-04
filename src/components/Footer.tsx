@@ -29,12 +29,12 @@ const Footer = () => {
           </div>
           <div>
             <h2 className="font-poppins text-2xl md:text-4xl tracking-[-1.5px] font-medium mb-5 text-white">Company</h2>
-            <Link className="font-poppins text-xs md:text-lg tracking-[-0.5px] font-medium text-[#d9d9d9] mb-[15px] block" href={'https://www.inrealart.com/home#team'}>
+            <Link className="font-poppins text-xs md:text-lg tracking-[-0.5px] font-medium text-[#d9d9d9] mb-[15px] block" href={'https://www.inrealart.com/team'}>
               Our Team
             </Link>
-            <Link className="font-poppins text-xs md:text-lg tracking-[-0.5px] font-medium text-[#d9d9d9] mb-[15px] block" href={'https://www.inrealart.com/home#partners'}>
+            {/* <Link className="font-poppins text-xs md:text-lg tracking-[-0.5px] font-medium text-[#d9d9d9] mb-[15px] block" href={'https://www.inrealart.com/home#partners'}>
               Partners
-            </Link>
+            </Link> */}
             <Link className="font-poppins text-xs md:text-lg tracking-[-0.5px] font-medium text-[#d9d9d9] mb-[15px] block" href={'https://www.inrealart.com/tos'}>
               Terms of service
             </Link>

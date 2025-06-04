@@ -16,33 +16,36 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full h-[50px] md:h-[60px] lg:h-[80px] z-[99] bg-[rgba(31,31,29,0.5)] backdrop-blur-[60px]">
-      <section className="relative z-10 mx-auto h-full flex justify-between items-center max-w-[90%] desktop:max-w-[1414px]">
-        {/* Mobile logo */}
-        <Link href={'/'} className="block md:hidden">
-          <Image
-            priority={true}
-            alt="logo"
-            src="/images/LogoMobile.png"
-            width={28}
-            height={28}
-            className="w-7 h-7"
-          />
-        </Link>
+      <section className="relative z-10 w-full h-full flex justify-between items-center px-3 md:px-4 lg:px-6">
+        {/* Logo section - aligné à gauche */}
+        <div className="flex items-center">
+          {/* Mobile logo */}
+          <Link href={'/'} className="block md:hidden">
+            <Image
+              priority={true}
+              alt="logo"
+              src="/images/LogoMobile.png"
+              width={28}
+              height={28}
+              className="w-7 h-7"
+            />
+          </Link>
 
-        {/* Desktop logo */}
-        <Link href={'/'} className="hidden md:block">
-          <Image
-            priority={true}
-            alt="logo"
-            src="/images/Logo.png"
-            width={150}
-            height={25}
-            className="w-[120px] h-auto lg:w-[180px]"
-          />
-        </Link>
+          {/* Desktop logo */}
+          <Link href={'/'} className="hidden md:block">
+            <Image
+              priority={true}
+              alt="logo"
+              src="/images/Logo.png"
+              width={150}
+              height={25}
+              className="w-[120px] h-auto lg:w-[180px]"
+            />
+          </Link>
+        </div>
 
         {/* Navigation - hidden on mobile, visible on md and up */}
-        <nav className="hidden md:flex font-semibold justify-between items-center text-sm lg:text-base gap-5 lg:gap-[35px]">
+        <nav className="hidden md:flex font-semibold justify-center items-center text-sm lg:text-base gap-5 lg:gap-[35px] absolute left-1/2 transform -translate-x-1/2">
           <Link href={'/'}>
             Home
           </Link>
@@ -60,7 +63,8 @@ const Header = () => {
           </Link>
         </nav>
 
-        <div className="flex justify-between items-center">
+        {/* Icons section - aligné à droite */}
+        <div className="flex justify-end items-center">
           {/* User icon */}
           <button
             className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110"
