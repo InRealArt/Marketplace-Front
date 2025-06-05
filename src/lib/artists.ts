@@ -7,12 +7,12 @@ async function fetchArtists() {
 }
 
 async function fetchArtistById(artistId: number) {
-    const artists = await prisma.artist.findUnique({
+    const artist = await prisma.artist.findUnique({
         where: {
             id: artistId
         }
     })
-    return artists
+    return artist
 }
 
 async function fetchArtistBySlug(slug: string) {

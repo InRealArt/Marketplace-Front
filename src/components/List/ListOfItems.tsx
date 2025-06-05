@@ -43,9 +43,12 @@ const ListOfItems = () => {
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path 
-              d="M3 4.5H21V6H3V4.5ZM5.25 10.5H18.75V12H5.25V10.5ZM9 16.5H15V18H9V16.5Z" 
+              d="M6 3V7H8V3H6ZM6 9V21H8V9H6ZM16 3V15H18V3H16ZM16 17V21H18V17H16ZM11 3V11H13V3H11ZM11 13V21H13V13H11Z" 
               fill="currentColor"
             />
+            <circle cx="7" cy="6" r="2" fill="none" stroke="currentColor" strokeWidth="2"/>
+            <circle cx="17" cy="18" r="2" fill="none" stroke="currentColor" strokeWidth="2"/>
+            <circle cx="12" cy="10" r="2" fill="none" stroke="currentColor" strokeWidth="2"/>
           </svg>
           Filters
         </button>

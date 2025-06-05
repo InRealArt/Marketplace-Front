@@ -9,26 +9,25 @@ interface ArtistCardProps {
 }
 
 const ArtistCard = ({ artist }: ArtistCardProps) => {
-  const { id, name, imageUrl, backgroundImage, slug } = artist;
+  const { id, name, imageUrl, featuredArtwork, slug } = artist;
   
   const { getItemsByArtist } = useItemsStore();
   const nfts = getItemsByArtist(id);
 
-  const imgUri = nfts[0]?.item.mainImageUrl;
-  const background = imgUri ?? backgroundImage;
+  const background = featuredArtwork;
 
   return (
     <div className="relative w-card-1col sm:w-card-2col md:w-card-3col lg:w-card-4col mt-10 h-auto rounded-[17px] bg-white">
       <Link href={`/artists/${slug || id}`}>
         {background ? (
           <div
-            className="relative w-auto h-[180px] md:h-[150px] lg:h-[185px] rounded-t-[17px] bg-no-repeat bg-cover bg-center"
+            className="relative w-full aspect-[4/3] rounded-t-[17px] bg-no-repeat bg-cover bg-center overflow-hidden"
             style={{
               backgroundImage: `url('${background}')`,
             }}
           />
         ) : (
-          <div className="relative w-auto h-[180px] md:h-[150px] lg:h-[185px] rounded-t-[17px] bg-[#525252]"></div>
+          <div className="relative w-full aspect-[4/3] rounded-t-[17px] bg-[#525252] overflow-hidden"></div>
         )}
       </Link>
       <div className="relative flex items-end p-0 px-2.5 -top-2.5 md:p-5 md:items-center md:top-0">

@@ -17,6 +17,7 @@ export interface ArtistType {
   imageUrl: string
   isGallery: boolean
   backgroundImage?: string | null
+  featuredArtwork: string
   artworkStyle?: string | null
   slug?: string | null
 }

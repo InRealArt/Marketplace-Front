@@ -21,6 +21,7 @@ model Artist {
   backgroundImage String?
   artworkStyle    String?
   slug            String?          @unique
+  featuredArtwork String?
   BackofficeUser  BackofficeUser[]
   collections     Collection[]
   NftCollection   NftCollection[]
