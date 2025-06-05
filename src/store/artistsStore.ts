@@ -25,9 +25,15 @@ export const useArtistsStore = create<ArtistsState>((set, get) => ({
             set({ isLoading: true, error: null })
             const data = await fetchArtists()
 
-            // Sépare les artistes des galeries
-            const artists = data.filter(artist => !artist.isGallery)
-            const galleries = data.filter(artist => artist.isGallery)
+            // Sépare les artistes des galeries et transforme les données
+            const artists = data.filter(artist => !artist.isGallery).map(artist => ({
+                ...artist,
+                featuredArtwork: artist.featuredArtwork || ''
+            }))
+            const galleries = data.filter(artist => artist.isGallery).map(artist => ({
+                ...artist,
+                featuredArtwork: artist.featuredArtwork || ''
+            }))
 
             set({ artists, galleries, isLoading: false })
         } catch (error) {
