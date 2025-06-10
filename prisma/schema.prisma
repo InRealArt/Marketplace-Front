@@ -471,7 +471,6 @@ model BackofficeUser {
   userMetadata     Json
   role             BackofficeUserRoles?
   createdAt        DateTime             @default(now()) @db.Timestamp(6)
-  isShopifyGranted Boolean              @default(false)
   lastName         String?
   firstName        String?
   linkedWallets    Json                 @default("[]")
