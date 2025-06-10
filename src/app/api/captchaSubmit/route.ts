@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
   const secretKey = process?.env?.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
 
   const postData = await request.json();

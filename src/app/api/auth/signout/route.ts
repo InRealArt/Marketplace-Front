@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 export async function POST() {
     try {
         await auth.api.signOut({
-            headers: headers()
+            headers: await headers()
         })
 
         return NextResponse.json({ success: true })

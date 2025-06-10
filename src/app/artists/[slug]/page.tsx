@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect } from 'react'
 import { useParams } from 'next/navigation'
+import Link from 'next/link'
 
 import ArtistHeader from './subComponents/ArtistHeader'
 import ListOfNfts from '@/components/List/ListOfFeaturedArtworks'
@@ -66,9 +67,9 @@ const Artist = () => {
           <h1 className="text-2xl font-bold mb-4">Artist not found</h1>
           <p>The artist with the slug &quote;{slug}&quote; does not exist.</p>
           <p className="mt-2">
-            <a href="/artists" className="text-blue-500 hover:underline">
+            <Link href="/artists" className="text-blue-500 hover:underline">
               Back to artists
-            </a>
+            </Link>
           </p>
         </div>
       </div>
