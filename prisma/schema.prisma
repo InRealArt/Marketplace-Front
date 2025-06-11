@@ -22,11 +22,14 @@ model Artist {
   artworkStyle    String?
   slug            String?          @unique
   featuredArtwork String?
+  countryCode     String?
   BackofficeUser  BackofficeUser[]
   collections     Collection[]
   NftCollection   NftCollection[]
   Profile         Profile[]
+  Country         Country?         @relation(fields: [countryCode], references: [code])
 
+  @@index([countryCode])
   @@schema("public")
 }
 
@@ -383,13 +386,13 @@ model Transaction {
 }
 
 model User {
-  id            String              @id(map: "user_pkey") @db.VarChar(255)
-  name          String              @db.VarChar(255)
-  email         String              @unique(map: "user_email_key") @db.VarChar(255)
+  id            String    @id(map: "user_pkey") @db.VarChar(255)
+  name          String    @db.VarChar(255)
+  email         String    @unique(map: "user_email_key") @db.VarChar(255)
   emailVerified Boolean
-  image         String?             @db.VarChar(255)
-  createdAt     DateTime            @db.Timestamp(6)
-  updatedAt     DateTime            @db.Timestamp(6)
+  image         String?   @db.VarChar(255)
+  createdAt     DateTime  @db.Timestamp(6)
+  updatedAt     DateTime  @db.Timestamp(6)
   accounts      Account[]
   sessions      Session[]
   Order         Order[]
@@ -464,20 +467,20 @@ model AuthCertificate {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model BackofficeUser {
-  id               Int                  @id(map: "shopifyUser_pkey") @default(autoincrement())
-  email            String?              @unique(map: "shopifyUser_email_key")
-  walletAddress    String
-  lastLogin        DateTime             @db.Timestamp(6)
-  userMetadata     Json
-  role             BackofficeUserRoles?
-  createdAt        DateTime             @default(now()) @db.Timestamp(6)
-  lastName         String?
-  firstName        String?
-  linkedWallets    Json                 @default("[]")
-  artistId         Int?
-  Artist           Artist?              @relation(fields: [artistId], references: [id])
-  Item             Item[]
-  Address          Address[]
+  id            Int                  @id(map: "shopifyUser_pkey") @default(autoincrement())
+  email         String?              @unique(map: "shopifyUser_email_key")
+  walletAddress String
+  lastLogin     DateTime             @db.Timestamp(6)
+  userMetadata  Json
+  role          BackofficeUserRoles?
+  createdAt     DateTime             @default(now()) @db.Timestamp(6)
+  lastName      String?
+  firstName     String?
+  linkedWallets Json                 @default("[]")
+  artistId      Int?
+  Artist        Artist?              @relation(fields: [artistId], references: [id])
+  Item          Item[]
+  Address       Address[]
 
   @@index([artistId])
   @@index([email], map: "shopifyUser_email_idx")
@@ -486,31 +489,31 @@ model BackofficeUser {
 }
 
 model Item {
-  id                 Int            @id @default(autoincrement())
+  id                 Int               @id @default(autoincrement())
   name               String
   description        String
   idUser             Int
-  user               BackofficeUser @relation(fields: [idUser], references: [id])
-  tags               String[]       @default([])
-  slug               String?        @unique
+  user               BackofficeUser    @relation(fields: [idUser], references: [id])
+  tags               String[]          @default([])
+  slug               String?           @unique
   metaDescription    String
   metaTitle          String
   mainImageUrl       String?
-  secondaryImagesUrl String[]       @default([])
-  realViewCount      Int            @default(0)
-  fakeViewCount      Int            @default(0)
-  featured    Boolean?            @default(false)
-  mediumId    Int?
-  medium      ArtworkMedium?    @relation(fields: [mediumId], references: [id])
-  styleId     Int?
-  style       ArtworkStyle?     @relation(fields: [styleId], references: [id])
-  techniqueId Int?
-  technique   ArtworkTechnique? @relation(fields: [techniqueId], references: [id])
+  secondaryImagesUrl String[]          @default([])
+  realViewCount      Int               @default(0)
+  fakeViewCount      Int               @default(0)
+  featured           Boolean?          @default(false)
+  mediumId           Int?
+  medium             ArtworkMedium?    @relation(fields: [mediumId], references: [id])
+  styleId            Int?
+  style              ArtworkStyle?     @relation(fields: [styleId], references: [id])
+  techniqueId        Int?
+  technique          ArtworkTechnique? @relation(fields: [techniqueId], references: [id])
 
   // Relations
-  nftItem        NftItem?
-  physicalItem   PhysicalItem?
-  
+  nftItem      NftItem?
+  physicalItem PhysicalItem?
+
   @@index([idUser])
   @@index([mediumId])
   @@index([styleId])
@@ -688,18 +691,18 @@ model Order {
 }
 
 model OrderItem {
-  id             Int               @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   orderId        Int
   nftItemId      Int?
   physicalItemId Int?
   title          String
-  unitPrice      Decimal           @db.Decimal(10, 2)
-  vatRate        Decimal           @db.Decimal(5, 2)
-  vatAmount      Decimal           @db.Decimal(10, 2)
-  totalPrice     Decimal           @db.Decimal(10, 2)
-  NftItem        NftItem?          @relation(fields: [nftItemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Order          Order @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  PhysicalItem   PhysicalItem?     @relation(fields: [physicalItemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  unitPrice      Decimal       @db.Decimal(10, 2)
+  vatRate        Decimal       @db.Decimal(5, 2)
+  vatAmount      Decimal       @db.Decimal(10, 2)
+  totalPrice     Decimal       @db.Decimal(10, 2)
+  NftItem        NftItem?      @relation(fields: [nftItemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Order          Order         @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  PhysicalItem   PhysicalItem? @relation(fields: [physicalItemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([nftItemId])
   @@index([orderId])
@@ -730,8 +733,10 @@ model Address {
   backofficeUserId Int?
 
   orders        Order[]
-  physicalItems PhysicalItem[]      @relation("PhysicalItemShipping")
+  physicalItems PhysicalItem[] @relation("PhysicalItemShipping")
+  Country       Country?       @relation(fields: [countryCode], references: [code])
 
+  @@index([countryCode])
   @@map("Address")
   @@schema("public")
 }
@@ -1055,6 +1060,15 @@ model ArtworkTechnique {
   id    Int    @id @default(autoincrement())
   name  String
   items Item[]
+
+  @@schema("public")
+}
+
+model Country {
+  code      String    @id // Code ISO (ex: FR, US, GB)
+  name      String // Nom du pays (ex: France, United States, United Kingdom)
+  addresses Address[]
+  Artist    Artist[]
 
   @@schema("public")
 }
