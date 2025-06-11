@@ -510,22 +510,11 @@ model Item {
   // Relations
   nftItem        NftItem?
   physicalItem   PhysicalItem?
-  ItemCategory   ItemCategory? @relation(fields: [itemCategoryId], references: [id])
-  itemCategoryId Int?
-
+  
   @@index([idUser])
   @@index([mediumId])
   @@index([styleId])
   @@index([techniqueId])
-  @@schema("public")
-}
-
-model ItemCategory {
-  id           Int            @id @default(autoincrement())
-  name         String
-  Item         Item[]
-  PhysicalItem PhysicalItem[]
-
   @@schema("public")
 }
 
@@ -829,8 +818,6 @@ model PhysicalItem {
   status            PhysicalItemStatus @default(created)
   stockQty          Int                @default(0)
   initialQty        Int                @default(1)
-  categoryId        Int?
-  category          ItemCategory?      @relation(fields: [categoryId], references: [id])
   height            Decimal?           @db.Decimal(10, 2)
   width             Decimal?           @db.Decimal(10, 2)
   weight            Decimal?           @db.Decimal(10, 2)
@@ -845,7 +832,6 @@ model PhysicalItem {
   authCertificate   AuthCertificate?
 
   @@index([itemId])
-  @@index([categoryId])
   @@index([shippingAddressId])
   @@schema("public")
 }

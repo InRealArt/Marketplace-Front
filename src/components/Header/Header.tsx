@@ -47,19 +47,16 @@ const Header = () => {
         {/* Navigation - hidden on mobile, visible on md and up */}
         <nav className="hidden md:flex font-semibold justify-center items-center text-sm lg:text-base gap-5 lg:gap-[35px] absolute left-1/2 transform -translate-x-1/2">
           <Link href={'/'}>
-            Home
+            New artworks
           </Link>
-          <Link href={'#footer'}>
-            About
+          <Link href={'/category/paintings'}>
+            Paintings
           </Link>
-          <Link href={'/artworks'}>
-            Artworks
+          <Link href={'/category/sculptures'}>
+            Sculptures
           </Link>
           <Link href={'/artists'}>
             Artists
-          </Link>
-          <Link href={'/galleries'}>
-            Galleries
           </Link>
         </nav>
 
@@ -82,7 +79,7 @@ const Header = () => {
             <Image
               priority={true}
               alt="Panier"
-              src="/icons/cart.png"
+              src="/icons/cart.svg"
               width={20}
               height={20}
               className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 brightness-0 invert"
