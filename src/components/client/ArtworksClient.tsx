@@ -8,7 +8,7 @@ import ArtworkCardSkeleton from '@/components/client/artwork/ArtworkCardSkeleton
 import Pagination from '@/components/ui/Pagination'
 
 // Type pour les items retournés par getItemsByMedium (basé sur le retour de Prisma)
-type PaintingItem = Awaited<ReturnType<typeof import('@/data/item/getItemsByMedium').getItemsByMedium>>[0]
+type ArtworkItem = Awaited<ReturnType<typeof import('@/data/item/getItemsByMedium').getItemsByMedium>>[0]
 
 interface PaginationInfo {
   currentPage: number
@@ -20,12 +20,13 @@ interface PaginationInfo {
   itemsPerPage: number
 }
 
-interface PaintingsClientProps {
-  paintings: PaintingItem[]
+interface ArtworksClientProps {
+  artworks: ArtworkItem[]
   paginationInfo: PaginationInfo
+  mediumName: string
 }
 
-export default function PaintingsClient({ paintings, paginationInfo }: PaintingsClientProps) {
+export default function ArtworksClient({ artworks, paginationInfo, mediumName }: ArtworksClientProps) {
   const [isLoading, startTransition] = useTransition()
 
   const [page, setPage] = useQueryState(
@@ -63,13 +64,13 @@ export default function PaintingsClient({ paintings, paginationInfo }: Paintings
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearch(e.target.value)
 
-  // Filtrer les peintures selon la recherche
-  const filteredPaintings = paintings.filter(painting => 
+  // Filtrer les œuvres selon la recherche
+  const filteredArtworks = artworks.filter(artwork => 
     search === '' || 
-    painting.name.toLowerCase().includes(search.toLowerCase()) ||
-    painting.description.toLowerCase().includes(search.toLowerCase()) ||
-    (painting.user.firstName && painting.user.firstName.toLowerCase().includes(search.toLowerCase())) ||
-    (painting.user.lastName && painting.user.lastName.toLowerCase().includes(search.toLowerCase()))
+    artwork.name.toLowerCase().includes(search.toLowerCase()) ||
+    artwork.description.toLowerCase().includes(search.toLowerCase()) ||
+    (artwork.user.firstName && artwork.user.firstName.toLowerCase().includes(search.toLowerCase())) ||
+    (artwork.user.lastName && artwork.user.lastName.toLowerCase().includes(search.toLowerCase()))
   )
 
   return (
@@ -97,28 +98,28 @@ export default function PaintingsClient({ paintings, paginationInfo }: Paintings
       ) : (
         <>
           <div className="grid grid-cols-1 gap-x-16 gap-y-20 sm:grid-cols-2 sm:gap-x-16 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-24">
-            {filteredPaintings.map(painting => {
-              const artistName = [painting.user.firstName, painting.user.lastName]
+            {filteredArtworks.map(artwork => {
+              const artistName = [artwork.user.firstName, artwork.user.lastName]
                 .filter(Boolean)
                 .join(' ')
               
-              const physicalPrice = painting.physicalItem ? Number(painting.physicalItem.price) : undefined
-              const nftPrice = painting.nftItem ? Number(painting.nftItem.price) : undefined
-              const isSold = painting.physicalItem?.status === 'sold' || painting.nftItem?.status === 'sold'
+              const physicalPrice = artwork.physicalItem ? Number(artwork.physicalItem.price) : undefined
+              const nftPrice = artwork.nftItem ? Number(artwork.nftItem.price) : undefined
+              const isSold = artwork.physicalItem?.status === 'sold' || artwork.nftItem?.status === 'sold'
               
               return (
-                <div key={painting.id}>
+                <div key={artwork.id}>
                   <ArtworkCard
-                    title={painting.name}
+                    title={artwork.name}
                     artist={artistName || undefined}
-                    year={painting.physicalItem?.creationYear || undefined}
-                    medium={painting.medium?.name || 'Peinture'}
+                    year={artwork.physicalItem?.creationYear || undefined}
+                    medium={artwork.medium?.name || mediumName}
                     physicalPrice={physicalPrice}
                     nftPrice={nftPrice}
                     isSold={isSold}
-                    imageUrl={painting.mainImageUrl || undefined}
-                    width={painting.physicalItem?.width ? Number(painting.physicalItem.width) : undefined}
-                    height={painting.physicalItem?.height ? Number(painting.physicalItem.height) : undefined}
+                    imageUrl={artwork.mainImageUrl || undefined}
+                    width={artwork.physicalItem?.width ? Number(artwork.physicalItem.width) : undefined}
+                    height={artwork.physicalItem?.height ? Number(artwork.physicalItem.height) : undefined}
                   />
                 </div>
               )
@@ -141,10 +142,10 @@ export default function PaintingsClient({ paintings, paginationInfo }: Paintings
         </>
       )}
 
-      {filteredPaintings.length === 0 && !isLoading && (
+      {filteredArtworks.length === 0 && !isLoading && (
         <div className="text-center py-12">
           <p className="text-gray-400 text-lg">
-            {search ? 'Aucune peinture trouvée pour cette recherche.' : 'Aucune peinture disponible.'}
+            {search ? `Aucune œuvre trouvée pour cette recherche.` : `Aucune œuvre disponible.`}
           </p>
         </div>
       )}
