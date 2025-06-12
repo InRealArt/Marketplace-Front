@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import NavbarItem from './NavbarItem'
+import ButtonAction from '../buttons/ButtonAction'
 
 
 function Navbar () {
@@ -42,9 +43,7 @@ function Navbar () {
       {/* Section droite avec bouton et icônes */}
       <div className="flex items-center gap-6">
         {/* Bouton Signup */}
-        <button className="bg-[#6052ff] rounded-lg px-6 py-2.5 text-[#f6f8ff] text-sm font-medium cursor-pointer hover:bg-[#5041ee] transition-colors">
-          Signup
-        </button>
+        <ButtonAction onClick={() => {}} text="Signup" />
 
         {/* Icônes */}
         <div className="flex items-center gap-4">

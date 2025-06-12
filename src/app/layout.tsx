@@ -38,7 +38,6 @@ export default function RootLayout({
         <body suppressHydrationWarning={true}>
           <Providers>
             <Navbar />
-            <HeroSectionServer />
             {/* <Header /> */}
             {/* <HeaderMenu /> */}
             {/* <UserMenu /> */}

@@ -12,6 +12,8 @@ interface ArtworkCardProps {
   isSold: boolean
   imageUrl?: string
   favoriteIcon?: string
+  width?: number
+  height?: number
 }
 
 function ArtworkCard ({
@@ -23,52 +25,64 @@ function ArtworkCard ({
   nftPrice,
   isSold,
   imageUrl,
-  favoriteIcon = '/icons/heart.svg'
+  favoriteIcon = '/icons/heart.svg',
+  width,
+  height
 }: ArtworkCardProps) {
   const displayTitle = year ? `${title} (${year})` : title
   const displayPrice = physicalPrice || nftPrice
+  const isPhysicalItem = Boolean(physicalPrice)
   
   return (
-    <div className="flex flex-col gap-4 items-end justify-start flex-shrink-0 relative">
-      <div className="self-stretch flex-shrink-0 h-[28.4375rem] relative">
-        <div className="bg-[#1b1c1e] rounded-lg w-[24.875rem] h-[28.4375rem] absolute left-0 top-0" />
-        <img 
-          className="w-8 h-8 absolute left-[19.625rem] top-4 overflow-visible" 
-          src={favoriteIcon} 
-          alt="Favoris"
+    <div className="flex flex-col gap-4 w-full">
+      <div className="relative w-full aspect-[4/5] bg-[#1b1c1e] rounded-lg overflow-hidden">
+        <svg 
+          className="w-6 h-6 absolute right-4 top-4 z-10 cursor-pointer" 
+          fill="none" 
+          stroke="white" 
+          strokeWidth="2" 
+          viewBox="0 0 24 24"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" 
         />
+        </svg>
         {imageUrl && (
           <img 
-            className="bg-[#1b1c1e] rounded-lg w-[18.375rem] h-[21.0625rem] absolute left-[3.234375rem] top-[3.6875rem] object-cover" 
+            className="w-full h-full object-cover rounded-lg" 
             src={imageUrl} 
             alt={title}
           />
         )}
       </div>
-      <div className="px-2 flex flex-col gap-0 items-start justify-start self-stretch flex-shrink-0 relative">
-        <div className="text-white text-left font-semibold text-lg relative self-stretch">
+      <div className="flex flex-col gap-0 items-start justify-start w-full">
+        <div className="text-white text-left font-semibold text-base sm:text-lg w-full">
           {displayTitle}
         </div>
         {artist && (
-          <div className="text-white text-left font-medium text-base relative self-stretch opacity-80">
+          <div className="text-white text-left font-medium text-sm sm:text-base w-full opacity-80">
             {artist}
           </div>
         )}
-        <div className="text-white text-left font-medium text-base relative self-stretch">
+        <div className="text-white text-left font-medium text-sm sm:text-base w-full">
           {medium}
         </div>
-        <div className="text-white text-left font-medium text-base relative self-stretch">
-          15 x 25 x 30 cm
+        {isPhysicalItem && width && height && (
+          <div className="text-white text-left font-medium text-sm sm:text-base w-full">
+            {width} x {height} cm
         </div>
-        <div className="pt-2 flex flex-row gap-2.5 items-center justify-center self-stretch flex-shrink-0 relative">
+        )}
+        <div className="pt-2 flex flex-row gap-2.5 items-center justify-between w-full">
           {displayPrice && (
-            <div className="text-white text-left font-semibold text-base relative flex-1">
+            <div className="text-white text-left font-semibold text-sm sm:text-base flex-1">
               {displayPrice.toLocaleString('fr-FR')}€
             </div>
           )}
           {isSold && (
-            <div className="bg-[#1b1c1e] rounded-full py-1 px-2 flex flex-row gap-2.5 items-center justify-center flex-shrink-0 relative">
-              <div className="text-white text-left font-semibold text-base relative">
+            <div className="bg-[#1b1c1e] rounded-full py-1 px-2 flex flex-row gap-2.5 items-center justify-center flex-shrink-0">
+              <div className="text-white text-left font-semibold text-xs sm:text-base">
                 Vendu
               </div>
             </div>
