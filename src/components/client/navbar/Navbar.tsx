@@ -8,7 +8,7 @@ import ButtonAction from '../buttons/ButtonAction'
 
 function Navbar () {
   const navigationItems = [
-    { text: 'New artworks', href: '/new-artworks' },
+    { text: 'New artworks', href: '/newArtworks' },
     { text: 'Paintings', href: '/paintings' },
     { text: 'Sculptures', href: '/sculptures' },
     { text: 'Drawings', href: '/drawings' },

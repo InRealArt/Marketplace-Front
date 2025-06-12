@@ -509,7 +509,8 @@ model Item {
   style              ArtworkStyle?     @relation(fields: [styleId], references: [id])
   techniqueId        Int?
   technique          ArtworkTechnique? @relation(fields: [techniqueId], references: [id])
-
+  createdAt          DateTime          @default(now()) @db.Date
+  
   // Relations
   nftItem      NftItem?
   physicalItem PhysicalItem?

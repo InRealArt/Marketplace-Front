@@ -1,9 +1,11 @@
 import { z } from 'zod'
 import { getItemsByMedium } from '@/data/item/getItemsByMedium'
 import { getAllItems } from '@/data/item/getAllItems'
+import { getNewItems } from '@/data/item/getNewItems'
 import ArtworkClient from '@/components/client/ArtworksClient'
 import { getTotalItemsByMedium } from '@/data/item/getTotalItemsByMedium'
 import { getTotalItems } from '@/data/item/getTotalItems'
+import { getTotalNewItems } from '@/data/item/getTotalNewItems'
 import { getArtworkMediumByName } from '@/data/artworkMedium/getArtworkMediumByName'
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
@@ -19,9 +21,10 @@ const querySchema = z.object({
 interface ArtworksGridProps {
   searchParams: SearchParams
   mediumName?: string
+  showNewItems?: boolean
 }
 
-export default async function ArtworksGrid({ searchParams, mediumName }: ArtworksGridProps) {
+export default async function ArtworksGrid({ searchParams, mediumName, showNewItems }: ArtworksGridProps) {
   const searchParamsResolved = await searchParams
   const query = querySchema.parse(searchParamsResolved)
   
@@ -29,8 +32,18 @@ export default async function ArtworksGrid({ searchParams, mediumName }: Artwork
     let rawArtworks
     let totalArtworks
 
-    // Si un mediumName est fourni, filtrer par ce medium
-    if (mediumName) {
+    // Si showNewItems est true, récupérer les nouveautés
+    if (showNewItems) {
+      // Récupérer les nouveaux items
+      rawArtworks = await getNewItems({
+        page: query.page,
+        limit: query.limit === 2 ? 6 : query.limit // Utiliser 6 par défaut pour les nouveautés
+      })
+      
+      // Compter le total des nouveaux items
+      totalArtworks = await getTotalNewItems()
+    } else if (mediumName) {
+      // Si un mediumName est fourni, filtrer par ce medium
       const artworkMedium = await getArtworkMediumByName(mediumName)
       
       if (!artworkMedium) {
@@ -81,7 +94,7 @@ export default async function ArtworksGrid({ searchParams, mediumName }: Artwork
         ...artwork.nftItem,
         price: Number(artwork.nftItem.price)
       } : null
-    })) as Awaited<ReturnType<typeof getItemsByMedium>>
+    })) as typeof rawArtworks
 
     const totalPages = Math.ceil(totalArtworks / query.limit)
     const hasNextPage = query.page < totalPages
@@ -105,7 +118,7 @@ export default async function ArtworksGrid({ searchParams, mediumName }: Artwork
           <ArtworkClient 
             artworks={artworks} 
             paginationInfo={paginationInfo}
-            mediumName={mediumName || 'Artwork'}
+            mediumName={showNewItems ? 'Nouveautés' : (mediumName || 'Artwork')}
           />
         </div>
       </section>
