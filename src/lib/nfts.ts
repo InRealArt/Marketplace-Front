@@ -10,7 +10,19 @@ async function getItemBySlug(id: number) {
         },
     })
 
-    return nft
+    if (!nft) return null
+
+    // Convertir les objets Decimal en nombres
+    return {
+        ...nft,
+        price: Number(nft.price),
+        height: nft.height ? Number(nft.height) : null,
+        width: nft.width ? Number(nft.width) : null,
+        weight: nft.weight ? Number(nft.weight) : null,
+        unitHeight: nft.unitHeight ? Number(nft.unitHeight) : null,
+        unitWidth: nft.unitWidth ? Number(nft.unitWidth) : null,
+        unitWeight: nft.unitWeight ? Number(nft.unitWeight) : null
+    }
 }
 
 async function getItemsByStatus(status: PhysicalItemStatus[]) {
@@ -27,7 +39,18 @@ async function getItemsByStatus(status: PhysicalItemStatus[]) {
             }
         ]
     })
-    return nfts
+
+    // Convertir les objets Decimal en nombres
+    return nfts.map(nft => ({
+        ...nft,
+        price: Number(nft.price),
+        height: nft.height ? Number(nft.height) : null,
+        width: nft.width ? Number(nft.width) : null,
+        weight: nft.weight ? Number(nft.weight) : null,
+        unitHeight: nft.unitHeight ? Number(nft.unitHeight) : null,
+        unitWidth: nft.unitWidth ? Number(nft.unitWidth) : null,
+        unitWeight: nft.unitWeight ? Number(nft.unitWeight) : null
+    }))
 }
 
 async function getItemsByStatusAndStock(status: PhysicalItemStatus[], minStock: number = 0) {
@@ -45,7 +68,18 @@ async function getItemsByStatusAndStock(status: PhysicalItemStatus[], minStock: 
             }
         ]
     })
-    return nfts
+
+    // Convertir les objets Decimal en nombres
+    return nfts.map(nft => ({
+        ...nft,
+        price: Number(nft.price),
+        height: nft.height ? Number(nft.height) : null,
+        width: nft.width ? Number(nft.width) : null,
+        weight: nft.weight ? Number(nft.weight) : null,
+        unitHeight: nft.unitHeight ? Number(nft.unitHeight) : null,
+        unitWidth: nft.unitWidth ? Number(nft.unitWidth) : null,
+        unitWeight: nft.unitWeight ? Number(nft.unitWeight) : null
+    }))
 }
 
 async function getAvailableItems() {
@@ -83,7 +117,25 @@ async function getAvailableItems() {
             }
         ]
     })
-    return items
+
+    // Convertir les objets Decimal en nombres pour éviter les erreurs de sérialisation
+    return items.map(item => ({
+        ...item,
+        physicalItem: item.physicalItem ? {
+            ...item.physicalItem,
+            price: Number(item.physicalItem.price),
+            height: item.physicalItem.height ? Number(item.physicalItem.height) : null,
+            width: item.physicalItem.width ? Number(item.physicalItem.width) : null,
+            weight: item.physicalItem.weight ? Number(item.physicalItem.weight) : null,
+            unitHeight: item.physicalItem.unitHeight ? Number(item.physicalItem.unitHeight) : null,
+            unitWidth: item.physicalItem.unitWidth ? Number(item.physicalItem.unitWidth) : null,
+            unitWeight: item.physicalItem.unitWeight ? Number(item.physicalItem.unitWeight) : null
+        } : null,
+        nftItem: item.nftItem ? {
+            ...item.nftItem,
+            price: Number(item.nftItem.price)
+        } : null
+    }))
 }
 
 export { getItemsByStatus, getItemsByStatusAndStock, getItemBySlug, getAvailableItems }

@@ -11,6 +11,9 @@ import LoginModal from '@/components/Modal/LoginModal/LoginModal';
 import { Toaster } from 'sonner';
 import GoogleCaptchaWrapper from './captcha/google-captcha-wrapper';
 import '@coinbase/onchainkit/styles.css';
+import Navbar from '@/components/client/navbar/Navbar';
+import { HeroSection } from '@/components/client/hero/HeroSection';
+import { HeroSectionServer } from '@/components/server/hero/HeroSectionServer';
 
 export const metadata: Metadata = {
   title: 'InRealArt - MarketPlace',
@@ -34,12 +37,14 @@ export default function RootLayout({
       <GoogleCaptchaWrapper>
         <body suppressHydrationWarning={true}>
           <Providers>
-            <Header />
-            <HeaderMenu />
-            <UserMenu />
+            <Navbar />
+            <HeroSectionServer />
+            {/* <Header /> */}
+            {/* <HeaderMenu /> */}
+            {/* <UserMenu /> */}
             <Cart />
             <section className="max-w-[90%] desktop:max-w-[1414px] mx-auto mt-[80px] 2xl:mt-[80px + 40px]">{children}</section>
-            <Footer />
+            {/* <Footer /> */}
             <Toaster richColors />
             <LoginModal />
           </Providers>
