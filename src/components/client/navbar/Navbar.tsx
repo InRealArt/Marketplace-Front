@@ -4,9 +4,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import NavbarItem from './NavbarItem'
 import ButtonAction from '../buttons/ButtonAction'
+import { useCart } from '@/hooks/useCart'
+import { useModalStore } from '@/store/modalStore'
 
 
 function Navbar () {
+  const { toggleMenu, toggleUserMenu, toggleCart } = useModalStore();
+  const { getItemCount } = useCart();
+  
+  // Get cart items count from the Zustand store
+  const cartItemsCount = getItemCount();
+
   const navigationItems = [
     { text: 'New artworks', href: '/newArtworks' },
     { text: 'Paintings', href: '/paintings' },
@@ -57,10 +65,24 @@ function Navbar () {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </button>
-          <button className="p-1 hover:opacity-80 transition-opacity">
-            <svg className="w-5 h-5 text-[#f6f8ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-4m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
-            </svg>
+          <button
+            className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110"
+            onClick={toggleCart}
+            aria-label="Ouvrir le panier"
+          >
+            <Image
+              priority={true}
+              alt="Panier"
+              src="/icons/cart.svg"
+              width={20}
+              height={20}
+              className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 brightness-0 invert"
+            />
+            {cartItemsCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2 bg-red-500 text-white rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-[10px] md:text-xs font-semibold">
+                {cartItemsCount}
+              </span>
+            )}
           </button>
         </div>
       </div>
