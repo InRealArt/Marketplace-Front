@@ -23,6 +23,8 @@ model Artist {
   slug            String?          @unique
   featuredArtwork String?
   countryCode     String?
+  quote           String?
+  testimonial     String?
   BackofficeUser  BackofficeUser[]
   collections     Collection[]
   NftCollection   NftCollection[]
