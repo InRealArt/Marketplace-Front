@@ -1,3 +1,5 @@
+import Footer from '@/components/client/footer/Footer';
+import Guarantees from '@/components/client/guarantee/Guarantees';
 import ContactUs from '@/components/Home/ContactUs';
 import Intro from '@/components/Home/Intro';
 import ArtistsListSlider from '@/components/List/ArtistsListSlider';
@@ -9,6 +11,8 @@ const Landing = () => {
   return (
     <main className="Landing">
       <HeroSectionServer />
+      <Guarantees />
+      <Footer/>
     </main>
   );
 };
