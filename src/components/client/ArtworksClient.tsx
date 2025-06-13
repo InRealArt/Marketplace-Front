@@ -75,18 +75,6 @@ export default function ArtworksClient({ artworks, paginationInfo, mediumName }:
 
   return (
     <>
-      <header className="mb-8">
-        <div className="flex items-center justify-between">
-          <div className="text-gray-400 text-sm">
-            {paginationInfo.totalItems > 0 && (
-              <span>
-                {paginationInfo.totalItems} artwork{paginationInfo.totalItems > 1 ? 's' : ''}
-              </span>
-            )}
-          </div>
-        </div>
-      </header>
-
       {isLoading ? (
         <div className="grid grid-cols-1 gap-x-12 gap-y-20 sm:grid-cols-2 sm:gap-x-16 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-20">
           {Array.from({ length: paginationInfo.itemsPerPage }).map((_, index) => (
@@ -145,7 +133,7 @@ export default function ArtworksClient({ artworks, paginationInfo, mediumName }:
       {filteredArtworks.length === 0 && !isLoading && (
         <div className="text-center py-12">
           <p className="text-gray-400 text-lg">
-            {search ? `Aucune œuvre trouvée pour cette recherche.` : `Aucune œuvre disponible.`}
+            {search ? `No artwork found for this search.` : `No artwork available.`}
           </p>
         </div>
       )}

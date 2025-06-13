@@ -25,7 +25,6 @@ function transformArtistData(artists: Artist[]): ArtistData[] {
 
 export async function HeroSectionServer() {
   const artists = await getArtistsForHero(6)
-  console.log("artists", artists)
   const transformedArtists = transformArtistData(artists)
 
   return (
