@@ -1,85 +1,97 @@
 'use client'
 
+import { use } from 'react'
 import { HeroArtistCard } from './HeroArtistCard'
 
-interface ArtistData {
-  id: string
-  artistImageUrl: string
-  artworkImageUrl: string
-  artistName?: string
+interface Artist {
+  imageUrl: string
+  featuredArtwork: string | null
 }
 
 interface HeroSectionProps {
   backgroundImageUrl?: string
-  artists: ArtistData[]
+  artists: Promise<Artist[]>
 }
 
 const artistPositions = [
-  { left: '70%', top: '148px' },
-  { left: '45%', top: '78px' },
-  { left: '20%', top: '360px' },
-  { left: '25%', top: '147px' },
-  { left: '60%', top: '334px' },
-  { left: '40%', top: '275px' }
+  { left: '80%', top: '148px' },   // further right
+  { left: '50%', top: '78px' },   // further right
+  { left: '5%', top: '360px' },  // further left
+  { left: '20%', top: '147px' },  // further left
+  { left: '65%', top: '334px' },  // further right
+  { left: '35%', top: '275px' }   // further left
 ]
 
-export function HeroSection({ 
-  backgroundImageUrl = '/images/bg_hero.svg', 
-  artists 
+const artistMobilePositions = [
+  { left: '14%;', top: '127px;' },  // further left
+  { left: '9%', top: '330px' },  // further left
+  { left: '53%', top: '212px' },   // further right
+  { left: '45%', top: '430px' },   // further right
+]
+
+const MOBILE_ARTIST_COUNT = 4
+const DESKTOP_ARTIST_COUNT = 6
+
+export default function HeroSection({
+  backgroundImageUrl = '/images/bg_hero.svg',
+  artists
 }: HeroSectionProps) {
+  const allArtists = use(artists)
+
   return (
-    <div className="w-full h-[751px] relative overflow-hidden">
-      <img
-        className="w-full min-w-[1725px] h-[1725px] absolute left-[50%] top-[190px] overflow-visible object-cover"
-        style={{ translate: '-50%' }}
-        src={backgroundImageUrl}
-        alt="Background InRealArt"
-      />
-      
-      {artists.slice(0, 6).map((artist, index) => (
-        <div
-          key={artist.id}
-          className="absolute z-10"
-          style={{
-            left: artistPositions[index]?.left || '0px',
-            top: artistPositions[index]?.top || '0px'
-          }}
-        >
-          <HeroArtistCard
-            artistImageUrl={artist.artistImageUrl}
-            artworkImageUrl={artist.artworkImageUrl}
-            artistName={artist.artistName}
-          />
+    <div className="w-full h-[100vh] relative bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
+      <div className='w-full max-w-[90%] md:max-w-intro-screen h-full relative m-auto'>
+        {/* Main Title - Top */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-7xl">
+          <h1 className="text-white font-funnel font-medium uppercase text-4xl lg:text-6xl xl:text-7xl leading-tight text-center">
+            Votre entrée dans l'art
+          </h1>
         </div>
-      ))}
-      
-      <div
-        className="w-full h-[101px] absolute left-0 top-[650px] z-20"
-        style={{
-          background: 'linear-gradient(180deg, rgba(19, 19, 19, 0) 0%, rgba(19, 19, 19, 1) 100%)'
-        }}
-      />
 
-      {/* <div className="flex flex-col gap-0 items-start justify-start w-full max-w-[1246px] absolute left-[95px] top-0 z-30">
-        <div className="text-[#ffffff] text-left font-['FunnelDisplay-Medium',_sans-serif] text-[93.30841064453125px] font-medium uppercase relative self-stretch">
-          Votre entrée dans l'art
-        </div>
-        <div className="flex flex-row items-center justify-between self-stretch shrink-0 relative">
-          <div className="text-[#ffffff] text-left font-['FunnelDisplay-Medium',_sans-serif] text-[32px] font-medium uppercase relative">
-            Commence
+        {/* Subtitle with COMMENCE and MAINTENANT - Top */}
+        <div className=" z-20 px-4 w-full max-w-6xl">
+          <div className="flex flex-col sm:flex-row justify-between items-center">
+            <div className="absolute top-24 left-0 z-20 text-white font-funnel font-medium uppercase text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-2 sm:mb-0">
+              Commence
+            </div>
+            <div className="absolute top-24 right-0 z-20 text-white font-funnel font-medium uppercase text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+              Maintenant
+            </div>
           </div>
-          <div className="text-[#ffffff] text-left font-['FunnelDisplay-Medium',_sans-serif] text-[32px] font-medium uppercase relative">
-            Maintenant
-          </div>
         </div>
+
+        {/* Artist Cards - Responsive */}
+        {[
+          { breakpoint: 'md:hidden', count: MOBILE_ARTIST_COUNT, positions: artistMobilePositions, prefix: 'mobile' },
+          { breakpoint: 'hidden md:block', count: DESKTOP_ARTIST_COUNT, positions: artistPositions, prefix: 'desktop' }
+        ].map(({ breakpoint, count, positions, prefix }) => 
+          allArtists.slice(0, count).map((artist, index) => (
+            <div
+              key={`artist-${prefix}-${index}`}
+              className={`absolute z-10 ${breakpoint}`}
+              style={{
+                left: positions[index]?.left || '0px',
+                top: positions[index]?.top || '0px'
+              }}
+            >
+              <HeroArtistCard
+                artistImageUrl={artist.imageUrl}
+                artworkImageUrl={artist.featuredArtwork || ''}
+              />
+            </div>
+          ))
+        )}
+
+        {/* Bottom Text */}
+        <div className="w-full absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 px-4">
+          <p className="text-white text-center font-funnel font-medium text-base md:text-lg max-w-xs">
+            Laissez vous guidez dans le nouveau monde de l'art
+          </p>
+        </div>
+
+        {/* Bottom Gradient */}
       </div>
-
-      <div
-        className="text-[#ffffff] text-center font-['FunnelDisplay-Medium',_sans-serif] text-lg font-medium absolute left-[50%] bottom-[30px] w-[284px] z-30"
-        style={{ translate: '-50%' }}
-      >
-        Laissez vous guidez dans le nouveau monde de l'art
-      </div> */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#131313] to-transparent z-10" />
     </div>
   )
 }

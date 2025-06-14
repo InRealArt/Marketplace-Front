@@ -20,26 +20,13 @@ const Header = () => {
         {/* Logo section - aligné à gauche */}
         <div className="flex items-center">
           {/* Mobile logo */}
-          <Link href={'/'} className="block md:hidden">
+          <Link href={'/'}>
             <Image
-              priority={true}
-              alt="logo"
-              src="/images/LogoMobile.png"
-              width={28}
-              height={28}
-              className="w-7 h-7"
-            />
-          </Link>
-
-          {/* Desktop logo */}
-          <Link href={'/'} className="hidden md:block">
-            <Image
-              priority={true}
-              alt="logo"
-              src="/images/Logo.png"
-              width={150}
-              height={25}
-              className="w-[120px] h-auto lg:w-[180px]"
+              className="h-8 w-auto cursor-pointer"
+              src="/images/InRealArt.svg"
+              alt="IRA"
+              width={100}
+              height={32}
             />
           </Link>
         </div>
@@ -70,7 +57,7 @@ const Header = () => {
           >
             <UserCircle className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
           </button>
-          
+
           <button
             className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110"
             onClick={toggleCart}

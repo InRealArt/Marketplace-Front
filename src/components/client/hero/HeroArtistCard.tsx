@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import '@/styles/animations.scss'
 
 interface HeroArtistCardProps {
   artistImageUrl: string
@@ -13,47 +13,26 @@ export function HeroArtistCard({
   artworkImageUrl, 
   artistName = 'Artiste'
 }: HeroArtistCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
-
   return (
-    <div 
-      className="w-[212px] h-64 relative overflow-hidden cursor-pointer rounded"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Image de l'œuvre (arrière-plan) */}
+    <div className="hero-artist-card w-[152px] md:w-[212px] h-48 md:h-64 relative overflow-hidden cursor-pointer rounded">
+      {/* Artist image (base layer) */}
       <img
         className="rounded w-full h-full absolute inset-0 object-cover"
-        src={artworkImageUrl}
-        alt="Œuvre d'art"
+        src={artistImageUrl}
+        alt={artistName}
       />
       
-      {/* Image de l'artiste avec effet de rideau */}
-      <div
-        className="absolute inset-0 rounded overflow-hidden transition-all duration-1000 ease-in-out"
-        style={{
-          clipPath: isHovered 
-            ? 'polygon(0% 50%, 0% 50%, 100% 50%, 100% 50%)' 
-            : 'polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%)'
-        }}
-      >
+      {/* Black/grey background overlay */}
+      <div className="hero-artist-card__background-overlay absolute inset-0 bg-[#2a2a2a]" />
+      
+      {/* Artwork image overlay */}
+      <div className="hero-artist-card__artwork-overlay absolute inset-0 rounded overflow-hidden">
         <img
           className="w-full h-full object-cover"
-          src={artistImageUrl}
-          alt={artistName}
+          src={artworkImageUrl}
+          alt="Œuvre d'art"
         />
       </div>
-      
-      {/* Effet de transition avec la couleur de fond */}
-      <div
-        className="absolute inset-0 bg-[#131313] transition-all duration-500 ease-in-out"
-        style={{
-          clipPath: isHovered
-            ? 'polygon(0% 50%, 0% 50%, 100% 50%, 100% 50%)'
-            : 'polygon(0% 50%, 0% 50%, 100% 50%, 100% 50%)',
-          opacity: isHovered ? 1 : 0
-        }}
-      />
     </div>
   )
 }

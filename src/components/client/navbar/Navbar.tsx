@@ -24,7 +24,7 @@ function Navbar () {
   ]
 
   return (
-    <div className="bg-black/90 border-b border-[#131313] px-24 py-4 flex items-center justify-between h-20 relative backdrop-blur-[0.125rem]">
+    <div className="bg-black/90 border-b border-[#131313] px-24 py-4 flex items-center justify-between h-20 relative backdrop-blur-[0.125rem] fixed top-0 left-0 right-0 z-50">
       {/* Section gauche avec logo et menu */}
       <div className="flex items-center gap-16">
         {/* Logo simplifié */}

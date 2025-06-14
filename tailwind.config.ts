@@ -38,6 +38,8 @@ const config = {
         inter: ['Inter', 'sans-serif'],
         syncopate: ['Syncopate', 'sans-serif'],
         unbounded: ['Unbounded', 'sans-serif'],
+        bricolage: ['Bricolage Grotesque', 'sans-serif'],
+        funnel: ['Funnel Display', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -92,6 +94,10 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      maxWidth: {
+        "screen-image": "1440px",
+        "intro-screen": "1000px",
       },
     },
   },
