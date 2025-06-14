@@ -16,7 +16,6 @@ const Landing = () => {
       </Suspense>
       <Guarantees />
       <Footer/>
-
     </main>
   );
 };
