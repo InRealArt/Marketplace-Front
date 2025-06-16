@@ -30,6 +30,7 @@ model Artist {
   NftCollection   NftCollection[]
   Profile         Profile[]
   Country         Country?         @relation(fields: [countryCode], references: [code])
+  items           Item[]
 
   @@index([countryCode])
   @@schema("public")
@@ -496,6 +497,8 @@ model Item {
   description        String
   idUser             Int
   user               BackofficeUser    @relation(fields: [idUser], references: [id])
+  artistId           Int?
+  artist             Artist?           @relation(fields: [artistId], references: [id])
   tags               String[]          @default([])
   slug               String?           @unique
   metaDescription    String
@@ -518,6 +521,7 @@ model Item {
   physicalItem PhysicalItem?
 
   @@index([idUser])
+  @@index([artistId])
   @@index([mediumId])
   @@index([styleId])
   @@index([techniqueId])
@@ -829,9 +833,11 @@ model PhysicalItem {
   height            Decimal?           @db.Decimal(10, 2)
   width             Decimal?           @db.Decimal(10, 2)
   weight            Decimal?           @db.Decimal(10, 2)
-  unitHeight        String?
-  unitWidth         String?
-  unitWeight        String?
+  thickness         Decimal?           @db.Decimal(10, 2)
+  unitHeight        String?           @default("cm")
+  unitWidth         String?           @default("cm")
+  unitThickness     String?           @default("cm")
+  unitWeight        String?           @default("kg")
   creationYear      Int?
   shippingAddressId Int?
   shippingAddress   Address?           @relation("PhysicalItemShipping", fields: [shippingAddressId], references: [id])
