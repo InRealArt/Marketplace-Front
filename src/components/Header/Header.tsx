@@ -33,7 +33,7 @@ const Header = () => {
 
         {/* Navigation - hidden on mobile, visible on md and up */}
         <nav className="hidden md:flex font-semibold justify-center items-center text-sm lg:text-base gap-5 lg:gap-[35px] absolute left-1/2 transform -translate-x-1/2">
-          <Link href={'/'}>
+          <Link href={'/category/newArtworks'}>
             New artworks
           </Link>
           <Link href={'/category/paintings'}>
