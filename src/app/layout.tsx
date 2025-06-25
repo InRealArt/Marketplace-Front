@@ -3,6 +3,7 @@ import Header from '@/components/client/Header/Header';
 import Cart from '@/components/client/Header/Cart';
 import '@/styles/globals.scss';
 import '@/styles/globals.css';
+import '@/styles/font.css';
 import { Providers } from './providers';
 import LoginModal from '@/components/Modal/LoginModal/LoginModal';
 import { Toaster } from 'sonner';
