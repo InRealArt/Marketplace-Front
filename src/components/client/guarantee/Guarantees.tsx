@@ -6,32 +6,32 @@ function Guarantees() {
     {
       title: 'Free Return',
       description: 'Up to 30 days after delivery',
-      bgImage: '/icons/bg_card_guarantee.svg',
+      bgImage: '/images/bg_hero.svg',
       frameImage: '/icons/world_little.svg'
     },
     {
       title: 'International Shipping',
       description: 'Professional home delivery',
-      bgImage: '/icons/bg_card_guarantee.svg',
+      bgImage: '/images/bg_hero.svg',
       frameImage: '/icons/world_little.svg'
     },
     {
       title: 'Excellent Reviews',
       description: 'By artists and collectors',
-      bgImage: '/icons/bg_card_guarantee.svg',
+      bgImage: '/images/bg_hero.svg',
       frameImage: '/icons/world_little.svg'
     },
     {
       title: 'Secure Payments',
       description: 'By credit card, wire transfer or in installments',
-      bgImage: '/icons/bg_card_guarantee.svg',
+      bgImage: '/images/bg_hero.svg',
       frameImage: '/icons/world_little.svg'
     }
   ]
 
   return (
     <div
-      className="pt-20 pb-20 flex flex-row gap-4 items-center justify-start self-stretch shrink-0 relative"
+      className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-[10rem]"
     >
       {guaranteesData.map((guarantee, index) => (
         <GuaranteeCard

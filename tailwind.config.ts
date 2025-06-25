@@ -28,9 +28,9 @@ const config = {
     extend: {
       width: {
         'card-1col': '100%',
-        'card-2col': 'calc(50% - 10px)',
-        'card-3col': 'calc(33.333% - 20px)',
-        'card-4col': 'calc(25% - 20px)',
+        'card-2col': 'calc(100% / 2)',
+        'card-3col': 'calc(100% / 3)',
+        'card-4col': 'calc(100% / 4)',
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],

@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 import Header from '@/components/Header/Header';
-import HeaderMenu from '@/components/Header/HeaderMenu';
-import UserMenu from '@/components/Header/UserMenu';
 import Cart from '@/components/Header/Cart';
-import Footer from '@/components/Footer';
 import '@/styles/globals.scss';
 import '@/styles/globals.css';
 import { Providers } from './providers';
@@ -12,6 +9,8 @@ import { Toaster } from 'sonner';
 import GoogleCaptchaWrapper from './captcha/google-captcha-wrapper';
 import '@coinbase/onchainkit/styles.css';
 import Navbar from '@/components/client/navbar/Navbar';
+import SearchModal from '@/components/client/modals/SearchModal';
+import Footer from '@/components/client/footer/Footer';
 
 export const metadata: Metadata = {
   title: 'InRealArt - MarketPlace',
@@ -29,13 +28,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
-  
+
   return (
     <html lang="en">
       <GoogleCaptchaWrapper>
         <body suppressHydrationWarning={true}>
           <Providers>
-            {/* <Navbar /> */}
             <Header />
             {/* <HeaderMenu /> */}
             {/* <UserMenu /> */}
@@ -44,6 +42,8 @@ export default function RootLayout({
             {/* <Footer /> */}
             <Toaster richColors />
             <LoginModal />
+            <SearchModal />
+            <Footer />
           </Providers>
         </body>
       </GoogleCaptchaWrapper>

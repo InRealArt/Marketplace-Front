@@ -6,6 +6,7 @@ import NavbarItem from './NavbarItem'
 import ButtonAction from '../buttons/ButtonAction'
 import { useCart } from '@/hooks/useCart'
 import { useModalStore } from '@/store/modalStore'
+import { navigationItems } from '@/lib/constants/navigation'
 
 
 function Navbar () {
@@ -14,14 +15,6 @@ function Navbar () {
   
   // Get cart items count from the Zustand store
   const cartItemsCount = getItemCount();
-
-  const navigationItems = [
-    { text: 'New artworks', href: '/newArtworks' },
-    { text: 'Paintings', href: '/paintings' },
-    { text: 'Sculptures', href: '/sculptures' },
-    { text: 'Drawings', href: '/drawings' },
-    { text: 'Artists', href: '/artists' }
-  ]
 
   return (
     <div className="bg-black/90 border-b border-[#131313] px-24 py-4 flex items-center justify-between h-20 relative backdrop-blur-[0.125rem] fixed top-0 left-0 right-0 z-50">

@@ -13,6 +13,7 @@ type Props = {
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   className?: string;
+  children?: React.ReactNode;
 };
 
 const Button = ({
@@ -24,7 +25,8 @@ const Button = ({
   icon,
   disabled,
   type = "button",
-  className
+  className,
+  children
 }: Props) => {
   const baseStyles = "font-poppins text-base md:text-lg tracking-[-1px] font-bold flex md:py-[15px] md:px-[30px] text-center justify-center items-center gap-2.5 rounded-[10px] bg-transparent text-white border-none cursor-pointer disabled:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none py-[15px] px-[15px] mx-auto m-0";
   
@@ -82,6 +84,7 @@ const Button = ({
     >
       {icon}
       <span>{text}</span>
+      {children}
     </button>
   );
 };

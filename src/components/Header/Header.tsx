@@ -3,9 +3,10 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
-import { useSession } from '@/lib/auth-client';
-import { UserCircle } from 'lucide-react';
 import { useModalStore } from '@/store/modalStore';
+import { navigationItems } from '@/lib/constants/navigation';
+import ButtonAction from '../client/buttons/ButtonAction';
+import SearchButton from '../client/buttons/SearchButton';
 
 const Header = () => {
   const { toggleMenu, toggleUserMenu, toggleCart } = useModalStore();
@@ -15,7 +16,7 @@ const Header = () => {
   const cartItemsCount = getItemCount();
 
   return (
-    <header className="fixed top-0 left-0 w-full h-[50px] md:h-[60px] lg:h-[80px] z-[99] bg-[rgba(31,31,29,0.5)] backdrop-blur-[60px]">
+    <header className="fixed top-0 left-0 w-full h-[70px] lg:h-[80px] z-[99] backdrop-blur-[60px]">
       <section className="relative z-10 w-full h-full flex justify-between items-center px-3 md:px-4 lg:px-6">
         {/* Logo section - aligné à gauche */}
         <div className="flex items-center">
@@ -32,34 +33,27 @@ const Header = () => {
         </div>
 
         {/* Navigation - hidden on mobile, visible on md and up */}
-        <nav className="hidden md:flex font-semibold justify-center items-center text-sm lg:text-base gap-5 lg:gap-[35px] absolute left-1/2 transform -translate-x-1/2">
-          <Link href={'/category/newArtworks'}>
-            New artworks
-          </Link>
-          <Link href={'/category/paintings'}>
-            Paintings
-          </Link>
-          <Link href={'/category/sculptures'}>
-            Sculptures
-          </Link>
-          <Link href={'/artists'}>
-            Artists
-          </Link>
+        <nav className="hidden md:flex font-semibold justify-center items-center text-sm lg:text-base gap-5">
+          {navigationItems.map((item, index) => (
+            <Link key={index} href={item.href} className="hover:opacity-80 transition-opacity">
+              {item.text}
+            </Link>
+          ))}
         </nav>
 
         {/* Icons section - aligné à droite */}
-        <div className="flex justify-end items-center">
-          {/* User icon */}
-          <button
-            className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110"
-            onClick={toggleUserMenu}
-            aria-label="User account"
-          >
-            <UserCircle className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white" />
-          </button>
+        <div className="flex justify-end items-center gap-6">
+          <ButtonAction  onClick={() => { }} text="Signup" />
 
+          {/* Search Button */}
+          <SearchButton />
+          <button className="p-1 hover:opacity-80 transition-opacity">
+            <svg className="w-7 h-7 text-[#f6f8ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </button>
           <button
-            className="relative mr-3 md:mr-4 bg-transparent border-0 p-0 cursor-pointer flex items-center justify-center transition-transform duration-200 hover:scale-110"
+            className="relative cursor-pointer hover:opacity-80 transition-opacity"
             onClick={toggleCart}
             aria-label="Ouvrir le panier"
           >
@@ -69,7 +63,7 @@ const Header = () => {
               src="/icons/cart.svg"
               width={20}
               height={20}
-              className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 brightness-0 invert"
+              className="w-7 h-7 brightness-0 invert"
             />
             {cartItemsCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2 bg-red-500 text-white rounded-full w-4 h-4 md:w-5 md:h-5 flex items-center justify-center text-[10px] md:text-xs font-semibold">
@@ -77,6 +71,7 @@ const Header = () => {
               </span>
             )}
           </button>
+
           <Image
             onClick={toggleMenu}
             priority={true}
@@ -84,7 +79,7 @@ const Header = () => {
             src="/icons/menu.png"
             width={24}
             height={24}
-            className="cursor-pointer"
+            className="cursor-pointer block md:hidden"
           />
         </div>
       </section>

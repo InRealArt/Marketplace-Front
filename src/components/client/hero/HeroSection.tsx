@@ -23,7 +23,7 @@ const artistPositions = [
 ]
 
 const artistMobilePositions = [
-  { left: '14%;', top: '127px;' },  // further left
+  { left: '14%', top: '127px' },  // further left
   { left: '9%', top: '330px' },  // further left
   { left: '53%', top: '212px' },   // further right
   { left: '45%', top: '430px' },   // further right
@@ -39,7 +39,7 @@ export default function HeroSection({
   const allArtists = use(artists)
 
   return (
-    <div className="w-full h-[100vh] relative bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
+    <div className="w-full h-[100vh] relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
       <div className='w-full max-w-[90%] md:max-w-intro-screen h-full relative m-auto'>
         {/* Main Title - Top */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 z-20 w-full max-w-7xl">
@@ -83,11 +83,10 @@ export default function HeroSection({
         )}
 
         {/* Bottom Text */}
-        <div className="w-full absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 px-4">
-          <p className="text-white text-center font-funnel font-medium text-base md:text-lg max-w-xs">
+          <p className="w-full absolute bottom-20 left-1/2 transform -translate-x-1/2 z-30 px-4 text-white text-center font-funnel font-medium text-base md:text-lg max-w-xs">
             Laissez vous guidez dans le nouveau monde de l'art
           </p>
-        </div>
+
 
         {/* Bottom Gradient */}
       </div>
