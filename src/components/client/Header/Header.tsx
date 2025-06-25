@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
 import { useModalStore } from '@/store/modalStore';
 import { navigationItems } from '@/lib/constants/navigation';
-import ButtonAction from '../client/buttons/ButtonAction';
-import SearchButton from '../client/buttons/SearchButton';
+import ButtonAction from '../buttons/ButtonAction';
+import SearchButton from '../buttons/SearchButton';
 
 const Header = () => {
   const { toggleMenu, toggleUserMenu, toggleCart } = useModalStore();
