@@ -33,7 +33,7 @@ const Header = () => {
         </div>
 
         {/* Navigation - hidden on mobile, visible on md and up */}
-        <nav className="hidden md:flex font-semibold justify-center items-center text-sm lg:text-base gap-5">
+        <nav className="hidden md:flex font-montserrat font-semibold justify-center items-center text-sm lg:text-base gap-5">
           {navigationItems.map((item, index) => (
             <Link key={index} href={item.href} className="hover:opacity-80 transition-opacity">
               {item.text}

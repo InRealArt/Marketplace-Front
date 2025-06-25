@@ -49,7 +49,7 @@ export default function SectionNavigation({ items, onSelect }: SectionNavigation
   return (
     <div className="relative mb-12">
       {/* Navigation buttons */}
-      <div ref={containerRef} className="flex gap-12 pb-4">
+      <div ref={containerRef} className="flex gap-12 pb-4 font-montserrat">
         {items.map((item) => (
           <button
             key={item.id}

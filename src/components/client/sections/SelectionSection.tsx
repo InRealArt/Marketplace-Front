@@ -57,7 +57,7 @@ export default function SelectionSection() {
           onSelect={setActiveTab}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 font-montserrat">
           {artworks.map((artwork, index) => (
             <ArtworkCard key={index} {...artwork} />
           ))}
