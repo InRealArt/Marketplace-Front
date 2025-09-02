@@ -2,11 +2,11 @@ import React from 'react';
 import Button from '@/components/Button/Button';
 import { Heart, Share2 } from 'lucide-react';
 import { ReadMore } from '@/components/utils/ReadMore';
-import { ArtistType } from '@/types';
+import { ArtistWithRelations } from '@/types';
 
 interface ArtistBioProps {
-  name?: ArtistType['name'];
-  description?: ArtistType['description'];
+  name?: ArtistWithRelations['name'];
+  description?: ArtistWithRelations['description'];
 }
 
 const ArtistBio = ({ name, description }: ArtistBioProps) => {

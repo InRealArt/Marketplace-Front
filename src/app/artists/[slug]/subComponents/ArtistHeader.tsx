@@ -2,10 +2,10 @@ import React from 'react';
 import ArtistBio from './ArtistBio';
 import ArtistBackground from './ArtistBackground';
 import ArtistActions from './ArtistActions';
-import { ArtistType } from '@/types';
+import { ArtistWithRelations } from '@/types';
 
 interface ArtistProps {
-  artist: Partial<ArtistType>
+  artist: Partial<ArtistWithRelations>
   imgNft: string
 }
 

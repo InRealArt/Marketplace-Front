@@ -85,7 +85,7 @@ export default function ArtworksClient({ artworks, paginationInfo, mediumName }:
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 gap-x-16 gap-y-20 sm:grid-cols-2 sm:gap-x-16 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredArtworks.map(artwork => {
               const artistName = [artwork.user.firstName, artwork.user.lastName]
                 .filter(Boolean)

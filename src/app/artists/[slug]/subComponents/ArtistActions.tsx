@@ -2,10 +2,10 @@ import React from 'react';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
 import { Share2 } from 'lucide-react';
-import { ArtistType } from '@/types';
+import { ArtistWithRelations } from '@/types';
 
 
-const ArtistActions = ({ imageUrl, isGallery }: Partial<ArtistType>) => {
+const ArtistActions = ({ imageUrl, isGallery }: Partial<ArtistWithRelations>) => {
   return (
     <div className="w-full flex justify-between items-start">
       {imageUrl && (

@@ -6,11 +6,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import SwiperArrows from './subComponents/SwiperArrows';
-import { ArtistType } from '@/types';
+import { ArtistWithRelations } from '@/types';
 import { Autoplay, Pagination } from 'swiper/modules';
 
 interface ArtistsListSliderProps {
-  artists: ArtistType[];
+  artists: ArtistWithRelations[];
   title: string;
 }
 

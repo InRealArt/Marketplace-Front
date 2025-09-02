@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { ArtistType, ItemPhysicalType } from '@/types';
+import { ItemPhysicalType, ArtistWithRelations } from '@/types';
 
 import ArtworkGallery from './Image/ArtworkGallery';
 import ArtworkInfos from './Infos/ArtworkInfos';
@@ -9,7 +9,7 @@ import ArtworkInfos from './Infos/ArtworkInfos';
 
 interface ArtworkPresentationProps {
   nft: ItemPhysicalType
-  artist: ArtistType | null | undefined
+  artist: ArtistWithRelations | null | undefined
 }
 
 const ArtworkPresentation = ({ nft, artist }: ArtworkPresentationProps) => {  

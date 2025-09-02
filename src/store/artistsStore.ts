@@ -1,15 +1,15 @@
 import { create } from 'zustand'
 import { fetchArtists } from '@/lib/artists'
-import { ArtistType } from '@/types'
+import { ArtistWithRelations } from '@/types'
 
 interface ArtistsState {
-    artists: ArtistType[]
-    galleries: ArtistType[]
+    artists: ArtistWithRelations[]
+    galleries: ArtistWithRelations[]
     isLoading: boolean
     error: Error | null
     fetchArtists: () => Promise<void>
-    getArtistById: (id: number) => ArtistType | undefined
-    getArtistBySlug: (slug: string) => ArtistType | undefined
+    getArtistById: (id: number) => ArtistWithRelations | undefined
+    getArtistBySlug: (slug: string) => ArtistWithRelations | undefined
 }
 
 export const useArtistsStore = create<ArtistsState>((set, get) => ({
@@ -25,15 +25,9 @@ export const useArtistsStore = create<ArtistsState>((set, get) => ({
             set({ isLoading: true, error: null })
             const data = await fetchArtists()
 
-            // Sépare les artistes des galeries et transforme les données
-            const artists = data.filter(artist => !artist.isGallery).map(artist => ({
-                ...artist,
-                featuredArtwork: artist.featuredArtwork || ''
-            }))
-            const galleries = data.filter(artist => artist.isGallery).map(artist => ({
-                ...artist,
-                featuredArtwork: artist.featuredArtwork || ''
-            }))
+            // Sépare les artistes des galeries
+            const artists = data.filter(artist => !artist.isGallery)
+            const galleries = data.filter(artist => artist.isGallery)
 
             set({ artists, galleries, isLoading: false })
         } catch (error) {

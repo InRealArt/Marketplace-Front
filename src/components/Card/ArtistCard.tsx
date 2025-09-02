@@ -1,56 +1,35 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArtistType } from '@/types';
+import { ArtistWithRelations } from '@/types';
 import { useItemsStore } from '@/store/itemsStore';
 
 interface ArtistCardProps {
-  artist: ArtistType;
+  artist: ArtistWithRelations;
+  showFollowButton?: boolean;
 }
 
-const ArtistCard = ({ artist }: ArtistCardProps) => {
-  const { id, name, imageUrl, featuredArtwork, slug } = artist;
-  
-  const { getItemsByArtist } = useItemsStore();
-  const nfts = getItemsByArtist(id);
-
-  const background = featuredArtwork;
-
+const ArtistCard = ({ artist, showFollowButton = false }: ArtistCardProps) => {
+  const {  name, imageUrl, slug, countryName, mediumTags, role } = artist;
   return (
-    <div className="relative w-card-1col sm:w-card-2col md:w-card-3col lg:w-card-4col mt-10 h-auto rounded-[17px] bg-white">
-      <Link href={`/artists/${slug || id}`}>
-        {background ? (
-          <div
-            className="relative w-full aspect-[4/3] rounded-t-[17px] bg-no-repeat bg-cover bg-center overflow-hidden"
-            style={{
-              backgroundImage: `url('${background}')`,
-            }}
-          />
-        ) : (
-          <div className="relative w-full aspect-[4/3] rounded-t-[17px] bg-[#525252] overflow-hidden"></div>
-        )}
+    <div className="rounded-xl overflow-hidden bg-cardBackground border border-white/10">
+      <Link href={`/artists/${slug}`} className="block">
+        <div
+          className="h-52 md:h-64 w-full bg-center bg-cover"
+          style={{ backgroundImage: `url(${imageUrl})` }}
+        />
       </Link>
-      <div className="relative flex items-end p-0 px-2.5 -top-2.5 md:p-5 md:items-center md:top-0">
-        {imageUrl && (
-          <Image
-            className="mr-6 rounded-lg border-[3px] border-[#b39e73] w-[60px] h-[60px]"
-            priority={true}
-            alt="artist miniature"
-            src={imageUrl}
-            width={50}
-            height={50}
-          />
-        )}{' '}
-        <div>
-          <h2 className="font-poppins text-base font-medium md:text-[22px] md:font-semibold text-[#1d1d1b] mb-1.5 md:mb-0">
-            {name}
-          </h2>
-          {!artist.isGallery && (
-            <p className="hidden md:block font-poppins text-base font-medium text-[#1d1d1b] m-0">
-              {nfts.length} artworks
-            </p>
-          )}
-        </div>
+      <div className="p-4">
+        {countryName ? (
+          <div className="text-xs text-white/60">{countryName}</div>
+        ) : null}
+        <div className="mt-1 text-white font-semibold">{name}</div>
+        <div className="text-sm text-white/70">{mediumTags.length > 0 ? mediumTags.join(' | ') : role}</div>
+        {showFollowButton ? (
+          <div className="mt-3">
+            <button className="px-4 py-1.5 text-sm rounded-full bg-white/10 text-white hover:bg-white/20 transition">Suivre +</button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

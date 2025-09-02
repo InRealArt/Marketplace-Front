@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ReadMore } from '@/components/utils/ReadMore';
 import DescriptionModal from '@/components/Modal/DescriptionModal';
 import dynamic from 'next/dynamic';
-import { ArtistType, ItemPhysicalType } from '@/types';
+import { ItemPhysicalType, ArtistWithRelations } from '@/types';
 import ArtworkPrice from './ArtworkPrice';
 import TrustSignals from './TrustSignals';
 
@@ -15,7 +15,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 
 interface ArtworkInfosProps {
   nft: ItemPhysicalType
-  artist: ArtistType | null | undefined
+  artist: ArtistWithRelations | null | undefined
 }
 
 const ArtworkInfos = ({ nft, artist }: ArtworkInfosProps) => {

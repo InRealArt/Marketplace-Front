@@ -1,4 +1,4 @@
-import { PhysicalItemStatus, OrderStatus, ResourceNftStatuses, ResourceTypes, Item, PhysicalItem, NftItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique } from "@prisma/client"
+import { PhysicalItemStatus, OrderStatus, ResourceNftStatuses, ResourceTypes, Item, PhysicalItem, NftItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique, Artist, Country, ArtistArtworkImage } from "@prisma/client"
 import { Decimal } from "@prisma/client/runtime/library"
 import { Address } from "viem"
 
@@ -6,6 +6,26 @@ export type UserId = string
 export type ArtistId = number
 export type CollectionId = number
 export type OrderId = number
+
+// Extended Artist type that includes all the new fields that exist in the database
+export type ArtistWithRelations = Artist & {
+  Country?: Country | null
+  artworkImages?: ArtistArtworkImage[]
+  // These fields exist in the database but TypeScript might not recognize them yet
+  countryName?: string | null
+  mediumTags?: string[]
+  role?: string | null
+  photo?: string | null
+  intro?: string | null
+  quoteHeader?: string | null
+  quoteText?: string | null
+  biographyHeader1?: string | null
+  biographyText1?: string | null
+  biographyHeader2?: string | null
+  biographyText2?: string | null
+  biographyHeader3?: string | null
+  biographyText3?: string | null
+}
 
 export interface ArtistType {
   id: ArtistId
@@ -17,9 +37,65 @@ export interface ArtistType {
   imageUrl: string
   isGallery: boolean
   backgroundImage?: string | null
-  featuredArtwork: string
+  featuredArtwork?: string | null
   artworkStyle?: string | null
   slug?: string | null
+  // Extended profile fields
+  role?: string | null
+  photo?: string | null
+  intro?: string | null
+  countryCode?: string | null
+  countryName?: string | null
+  mediumTags?: string[]
+  birthYear?: number | null
+  quoteHeader?: string | null
+  quoteText?: string | null
+  biographyHeader1?: string | null
+  biographyText1?: string | null
+  biographyHeader2?: string | null
+  biographyText2?: string | null
+  biographyHeader3?: string | null
+  biographyText3?: string | null
+  // Social media fields (existing)
+  websiteUrl?: string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  twitterUrl?: string | null
+  linkedinUrl?: string | null
+  // Legacy fields
+  quote?: string | null
+  testimonial?: string | null
+}
+
+export interface ArtistArtworkImageType {
+  image: string
+  name: string
+  price?: number
+  url: string
+}
+
+export interface ArtistData {
+  id: number
+  name: string
+  role: string
+  photo: string
+  intro: string
+  description: string
+  slug: string
+  artistId?: number // ID de l'artiste dans la table Artist (clé étrangère)
+  countryCode?: string | null
+  countryName?: string | null
+  mediumTags?: string[]
+  birthYear?: number | null
+  quoteHeader?: string | null
+  quoteText?: string | null
+  biographyHeader1?: string | null
+  biographyText1?: string | null
+  biographyHeader2?: string | null
+  biographyText2?: string | null
+  biographyHeader3?: string | null
+  biographyText3?: string | null
+  artworkImages: ArtistArtworkImageType[]
 }
 
 export interface CollectionType {
@@ -70,7 +146,7 @@ export enum ModalType {
   SELL
 }
 
-export type ListType = ItemPhysicalType[] | CollectionType[] | ArtistType[]
+export type ListType = ItemPhysicalType[] | CollectionType[] | ArtistWithRelations[]
 
 export interface ListNavigationType { tab: string; list: ListType; context: 'artist' | 'collection' | 'artwork' }
 

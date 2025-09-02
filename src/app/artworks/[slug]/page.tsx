@@ -6,7 +6,7 @@ import ArtistsListSlider from '@/components/List/ArtistsListSlider';
 import { useItemsStore } from '@/store/itemsStore';
 import ArtworkTags from '../../../components/Artwork/ArtworkTags';
 import { useArtistsStore } from '@/store/artistsStore';
-import { ArtistType, NftSlug } from '@/types';
+import { NftSlug, ArtistWithRelations } from '@/types';
 
 const NftPage = () => {
   const { slug } = useParams() as { slug: string };
@@ -14,7 +14,7 @@ const NftPage = () => {
   const { getItemBySlug, fetchItems } = useItemsStore();
 
   const nft = getItemBySlug(slug as NftSlug);
-  const artistMock = { id: 1, name: 'John', surname: 'Doe', pseudo: 'John Doe', imageUrl: 'https://via.placeholder.com/150', description: 'John Doe is a famous artist', publicKey: '0x1234567890abcdef', isGallery: true, backgroundImage: 'https://via.placeholder.com/150', artworkStyle: 'Abstract', slug: 'john-doe' } as ArtistType
+  const artistMock = { id: 1, name: 'John', surname: 'Doe', pseudo: 'John Doe', imageUrl: 'https://via.placeholder.com/150', description: 'John Doe is a famous artist', publicKey: '0x1234567890abcdef', isGallery: true, backgroundImage: 'https://via.placeholder.com/150', artworkStyle: 'Abstract', slug: 'john-doe' } as ArtistWithRelations
 
   useEffect(() => {
     if (nft === undefined) {

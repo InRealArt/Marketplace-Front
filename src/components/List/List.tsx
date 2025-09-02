@@ -6,7 +6,7 @@ import ArtworkCard from '../Card/ArtworkCard';
 import { useForm, FormProvider } from 'react-hook-form';
 import ArtistCard from '../Card/ArtistCard';
 import ListHeader from './subComponents/ListHeader';
-import { ArtistType, CollectionType, ListNavigationType, ItemPhysicalType } from '@/types';
+import { CollectionType, ListNavigationType, ItemPhysicalType, ArtistWithRelations } from '@/types';
 import CollectionCard from '../Card/CollectionCard';
 import { useEffect, useState } from 'react';
 import { PhysicalItemStatus } from '@prisma/client';
@@ -47,12 +47,12 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
     )
     : navActiveItem?.list
 
-  const showListByType = (item: ItemPhysicalType | ArtistType | CollectionType) => {
+  const showListByType = (item: ItemPhysicalType | ArtistWithRelations | CollectionType) => {
     switch (navActiveItem?.context) {
       case 'artwork':
         return <ArtworkCard key={item.id} artwork={item as ItemPhysicalType} />
       case 'artist':
-        return <ArtistCard key={item.id} artist={item as ArtistType} />
+        return <ArtistCard key={item.id} artist={item as ArtistWithRelations} />
       case 'collection':
         return <CollectionCard key={item.id} collection={item as CollectionType} />
     }
@@ -60,17 +60,6 @@ const List = ({ nav, viewAllLink, filters }: ListProps) => {
 
   return (
     <section className="mt-[60px] lg:mt-[100px]">
-      <FormProvider {...methods}>
-        <ListHeader
-          nav={nav}
-          filters={navActiveItem?.context === 'artwork' && filters ? filters : []}
-          viewAllLink={viewAllLink}
-          navActive={navActive}
-          setNavActive={setNavActive}
-          setOnlyToBuy={setOnlyToBuy}
-          onlyToBuy={onlyToBuy}
-        />
-      </FormProvider>
       <div className="flex flex-wrap justify-start gap-5 lg:gap-[26px] xl:gap-[30px]">
         {listOfNftsToArtworksOrNot?.map((item) => showListByType(item))}
       </div>

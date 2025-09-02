@@ -1,10 +1,10 @@
 import React from 'react';
 import Button from '../Button/Button';
 import Link from 'next/link';
-import { ArtistType } from '@/types';
+import { ArtistWithRelations } from '@/types';
 
 interface ArtistCardSliderProps {
-  artist: ArtistType;
+  artist: ArtistWithRelations;
 }
 
 const ArtistCardSlider = ({ artist }: ArtistCardSliderProps) => {
