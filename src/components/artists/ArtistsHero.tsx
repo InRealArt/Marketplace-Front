@@ -25,7 +25,7 @@ export default function ArtistsHero() {
       <div className="relative z-10 flex items-end h-full">
         <div className="max-w-90 xl:max-w-screen-xl mx-auto w-full pb-12 md:pb-16 lg:pb-20">
           <div className="max-w-4xl">
-            <h1 className="bricolage-grotesque text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 md:mb-6">
+            <h1 className="font-bricolage text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 md:mb-6">
               Artistes
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-white/90 max-w-2xl leading-relaxed">

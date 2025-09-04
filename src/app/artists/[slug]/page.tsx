@@ -10,6 +10,8 @@ import { useArtistsStore } from '@/store/artistsStore'
 import { useCollectionsStore } from '@/store/collectionsStore'
 import { useItemsStore } from '@/store/itemsStore'
 import { useBackofficeUserStore } from '@/store/backofficeUserStore'
+import ArtistProfileHero from './subComponents/ArtistProfileHero'
+import ArtistInfoSection from './subComponents/ArtistInfoSection'
 
 const Artist = () => {
   const { slug } = useParams() as { slug: string }
@@ -80,8 +82,10 @@ const Artist = () => {
 
   return (
     <main>
-      <ArtistHeader artist={artist} imgNft={imgUri} />
-      {!artist.isGallery && <div className="mt-5"><ListOfNfts nav={navigationInfos} /></div>}
+      <ArtistProfileHero artist={artist} />
+      <ArtistInfoSection artist={artist} />
+      {/* {!artist.isGallery && <div className="mt-5"><ListOfNfts nav={navigationInfos} /></div>} */}
+
     </main>
   )
 }
