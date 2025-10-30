@@ -5,8 +5,7 @@ import prisma from '@/lib/prisma'
 export async function getAllArtists() {
     const artists = await prisma.artist.findMany({
         include: {
-            Country: true,
-            artworkImages: true
+            Country: true
         },
         orderBy: {
             name: 'asc'

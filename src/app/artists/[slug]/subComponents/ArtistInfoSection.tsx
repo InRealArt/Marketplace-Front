@@ -31,7 +31,7 @@ export default function ArtistInfoSection({ artist }: ArtistInfoSectionProps) {
             {/* Année de naissance et pays */}
             {(artist.birthYear || artist.countryName) && (
               <p className="text-gray-400 text-sm font-bricolage font-serif">
-                {artist.birthYear && `${t('artists.profile.bornIn')} ${artist.birthYear}`}
+                {artist.birthYear && `Née le ${artist.birthYear}`}
                 {artist.birthYear && artist.countryName && ' - '}
                 {artist.countryName}
               </p>

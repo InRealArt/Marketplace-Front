@@ -7,7 +7,7 @@ const t = (key: string) => {
     'artists.nationality': 'Nationality',
     'artists.all': 'All',
     'artists.searchPlaceholder': 'Search artists...',
-    'artists.artistsFound': 'artists found'
+    'artists.artistsFound': 'artist(s) found'
   }
   return translations[key] || key
 }

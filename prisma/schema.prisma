@@ -6,89 +6,67 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["auth", "marketplace", "public"]
+  schemas  = ["auth", "marketplace", "public", "landing"]
 }
 
 model Artist {
-  id                 Int              @id @default(autoincrement())
-  name               String
-  surname            String
-  pseudo             String           @unique
-  description        String           @unique
-  publicKey          String           @unique
-  imageUrl           String           @unique
-  isGallery          Boolean          @default(false)
-  backgroundImage    String?
-  slug               String?          @unique
-  birthYear          Int?
-  featuredArtwork    String?
-  countryCode        String?
-  websiteUrl         String?
-  facebookUrl        String?
-  instagramUrl       String?
-  twitterUrl         String?
-  linkedinUrl        String?
-  LandingArtist      LandingArtist[]
-  PresaleArtworks    PresaleArtwork[]
-  Country            Country?         @relation(fields: [countryCode], references: [code])
+  id              Int              @id @default(autoincrement())
+  name            String
+  surname         String
+  pseudo          String           @unique
+  description     String           @unique
+  publicKey       String           @unique
+  imageUrl        String           @unique
+  isGallery       Boolean          @default(false)
+  backgroundImage String?
+  slug            String?          @unique
+  birthYear       Int?
+  featuredArtwork String?
+  countryCode     String?
+  websiteUrl      String?
+  facebookUrl     String?
+  instagramUrl    String?
+  twitterUrl      String?
+  linkedinUrl     String?
+  Profile         Profile[]
+  BackofficeUser  BackofficeUser[]
+  LandingArtist   LandingArtist[]
+  Country         Country?         @relation(fields: [countryCode], references: [code])
+  items           Item[]
 
   @@schema("public")
 }
 
-model ArtistArtworkImage {
-  id       Int    @id @default(autoincrement())
-  artistId Int
-  image    String
-  name     String
-  price    Int?
-  url      String
-  artist   Artist @relation(fields: [artistId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+model LandingArtist {
+  id                 Int                    @id @default(autoincrement())
+  slug               String                 @unique
+  intro              String?
+  description        String?
+  artworkImages      Json                   @default("[]")
+  artworkStyle       String?
+  artistsPage        Boolean?               @default(false)
+  imageUrl           String                 @unique
+  secondaryImageUrl  String?
+  artistId           Int
+  //Champs pour le descriptif détaillé de l'artiste sur la landing
+  mediumTags         String[]               @default([])
+  quoteFromInRealArt String?
+  biographyHeader1   String?
+  biographyText1     String?
+  biographyHeader2   String?
+  biographyText2     String?
+  biographyHeader3   String?
+  biographyText3     String?
+  biographyHeader4   String?
+  biographyText4     String?
+  imageArtistStudio  String?
+  artistCategories   ArtistCategoryArtist[]
+  artist             Artist                 @relation(fields: [artistId], references: [id])
 
   @@index([artistId])
-  @@schema("public")
+  @@schema("landing")
 }
 
-model Collection {
-  id              Int              @id @default(autoincrement())
-  symbol          String           @unique
-  addressAdmin    String
-  artistId        Int
-  contractAddress String?          @unique
-  transactionHash String?
-  status          collectionstatus @default(pending)
-  name            String?
-  smartContractId Int?
-  artist          Artist           @relation(fields: [artistId], references: [id])
-  nfts            ResourceNft[]
-
-  @@index([smartContractId])
-  @@schema("public")
-}
-
-model ResourceNft {
-  id              Int                 @id @default(autoincrement())
-  tokenId         Int?
-  tokenUri        String?             @unique
-  status          ResourceNftStatuses
-  type            ResourceTypes
-  minter          String
-  collectionId    Int
-  name            String              @unique
-  imageUri        String?
-  description     String
-  certificateUri  String?             @unique
-  itemId          Int?                @unique
-  mockups         String[]
-  owner           String?
-  transactionHash String?
-  tags            String[]
-  purchasedOnce   Boolean?            @default(false)
-  previousOwner   String?
-  Order_old       Order_old[]
-  collection      Collection          @relation(fields: [collectionId], references: [id])
-
-  @@schema("public")
-}
 
 model Profile {
   id         BigInt     @default(autoincrement())
@@ -471,13 +449,10 @@ model Verification {
 
 model AuthCertificate {
   id             Int           @id(map: "AuthCertificate_pkey1") @default(autoincrement())
-  nftItemId      Int?          @unique
   file           Bytes
   physicalItemId Int?          @unique
-  nftItem        NftItem?      @relation(fields: [nftItemId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   physicalItem   PhysicalItem? @relation(fields: [physicalItemId], references: [id], onDelete: Cascade)
 
-  @@index([nftItemId])
   @@index([physicalItemId])
   @@schema("public")
 }
@@ -529,57 +504,12 @@ model Item {
   medium             ArtworkMedium?    @relation(fields: [mediumId], references: [id])
   style              ArtworkStyle?     @relation(fields: [styleId], references: [id])
   technique          ArtworkTechnique? @relation(fields: [techniqueId], references: [id])
-  nftItem            NftItem?
   physicalItem       PhysicalItem?
 
   @@index([artistId])
   @@index([mediumId])
   @@index([styleId])
   @@index([techniqueId])
-  @@schema("public")
-}
-
-model NftCollection {
-  id              Int               @id @default(autoincrement())
-  name            String
-  symbol          String
-  addressAdmin    String
-  artistId        Int
-  contractAddress String?
-  transactionHash String?
-  status          CollectionStatus  @default(pending)
-  smartContractId Int?
-  Artist          Artist            @relation(fields: [artistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  NftResource_old NftResource_old[]
-
-  @@unique([symbol, smartContractId])
-  @@index([artistId])
-  @@index([smartContractId])
-  @@schema("public")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model NftResource {
-  id               Int                 @id @default(autoincrement())
-  tokenId          Int?
-  tokenUri         String?             @unique
-  status           NftResourceStatuses
-  type             ResourceTypes
-  minter           String?
-  collectionId     Int
-  name             String              @unique
-  imageUri         String?
-  description      String
-  certificateUri   String?             @unique
-  blockchainItemId Int?                @unique
-  mockups          String[]
-  owner            String?
-  transactionHash  String?
-  tags             String[]
-  purchasedOnce    Boolean?            @default(false)
-  previousOwner    String?
-  NftItem          NftItem[]
-
   @@schema("public")
 }
 
@@ -660,7 +590,6 @@ model Invoice {
 model InvoiceItem {
   id             Int           @id @default(autoincrement())
   invoiceId      Int
-  nftItemId      Int?
   physicalItemId Int?
   title          String
   description    String?
@@ -669,11 +598,9 @@ model InvoiceItem {
   vatAmount      Decimal       @db.Decimal(10, 2)
   totalPrice     Decimal       @db.Decimal(10, 2)
   Invoice        Invoice       @relation(fields: [invoiceId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  NftItem        NftItem?      @relation(fields: [nftItemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   PhysicalItem   PhysicalItem? @relation(fields: [physicalItemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([invoiceId])
-  @@index([nftItemId])
   @@index([physicalItemId])
   @@schema("marketplace")
 }
@@ -711,18 +638,15 @@ model Order {
 model OrderItem {
   id             Int           @id @default(autoincrement())
   orderId        Int
-  nftItemId      Int?
   physicalItemId Int?
   title          String
   unitPrice      Decimal       @db.Decimal(10, 2)
   vatRate        Decimal       @db.Decimal(5, 2)
   vatAmount      Decimal       @db.Decimal(10, 2)
   totalPrice     Decimal       @db.Decimal(10, 2)
-  NftItem        NftItem?      @relation(fields: [nftItemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Order          Order         @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   PhysicalItem   PhysicalItem? @relation(fields: [physicalItemId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([nftItemId])
   @@index([orderId])
   @@index([physicalItemId])
   @@schema("marketplace")
@@ -762,49 +686,6 @@ model ThirdPartyAddress {
   @@schema("public")
 }
 
-model NftItem {
-  id              Int              @id @default(autoincrement())
-  itemId          Int              @unique
-  idNftResource   Int?
-  price           Int              @default(0)
-  status          NftItemStatus    @default(created)
-  invoiceItems    InvoiceItem[]
-  orderItems      OrderItem[]
-  authCertificate AuthCertificate?
-  nftResource     NftResource?     @relation(fields: [idNftResource], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  item            Item             @relation(fields: [itemId], references: [id], onDelete: Cascade)
-
-  @@index([itemId])
-  @@index([idNftResource])
-  @@schema("public")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model NftResource_old {
-  id               Int                 @id(map: "nftResource_pkey") @default(autoincrement())
-  tokenId          Int?
-  tokenUri         String?             @unique(map: "nftResource_tokenUri_key")
-  status           ResourceNftStatuses
-  type             ResourceTypes
-  minter           String
-  collectionId     Int
-  name             String              @unique(map: "nftResource_name_key")
-  imageUri         String?
-  description      String
-  certificateUri   String?             @unique(map: "nftResource_certificateUri_key")
-  blockchainItemId Int?                @unique(map: "nftResource_blockchainItemId_key")
-  mockups          String[]
-  owner            String?
-  transactionHash  String?
-  tags             String[]
-  purchasedOnce    Boolean?            @default(false)
-  previousOwner    String?
-  NftCollection    NftCollection       @relation(fields: [collectionId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "NftResource_collectionId_fkey")
-
-  @@index([collectionId], map: "nftResource_collectionId_idx")
-  @@index([name], map: "nftResource_name_idx")
-  @@schema("public")
-}
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Order_old {
@@ -813,7 +694,6 @@ model Order_old {
   nftId       Int
   userId      String      @db.Uuid
   orderStatus OrderStatus @default(WAITING_FOR_CONFIRMATION)
-  ResourceNft ResourceNft @relation(fields: [nftId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Order_nftId_fkey")
   users       users       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Order_userId_fkey")
 
   @@schema("public")
@@ -892,15 +772,14 @@ model ArtistCategory {
 }
 
 model ArtistCategoryArtist {
-  id              Int            @id(map: "ArtistsOnCategories_pkey") @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   landingArtistId Int
   categoryId      Int
-  Artist          Artist         @relation(fields: [landingArtistId], references: [id], onDelete: SetNull, map: "ArtistsCategoryArtist_artistId_fkey")
-  ArtistCategory  ArtistCategory @relation(fields: [categoryId], references: [id], onDelete: SetNull, map: "ArtistsCategoryArtist_categoryId_fkey")
+  landingArtist   LandingArtist  @relation(fields: [landingArtistId], references: [id])
+  category        ArtistCategory @relation(fields: [categoryId], references: [id])
 
-  @@unique([landingArtistId, categoryId], map: "ArtistsCategoryArtist_artistId_categoryId_key")
-  @@index([landingArtistId], map: "ArtistsCategoryArtist_artistId_idx")
-  @@index([categoryId], map: "ArtistsCategoryArtist_categoryId_idx")
+  @@unique([landingArtistId, categoryId])
+  @@map("ArtistCategoryArtist")
   @@schema("public")
 }
 
@@ -923,18 +802,6 @@ enum ResourceTypes {
 enum Web3Roles {
   MINTER
   ADMIN
-
-  @@schema("public")
-}
-
-enum ResourceNftStatuses {
-  UPLOADIPFS
-  UPLOADCERTIFICATE
-  UPLOADMETADATA
-  MINED
-  LISTED
-  SOLD
-  ROYALTYSET
 
   @@schema("public")
 }
@@ -1081,15 +948,6 @@ enum InvoiceType {
   @@schema("marketplace")
 }
 
-enum NftItemStatus {
-  created
-  pending
-  minted
-  listed
-  sold
-
-  @@schema("public")
-}
 
 enum NftResourceStatuses {
   UPLOADIPFS

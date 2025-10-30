@@ -5,8 +5,7 @@ import { ArtistWithRelations, ArtistData } from "@/types"
 async function fetchArtists() {
     const artists = await prisma.artist.findMany({
         include: {
-            Country: true,
-            artworkImages: true
+            Country: true
         }
     })
     return artists
@@ -19,7 +18,6 @@ async function fetchArtistById(artistId: number) {
         },
         include: {
             Country: true,
-            artworkImages: true
         }
     })
     return artist
@@ -31,8 +29,7 @@ async function fetchArtistBySlug(slug: string) {
             slug: slug
         },
         include: {
-            Country: true,
-            artworkImages: true
+            Country: true
         }
     })
     return artist

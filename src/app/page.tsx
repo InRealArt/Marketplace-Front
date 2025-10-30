@@ -5,18 +5,21 @@ import { HeroSectionServer } from '@/components/server/hero/HeroSection';
 import CategoriesSection from '@/components/client/categories/CategoriesSection';
 import SelectionSection from '@/components/client/sections/SelectionSection';
 import JoinUsSection from '@/components/client/sections/JoinUsSection';
+import Container from '@/components/Common/Container';
 
 const Landing = () => {
   return (
-    <main className="Landing">
-      <Suspense fallback={<div>Loading...</div>}>
-        <HeroSectionServer />
-      </Suspense>
-      <CategoriesSection />
-      <SelectionSection />
-      <Guarantees />
-      <JoinUsSection />
-    </main>
+    <Container>
+      <main className="Landing">
+        <Suspense fallback={<div>Loading...</div>}>
+          <HeroSectionServer />
+        </Suspense>
+        <CategoriesSection />
+        <SelectionSection />
+        <Guarantees />
+        <JoinUsSection />
+      </main>
+    </Container>
   );
 };
 

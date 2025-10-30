@@ -9,7 +9,6 @@ import LoginModal from '@/components/Modal/LoginModal/LoginModal';
 import { Toaster } from 'sonner';
 import GoogleCaptchaWrapper from './captcha/google-captcha-wrapper';
 import '@coinbase/onchainkit/styles.css';
-import Navbar from '@/components/client/navbar/Navbar';
 import SearchModal from '@/components/client/modals/SearchModal';
 import Footer from '@/components/client/footer/Footer';
 
@@ -39,7 +38,7 @@ export default function RootLayout({
             {/* <HeaderMenu /> */}
             {/* <UserMenu /> */}
             <Cart />
-            <section className="max-w-[90%] desktop:max-w-[1414px] mx-auto mt-[80px] 2xl:mt-[80px + 40px]">{children}</section>
+            {children}
             {/* <Footer /> */}
             <Toaster richColors />
             <LoginModal />
