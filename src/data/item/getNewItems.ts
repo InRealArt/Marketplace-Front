@@ -93,13 +93,6 @@ export async function getNewItems(
                         creationYear: true
                     }
                 },
-                nftItem: {
-                    select: {
-                        id: true,
-                        price: true,
-                        status: true
-                    }
-                }
             },
             orderBy: {
                 createdAt: 'desc' // Trier par date de création décroissante

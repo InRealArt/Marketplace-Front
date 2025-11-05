@@ -104,7 +104,7 @@ export function useShipping() {
 
     // Obtenir le coût de livraison sélectionné
     const getShippingCost = (): number => {
-        return selectedShipping?.totalCharges || 0
+        return selectedShipping?.totalCharges ? parseFloat(selectedShipping.totalCharges) : 0
     }
 
     // Vérifier si une adresse est valide pour le calcul

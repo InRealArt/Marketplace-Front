@@ -70,15 +70,6 @@ export const useItemsStore = create<NftsState>((set, get) => ({
                         ...item.physicalItem,
                         item: item
                     }
-                } else if (item.nftItem) {
-                    // Créer un objet compatible avec ItemPhysicalType pour les NFT
-                    return {
-                        id: item.nftItem.id,
-                        price: item.nftItem.price,
-                        stockQty: 1, // Les NFT ont toujours une quantité de 1
-                        status: 'listed' as any, // Convertir le statut NFT vers le format attendu
-                        item: item
-                    }
                 }
                 return null
             }).filter(Boolean) as ItemPhysicalType[]
@@ -126,7 +117,7 @@ export const useItemsStore = create<NftsState>((set, get) => ({
 
         let filtered = availableItems.filter(item => {
             // Filtre par prix (utilise le prix du physicalItem ou du nftItem)
-            const price = item.physicalItem?.price || item.nftItem?.price || 0
+            const price = item.physicalItem?.price || 0
             if (price < filters.priceRange[0] || price > filters.priceRange[1]) {
                 return false
             }

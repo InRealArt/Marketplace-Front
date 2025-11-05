@@ -15,9 +15,6 @@ export async function getTotalItemsByMedium(mediumId: number) {
                     }
                 },
                 {
-                    nftItem: {
-                        status: 'listed'
-                    }
                 }
             ]
         }

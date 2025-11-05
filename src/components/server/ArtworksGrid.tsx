@@ -122,7 +122,7 @@ export default async function ArtworksGrid({ searchParams, mediumName, showNewIt
     }
 
     // Convertir les valeurs Decimal en nombres pour éviter l'erreur de sérialisation
-    const artworks = rawArtworks.map(artwork => ({
+    const artworks = rawArtworks.map((artwork: any) => ({
       ...artwork,
       physicalItem: artwork.physicalItem ? {
         ...artwork.physicalItem,
@@ -133,10 +133,6 @@ export default async function ArtworksGrid({ searchParams, mediumName, showNewIt
         unitHeight: artwork.physicalItem.unitHeight ? Number(artwork.physicalItem.unitHeight) : null,
         unitWidth: artwork.physicalItem.unitWidth ? Number(artwork.physicalItem.unitWidth) : null,
         unitWeight: artwork.physicalItem.unitWeight ? Number(artwork.physicalItem.unitWeight) : null
-      } : null,
-      nftItem: artwork.nftItem ? {
-        ...artwork.nftItem,
-        price: Number(artwork.nftItem.price)
       } : null
     })) as typeof rawArtworks
 

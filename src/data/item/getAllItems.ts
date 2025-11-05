@@ -91,13 +91,6 @@ export async function getAllItems(
                         unitWeight: true,
                         creationYear: true
                     }
-                },
-                nftItem: {
-                    select: {
-                        id: true,
-                        price: true,
-                        status: true
-                    }
                 }
             },
             orderBy: {

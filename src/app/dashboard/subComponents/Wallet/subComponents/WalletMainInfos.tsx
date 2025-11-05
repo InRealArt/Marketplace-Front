@@ -2,7 +2,6 @@ import { ChevronLeft, ChevronRightIcon, LucideListOrdered } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
-import { ResourceNftStatuses } from '@prisma/client';
 import Button from '@/components/Button/Button';
 import { TransactionData, fetchTransactionsByAddress } from '@/lib/transactions';
 import { Address } from 'viem';

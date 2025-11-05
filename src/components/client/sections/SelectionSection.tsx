@@ -22,6 +22,7 @@ export default function SelectionSection() {
       price: 1450,
       dimensions: '60 x 45cm',
       technique: 'Lithographie sur papier',
+      slug: 'artwork-1',
     },
     {
       artistName: 'Artiste',
@@ -29,6 +30,7 @@ export default function SelectionSection() {
       price: 1450,
       dimensions: '60 x 45cm',
       technique: 'Lithographie sur papier',
+      slug: 'artwork-2',
     },
     {
       artistName: 'Artiste',
@@ -36,6 +38,7 @@ export default function SelectionSection() {
       price: 1450,
       dimensions: '60 x 45cm',
       technique: 'Lithographie sur papier',
+      slug: 'artwork-3',
     },
   ];
 

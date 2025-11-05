@@ -1,6 +1,6 @@
 'use server'
 import prisma from "./prisma"
-import { PhysicalItemStatus, ResourceNftStatuses, NftItemStatus } from "@prisma/client"
+import { PhysicalItemStatus } from "@prisma/client"
 import { NftId, ItemPhysicalType } from "@/types"
 
 async function getItemBySlug(id: number) {
@@ -91,17 +91,11 @@ async function getAvailableItems() {
                         status: PhysicalItemStatus.listed,
                         stockQty: { gt: 0 }
                     }
-                },
-                {
-                    nftItem: {
-                        status: NftItemStatus.listed
-                    }
                 }
             ]
         },
         include: {
             physicalItem: true,
-            nftItem: true,
             medium: true,
             style: true,
             technique: true,
@@ -130,10 +124,6 @@ async function getAvailableItems() {
             unitHeight: item.physicalItem.unitHeight ? Number(item.physicalItem.unitHeight) : null,
             unitWidth: item.physicalItem.unitWidth ? Number(item.physicalItem.unitWidth) : null,
             unitWeight: item.physicalItem.unitWeight ? Number(item.physicalItem.unitWeight) : null
-        } : null,
-        nftItem: item.nftItem ? {
-            ...item.nftItem,
-            price: Number(item.nftItem.price)
         } : null
     }))
 }

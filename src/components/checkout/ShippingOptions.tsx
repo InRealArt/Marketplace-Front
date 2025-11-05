@@ -100,7 +100,7 @@ export function ShippingOptions({
                   
                   <div className="text-right">
                     <span className="text-lg font-semibold text-gray-900">
-                      {option.totalCharges.toFixed(2)} {option.currency}
+                      {parseFloat(option.totalCharges).toFixed(2)} {option.currency}
                     </span>
                   </div>
                 </div>

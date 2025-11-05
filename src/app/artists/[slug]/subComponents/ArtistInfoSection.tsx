@@ -81,17 +81,19 @@ export default function ArtistInfoSection({ artist }: ArtistInfoSectionProps) {
           </div>
 
           {/* Colonne droite - Photo de l'artiste */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-sm h-96 lg:h-[500px] rounded-2xl overflow-hidden">
-              <Image
-                src={artist.imageUrl}
-                alt={`Photo de ${artist.name}`}
-                className="w-full h-full object-cover"
-                width={100}
-                height={100}
-              />
+          {artist.photo && (
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-sm h-96 lg:h-[500px] rounded-2xl overflow-hidden">
+                <Image
+                  src={artist.photo}
+                  alt={`Photo de ${artist.name}`}
+                  className="w-full h-full object-cover"
+                  width={100}
+                  height={100}
+                />
+              </div>
             </div>
-          </div>
+          )}
 
         </div>
       </div>

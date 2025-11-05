@@ -68,9 +68,7 @@ export default function ArtworksClient({ artworks, paginationInfo, mediumName }:
   const filteredArtworks = artworks.filter(artwork => 
     search === '' || 
     artwork.name.toLowerCase().includes(search.toLowerCase()) ||
-    artwork.description.toLowerCase().includes(search.toLowerCase()) ||
-    (artwork.user.firstName && artwork.user.firstName.toLowerCase().includes(search.toLowerCase())) ||
-    (artwork.user.lastName && artwork.user.lastName.toLowerCase().includes(search.toLowerCase()))
+    artwork.description.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -86,32 +84,19 @@ export default function ArtworksClient({ artworks, paginationInfo, mediumName }:
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredArtworks.map(artwork => {
-              const artistName = [artwork.user.firstName, artwork.user.lastName]
-                .filter(Boolean)
-                .join(' ')
-              
-              const physicalPrice = artwork.physicalItem ? Number(artwork.physicalItem.price) : undefined
-              const nftPrice = artwork.nftItem ? Number(artwork.nftItem.price) : undefined
-              const isSold = artwork.physicalItem?.status === 'sold' || artwork.nftItem?.status === 'sold'
-              
-              return (
-                <div key={artwork.id}>
-                  <ArtworkCard
-                    title={artwork.name}
-                    artist={artistName || undefined}
-                    year={artwork.physicalItem?.creationYear || undefined}
-                    medium={artwork.medium?.name || mediumName}
-                    physicalPrice={physicalPrice}
-                    nftPrice={nftPrice}
-                    isSold={isSold}
-                    imageUrl={artwork.mainImageUrl || undefined}
-                    width={artwork.physicalItem?.width ? Number(artwork.physicalItem.width) : undefined}
-                    height={artwork.physicalItem?.height ? Number(artwork.physicalItem.height) : undefined}
-                  />
-                </div>
-              )
-            })}
+            {filteredArtworks.map(artwork => (
+              <div key={artwork.id}>
+                <ArtworkCard
+                  artistName=""
+                  artworkName={artwork.name}
+                  price={0}
+                  dimensions=""
+                  technique={mediumName}
+                  imageUrl={artwork.mainImageUrl || undefined}
+                  slug={artwork.slug || ''}
+                />
+              </div>
+            ))}
           </div>
 
           {/* Pagination sous la grille - seulement si nécessaire */}
@@ -120,11 +105,6 @@ export default function ArtworksClient({ artworks, paginationInfo, mediumName }:
               currentPage={paginationInfo.currentPage}
               totalPages={paginationInfo.totalPages}
               onPageChange={handlePageChange}
-              onNext={handleNextPage}
-              onPrevious={handlePreviousPage}
-              disabled={isLoading}
-              hasNext={paginationInfo.hasNextPage}
-              hasPrevious={paginationInfo.hasPreviousPage}
             />
           )}
         </>

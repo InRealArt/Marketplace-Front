@@ -37,13 +37,6 @@ export async function getTotalItemsFiltered(
                 },
                 // Items avec NftItem listés avec filtre de prix
                 {
-                    nftItem: {
-                        status: 'listed',
-                        price: {
-                            gte: priceMin,
-                            lte: priceMax
-                        }
-                    }
                 }
             ]
         }

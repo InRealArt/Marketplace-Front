@@ -1,4 +1,4 @@
-import { PhysicalItemStatus, OrderStatus, ResourceNftStatuses, ResourceTypes, Item, PhysicalItem, NftItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique, Artist, Country, ArtistArtworkImage } from "@prisma/client"
+import { PhysicalItemStatus, OrderStatus, Item, PhysicalItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique, Artist, Country } from "@prisma/client"
 import { Decimal } from "@prisma/client/runtime/library"
 import { Address } from "viem"
 
@@ -10,7 +10,7 @@ export type OrderId = number
 // Extended Artist type that includes all the new fields that exist in the database
 export type ArtistWithRelations = Artist & {
   country?: Country | null
-  artworkImages?: ArtistArtworkImage[]
+  artworkImages?: ArtistArtworkImageType[]
   // These fields exist in the database but TypeScript might not recognize them yet
   countryName?: string | null
   mediumTags?: string[]
@@ -115,7 +115,6 @@ export type ItemPhysicalType = PhysicalItem & {
 
 export type ItemWithRelations = Item & {
   physicalItem: PhysicalItem | null
-  nftItem: NftItem | null
   medium: ArtworkMedium | null
   style: ArtworkStyle | null
   technique: ArtworkTechnique | null

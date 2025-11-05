@@ -45,7 +45,7 @@ export default function ArtistProfileHero({ artist }: ArtistProfileHeroProps) {
             {/* Image de l'artiste en arrière-plan de la carte */}
             <div 
               className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url('${artist.imageUrl}')` }}
+              style={{ backgroundImage: artist.photo ? `url('${artist.photo}')` : 'none' }}
             />
             
             {/* Dégradé noir du bas */}

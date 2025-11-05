@@ -25,9 +25,6 @@ export async function getTotalNewItems(): Promise<number> {
                     },
                     // Items avec NftItem listés
                     {
-                        nftItem: {
-                            status: 'listed'
-                        }
                     }
                 ]
             }

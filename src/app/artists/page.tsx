@@ -37,7 +37,7 @@ export default async function ArtistsPage({ searchParams }: ArtistsPageProps) {
     <main>
       <ArtistsHero />
       <Suspense fallback={<div>Loading artists...</div>}>
-        <Container>
+        <Container className="mt-[40px]">
           <ArtistsClientPage
             artists={pagination.items}
             nationalities={nationalities}

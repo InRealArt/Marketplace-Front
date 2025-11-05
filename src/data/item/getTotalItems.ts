@@ -14,9 +14,6 @@ export async function getTotalItems() {
                     }
                 },
                 {
-                    nftItem: {
-                        status: 'listed'
-                    }
                 }
             ]
         }

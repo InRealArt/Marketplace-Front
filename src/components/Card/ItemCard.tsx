@@ -11,10 +11,10 @@ interface ItemCardProps {
 
 const ItemCard = ({ item }: ItemCardProps) => {
   // Détermine le prix à afficher (physique ou NFT)
-  const price = item.physicalItem?.price || item.nftItem?.price || 0
+  const price = item.physicalItem?.price || 0
   
   // Détermine la disponibilité
-  const isAvailable = item.physicalItem?.status === 'listed' || item.nftItem !== null
+  const isAvailable = item.physicalItem?.status === 'listed'
 
   // Gestion du carousel d'images
   const images = item.secondaryImagesUrl && item.secondaryImagesUrl.length > 0 
