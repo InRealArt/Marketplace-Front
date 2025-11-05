@@ -9,7 +9,6 @@ async function fetchArtists() {
             Country: true
         }
     })
-    console.log('hey', artists[0]);
     return artists.map(mapArtistFromPrisma)
 }
 
