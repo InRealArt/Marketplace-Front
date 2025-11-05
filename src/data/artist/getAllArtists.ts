@@ -1,6 +1,7 @@
 import "server-only";
 
 import prisma from '@/lib/prisma'
+import { mapArtistFromPrisma } from '@/lib/utils/artistUtils'
 
 export async function getAllArtists() {
     const artists = await prisma.artist.findMany({
@@ -11,6 +12,7 @@ export async function getAllArtists() {
             name: 'asc'
         }
     })
-
-    return artists
+    console.log('hey', artists[0]);
+    
+    return artists.map(mapArtistFromPrisma)
 }

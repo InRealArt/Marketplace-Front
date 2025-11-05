@@ -1,6 +1,7 @@
 'use server'
 import prisma from "./prisma"
 import { ArtistWithRelations, ArtistData } from "@/types"
+import { mapArtistFromPrisma } from "./utils/artistUtils"
 
 async function fetchArtists() {
     const artists = await prisma.artist.findMany({
@@ -8,7 +9,8 @@ async function fetchArtists() {
             Country: true
         }
     })
-    return artists
+    console.log('hey', artists[0]);
+    return artists.map(mapArtistFromPrisma)
 }
 
 async function fetchArtistById(artistId: number) {
@@ -20,7 +22,8 @@ async function fetchArtistById(artistId: number) {
             Country: true,
         }
     })
-    return artist
+    if (!artist) return null
+    return mapArtistFromPrisma(artist)
 }
 
 async function fetchArtistBySlug(slug: string) {
@@ -32,39 +35,8 @@ async function fetchArtistBySlug(slug: string) {
             Country: true
         }
     })
-    return artist
+    if (!artist) return null
+    return mapArtistFromPrisma(artist)
 }
 
-// Helper function to transform Prisma Artist to ArtistData interface
-function transformToArtistData(artist: ArtistWithRelations): ArtistData {
-    return {
-        id: artist.id,
-        name: artist.name,
-        role: artist.role || '',
-        photo: artist.photo || artist.imageUrl,
-        intro: artist.intro || '',
-        description: artist.description,
-        slug: artist.slug || '',
-        artistId: artist.id,
-        countryCode: artist.countryCode,
-        countryName: artist.countryName || artist.Country?.name,
-        mediumTags: artist.mediumTags || [],
-        birthYear: artist.birthYear,
-        quoteHeader: artist.quoteHeader,
-        quoteText: artist.quoteText,
-        biographyHeader1: artist.biographyHeader1,
-        biographyText1: artist.biographyText1,
-        biographyHeader2: artist.biographyHeader2,
-        biographyText2: artist.biographyText2,
-        biographyHeader3: artist.biographyHeader3,
-        biographyText3: artist.biographyText3,
-        artworkImages: (artist.artworkImages || []).map(img => ({
-            image: img.image,
-            name: img.name,
-            price: img.price || undefined,
-            url: img.url
-        }))
-    }
-}
-
-export { fetchArtists, fetchArtistById, fetchArtistBySlug, transformToArtistData }
+export { fetchArtists, fetchArtistById, fetchArtistBySlug }

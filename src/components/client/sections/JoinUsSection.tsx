@@ -58,7 +58,7 @@ export default function JoinUsSection() {
             <Image src="/images/logo-small.png" alt="InRealArt Logo" width={43} height={43} className='mb-8' />
 
             {/* Title */}
-            <h1 className="text-3xl lg:text-4xl  text-white mb-6 leading-tight font-bricolage">
+            <h1 className="text-3xl lg:text-4xl  text-white mb-6 leading-tight ">
               Rejoignez InRealArt pour vous prévenir des dernières œuvres de vos artistes préféré
             </h1>
 

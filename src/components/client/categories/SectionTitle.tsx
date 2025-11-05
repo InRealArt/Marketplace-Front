@@ -21,7 +21,7 @@ export function SectionTitle({
   return (
     <div className="flex flex-col space-y-6 mb-8 lg:flex-row lg:justify-between lg:items-center lg:space-y-0 lg:mb-12">
       <div className="flex-1">
-        <h1 className="text-white font-bricolage font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight mb-3 lg:mb-4">
+        <h1 className="text-white  font-medium text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight mb-3 lg:mb-4">
           {title}
         </h1>
         {subtitle && (

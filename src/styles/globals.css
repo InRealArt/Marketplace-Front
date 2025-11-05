@@ -4,6 +4,23 @@
 
 body {
   --radius: 8px; 
+  --primary: #b39e73;
+  --secondary: #786df2;
+  --background: #212224;
+  --foreground: #ffffff;
+  --border: #a6a6a6;
+  --input: #393939;
+  --ring: #786df2;
+  --card: #393939;
+  --card-foreground: #ffffff;
+}
+
+span, p, div, a, button, input, textarea, select, option, label, legend, table, th, td, tr, tbody, thead, tfoot, form, fieldset, legend, caption, blockquote {
+  font-family: 'Unbounded', 'sans-serif';
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bricolage Grotesque', 'sans-serif';
 }
 
 @layer utilities {

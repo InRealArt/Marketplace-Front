@@ -37,7 +37,7 @@ export function CategoryCard({
       {/* Category Name - Top Left */}
       <div className="absolute top-6 left-6 z-30">
         <h3
-          className="category-card__title font-medium text-xl lg:text-2xl leading-tight max-w-[60%] font-bricolage"
+          className="category-card__title font-medium text-xl lg:text-2xl leading-tight max-w-[60%] "
           style={{ color: textColor }}
         >
           {name}

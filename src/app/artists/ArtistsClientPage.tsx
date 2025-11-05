@@ -1,9 +1,8 @@
 'use client'
-import React from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { createParamUpdater } from '@/lib/utils/urlUtils'
+import React, { useTransition } from 'react'
+import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 import ArtistsFilter from '@/components/artists/ArtistsFilter'
-import ArtistCard from '@/components/Card/ArtistCard'
+import ArtistList from '@/components/artists/ArtistList'
 import Pagination from '@/components/ui/Pagination'
 import { ArtistWithRelations } from '@/types'
 
@@ -13,11 +12,6 @@ interface ArtistsClientPageProps {
   totalPages: number
   currentPage: number
   totalResults: number
-  initialParams: {
-    page: number
-    nationality: string
-    q: string
-  }
 }
 
 export default function ArtistsClientPage({
@@ -25,41 +19,38 @@ export default function ArtistsClientPage({
   nationalities,
   totalPages,
   currentPage,
-  totalResults,
-  initialParams
+  totalResults
 }: ArtistsClientPageProps) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const [, startTransition] = useTransition()
 
-  // Create URL parameter updater using utility function
-  const setParams = createParamUpdater(
-    router,
-    searchParams,
-    '/artists',
-    initialParams,
-    { page: 1, nationality: '', q: '' } // Default values to omit from URL
-  )
+  const [params, setParams] = useQueryStates({
+    page: parseAsInteger.withDefault(1).withOptions({ shallow: false, startTransition }),
+    nationality: parseAsString.withDefault('').withOptions({ shallow: false, startTransition }),
+    q: parseAsString.withDefault('').withOptions({ shallow: false, startTransition })
+  })
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setParams({ page: newPage })
+    }
+  }
 
   return (
     <div className="m-auto mt-10">
       <ArtistsFilter
         nationalities={nationalities}
-        params={initialParams}
+        params={params}
         setParams={setParams}
         artistsLength={totalResults}
       />
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {artists.map(artist => (
-          <ArtistCard key={artist.id} artist={artist} />
-        ))}
-      </div>
+      <ArtistList artists={artists} />
       
       {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={(page) => setParams({ page })}
+        onPageChange={handlePageChange}
         className="mt-8"
       />
     </div>

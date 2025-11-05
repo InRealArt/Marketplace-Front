@@ -1,6 +1,18 @@
 import { ArtistWithRelations } from '@/types'
 
 /**
+ * Centralized mapping function to transform Country (capital C from Prisma) to country (lowercase)
+ * This should be used everywhere artist data is fetched from Prisma
+ */
+export function mapArtistFromPrisma(artist: any): ArtistWithRelations {
+  const { Country, ...rest } = artist
+  return {
+    ...rest,
+    country: Country
+  } as ArtistWithRelations
+}
+
+/**
  * Filter artists based on nationality and search query
  * @param artists - Array of artists to filter
  * @param nationality - Country code or name to filter by
@@ -17,17 +29,17 @@ export function filterArtists(
     if (nationality) {
       const code = nationality.toUpperCase()
       const matchesCountry = (artist.countryCode || '').toUpperCase() === code ||
-        (artist.Country?.name || '').toLowerCase() === nationality.toLowerCase()
+        (artist.countryName || '').toLowerCase() === nationality.toLowerCase()
       if (!matchesCountry) return false
     }
-    
+
     // Search filter
     if (query) {
       const searchQuery = query.trim().toLowerCase()
       const name = `${artist.name} ${artist.surname}`.toLowerCase()
       if (!name.toLowerCase().includes(searchQuery)) return false
     }
-    
+
     return true
   })
 }
@@ -41,10 +53,10 @@ export function extractNationalities(artists: ArtistWithRelations[]): { code: st
   return Array.from(
     new Map(
       artists
-        .filter(a => a.countryCode || a.Country?.name)
+        .filter(a => a.country?.code || a.country?.name)
         .map(a => {
-          const code = (a.countryCode || a.Country?.name || '').toUpperCase()
-          const label = a.Country?.name || a.countryCode || ''
+          const code = (a.country?.code || '').toUpperCase()
+          const label = a.country?.name || ''
           return [code, label]
         })
     ),

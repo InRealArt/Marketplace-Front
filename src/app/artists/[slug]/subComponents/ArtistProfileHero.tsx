@@ -39,7 +39,7 @@ export default function ArtistProfileHero({ artist }: ArtistProfileHeroProps) {
 
       {/* Contenu principal */}
       <div className="relative z-10 h-full flex items-end pb-8 lg:pb-12">
-        <div className="max-w-90 xl:max-w-screen-xl mx-auto w-full px-4">
+        <div className="max-w-screen xl:max-w-screen-xl mx-auto w-full px-4">
           {/* Carte de l'artiste */}
           <div className="relative max-w-sm h-80 lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
             {/* Image de l'artiste en arrière-plan de la carte */}
@@ -79,7 +79,7 @@ export default function ArtistProfileHero({ artist }: ArtistProfileHeroProps) {
               )}
               
               {/* Prénom et nom sur deux lignes */}
-              <div className="font-bricolage text-white">
+              <div className=" text-white">
                 {(() => {
                   const nameParts = artist.name.split(' ')
                   const firstName = nameParts[0]

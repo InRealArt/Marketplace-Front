@@ -23,14 +23,14 @@ export default function ArtistInfoSection({ artist }: ArtistInfoSectionProps) {
 
   return (
     <section className="pt-32 pb-16" style={{ backgroundColor: 'rgb(19, 19, 19)' }}>
-      <div className="max-w-90 xl:max-w-screen-xl mx-auto px-4">
+      <div className="max-w-screen xl:max-w-screen-xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
 
           {/* Colonne gauche - Informations de l'artiste */}
           <div className="space-y-6">
             {/* Année de naissance et pays */}
             {(artist.birthYear || artist.countryName) && (
-              <p className="text-gray-400 text-sm font-bricolage font-serif">
+              <p className="text-gray-400 text-sm  font-serif">
                 {artist.birthYear && `Née le ${artist.birthYear}`}
                 {artist.birthYear && artist.countryName && ' - '}
                 {artist.countryName}
@@ -38,13 +38,13 @@ export default function ArtistInfoSection({ artist }: ArtistInfoSectionProps) {
             )}
 
             {/* Nom de l'artiste */}
-            <h2 className="text-3xl lg:text-4xl font-bold text-white font-bricolage font-serif">
+            <h2 className="text-3xl lg:text-4xl font-bold text-white  font-serif">
               {artist.name}
             </h2>
 
 
             {/* Description de l'artiste */}
-            <p className="text-white text-sm leading-relaxed font-bricolage font-serif">
+            <p className="text-white text-sm leading-relaxed  font-serif">
               Artist Certified
             </p>
 
@@ -67,14 +67,14 @@ export default function ArtistInfoSection({ artist }: ArtistInfoSectionProps) {
           <div className="space-y-6">
             {/* Citation principale */}
             {artist.quoteHeader && (
-              <blockquote className="text-2xl lg:text-3xl text-white font-medium leading-relaxed font-bricolage font-serif">
+              <blockquote className="text-2xl lg:text-3xl text-white font-medium leading-relaxed  font-serif">
                 « {artist.quoteHeader} »
               </blockquote>
             )}
 
             {/* Texte descriptif */}
             {artist.quoteText && (
-              <p className="text-white text-sm leading-relaxed font-bricolage font-serif">
+              <p className="text-white text-sm leading-relaxed  font-serif">
                 {artist.quoteText}
               </p>
             )}

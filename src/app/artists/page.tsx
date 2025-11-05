@@ -31,7 +31,8 @@ export default async function ArtistsPage({ searchParams }: ArtistsPageProps) {
 
   // Extract nationalities for filter using utility function
   const nationalities = extractNationalities(allArtists)
-
+  // console.log(allArtists);
+  
   return (
     <main>
       <ArtistsHero />
@@ -43,11 +44,6 @@ export default async function ArtistsPage({ searchParams }: ArtistsPageProps) {
             totalPages={pagination.totalPages}
             currentPage={pagination.currentPage}
             totalResults={filteredArtists.length}
-            initialParams={{
-              page: pagination.currentPage,
-              nationality,
-              q: query
-            }}
           />
         </Container>
       </Suspense>

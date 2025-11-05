@@ -9,7 +9,7 @@ export type OrderId = number
 
 // Extended Artist type that includes all the new fields that exist in the database
 export type ArtistWithRelations = Artist & {
-  Country?: Country | null
+  country?: Country | null
   artworkImages?: ArtistArtworkImage[]
   // These fields exist in the database but TypeScript might not recognize them yet
   countryName?: string | null
