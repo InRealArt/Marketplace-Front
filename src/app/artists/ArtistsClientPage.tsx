@@ -3,6 +3,7 @@ import React, { useTransition } from 'react'
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs'
 import ArtistsFilter from '@/components/artists/ArtistsFilter'
 import ArtistList from '@/components/artists/ArtistList'
+import ArtistsEmptyState from '@/components/EmptyStates/ArtistsEmptyState'
 import Pagination from '@/components/ui/Pagination'
 import { ArtistWithRelations } from '@/types'
 
@@ -35,6 +36,17 @@ export default function ArtistsClientPage({
     }
   }
 
+  const handleResetFilters = () => {
+    setParams({ 
+      page: 1, 
+      nationality: '', 
+      q: '' 
+    })
+  }
+
+  // Check if any filters are active
+  const hasActiveFilters = params.nationality !== '' || params.q !== ''
+
   return (
     <div className="m-auto mt-10">
       <ArtistsFilter
@@ -44,15 +56,25 @@ export default function ArtistsClientPage({
         artistsLength={totalResults}
       />
       
-      <ArtistList artists={artists} />
-      
-      {/* Pagination */}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-        className="mt-8"
-      />
+      {/* Show empty state if no artists found */}
+      {artists.length === 0 ? (
+        <ArtistsEmptyState 
+          hasFilters={hasActiveFilters}
+          onResetFilters={handleResetFilters}
+        />
+      ) : (
+        <>
+          <ArtistList artists={artists} />
+          
+          {/* Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            className="mt-8"
+          />
+        </>
+      )}
     </div>
   )
 }

@@ -46,7 +46,7 @@ const Hero = ({
 
       {/* Hero Content */}
       <div className="relative z-10 flex items-end h-full">
-        <div className="max-w-screen desktop:max-w-[1414px] mx-auto w-full pb-12 md:pb-16 lg:pb-20">
+        <div className="max-w-screen desktop:max-w-[1414px] mx-auto w-full pb-12 md:pb-16">
           <div className="max-w-4xl">
             <h1 className={`text-3xl md:text-6xl font-bold text-white mb-4 md:mb-6 ${titleClassName}`}>
               {title}

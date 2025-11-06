@@ -4,6 +4,7 @@ import { filterArtists, extractNationalities, paginateItems } from '@/lib/utils/
 import { parseArtistSearchParams } from '@/lib/utils/urlUtils'
 import ArtistsClientPage from './ArtistsClientPage'
 import ArtistsHero from '@/components/artists/ArtistsHero'
+import ArtistsLoadingSkeleton from '@/components/artists/ArtistsLoadingSkeleton'
 import Container from '@/components/Common/Container'
 
 interface ArtistsPageProps {
@@ -14,7 +15,7 @@ interface ArtistsPageProps {
   }>
 }
 
-export default async function ArtistsPage({ searchParams }: ArtistsPageProps) {
+async function ArtistsContent({ searchParams }: ArtistsPageProps) {
   // Fetch data directly in the Server Component (Next.js recommended pattern)
   const allArtists = await fetchArtists()
 
@@ -31,21 +32,30 @@ export default async function ArtistsPage({ searchParams }: ArtistsPageProps) {
 
   // Extract nationalities for filter using utility function
   const nationalities = extractNationalities(allArtists)
-  // console.log(allArtists);
   
+  return (
+    <Container className="!mt-[40px]">
+      <ArtistsClientPage
+        artists={pagination.items}
+        nationalities={nationalities}
+        totalPages={pagination.totalPages}
+        currentPage={pagination.currentPage}
+        totalResults={filteredArtists.length}
+      />
+    </Container>
+  )
+}
+
+export default function ArtistsPage({ searchParams }: ArtistsPageProps) {
   return (
     <main>
       <ArtistsHero />
-      <Suspense fallback={<div>Loading artists...</div>}>
+      <Suspense fallback={
         <Container className="mt-[40px]">
-          <ArtistsClientPage
-            artists={pagination.items}
-            nationalities={nationalities}
-            totalPages={pagination.totalPages}
-            currentPage={pagination.currentPage}
-            totalResults={filteredArtists.length}
-          />
+          <ArtistsLoadingSkeleton />
         </Container>
+      }>
+        <ArtistsContent searchParams={searchParams} />
       </Suspense>
     </main>
   )
