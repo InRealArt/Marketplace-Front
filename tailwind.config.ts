@@ -16,6 +16,7 @@ const config = {
       screens: {
         "2xl": "1400px",
       },
+      
     },
     screens: {
       'sm': '640px',
@@ -31,6 +32,10 @@ const config = {
         'card-2col': 'calc(100% / 2)',
         'card-3col': 'calc(100% / 3)',
         'card-4col': 'calc(100% / 4)',
+      },
+      height: {
+        'intro': 'calc(70vh+120px)',
+        'intro-mobile': 'calc(70vh+80px)',
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],

@@ -17,7 +17,6 @@ interface DropdownMenuProps {
   getOptionValue: (option: DropdownOption) => string | number
   getOptionLabel: (option: DropdownOption) => string
   renderOption?: (option: DropdownOption, isSelected: boolean) => React.ReactNode
-  parentWidth?: number
 }
 
 const DropdownMenu = ({
@@ -30,8 +29,7 @@ const DropdownMenu = ({
   optionClassName = '',
   getOptionValue,
   getOptionLabel,
-  renderOption,
-  parentWidth
+  renderOption
 }: DropdownMenuProps) => {
   const isOptionSelected = (option: DropdownOption) => {
     const optionValue = getOptionValue(option)
@@ -40,8 +38,7 @@ const DropdownMenu = ({
 
   return (
     <div 
-      className={`absolute z-20 mt-2 bg-black rounded-2xl p-2 shadow-lg ring-1 ring-black/5 ${menuClassName}`}
-      style={parentWidth ? { width: `${parentWidth}px`, minWidth: `${parentWidth}px` } : undefined}
+      className={`absolute z-20 mt-2 bg-black rounded-2xl p-2 shadow-lg ring-1 ring-black/5 min-w-[200px] w-max max-w-xs ${menuClassName}`}
     >
       {showAllOption && (
         <button
@@ -129,16 +126,7 @@ const Dropdown = ({
   onClose
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [buttonWidth, setButtonWidth] = useState<number | undefined>(undefined)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-
-  // Update button width when opening dropdown
-  useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      setButtonWidth(buttonRef.current.offsetWidth)
-    }
-  }, [isOpen])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -193,7 +181,6 @@ const Dropdown = ({
   return (
     <div ref={dropdownRef} className={`relative inline-block ${className}`}>
       <button
-        ref={buttonRef}
         type="button"
         onClick={handleToggle}
         className={`
@@ -217,7 +204,6 @@ const Dropdown = ({
           getOptionValue={getOptionValue}
           getOptionLabel={getOptionLabel}
           renderOption={renderOption}
-          parentWidth={buttonWidth}
         />
       )}
     </div>

@@ -1,71 +1,59 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { FlameIcon } from 'lucide-react';
-import Button from '../Button/Button';
-import { ItemPhysicalType } from '@/types';
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ItemPhysicalType } from '@/types'
 
 interface ArtworkCardProps {
-  artwork: ItemPhysicalType;
+  artwork: ItemPhysicalType
 }
 
 const ArtworkCard = ({ artwork }: ArtworkCardProps) => {
-  const { item, price, stockQty} = artwork;
+  const { item, price, stockQty } = artwork
+  const { name, slug, mainImageUrl } = item
 
-  const { name, slug, mainImageUrl,  } = item;
+  const isAvailable = stockQty > 0
 
   return (
-    <div className="flex flex-col items-center relative w-full mt-10 h-auto p-2.5 rounded-[17px] sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-40px)]">
-      <Link 
-        className="relative w-full h-[350px] flex items-center justify-center overflow-hidden transition-all duration-200 ease-in-out rounded-[17px] bg-gradient-to-r from-white/30 via-[rgb(88,88,88,0.74)] to-white/30 sm:h-[410px] lg:h-[440px]" 
-        href={`/artworks/${slug || artwork.id}`}
-      >
-        <picture className="h-full w-full flex items-center justify-center">
-          {mainImageUrl && (
-            <Image 
-              className="w-full h-full max-h-[80%] max-w-[80%] object-center object-contain" 
-              alt={name || ''} 
-              width={300} 
-              height={300} 
-              src={mainImageUrl} 
-            />
-          )}
-        </picture>
-        <div className="absolute flex items-center bottom-5 left-5 px-[15px] py-[13px] rounded-[10px] border border-white bg-[rgba(84,84,84,0.3)] backdrop-blur-[26px] font-poppins text-sm">
-          <FlameIcon width={23} height={23} /> <span className="ml-2.5">Famous artist</span>
-        </div>
-      </Link>
-      <div className="w-[calc(100%-30px)] rounded-[17px] mt-2.5 px-[15px] py-0">
-        <div className="relative flex items-center justify-between py-[15px] w-full">
-          <div className="max-w-[60%]">
-            {/* <Link 
-              className="block font-poppins text-base text-[#dedcd8] m-0 mb-2.5 truncate whitespace-nowrap overflow-hidden" 
-              href={`/artists/${artist?.slug || artist?.id}`}
-            >
-              {artist?.pseudo}
-            </Link> */}
-            <Link 
-              className="block font-poppins text-lg font-semibold truncate whitespace-nowrap overflow-hidden" 
-              href={`/artworks/${slug || artwork.id}`}
-            >
-              {name}
-            </Link>
+    <Link 
+      href={`/artworks/${slug || artwork.id}`}
+      className="group cursor-pointer"
+    >
+      {/* Image container */}
+      <div className="relative overflow-hidden rounded-lg bg-white/5 aspect-square mb-3">
+        {mainImageUrl && (
+          <Image
+            src={mainImageUrl}
+            alt={name || 'Artwork'}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        )}
+        
+        {/* Overlay gradient on hover */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+        
+        {/* Stock badge */}
+        {!isAvailable && (
+          <div className="absolute top-3 right-3 px-3 py-1.5 bg-black/70 backdrop-blur-sm rounded-full">
+            <span className="text-white/90 text-xs font-medium">Sold out</span>
           </div>
-          <div className="flex items-center font-poppins text-base">
-            {price} €
-          </div>
-        </div>
-        <Button
-          text={`${stockQty === 0 ? 'Sold out' : 'Buy now'}`}
-          link={`/artworks/${slug || artwork.id}`}
-          additionalClassName={`${stockQty === 0 ? 'disabled' : 'gold'}`}
-          activeClassName='large'
-          className="w-full"
-          disabled={stockQty === 0}
-        />
+        )}
       </div>
-    </div>
-  );
-};
 
-export default ArtworkCard;
+      {/* Info */}
+      <div className="space-y-1">
+        {/* Artwork name */}
+        <h3 className="text-white font-medium text-base truncate group-hover:text-white/80 transition-colors">
+          {name}
+        </h3>
+        
+        {/* Price */}
+        <p className="text-white/60 text-sm">
+          {price.toFixed(2)} €
+        </p>
+      </div>
+    </Link>
+  )
+}
+
+export default ArtworkCard

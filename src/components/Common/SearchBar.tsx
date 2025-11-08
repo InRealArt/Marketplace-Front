@@ -55,11 +55,11 @@ const SearchBar = ({
     if (containerRef.current?.contains(e.relatedTarget as Node)) {
       return
     }
-    
+
     if (!value.trim()) {
       setIsExpanded(false)
     }
-    
+
     onBlur?.()
   }
 
@@ -69,8 +69,9 @@ const SearchBar = ({
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
+      onClick={!isExpanded ? handleIconClick : undefined}
       className={`
         inline-flex items-center gap-2 rounded-full border border-white/30 text-white shadow-sm
         transition-all duration-300 ease-in-out overflow-hidden
@@ -79,7 +80,6 @@ const SearchBar = ({
       `}
     >
       <div
-        onClick={!isExpanded ? handleIconClick : undefined}
         className={`flex-shrink-0 ${!isExpanded ? 'cursor-pointer' : ''} ${iconClassName}`}
       >
         {icon || defaultIcon}
