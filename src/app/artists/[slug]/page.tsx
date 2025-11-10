@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import ArtistDetailClientPage from './ArtistDetailClientPage'
 import ArtistNotFoundEmptyState from '@/components/EmptyStates/ArtistNotFoundEmptyState'
-import { getArtistBySlug, getArtworksByArtistSlug, getCollectionsByArtistSlug, mockArtistIntro, mockFilterOptions } from '@/mocks/artistDetail'
+import { getArtistBySlug, getArtworksByArtistSlug, getCollectionsByArtistSlug, mockArtistIntro, mockArtistBiography, mockFilterOptions } from '@/mocks/artistDetail'
 
 interface ArtistPageProps {
   params: Promise<{
@@ -31,6 +31,7 @@ async function ArtistContent({ slug }: { slug: string }) {
       artworks={artworks}
       collections={collections}
       introData={mockArtistIntro}
+      biographyData={mockArtistBiography}
       filterOptions={mockFilterOptions}
     />
   )

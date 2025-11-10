@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import Dropdown from '@/components/Common/Dropdown'
+import Button from '@/components/Button/Button'
 
 // TODO: Import proper translation function
 const t = (key: string) => {
@@ -74,8 +75,25 @@ const ArtworksFilter = ({
     })
   }
 
+  const handleClearAll = () => {
+    setParams({
+      priceRange: '',
+      size: '',
+      material: '',
+      type: '',
+      page: 1
+    })
+  }
+
+  // Check if any filters are active
+  const hasActiveFilters =
+    params.priceRange !== '' ||
+    params.size !== '' ||
+    params.material !== '' ||
+    params.type !== ''
+
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 sticky top-[127px] md:top-[137px] bg-background z-10 py-4">
       {/* Filters row */}
       <div className="flex flex-wrap items-center gap-4">
         {/* Price Range Dropdown */}
@@ -122,15 +140,26 @@ const ArtworksFilter = ({
           getOptionValue={(option) => String(option.value)}
         />
 
-        {/* Separator visible only on desktop */}
-        <span className="text-white/40 select-none hidden md:inline">|</span>
+
+        {/* Clear all button - only visible when filters are active */}
+        {hasActiveFilters && (
+          <>
+            <span className="text-white/40 select-none hidden md:inline">|</span>
+            <Button
+              text="Clear all"
+              additionalClassName="purple small"
+              action={handleClearAll}
+              className="!m-0"
+            />
+          </>
+        )}
       </div>
 
       {/* Results count */}
       <div className="text-white/60 text-sm">
         {artworksLength} {t('artworks.artworksFound')}
       </div>
-    </div>
+    </div >
   )
 }
 

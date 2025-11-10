@@ -36,7 +36,67 @@ export const mockArtistIntro = {
   shortBio: 'Avec une carrière artistique impressionnante s\'étendant sur plusieurs années, Ekaterina Aristova, connue sous le nom de Kate Aristov, est devenue une figure emblématique de l\'art moderne en Russie et en France. Née à Moscou en 1986, Aristova a déménagé à Paris en 2009 où, sous l\'influence de son mentor Sergueï Toutounov, elle a embrassé pleinement son potentiel artistique, développant l\'« Art Inconscient » et explorant l\'inconscient en dessinant les yeux fermés pour créer des œuvres abstraites qui captivent par leur ligne continue et leur fusion de lignes au fusain.'
 }
 
-// Base artwork templates
+// Artist biography data
+export const mockArtistBiography = {
+  portraitImage: '/images/mock/artist/Ekaterina.jpg',
+  soloExhibitions: [
+    { year: '2024', exhibition: 'Salutation au soleil', venue: 'Paris', location: 'Paris, France' },
+    { year: '2023', exhibition: 'Paradiso', venue: 'Paris', location: 'Paris, France' },
+    { year: '2023', exhibition: 'Daydreamer par Ekaterina Aristova', venue: 'Galerie Au Médicis', location: 'Paris, France' },
+    { year: '2022', exhibition: 'Ekaterina Aristova', venue: 'Galerie Au Médicis', location: 'Paris, France' },
+    { year: '2022', exhibition: 'Ekaterina Aristova', venue: 'Galerie Wanderley Cabral', location: 'Paris, France' },
+    { year: '2022', exhibition: 'Les yeux grands fermés', venue: 'Galerie David Cha', location: 'Paris, France' },
+    { year: '2021', exhibition: 'Solstice d\'hiver', venue: 'Aldema Design & Art', location: 'Paris, France' },
+    { year: '2021', exhibition: 'Manifeste: L\'Art Inconscient', venue: 'Art bureau 29 Exelmans', location: 'Paris, France' },
+    { year: '2020', exhibition: 'Terre et Mer', venue: 'Art bureau 29 Exelmans', location: 'Paris, France' },
+    { year: '2020', exhibition: 'Ekaterina Aristova', venue: 'Art Yourself Gallery', location: 'New York, États-Unis' },
+    { year: '2016', exhibition: 'Ekaterina Aristova', venue: 'Galerie 21 Dauphine', location: 'Paris, France' }
+  ],
+  groupExhibitions: [
+    { year: '2021', exhibition: 'Modern Archetypes', venue: 'Galleria Azur Madrid', location: 'Madrid, Espagne' },
+    { year: '2021', exhibition: 'Here we are', venue: 'Rossocinabro Gallery', location: 'Rome, Italie' }
+  ],
+  publicSales: [
+    {
+      title: 'Attrape-rêve',
+      artworkYear: '2022',
+      date: '10 décembre 2024',
+      price: '42 500 $',
+      auctionHouse: 'Christie’s Online',
+      details: 'Cette œuvre a établi un nouveau record pour l’artiste, dépassant de 21 % l’estimation basse.'
+    },
+    {
+      title: 'Svistoplyaska (Danse des sifflets) - Étude en rouge',
+      artworkYear: '2023',
+      date: '30 avril 2024',
+      price: '35 100 $',
+      auctionHouse: 'Christie’s Online',
+      details: 'Cette vente a été six fois supérieure à l’estimation initiale, soulignant l’engouement croissant pour l’artiste.'
+    },
+    {
+      title: 'Aviateur, Petit Prince',
+      artworkYear: '2023',
+      date: '20 février 2025',
+      estimation: '5 000 – 7 000 €',
+      auctionHouse: 'Sotheby’s Paris',
+      details: 'Cette œuvre a été présentée lors de la vente "Contemporary Discoveries" de Sotheby’s.'
+    }
+  ],
+  publications: [
+    { year: '2025', description: 'Interview dans le cadre du projet InRealArt et présentation de sa nouvelle exposition « Odyssée », ainsi que de sa première série inaugurale de céramiques.' },
+    { year: '2023', description: 'Le Quotidien de l’art – « Svistoplyaska (ou “danse des sifflets”) » d’Ekaterina Aristova.' },
+    { year: '2023', description: 'Singulart Magazine – « Interview with Ekaterina Aristova ».' },
+    { year: '2022', description: 'Ours Magazine – « L’âme est une énergie sans forme ni couleur ».' },
+    { year: '2022', description: 'Le Parisien – Portrait d’Ekaterina Aristova.' },
+    { year: '2022', description: 'Cinéart Diamond Magazine – « Ekaterina Aristova, peintre de l’âme ».' },
+    { year: '2022', description: 'Muse Daily – « Ekaterina Aristova : Let the music move you ».' },
+    { year: '2022', description: 'Dolce Magazine – « Aristova du figuratif à l’abstraction ».' },
+    { year: '2021', description: 'Artistik Rezo – « Je travaille l’idée, le concept et l’âme ».' },
+    { year: '2021', description: 'Beaux Arts Magazine – « Ekaterina Aristova, peintre de l’âme ».' }
+  ]
+}
+
+// Base artwork templates with different images for testing aspect ratios
 const baseArtworks = [
   {
     name: 'Abstract Composition',
@@ -44,6 +104,7 @@ const baseArtworks = [
     price: 2500,
     stockQty: 1,
     description: 'Abstract artwork with charcoal lines',
+    image: '/images/Ekaterina/artist2.jpg',
   },
   {
     name: 'Unconscious Lines',
@@ -51,6 +112,7 @@ const baseArtworks = [
     price: 3200,
     stockQty: 1,
     description: 'Drawing with closed eyes technique',
+    image: '/images/Boucheix/artist1.1.jpg',
   },
   {
     name: 'Charcoal Dreams',
@@ -58,6 +120,7 @@ const baseArtworks = [
     price: 1800,
     stockQty: 0,
     description: 'Sold out artwork',
+    image: '/images/Leloluce/artist3.1.jpg',
   },
   {
     name: 'Moscow Memories',
@@ -65,6 +128,71 @@ const baseArtworks = [
     price: 4500,
     stockQty: 1,
     description: 'Large scale abstract piece',
+    image: '/images/Her/artist4.1.jpg',
+  },
+  {
+    name: 'Urban Landscape',
+    slug: 'urban-landscape',
+    price: 2800,
+    stockQty: 1,
+    description: 'Contemporary urban scene',
+    image: '/images/Boucheix/artist1.2.jpg',
+  },
+  {
+    name: 'Ethereal Forms',
+    slug: 'ethereal-forms',
+    price: 3500,
+    stockQty: 1,
+    description: 'Flowing abstract forms',
+    image: '/images/Leloluce/artist3.2.jpg',
+  },
+  {
+    name: 'Sunset Reflections',
+    slug: 'sunset-reflections',
+    price: 2200,
+    stockQty: 1,
+    description: 'Warm tones and reflections',
+    image: '/images/Her/artist4.2.jpg',
+  },
+  {
+    name: 'Geometric Harmony',
+    slug: 'geometric-harmony',
+    price: 2900,
+    stockQty: 1,
+    description: 'Balanced geometric composition',
+    image: '/images/Peltzer/artist5.1.jpg',
+  },
+  {
+    name: 'Nature\'s Whisper',
+    slug: 'natures-whisper',
+    price: 3100,
+    stockQty: 1,
+    description: 'Organic forms and textures',
+    image: '/images/Bonsard/artist6.jpg',
+  },
+  {
+    name: 'Chromatic Waves',
+    slug: 'chromatic-waves',
+    price: 2600,
+    stockQty: 1,
+    description: 'Vibrant color transitions',
+    image: '/images/Sigrist/artist7.1.jpg',
+  },
+  {
+    name: 'Silent Contemplation',
+    slug: 'silent-contemplation',
+    price: 3300,
+    stockQty: 1,
+    description: 'Meditative abstract piece',
+    image: '/images/Boucheix/artist1.3.jpg',
+  },
+  {
+    name: 'Luminous Depths',
+    slug: 'luminous-depths',
+    price: 2700,
+    stockQty: 1,
+    description: 'Deep colors with light accents',
+    image: '/images/Leloluce/artist3.3.jpg',
   },
 ]
 
@@ -83,7 +211,7 @@ export const mockArtworks: ItemPhysicalType[] = Array.from({ length: 120 }, (_, 
       id: uniqueId,
       name: `${base.name} #${uniqueId}`,
       slug: `${base.slug}-${uniqueId}`,
-      mainImageUrl: '/images/Ekaterina/artist2.jpg',
+      mainImageUrl: base.image,
       secondaryImagesUrl: [],
       description: base.description,
       userId: 'user-1',

@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import FavoriteButton from '@/components/Common/FavoriteButton'
 import { ItemPhysicalType } from '@/types'
 
 interface ArtworkCardProps {
@@ -16,26 +17,36 @@ const ArtworkCard = ({ artwork }: ArtworkCardProps) => {
   return (
     <Link 
       href={`/artworks/${slug || artwork.id}`}
-      className="group cursor-pointer"
+      className="group cursor-pointer block"
     >
-      {/* Image container */}
-      <div className="relative overflow-hidden rounded-lg bg-white/5 aspect-square mb-3">
+      {/* Image container with fixed height and centered image */}
+      <div className="relative overflow-hidden rounded-2xl bg-[#212326] h-[320px] mb-4 flex items-center justify-center p-8">
         {mainImageUrl && (
-          <Image
-            src={mainImageUrl}
-            alt={name || 'Artwork'}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+          <div className="relative w-full h-full">
+            <Image
+              src={mainImageUrl}
+              alt={name || 'Artwork'}
+              fill
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
         )}
         
-        {/* Overlay gradient on hover */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+        {/* Favorite button - top right */}
+        <div className="absolute top-3 right-3">
+          <FavoriteButton 
+            artworkId={artwork.id}
+            onToggle={(isFavorite) => {
+              console.log(`Artwork ${artwork.id} favorite status:`, isFavorite)
+              // TODO: Add API call to save favorite
+            }}
+          />
+        </div>
         
-        {/* Stock badge */}
+        {/* Sold out overlay */}
         {!isAvailable && (
-          <div className="absolute top-3 right-3 px-3 py-1.5 bg-black/70 backdrop-blur-sm rounded-full">
-            <span className="text-white/90 text-xs font-medium">Sold out</span>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center rounded-2xl">
+            <span className="text-white text-lg font-medium">Sold out</span>
           </div>
         )}
       </div>
@@ -43,13 +54,23 @@ const ArtworkCard = ({ artwork }: ArtworkCardProps) => {
       {/* Info */}
       <div className="space-y-1">
         {/* Artwork name */}
-        <h3 className="text-white font-medium text-base truncate group-hover:text-white/80 transition-colors">
+        <h3 className="text-white font-medium text-lg group-hover:text-white/80 transition-colors">
           {name}
         </h3>
         
+        {/* Medium/Material */}
+        <p className="text-white/50 text-sm">
+          Acrylic on Canvas
+        </p>
+        
+        {/* Dimensions */}
+        <p className="text-white/50 text-sm">
+          80x80cm
+        </p>
+        
         {/* Price */}
-        <p className="text-white/60 text-sm">
-          {price.toFixed(2)} €
+        <p className="text-white font-semibold text-lg mt-2">
+          €{price.toFixed(0)}
         </p>
       </div>
     </Link>
