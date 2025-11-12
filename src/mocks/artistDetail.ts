@@ -105,6 +105,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Abstract artwork with charcoal lines',
     image: '/images/Ekaterina/artist2.jpg',
+    dimensions: '80 x 80 cm',
+    category: 'Painting',
+    tags: ['Abstract', 'Colorful', 'Energetic']
   },
   {
     name: 'Unconscious Lines',
@@ -113,6 +116,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Drawing with closed eyes technique',
     image: '/images/Boucheix/artist1.1.jpg',
+    dimensions: '60 x 90 cm',
+    category: 'Painting',
+    tags: ['Conceptual', 'Fluid', 'Monochrome']
   },
   {
     name: 'Charcoal Dreams',
@@ -121,6 +127,9 @@ const baseArtworks = [
     stockQty: 0,
     description: 'Sold out artwork',
     image: '/images/Leloluce/artist3.1.jpg',
+    dimensions: '100 x 70 cm',
+    category: 'Drawing',
+    tags: ['Charcoal', 'Minimal', 'Dreamy']
   },
   {
     name: 'Moscow Memories',
@@ -129,6 +138,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Large scale abstract piece',
     image: '/images/Her/artist4.1.jpg',
+    dimensions: '120 x 150 cm',
+    category: 'Painting',
+    tags: ['Large Scale', 'Expressive', 'Landscape']
   },
   {
     name: 'Urban Landscape',
@@ -137,6 +149,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Contemporary urban scene',
     image: '/images/Boucheix/artist1.2.jpg',
+    dimensions: '90 x 110 cm',
+    category: 'Painting',
+    tags: ['Urban', 'Geometric', 'Vibrant']
   },
   {
     name: 'Ethereal Forms',
@@ -145,6 +160,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Flowing abstract forms',
     image: '/images/Leloluce/artist3.2.jpg',
+    dimensions: '75 x 120 cm',
+    category: 'Painting',
+    tags: ['Ethereal', 'Soft', 'Pastel']
   },
   {
     name: 'Sunset Reflections',
@@ -153,6 +171,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Warm tones and reflections',
     image: '/images/Her/artist4.2.jpg',
+    dimensions: '70 x 90 cm',
+    category: 'Painting',
+    tags: ['Sunset', 'Warm', 'Reflective']
   },
   {
     name: 'Geometric Harmony',
@@ -161,6 +182,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Balanced geometric composition',
     image: '/images/Peltzer/artist5.1.jpg',
+    dimensions: '80 x 100 cm',
+    category: 'Painting',
+    tags: ['Geometric', 'Balanced', 'Modern']
   },
   {
     name: 'Nature\'s Whisper',
@@ -169,6 +193,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Organic forms and textures',
     image: '/images/Bonsard/artist6.jpg',
+    dimensions: '95 x 95 cm',
+    category: 'Painting',
+    tags: ['Organic', 'Textured', 'Nature']
   },
   {
     name: 'Chromatic Waves',
@@ -177,6 +204,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Vibrant color transitions',
     image: '/images/Sigrist/artist7.1.jpg',
+    dimensions: '110 x 70 cm',
+    category: 'Painting',
+    tags: ['Chromatic', 'Vibrant', 'Waves']
   },
   {
     name: 'Silent Contemplation',
@@ -185,6 +215,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Meditative abstract piece',
     image: '/images/Boucheix/artist1.3.jpg',
+    dimensions: '80 x 80 cm',
+    category: 'Painting',
+    tags: ['Meditative', 'Calm', 'Balanced']
   },
   {
     name: 'Luminous Depths',
@@ -193,6 +226,9 @@ const baseArtworks = [
     stockQty: 1,
     description: 'Deep colors with light accents',
     image: '/images/Leloluce/artist3.3.jpg',
+    dimensions: '90 x 100 cm',
+    category: 'Painting',
+    tags: ['Luminous', 'Deep', 'Accents']
   },
 ]
 
@@ -210,18 +246,26 @@ export const mockArtworks: ItemPhysicalType[] = Array.from({ length: 120 }, (_, 
     item: {
       id: uniqueId,
       name: `${base.name} #${uniqueId}`,
-      slug: `${base.slug}-${uniqueId}`,
+      slug: base.slug,
       mainImageUrl: base.image,
       secondaryImagesUrl: [],
       description: base.description,
-      userId: 'user-1',
+      tags: base.tags,
+      category: base.category,
+      dimensions: base.dimensions,
+      idUser: 1,
+      metaDescription: '',
+      metaTitle: '',
+      realViewCount: 0,
+      fakeViewCount: 0,
+      featured: false,
+      artistId: 1,
       mediumId: 1,
       styleId: 1,
       techniqueId: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
-  }
+      createdAt: new Date()
+    } as any
+  } as unknown as ItemPhysicalType
 })
 
 // Mock collections data - will be replaced with real data from user

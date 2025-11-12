@@ -12,7 +12,7 @@ const ArtistCardSlider = ({ artist }: ArtistCardSliderProps) => {
   return (
     <Link href={`/artists/${slug || id}`}>
       <div
-        className="relative w-full h-[240px] bg-no-repeat bg-cover bg-center mr-5 rounded-[17px] md:h-[380px]"
+        className="relative w-full bg-no-repeat bg-cover bg-center mr-5 rounded-[17px] h-[380px] md:h-[440px]"
         style={{
           backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.50) 2.61%, rgba(0, 0, 0, 0.50) 2.62%, rgba(0, 0, 0, 0.00) 48.1%), url('${imageUrl}')`,
         }}

@@ -3,37 +3,35 @@ import { MoveLeft, MoveRight } from 'lucide-react';
 import { useSwiper } from 'swiper/react';
 
 interface SwiperArrowsProps {
-  className?: string;
-  artistsLength: number;
-  activeSlide: number;
+  className?: string
+  canGoPrev: boolean
+  canGoNext: boolean
 }
 
 const SwiperArrows = ({
   className,
-  artistsLength,
-  activeSlide,
+  canGoPrev,
+  canGoNext
 }: SwiperArrowsProps) => {
-  const swiper = useSwiper();
-  const leftDisabled: boolean = activeSlide <= 0;
-  const rightDisabled: boolean = activeSlide >= artistsLength - 1;
+  const swiper = useSwiper()
 
   return (
     <div className={className}>
       <MoveLeft
-        onClick={() => swiper.slidePrev()}
+        onClick={() => canGoPrev && swiper.slidePrev()}
         className={`cursor-pointer sm:w-[40px] sm:h-auto ${
-          leftDisabled ? 'pointer-events-none text-[#a7a7a7]' : ''
+          canGoPrev ? '' : 'pointer-events-none text-[#a7a7a7]'
         }`}
-        width={100}
-        height={80}
+        width={80}
+        height={60}
       />
       <MoveRight
-        onClick={() => swiper.slideNext()}
+        onClick={() => canGoNext && swiper.slideNext()}
         className={`cursor-pointer sm:w-[40px] sm:h-auto ${
-          rightDisabled ? 'pointer-events-none text-[#a7a7a7]' : ''
+          canGoNext ? '' : 'pointer-events-none text-[#a7a7a7]'
         }`}
-        width={100}
-        height={80}
+        width={80}
+        height={60}
       />
     </div>
   );

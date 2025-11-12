@@ -17,7 +17,7 @@ import 'swiper/css/thumbs';
 
 
 interface ArtworkThumbnailSliderProps {
-  nft: ItemPhysicalType
+  artwork: ItemPhysicalType
   currentImageIndex: number
   setCurrentImageIndex: (index: number) => void
   images: string[]
@@ -25,8 +25,8 @@ interface ArtworkThumbnailSliderProps {
 
 const SLIDER_HEIGHT = 88;
 
-const ArtworkThumbnailSlider = ({ nft, currentImageIndex, setCurrentImageIndex, images }: ArtworkThumbnailSliderProps) => {
-  const { name } = nft.item || {};
+const ArtworkThumbnailSlider = ({ artwork, currentImageIndex, setCurrentImageIndex, images }: ArtworkThumbnailSliderProps) => {
+  const { name } = artwork.item || {};
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   
@@ -62,7 +62,7 @@ const ArtworkThumbnailSlider = ({ nft, currentImageIndex, setCurrentImageIndex, 
   return (
     <div
       ref={sliderRef}
-      className="h-[100px] lg:h-full lg:w-[100px] overflow-scroll mt-2 max-h-[75vh] lg:flex lg:flex-col gap-2 items-center pl-2 lg:pl-0 pt-2 whitespace-nowrap no-scrollbar"
+      className="h-[70px] lg:h-full lg:w-[70px] overflow-scroll mt-2 mb-8 md:mb-0 max-h-[75vh] lg:flex lg:flex-col gap-2 items-center pt-2 whitespace-nowrap no-scrollbar"
     >
       {images.map((img, index) => (
         <div
@@ -73,9 +73,9 @@ const ArtworkThumbnailSlider = ({ nft, currentImageIndex, setCurrentImageIndex, 
           <Image
             src={img || ''}
             alt={`${name} thumbnail ${index + 1}`}
-            width={80}
-            height={80}
-            className={`object-cover rounded-[6px] w-[80px] h-[80px] ${index === currentImageIndex ? 'ring-2 ring-amber-500' : ''}`}
+            width={60}
+            height={60}
+            className={`object-cover rounded-[6px] w-[60px] h-[60px] ${index === currentImageIndex ? 'ring-2 ring-amber-500' : ''}`}
           />
         </div>
       ))}

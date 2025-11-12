@@ -5,8 +5,10 @@
 body {
   --radius: 8px; 
   --primary: #b39e73;
+  --purple: #786df2;
   --secondary: #786df2;
   --background: #131313;
+  --grey: #1b1b1b;
   --foreground: #ffffff;
   --border: #a6a6a6;
   --input: #393939;

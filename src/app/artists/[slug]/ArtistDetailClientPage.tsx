@@ -4,7 +4,8 @@ import { Grid, User } from 'lucide-react'
 import ArtistIntroSection from './subComponents/ArtistIntroSection'
 import ArtistBiographySection from './subComponents/ArtistBiographySection'
 import ArtworkList from '@/components/artists/ArtworkList'
-import ScrollNavigation, { NavigationTab } from '@/components/Common/ScrollNavigation'
+import ScrollNavigation from '@/components/Common/ScrollNavigation'
+import { TabItem } from '@/components/Common/Tabs'
 import Container from '@/components/Common/Container'
 import { useScrollNavigation } from '@/hooks/useScrollNavigation'
 import { ArtistWithRelations, ItemPhysicalType } from '@/types'
@@ -62,7 +63,7 @@ export default function ArtistDetailClientPage({
   )
 
   // Tab configuration
-  const tabs: NavigationTab[] = [
+  const tabs: TabItem[] = [
     { id: 'artworks', label: 'Artworks', icon: <Grid size={18} /> },
     { id: 'biography', label: 'Biography', icon: <User size={18} /> }
   ]

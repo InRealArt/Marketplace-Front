@@ -205,7 +205,7 @@ export function useCart() {
   /**
    * Add NFT to cart
    */
-  const addToCart = async (nft: ItemPhysicalType, purchaseType: PurchaseType) => {
+  const addToCart = async (nft: ItemPhysicalType, purchaseType: PurchaseType = PriceOption.PHYSICAL) => {
     // First check if this item already exists in the cart
     const existingItem = items.find(
       item => item.nft.id === nft.id && item.purchaseType === purchaseType

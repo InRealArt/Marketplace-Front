@@ -1,66 +1,90 @@
-'use client';
-import React, { useRef, useState } from 'react';
-import Image from 'next/image';
-import ShareModal from '@/components/Modal/ShareModal';
-import dynamic from 'next/dynamic';
-import { ItemPhysicalType } from '@/types';
-import { ArrowBigLeft, ArrowBigRight, Share2, StarsIcon, Eye, Flame } from 'lucide-react';
-import { useViewCounter } from '@/hooks/useViewCounter';
-
-// Import Swiper React components and CSS
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
-import ArtworkThumbnailSlider from './ArtworkPreviewSlider';
-import ArtworkMainImage from './ArtworkMainImage';
-
+'use client'
+import React, { useMemo, useRef, useState } from 'react'
+import { ItemPhysicalType } from '@/types'
+import ArtworkThumbnailSlider from './ArtworkPreviewSlider'
+import ArtworkMainImage from './ArtworkMainImage'
+import ArtworkGalleryTabs, { ArtworkGalleryTab } from './ArtworkGalleryTabs'
+import ZoomGalleryModal from '@/components/Modal/ZoomGalleryModal'
 
 interface ArtworkGalleryProps {
-  nft: ItemPhysicalType
+  artwork: ItemPhysicalType
 }
 
-const ArtworkGallery = ({ nft }: ArtworkGalleryProps) => {
-  const { mainImageUrl, secondaryImagesUrl } = nft.item || {};
-  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
-  const mainSwiperRef = useRef<any>(null);
+const ArtworkGallery = ({ artwork }: ArtworkGalleryProps) => {
+  const { mainImageUrl, secondaryImagesUrl } = artwork.item || {}
+  const [activeTab, setActiveTab] = useState<ArtworkGalleryTab>('artwork')
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0)
+  const [showZoomGallery, setShowZoomGallery] = useState(false)
+  const mainSwiperRef = useRef<any>(null)
 
-  // Filter out null values from images array
-  const images = secondaryImagesUrl 
-    ? [mainImageUrl, ...secondaryImagesUrl].filter((img): img is string => img !== null) 
-    : mainImageUrl ? [mainImageUrl] : [];
+  const artworkImages = useMemo(() => {
+    const base = secondaryImagesUrl
+      ? [mainImageUrl, ...secondaryImagesUrl]
+      : mainImageUrl
+        ? [mainImageUrl]
+        : []
+    return base.filter((img): img is string => Boolean(img))
+  }, [mainImageUrl, secondaryImagesUrl])
 
-  // Function to handle thumbnail click
+  const mockupImages = useMemo(
+    () => [
+      '/images/mock/artist/ekaterina-background.avif',
+      '/images/Boucheix/artist1.4.jpg',
+      '/images/Leloluce/artist3.6.jpg'
+    ],
+    []
+  )
+
+  const currentImages = activeTab === 'artwork' ? artworkImages : mockupImages
+
   const handleThumbnailClick = (index: number) => {
-    setCurrentImageIndex(index);
-    // If we have the swiper instance, use it to navigate to the selected slide
+    setCurrentImageIndex(index)
     if (mainSwiperRef.current) {
-      mainSwiperRef.current.slideTo(index);
+      mainSwiperRef.current.slideTo(index)
     }
-  };
+  }
+
+  const handleTabChange = (tab: ArtworkGalleryTab) => {
+    if (tab === activeTab) return
+    setActiveTab(tab)
+    setCurrentImageIndex(0)
+    if (mainSwiperRef.current) {
+      mainSwiperRef.current.slideTo(0)
+    }
+  }
 
   return (
-    <div className="lg:sticky lg:top-[85px] w-full lg:w-[60%] relative rounded-[10px] flex flex-col lg:flex-row gap-2 h-auto lg:h-[75vh]">
-      {/* Thumbnail Vertical Slider */}
-      <ArtworkThumbnailSlider
-        nft={nft}
-        currentImageIndex={currentImageIndex}
-        setCurrentImageIndex={handleThumbnailClick}
-        images={images}
+    <>
+      <ArtworkGalleryTabs
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        onZoom={() => setShowZoomGallery(true)}
       />
 
-      {/* Main Image */}
-      <ArtworkMainImage
-        nft={nft}
-        currentImageIndex={currentImageIndex}
-        setCurrentImageIndex={setCurrentImageIndex}
-        images={images}
-        onSwiperInit={(swiper) => mainSwiperRef.current = swiper}
-      />
-    </div>
-  );
-};
+      <div className="w-full relative rounded-[10px] flex flex-col-reverse lg:flex-row gap-2 h-auto lg:h-[75vh]">
+        <ArtworkThumbnailSlider
+          artwork={artwork}
+          currentImageIndex={currentImageIndex}
+          setCurrentImageIndex={handleThumbnailClick}
+          images={currentImages}
+        />
 
-export default ArtworkGallery;
+        <ArtworkMainImage
+          setCurrentImageIndex={setCurrentImageIndex}
+          images={currentImages}
+          onSwiperInit={(swiper) => (mainSwiperRef.current = swiper)}
+        />
+      </div>
+
+      <ZoomGalleryModal
+        show={showZoomGallery}
+        hide={() => setShowZoomGallery(false)}
+        images={currentImages}
+        initialSlide={currentImageIndex}
+        title={artwork.item?.name || 'Artwork Gallery'}
+      />
+    </>
+  )
+}
+
+export default ArtworkGallery

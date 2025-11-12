@@ -5,19 +5,24 @@ import { ItemPhysicalType, ArtistWithRelations } from '@/types';
 
 import ArtworkGallery from './Image/ArtworkGallery';
 import ArtworkInfos from './Infos/ArtworkInfos';
+import ArtworkDetailsTabs from './ArtworkDetailsTabs';
 
 
 interface ArtworkPresentationProps {
-  nft: ItemPhysicalType
+  artwork: ItemPhysicalType
   artist: ArtistWithRelations | null | undefined
 }
 
-const ArtworkPresentation = ({ nft, artist }: ArtworkPresentationProps) => {  
-  
+const ArtworkPresentation = ({ artwork, artist }: ArtworkPresentationProps) => {
+
   return (
     <section className="flex flex-col lg:flex-row gap-[20px] relative">
-      <ArtworkGallery nft={nft} />
-      <ArtworkInfos nft={nft} artist={artist} />
+      <div className="w-full lg:w-[70%]">
+        <ArtworkGallery artwork={artwork} />
+        <ArtworkInfos artwork={artwork} artist={artist} additionalClassName="lg:hidden" />
+        <ArtworkDetailsTabs artwork={artwork} />
+      </div>
+      <ArtworkInfos artwork={artwork} artist={artist} additionalClassName="hidden lg:block" />
     </section>
   );
 };
