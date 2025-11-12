@@ -14,8 +14,11 @@ export type ArtistWithRelations = Artist & {
   // These fields exist in the database but TypeScript might not recognize them yet
   countryName?: string | null
   mediumTags?: string[]
+  styleTags?: string[]
+  techniqueTags?: string[]
   role?: string | null
   photo?: string | null
+  biography?: string | null
   intro?: string | null
   quoteHeader?: string | null
   quoteText?: string | null
@@ -43,11 +46,15 @@ export interface ArtistType {
   // Extended profile fields
   role?: string | null
   photo?: string | null
+  biography?: string | null
   intro?: string | null
   countryCode?: string | null
   countryName?: string | null
   mediumTags?: string[]
+  styleTags?: string[]
+  techniqueTags?: string[]
   birthYear?: number | null
+  userId?: string | null
   quoteHeader?: string | null
   quoteText?: string | null
   biographyHeader1?: string | null
@@ -79,6 +86,7 @@ export interface ArtistData {
   name: string
   role: string
   photo: string
+  biography?: string | null
   intro: string
   description: string
   slug: string
@@ -86,6 +94,9 @@ export interface ArtistData {
   countryCode?: string | null
   countryName?: string | null
   mediumTags?: string[]
+  styleTags?: string[]
+  techniqueTags?: string[]
+  userId?: string | null
   birthYear?: number | null
   quoteHeader?: string | null
   quoteText?: string | null

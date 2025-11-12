@@ -1,7 +1,7 @@
 import { ArtistWithRelations, ItemPhysicalType } from '@/types'
 
 // Mock artist data - Ekaterina Aristova
-export const mockArtistDetail: ArtistWithRelations = {
+export const mockArtistDetail = {
   id: 1,
   name: 'Ekaterina',
   surname: 'Aristova',
@@ -23,10 +23,9 @@ export const mockArtistDetail: ArtistWithRelations = {
   mediumTags: ['Peinture'],
   styleTags: ['Art Inconscient', 'Abstrait'],
   techniqueTags: ['Fusain'],
-  userId: 'user-1',
   createdAt: new Date(),
   updatedAt: new Date()
-}
+} as unknown as ArtistWithRelations
 
 // Artist intro data
 export const mockArtistIntro = {

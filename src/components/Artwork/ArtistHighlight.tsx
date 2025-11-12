@@ -12,7 +12,13 @@ const ArtistHighlight = ({ artist }: ArtistHighlightProps) => {
   if (!artist) return null
 
   const fullName = `${artist.name ?? ''} ${artist.surname ?? ''}`.trim()
-  const biography = artist.biography ?? ''
+  const biography =
+    (artist as { biography?: string })?.biography ??
+    artist.biographyText1 ??
+    artist.biographyText2 ??
+    artist.biographyText3 ??
+    artist.intro ??
+    ''
 
   return (
     <Container className="mt-14">

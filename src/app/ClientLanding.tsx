@@ -1,7 +1,6 @@
 'use client'
 import ContactUs from '@/components/Home/ContactUs';
 import Intro from '@/components/Home/Intro';
-import ArtistsListSlider from '@/components/List/ArtistsListSlider';
 import ListOfFeaturedArtworks from '@/components/List/ListOfFeaturedArtworks';
 import { useArtistsStore } from '@/store/artistsStore';
 import { useItemsStore } from '@/store/itemsStore';
