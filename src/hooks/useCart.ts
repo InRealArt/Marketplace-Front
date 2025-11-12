@@ -35,7 +35,7 @@ export function useCart() {
       setAnonymousId(newAnonymousId);
       setInitialized(true);
     }
-    
+
     if (userJustConnect) {
       // We'll handle the anonymous cart cleanup in loadCartFromServer
       // Just set initialized to true to trigger the loadCartFromServer effect
@@ -56,13 +56,13 @@ export function useCart() {
   const loadCartFromServer = async (isLoginEvent = false) => {
     try {
       setLoading(true);
-      
+
       // Save current local cart items for potential merging
       const localItems = [...items];
-      
+
       // Clear local cart state to prepare for new data
       clearCartStore();
-      
+
       // Handle user cart (logged in user)
       if (userId) {
         // Delete anonymous cart if user just logged in
@@ -71,9 +71,9 @@ export function useCart() {
           // Clear the anonymousId from store after successful login
           setAnonymousId(null);
         }
-        
+
         await handleUserCart(userId, localItems, isLoginEvent);
-      } 
+      }
       // Handle anonymous cart
       else if (anonymousId) {
         await handleAnonymousCart(anonymousId);
@@ -92,11 +92,11 @@ export function useCart() {
     // Get user cart from server
     const cart = await getUserCart(userId);
     const serverItems = cart?.items as CartItem[] || [];
-    
+
     // For login/signup events, merge local and server carts
     if (isLoginEvent) {
       await mergeAndSaveCart(userId, serverItems, localItems);
-    } 
+    }
     // For normal sync, just load server items
     else {
       loadItemsToLocalCart(serverItems);
@@ -107,7 +107,7 @@ export function useCart() {
   const handleAnonymousCart = async (anonymousId: string) => {
     const cart = await getAnonymousCart(anonymousId);
     const serverItems = cart?.items as CartItem[] || [];
-    
+
     // Load server items to local cart
     loadItemsToLocalCart(serverItems);
   };
@@ -116,23 +116,23 @@ export function useCart() {
   const mergeAndSaveCart = async (userId: string, serverItems: CartItem[], localItems: CartItem[]) => {
     // Create a merged items array starting with server items
     const mergedItems: CartItem[] = [...serverItems];
-    
+
     // Add local items that don't exist on server
     for (const localItem of localItems) {
       const existsOnServer = serverItems.some(
-        serverItem => 
-          serverItem.nft.id === localItem.nft.id && 
+        serverItem =>
+          serverItem.nft.id === localItem.nft.id &&
           serverItem.purchaseType === localItem.purchaseType
       );
-      
+
       if (!existsOnServer) {
         mergedItems.push(localItem);
       }
     }
-    
+
     // Load merged items to local cart
     loadItemsToLocalCart(mergedItems);
-    
+
     // Save merged cart to server if there are items to save
     if (mergedItems.length > 0) {
       const totalPrice = calculateTotalWithTax(mergedItems);

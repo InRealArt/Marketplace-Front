@@ -70,7 +70,7 @@ function Footer() {
   ]
 
   return (
-    <footer className="pt-20 pb-20 mt-[10rem] w-full max-w-[90%] mx-auto">
+    <footer className="pt-8 pb-8 mt-[2rem] w-full max-w-[90%] mx-auto">
       <div className="bg-[#ddd2fc] rounded-lg p-6 sm:p-8 lg:p-12 xl:p-16">
         
         {/* Main navigation sections */}

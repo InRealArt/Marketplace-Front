@@ -12,6 +12,7 @@ interface ModalState {
   toggleMenu: () => void;
   toggleUserMenu: () => void;
   toggleCart: () => void;
+  openCart: () => void;
   toggleSearch: () => void;
   closeAllModals: () => void;
 }
@@ -41,6 +42,14 @@ export const useModalStore = create<ModalState>((set) => ({
       return { showUserMenu: true, showMenu: false, showCart: false, showSearch: false };
     }
     return { showUserMenu: !state.showUserMenu };
+  }),
+
+  openCart: () => set((state) => {
+    // Close other modals when opening this one
+    if (!state.showCart) {
+      return { showCart: true, showMenu: false, showUserMenu: false, showSearch: false };
+    }
+    return { showCart: true };
   }),
   
   toggleCart: () => set((state) => {

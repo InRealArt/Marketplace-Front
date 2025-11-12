@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import ArtworkPresentation from '@/components/Artwork/ArtworkPresentation'
+import ArtistHighlight from '@/components/Artwork/ArtistHighlight'
 import ListSlider from '@/components/List/ListSlider'
 import Container from '@/components/Common/Container'
 import { ArtistWithRelations, ItemPhysicalType } from '@/types'
@@ -32,10 +33,13 @@ export default function ArtworkDetailClientPage({
         backgroundColor="bg-[#1c1c1c]"
       />
 
+      <ArtistHighlight artist={artist} />
+
       <ListSlider
         context="artist"
         artists={relatedArtists}
         title="Associated Artists"
+        backgroundColor="bg-[#1c1c1c]"
       />
     </main>
   )

@@ -4,6 +4,7 @@ import Button from '@/components/Button/Button';
 import { ItemPhysicalType, PriceOption } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { toast } from 'sonner';
+import { useModalStore } from '@/store/modalStore';
 
 interface ArtworkPriceProps {
   artwork: ItemPhysicalType
@@ -12,9 +13,11 @@ interface ArtworkPriceProps {
 
 const ArtworkPrice = ({ artwork }: ArtworkPriceProps) => {
   const { addToCart } = useCart();
+  const { openCart } = useModalStore();
 
 
   const handleAddToCart = async () => {
+    openCart();
     const result = await addToCart(artwork);
 
     if (result.success) {
