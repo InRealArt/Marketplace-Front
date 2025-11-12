@@ -17,6 +17,7 @@ interface ArtworkListProps {
   materials: { value: string, label: string }[]
   types: { value: string, label: string }[]
   title?: string
+  filtersClassName?: string
   className?: string
 }
 
@@ -30,6 +31,7 @@ const ArtworkList = ({
   materials,
   types,
   title,
+  filtersClassName,
   className = ''
 }: ArtworkListProps) => {
   const [, startTransition] = useTransition()
@@ -83,6 +85,7 @@ const ArtworkList = ({
         params={params}
         setParams={setParams}
         artworksLength={totalResults}
+        filtersClassName={filtersClassName}
       />
 
       {/* Artworks grid or empty state */}

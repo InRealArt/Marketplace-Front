@@ -1,19 +1,61 @@
-import React from 'react'
-import ListOfItems from '@/components/List/ListOfItems'
+import { Suspense } from 'react'
 import Container from '@/components/Common/Container'
+import ArtworksHero from '@/components/artworks/ArtworksHero'
+import ArtworksClientPage from './ArtworksClientPage'
+import ArtworksLoadingSkeleton from '@/components/artworks/ArtworksLoadingSkeleton'
+import { mockArtworks, mockFilterOptions } from '@/mocks/artistDetail'
+import { filterArtworks, paginateArtworks, parseArtworkSearchParams } from '@/lib/utils/artworkUtils'
 
-const Artworks = () => {
+interface ArtworksPageProps {
+  searchParams: Promise<{
+    page?: string
+    priceRange?: string
+    size?: string
+    material?: string
+    type?: string
+  }>
+}
+
+async function ArtworksContent({ searchParams }: ArtworksPageProps) {
+  const resolvedSearchParams = await searchParams
+  const { page, priceRange, size, material, type } = parseArtworkSearchParams(resolvedSearchParams)
+
+  const filtered = filterArtworks(mockArtworks, { priceRange, size, material, type })
+  const PAGE_SIZE = 16
+  const pagination = paginateArtworks(filtered, page, PAGE_SIZE)
+
   return (
-    <Container>
-      <main className="min-h-screen w-full">
-        <div className="w-full px-4 md:px-6 lg:px-8">
-          <h2 className="text-[70px] font-medium leading-[78px] tracking-[-1.5px] max-desktop:text-[32px] max-desktop:leading-[40px] mb-6">
-            Available Artworks</h2>
-          <ListOfItems />
-        </div>
-      </main>
+    <Container className="!mt-[40px]">
+      <ArtworksClientPage
+        artworks={pagination.items}
+        totalPages={pagination.totalPages}
+        currentPage={pagination.currentPage}
+        totalResults={filtered.length}
+        priceRanges={mockFilterOptions.priceRanges}
+        sizes={mockFilterOptions.sizes}
+        materials={mockFilterOptions.materials}
+        types={mockFilterOptions.types}
+        filtersClassName="top-[69px] md:top-[79px]"
+      />
     </Container>
   )
 }
 
-export default Artworks
+const ArtworksPage = ({ searchParams }: ArtworksPageProps) => {
+  return (
+    <main>
+      <ArtworksHero />
+      <Suspense
+        fallback={
+          <Container className="mt-[40px]">
+            <ArtworksLoadingSkeleton />
+          </Container>
+        }
+      >
+        <ArtworksContent searchParams={searchParams} />
+      </Suspense>
+    </main>
+  )
+}
+
+export default ArtworksPage

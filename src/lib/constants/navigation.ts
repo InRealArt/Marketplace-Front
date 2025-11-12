@@ -4,5 +4,7 @@ export interface NavigationItem {
 }
 
 export const navigationItems: NavigationItem[] = [
-  { text: 'Artists', href: '/artists' }
+  { text: 'Artists', href: '/artists' },
+  { text: 'Artworks', href: '/artworks' }
+
 ]; 

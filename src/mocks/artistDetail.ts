@@ -107,6 +107,7 @@ const baseArtworks = [
     image: '/images/Ekaterina/artist2.jpg',
     dimensions: '80 x 80 cm',
     category: 'Painting',
+    material: 'Canvas',
     tags: ['Abstract', 'Colorful', 'Energetic']
   },
   {
@@ -118,6 +119,7 @@ const baseArtworks = [
     image: '/images/Boucheix/artist1.1.jpg',
     dimensions: '60 x 90 cm',
     category: 'Painting',
+    material: 'Paper',
     tags: ['Conceptual', 'Fluid', 'Monochrome']
   },
   {
@@ -129,6 +131,7 @@ const baseArtworks = [
     image: '/images/Leloluce/artist3.1.jpg',
     dimensions: '100 x 70 cm',
     category: 'Drawing',
+    material: 'Charcoal',
     tags: ['Charcoal', 'Minimal', 'Dreamy']
   },
   {
@@ -140,6 +143,7 @@ const baseArtworks = [
     image: '/images/Her/artist4.1.jpg',
     dimensions: '120 x 150 cm',
     category: 'Painting',
+    material: 'Oil',
     tags: ['Large Scale', 'Expressive', 'Landscape']
   },
   {
@@ -151,6 +155,7 @@ const baseArtworks = [
     image: '/images/Boucheix/artist1.2.jpg',
     dimensions: '90 x 110 cm',
     category: 'Painting',
+    material: 'Acrylic',
     tags: ['Urban', 'Geometric', 'Vibrant']
   },
   {
@@ -162,6 +167,7 @@ const baseArtworks = [
     image: '/images/Leloluce/artist3.2.jpg',
     dimensions: '75 x 120 cm',
     category: 'Painting',
+    material: 'Mixed Media',
     tags: ['Ethereal', 'Soft', 'Pastel']
   },
   {
@@ -173,6 +179,7 @@ const baseArtworks = [
     image: '/images/Her/artist4.2.jpg',
     dimensions: '70 x 90 cm',
     category: 'Painting',
+    material: 'Oil',
     tags: ['Sunset', 'Warm', 'Reflective']
   },
   {
@@ -184,6 +191,7 @@ const baseArtworks = [
     image: '/images/Peltzer/artist5.1.jpg',
     dimensions: '80 x 100 cm',
     category: 'Painting',
+    material: 'Acrylic',
     tags: ['Geometric', 'Balanced', 'Modern']
   },
   {
@@ -195,6 +203,7 @@ const baseArtworks = [
     image: '/images/Bonsard/artist6.jpg',
     dimensions: '95 x 95 cm',
     category: 'Painting',
+    material: 'Oil',
     tags: ['Organic', 'Textured', 'Nature']
   },
   {
@@ -206,6 +215,7 @@ const baseArtworks = [
     image: '/images/Sigrist/artist7.1.jpg',
     dimensions: '110 x 70 cm',
     category: 'Painting',
+    material: 'Resin',
     tags: ['Chromatic', 'Vibrant', 'Waves']
   },
   {
@@ -217,6 +227,7 @@ const baseArtworks = [
     image: '/images/Boucheix/artist1.3.jpg',
     dimensions: '80 x 80 cm',
     category: 'Painting',
+    material: 'Acrylic',
     tags: ['Meditative', 'Calm', 'Balanced']
   },
   {
@@ -228,6 +239,7 @@ const baseArtworks = [
     image: '/images/Leloluce/artist3.3.jpg',
     dimensions: '90 x 100 cm',
     category: 'Painting',
+    material: 'Mixed Media',
     tags: ['Luminous', 'Deep', 'Accents']
   },
 ]
@@ -253,6 +265,7 @@ export const mockArtworks: ItemPhysicalType[] = Array.from({ length: 120 }, (_, 
       tags: base.tags,
       category: base.category,
       dimensions: base.dimensions,
+      material: base.material,
       idUser: 1,
       metaDescription: '',
       metaTitle: '',

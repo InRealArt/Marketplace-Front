@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -8,7 +8,7 @@ import SwiperArrows from './subComponents/SwiperArrows'
 import ArtistCard from '../Card/ArtistCardSlider'
 import ArtworkCard from '../Card/ArtworkCard'
 import { ArtistWithRelations, ItemPhysicalType } from '@/types'
-import Container from '../Common/Container'
+import Container from '@/components/Common/Container'
 
 type SliderContext = 'artist' | 'artwork'
 
@@ -25,11 +25,10 @@ const ListSlider = ({
   title,
   artists = [],
   artworks = [],
-  backgroundColor
+  backgroundColor = ''
 }: ListSliderProps) => {
   const [canGoPrev, setCanGoPrev] = useState(false)
   const [canGoNext, setCanGoNext] = useState(true)
-  const swiperRef = useRef<any>(null)
 
   const items = context === 'artist'
     ? artists
@@ -51,6 +50,10 @@ const ListSlider = ({
       }
     }))
 
+  if (items.length === 0) {
+    return null
+  }
+
   return (
     <section className={`mt-[60px] py-[15px] ${backgroundColor}`}>
       <Container>
@@ -65,7 +68,6 @@ const ListSlider = ({
             slidesPerGroup={1}
             grabCursor
             onSwiper={(swiper) => {
-              swiperRef.current = swiper
               setCanGoPrev(!swiper.isBeginning)
               setCanGoNext(!swiper.isEnd)
             }}

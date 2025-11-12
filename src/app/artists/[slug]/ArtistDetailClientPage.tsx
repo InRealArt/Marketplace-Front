@@ -112,6 +112,7 @@ export default function ArtistDetailClientPage({
             materials={filterOptions.materials}
             types={filterOptions.types}
             title={`All artworks of ${artist.name} ${artist.surname}`}
+            filtersClassName="top-[127px] md:top-[137px]"
           />
         </div>
 

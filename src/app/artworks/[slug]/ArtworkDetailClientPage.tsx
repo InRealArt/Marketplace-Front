@@ -12,7 +12,7 @@ interface ArtworkDetailClientPageProps {
   relatedArtists: ArtistWithRelations[]
 }
 
-const mockRelatedArtworks = mockArtworks.slice(0, 13)
+const mockRelatedArtworks = mockArtworks.slice(0, 12)
 
 export default function ArtworkDetailClientPage({
   artwork,
@@ -29,7 +29,7 @@ export default function ArtworkDetailClientPage({
         context="artwork"
         title={`Other artworks by ${artist?.name ?? 'the artist'}`}
         artworks={mockRelatedArtworks}
-        backgroundColor="bg-grey"
+        backgroundColor="bg-[#1c1c1c]"
       />
 
       <ListSlider

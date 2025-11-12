@@ -21,6 +21,7 @@ interface ArtworksFilterProps {
   sizes: { value: string, label: string }[]
   materials: { value: string, label: string }[]
   types: { value: string, label: string }[]
+  filtersClassName?: string
   params: {
     priceRange: string
     size: string
@@ -45,7 +46,8 @@ const ArtworksFilter = ({
   types,
   params,
   setParams,
-  artworksLength
+  artworksLength,
+  filtersClassName
 }: ArtworksFilterProps) => {
   const handlePriceChange = (value: string | number | null) => {
     setParams({
@@ -93,7 +95,7 @@ const ArtworksFilter = ({
     params.type !== ''
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 sticky top-[127px] md:top-[137px] bg-background z-10 py-4">
+    <div className={`flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 sticky bg-background z-10 py-4 ${filtersClassName}`}>
       {/* Filters row */}
       <div className="flex flex-wrap items-center gap-4">
         {/* Price Range Dropdown */}
