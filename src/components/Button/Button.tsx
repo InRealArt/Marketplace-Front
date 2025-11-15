@@ -45,6 +45,7 @@ const Button = ({
     verifyCaptcha: "w-20 bg-[#b39e73] text-white",
     large: "py-[15px] px-0",
     small: "!py-[10px] !px-[12px] !md:py-[12px] !md:px-[15px] !text-xs",
+    medium: "!py-[12px] !px-[15px] !md:py-[15px] !md:px-[30px] !text-base",
     disabled: "bg-gray-500 opacity-50 cursor-not-allowed pointer-events-none"
   };
 

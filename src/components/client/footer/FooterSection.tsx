@@ -16,10 +16,10 @@ interface FooterSectionProps {
 function FooterSection({ title, links, width = 'w-[282px]' }: FooterSectionProps) {
   return (
     <div className={`flex flex-col gap-2 items-start justify-start shrink-0 ${width} relative`}>
-      <div className="text-[#4231ff] text-left  text-2xl font-medium relative self-stretch">
+      <div className="text-white text-left  text-2xl font-medium relative self-stretch">
         {title}
       </div>
-      <div className="bg-[#4231ff] self-stretch shrink-0 h-px relative"></div>
+      <div className="bg-white self-stretch shrink-0 h-px relative"></div>
       <div className="flex flex-col gap-0 items-start justify-center self-stretch shrink-0 relative">
         {links.map((link, index) => (
           <FooterLink

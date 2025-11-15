@@ -43,9 +43,15 @@ const ArtworkInfos = ({ artwork, artist, additionalClassName }: ArtworkInfosProp
             url={`/artworks/${artwork.item.slug}`}
             title={name || 'Check out this amazing artwork'}
           >
-            <Share2 width={20} height={20} />
+            <button
+              onClick={() => { }}
+              className={`group transition-transform cursor-pointer`}
+              aria-label='Share this artwork'
+            >
+              <Share2 className='text-white' width={20} height={20} />
+            </button>
           </ShareModal>
-          <FavoriteButton artworkId={artwork.id} />
+          <FavoriteButton artworkId={artwork.id} variant='minimal' />
         </div>
       </div>
 

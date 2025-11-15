@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import ArtistDetailClientPage from './ArtistDetailClientPage'
 import ArtistNotFoundEmptyState from '@/components/EmptyStates/ArtistNotFoundEmptyState'
+import ArtistIntroSectionSkeleton from '@/components/artists/ArtistIntroSectionSkeleton'
 import { getArtistBySlug, getArtworksByArtistSlug, getCollectionsByArtistSlug, mockArtistIntro, mockArtistBiography, mockFilterOptions } from '@/mocks/artistDetail'
 
 interface ArtistPageProps {
@@ -41,13 +42,7 @@ export default async function ArtistPage({ params }: ArtistPageProps) {
   const { slug } = await params
 
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center text-white/60">
-          <p>Loading artist data...</p>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<ArtistIntroSectionSkeleton />}>
       <ArtistContent slug={slug} />
     </Suspense>
   )

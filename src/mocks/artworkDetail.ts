@@ -29,8 +29,9 @@ const mockArtworkDetail: ItemPhysicalType = {
       mockArtworks[0].item.secondaryImagesUrl?.length
         ? mockArtworks[0].item.secondaryImagesUrl
         : [
-          '/images/Ekaterina/artist2.jpg',
           '/images/Boucheix/artist1.1.jpg',
+          '/images/Boucheix/artist1.2.jpg',
+          '/images/Boucheix/artist1.3.jpg',
           '/images/Leloluce/artist3.2.jpg'
         ]
   },

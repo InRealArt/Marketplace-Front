@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Header from '@/components/client/Header/Header';
-import Cart from '@/components/client/Header/Cart';
+import Cart from '@/components/client/Header/Cart/Cart';
 import '@/styles/globals.scss';
 import '@/styles/globals.css';
 import '@/styles/fonts.css';
@@ -39,7 +39,6 @@ export default function RootLayout({
             {/* <UserMenu /> */}
             <Cart />
             {children}
-            {/* <Footer /> */}
             <Toaster richColors />
             <LoginModal />
             <SearchModal />

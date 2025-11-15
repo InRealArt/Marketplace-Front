@@ -17,7 +17,7 @@ function FooterLink({ text, href, onClick }: FooterLinkProps) {
   }
 
   const linkContent = (
-    <div className="text-[#4231ff] text-left font-montserrat text-base font-medium relative flex items-center justify-start">
+    <div className="text-white text-left font-montserrat text-base font-medium relative flex items-center justify-start">
       {text}
     </div>
   )

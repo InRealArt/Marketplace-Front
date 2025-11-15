@@ -317,7 +317,7 @@ export const mockFilterOptions = {
  */
 export async function getArtistBySlug(slug: string): Promise<ArtistWithRelations | null> {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 100))
+  await new Promise(resolve => setTimeout(resolve, 2000))
   
   // For now, return mock data if slug matches
   if (slug === mockArtistDetail.slug) {

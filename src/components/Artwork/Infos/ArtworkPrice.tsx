@@ -34,27 +34,31 @@ const ArtworkPrice = ({ artwork }: ArtworkPriceProps) => {
           <p className="text-sm">Total price</p>
           <p className="text-sm text-[rgba(255,255,255,0.7)]">{artwork.price} €*</p>
         </div>
+
+      </div>
+      <div className='flex justify-between gap-2'>
+        {artwork.stockQty > 0 ? <>
+          <Button
+            text='Buy now'
+            action={handleAddToCart}
+            additionalClassName='medium purple'
+            className='flex-1'
+          />
+        </> :
+          <Button
+            text='Sold out'
+            additionalClassName='medium disabled '
+            className='flex-1'
+          />}
         <Button
           text='Make an offer'
           action={() => { }}
-          additionalClassName='whiteBorder'
+          additionalClassName={`medium whiteBorder ${artwork.stockQty > 0 ? '' : 'disabled'}`}
           className='flex-1'
         />
       </div>
-      {artwork.stockQty > 0 ? <>
-        <Button
-          text='Buy now'
-          action={handleAddToCart}
-          additionalClassName='purple'
-          className='flex-1'
-        />
-      </> :
-        <Button
-          text='Sold out'
-          additionalClassName='disabled'
-          className='flex-1'
-        />}
-        <p className="mt-2 text-xs text-[rgba(255,255,255,0.7)]">*Tax included</p>
+
+      <p className="mt-2 text-xs text-[rgba(255,255,255,0.7)]">*Tax included</p>
     </div>
   );
 };
