@@ -47,7 +47,7 @@ const ArtistsFilter = ({ nationalities, params, setParams, artistsLength }: Arti
   }
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 sticky top-[80px] bg-background z-10 py-4">
       {/* Mobile Row 1 / Desktop Left: Dropdowns */}
       <div className="flex items-center gap-4">
         <Dropdown

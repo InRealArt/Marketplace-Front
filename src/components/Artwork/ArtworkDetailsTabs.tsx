@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import Image from 'next/image'
 import Tabs, { TabItem } from '@/components/Common/Tabs'
 import { ItemPhysicalType } from '@/types'
 
@@ -51,7 +52,7 @@ const ArtworkDetailsTabs = ({ artwork }: ArtworkDetailsTabsProps) => {
           <div className="space-y-6 text-white/80">
             <div>
               <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">Artwork details</h3>
-              <ul className="space-y-2 text-sm md:text-base">
+              <ul className="space-y-2 text-xs md:text-sm">
                 {detailItems.map(detail => (
                   <li key={detail} className="list-disc list-inside text-white/70">
                     {detail}
@@ -62,7 +63,7 @@ const ArtworkDetailsTabs = ({ artwork }: ArtworkDetailsTabsProps) => {
 
             <div className="space-y-3">
               <h4 className="text-xl md:text-2xl font-semibold text-white">About this artwork</h4>
-              <p className="text-sm md:text-base leading-relaxed text-white/70">
+              <p className="text-xs md:text-sm leading-relaxed text-white/70">
                 {description}
               </p>
             </div>
@@ -78,10 +79,12 @@ const ArtworkDetailsTabs = ({ artwork }: ArtworkDetailsTabsProps) => {
                   key={`${image}-${index}`}
                   className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-white/5"
                 >
-                  <img
+                  <Image
                     src={image}
                     alt={`Gallery view ${index + 1}`}
-                    className="h-full w-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 50vw, 33vw"
                   />
                 </div>
               ))}

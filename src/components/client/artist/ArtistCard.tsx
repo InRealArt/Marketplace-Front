@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 
 interface ArtistCardProps {
   firstName: string
@@ -25,16 +26,20 @@ function ArtistCard ({
     <div className="flex flex-col gap-4 items-end justify-start flex-shrink-0 relative">
       <div className="self-stretch flex-shrink-0 h-[28.4375rem] relative">
         <div className="bg-[#1b1c1e] rounded-lg w-[24.875rem] h-[28.4375rem] absolute left-0 top-0" />
-        <img 
+        <Image 
           className="w-8 h-8 absolute left-[19.625rem] top-4 overflow-visible" 
           src={favoriteIcon} 
           alt="Favoris"
+          width={32}
+          height={32}
         />
         {imageUrl && (
-          <img 
+          <Image 
             className="bg-[#1b1c1e] rounded-lg w-[18.375rem] h-[21.0625rem] absolute left-[3.234375rem] top-[3.6875rem] object-cover" 
             src={imageUrl} 
             alt={displayName}
+            width={294}
+            height={337}
           />
         )}
       </div>

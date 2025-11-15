@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import '@/styles/animations.scss'
 
 interface HeroArtistCardProps {
@@ -16,10 +17,12 @@ export function HeroArtistCard({
   return (
     <div className="hero-artist-card w-[152px] md:w-[212px] h-48 md:h-64 relative overflow-hidden cursor-pointer rounded">
       {/* Artist image (base layer) */}
-      <img
+      <Image
         className="rounded w-full h-full absolute inset-0 object-cover"
         src={artistImageUrl}
         alt={artistName}
+        fill
+        sizes="(max-width: 768px) 152px, 212px"
       />
       
       {/* Black/grey background overlay */}
@@ -27,10 +30,12 @@ export function HeroArtistCard({
       
       {/* Artwork image overlay */}
       <div className="hero-artist-card__artwork-overlay absolute inset-0 rounded overflow-hidden">
-        <img
+        <Image
           className="w-full h-full object-cover"
           src={artworkImageUrl}
           alt="Œuvre d'art"
+          fill
+          sizes="(max-width: 768px) 152px, 212px"
         />
       </div>
     </div>

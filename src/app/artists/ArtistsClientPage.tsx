@@ -48,7 +48,7 @@ export default function ArtistsClientPage({
   const hasActiveFilters = params.nationality !== '' || params.q !== ''
 
   return (
-    <div className="m-auto mt-10">
+    <div className="relative m-auto mt-10">
       <ArtistsFilter
         nationalities={nationalities}
         params={params}

@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 interface CategoryCardProps {
   name: string
   backgroundColor: string
@@ -18,20 +20,24 @@ export function CategoryCard({
     >
       {/* Bottom image */}
       <div className="category-card__image-bottom">
-        <img
+        <Image
           src="/images/category-background-2.jpg"
           alt="Category background 2"
           className="w-20 h-auto object-cover rounded-lg shadow-lg"
-          draggable="false"
+          width={80}
+          height={80}
+          draggable={false}
         />
       </div>
       {/* Top image */}
       <div className="category-card__image-top">
-        <img
+        <Image
           src="/images/category-background-1.jpg"
           alt="Category background 1"
           className="w-20 h-auto object-cover rounded-lg shadow-lg"
-          draggable="false"
+          width={80}
+          height={80}
+          draggable={false}
         />
       </div>
       {/* Category Name - Top Left */}

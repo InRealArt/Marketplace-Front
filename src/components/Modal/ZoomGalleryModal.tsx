@@ -159,6 +159,7 @@ const ZoomGalleryModal: React.FC<ZoomGalleryModalProps> = ({
             {images.map((image, index) => (
               <SwiperSlide key={`zoom-slide-${index}`}>
                 <div className="swiper-zoom-container h-full flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image}
                     alt={`Artwork image ${index + 1}`}

@@ -13,19 +13,6 @@ export function CartItem({ item, onRemove }: CartItemProps) {
     onRemove(item.nft.id, item.purchaseType)
   }
 
-  const getPurchaseTypeLabel = () => {
-    switch (item.purchaseType) {
-      case PriceOption.PHYSICAL:
-        return 'Physical Only'
-      case PriceOption.NFT:
-        return 'NFT Only'
-      case PriceOption.NFT_AND_PHYSICAL:
-        return 'NFT + Physical'
-      default:
-        return item.purchaseType
-    }
-  }
-
   return (
     <li className="flex items-center justify-between gap-6 pb-6 border-b border-[#6b6b66] last:border-b-0 last:pb-0">
       <div className="w-20 h-20 relative flex-shrink-0 rounded overflow-hidden">
@@ -49,7 +36,7 @@ export function CartItem({ item, onRemove }: CartItemProps) {
           {item.nft.price} €
         </p>
         <div className="text-xs text-white opacity-75">
-          Type: {getPurchaseTypeLabel()}
+          Type: TODO
         </div>
       </div>
       <button
