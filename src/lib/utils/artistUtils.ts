@@ -13,6 +13,50 @@ export function mapArtistFromPrisma(artist: any): ArtistWithRelations {
 }
 
 /**
+ * Map LandingArtist with its related Artist to ArtistWithRelations
+ * Combines LandingArtist fields (intro, description, mediumTags, etc.) with Artist base data
+ */
+export function mapLandingArtistToArtistWithRelations(landingArtist: any): ArtistWithRelations {
+  const { artist, ...landingData } = landingArtist
+  const { Country, ...artistData } = artist
+
+  // Parse artworkImages if it's a JSON string
+  let artworkImages = []
+  if (landingData.artworkImages) {
+    try {
+      artworkImages = typeof landingData.artworkImages === 'string'
+        ? JSON.parse(landingData.artworkImages)
+        : landingData.artworkImages
+    } catch (e) {
+      artworkImages = []
+    }
+  }
+
+  return {
+    ...artistData,
+    country: Country,
+    // Override with LandingArtist specific fields
+    intro: landingData.intro || artistData.intro,
+    description: landingData.description || artistData.description,
+    mediumTags: landingData.mediumTags || [],
+    artworkStyle: landingData.artworkStyle || artistData.artworkStyle,
+    artworkImages: artworkImages,
+    // Use LandingArtist slug if available, otherwise use Artist slug
+    slug: landingData.slug || artistData.slug,
+    // Use LandingArtist imageUrl if available, otherwise use Artist imageUrl
+    imageUrl: landingData.imageUrl || artistData.imageUrl,
+    // Biography fields from LandingArtist
+    biographyHeader1: landingData.biographyHeader1,
+    biographyText1: landingData.biographyText1,
+    biographyHeader2: landingData.biographyHeader2,
+    biographyText2: landingData.biographyText2,
+    biographyHeader3: landingData.biographyHeader3,
+    biographyText3: landingData.biographyText3,
+    quoteText: landingData.quoteFromInRealArt,
+  } as ArtistWithRelations
+}
+
+/**
  * Filter artists based on nationality and search query
  * @param artists - Array of artists to filter
  * @param nationality - Country code or name to filter by

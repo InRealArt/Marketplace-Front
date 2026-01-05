@@ -1,41 +1,19 @@
-'use server'
-import prisma from "./prisma"
-import { ArtistWithRelations, ArtistData } from "@/types"
-import { mapArtistFromPrisma } from "./utils/artistUtils"
+/**
+ * @deprecated This file is kept for backward compatibility
+ * 
+ * For new code, use Server Functions from @/lib/server/artists
+ * 
+ * Next.js 15/16 best practice: Server Functions should be in /lib/server/
+ * 
+ * Migration guide:
+ * - Old: import { fetchArtists } from '@/lib/artists'
+ * - New: import { fetchArtists } from '@/lib/server/artists'
+ */
 
-async function fetchArtists() {
-    const artists = await prisma.artist.findMany({
-        include: {
-            Country: true
-        }
-    })
-    return artists.map(mapArtistFromPrisma)
-}
-
-async function fetchArtistById(artistId: number) {
-    const artist = await prisma.artist.findUnique({
-        where: {
-            id: artistId
-        },
-        include: {
-            Country: true,
-        }
-    })
-    if (!artist) return null
-    return mapArtistFromPrisma(artist)
-}
-
-async function fetchArtistBySlug(slug: string) {
-    const artist = await prisma.artist.findUnique({
-        where: {
-            slug: slug
-        },
-        include: {
-            Country: true
-        }
-    })
-    if (!artist) return null
-    return mapArtistFromPrisma(artist)
-}
-
-export { fetchArtists, fetchArtistById, fetchArtistBySlug }
+// Re-export from the new location for backward compatibility
+export {
+    fetchArtists,
+    fetchArtistById,
+    fetchArtistBySlug,
+    fetchLandingArtistsForArtistsPage
+} from './server/artists'

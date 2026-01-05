@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { fetchArtists } from '@/lib/artists'
+import { fetchLandingArtistsForArtistsPage } from '@/lib/server/artists'
 import { filterArtists, extractNationalities, paginateItems } from '@/lib/utils/artistUtils'
 import { parseArtistSearchParams } from '@/lib/utils/urlUtils'
 import ArtistsClientPage from './ArtistsClientPage'
@@ -16,10 +16,10 @@ interface ArtistsPageProps {
 }
 
 async function ArtistsContent({ searchParams }: ArtistsPageProps) {
-  // Fetch data directly in the Server Component (Next.js recommended pattern)
-  const allArtists = await fetchArtists()
+  // Fetch LandingArtist data where artistsPage is false (Next.js 15 best practice: server-side data fetching)
+  const allArtists = await fetchLandingArtistsForArtistsPage()
 
-  // Await search params before parsing
+  // Await search params before parsing (Next.js 15: searchParams is now a Promise)
   const resolvedSearchParams = await searchParams
   const { page, nationality, q: query } = parseArtistSearchParams(resolvedSearchParams)
 
