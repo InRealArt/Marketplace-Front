@@ -1,0 +1,3 @@
+{
+  "installCommand": "node scripts/prepare-vercel-install.js && npm install --legacy-peer-deps"
+}

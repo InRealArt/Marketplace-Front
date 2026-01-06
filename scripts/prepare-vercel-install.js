@@ -20,6 +20,17 @@ if (isVercel && !process.env.GITHUB_TOKEN) {
     console.log('✅ @InRealArt/prisma-schema retiré des devDependencies (pas de GITHUB_TOKEN disponible)')
   }
 
+  // Sur Vercel, supprimer le package-lock.json pour forcer npm à le régénérer sans @InRealArt/prisma-schema
+  // C'est plus fiable que d'essayer de modifier manuellement le fichier
+  const packageLockPath = path.join(process.cwd(), 'package-lock.json')
+  if (fs.existsSync(packageLockPath)) {
+    const packageLockContent = fs.readFileSync(packageLockPath, 'utf8')
+    if (packageLockContent.includes('@InRealArt/prisma-schema')) {
+      fs.unlinkSync(packageLockPath)
+      console.log('✅ package-lock.json supprimé (contient @InRealArt/prisma-schema), npm le régénérera sans cette dépendance')
+    }
+  }
+
   // Retirer aussi le .npmrc sur Vercel pour éviter les erreurs d'authentification
   const npmrcPath = path.join(process.cwd(), '.npmrc')
   if (fs.existsSync(npmrcPath)) {
