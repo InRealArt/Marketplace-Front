@@ -38,7 +38,7 @@ export const useCartStore = create<CartState>()(
 
         // Check if item already exists in cart
         const existingItemIndex = currentItems.findIndex(
-          cartItem => cartItem.nft.id === item.nft.id && cartItem.purchaseType === item.purchaseType
+          cartItem => Number(cartItem.nft.id) === Number(item.nft.id) && cartItem.purchaseType === item.purchaseType
         );
 
         if (existingItemIndex >= 0) {
@@ -53,7 +53,7 @@ export const useCartStore = create<CartState>()(
       removeItem: (nftId, purchaseType) => {
         const currentItems = get().items;
         const updatedItems = currentItems.filter(
-          item => !(item.nft.id === nftId && item.purchaseType === purchaseType)
+          item => !(Number(item.nft.id) === nftId && item.purchaseType === purchaseType)
         );
 
         set({ items: updatedItems });

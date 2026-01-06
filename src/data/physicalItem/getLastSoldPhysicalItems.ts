@@ -15,10 +15,10 @@ export async function getLastSoldPhysicalItems(limit = 10, artistId?: number) {
                     not: null
                 },
                 ...(artistId && {
-                    PhysicalItem: {
+                    physicalItem: {
                         item: {
                             user: {
-                                Artist: {
+                                artist: {
                                     id: artistId
                                 }
                             }
@@ -27,7 +27,7 @@ export async function getLastSoldPhysicalItems(limit = 10, artistId?: number) {
                 })
             },
             include: {
-                Order: {
+                order: {
                     select: {
                         id: true,
                         createdAt: true,
@@ -35,16 +35,16 @@ export async function getLastSoldPhysicalItems(limit = 10, artistId?: number) {
                         paidAt: true
                     }
                 },
-                PhysicalItem: {
+                physicalItem: {
                     include: {
                         item: {
                             include: {
                                 user: {
                                     select: {
                                         id: true,
-                                        firstName: true,
-                                        lastName: true,
-                                        Artist: {
+                                        name: true,
+                                        email: true,
+                                        artist: {
                                             select: {
                                                 id: true,
                                                 name: true,
@@ -53,17 +53,15 @@ export async function getLastSoldPhysicalItems(limit = 10, artistId?: number) {
                                             }
                                         }
                                     }
-                                },
-                                medium: true,
-                                style: true,
-                                technique: true
+                                }
                             }
-                        }
+                        },
+                        medium: true
                     }
                 }
             },
             orderBy: {
-                Order: {
+                order: {
                     createdAt: 'desc'
                 }
             },
@@ -72,7 +70,7 @@ export async function getLastSoldPhysicalItems(limit = 10, artistId?: number) {
 
         // Extraction des physical items uniques (au cas où le même item apparaît dans plusieurs commandes)
         const uniquePhysicalItems = soldPhysicalItems
-            .map((orderItem) => orderItem.PhysicalItem)
+            .map((orderItem) => orderItem.physicalItem)
             .filter((item, index, self) =>
                 item && self.findIndex((i) => i?.id === item.id) === index
             )

@@ -10,7 +10,7 @@ type CartItemProps = {
 
 export function CartItem({ item, onRemove }: CartItemProps) {
   const handleRemove = () => {
-    onRemove(item.nft.id, item.purchaseType)
+    onRemove(Number(item.nft.id), item.purchaseType)
   }
 
   return (

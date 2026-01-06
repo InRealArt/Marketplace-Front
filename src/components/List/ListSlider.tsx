@@ -39,13 +39,13 @@ const ListSlider = ({
         idUser: artwork.item.idUser ?? 0,
         metaDescription: artwork.item.metaDescription ?? '',
         metaTitle: artwork.item.metaTitle ?? '',
-        realViewCount: artwork.item.realViewCount ?? 0,
-        fakeViewCount: artwork.item.fakeViewCount ?? 0,
+        realViewCount: artwork.realViewCount ?? 0,
+        fakeViewCount: artwork.fakeViewCount ?? 0,
         featured: (artwork.item as any).featured ?? false,
         artistId: (artwork.item as any).artistId ?? 0,
-        mediumId: artwork.item.mediumId ?? null,
-        styleId: artwork.item.styleId ?? null,
-        techniqueId: artwork.item.techniqueId ?? null,
+        mediumId: artwork.mediumId ?? null,
+        styleId: null,
+        techniqueId: null,
         createdAt: artwork.item.createdAt ?? null
       }
     }))

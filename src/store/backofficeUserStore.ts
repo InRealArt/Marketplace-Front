@@ -4,7 +4,7 @@ import { fetchBackofficeUsers, fetchBackofficeUserByArtistId } from '@/lib/backo
 interface BackofficeUser {
   id: number
   email?: string | null
-  walletAddress: string
+  walletAddress: string | null
   lastName?: string | null
   firstName?: string | null
   artistId?: number | null
@@ -22,11 +22,11 @@ export const useBackofficeUserStore = create<BackofficeUserState>((set, get) => 
   users: [],
   isLoading: false,
   error: null,
-  
+
   fetchUsers: async () => {
     // Don't fetch if we already have users
     if (get().users.length > 0) return
-    
+
     try {
       set({ isLoading: true, error: null })
       const users = await fetchBackofficeUsers()
@@ -35,7 +35,7 @@ export const useBackofficeUserStore = create<BackofficeUserState>((set, get) => 
       set({ isLoading: false, error: error as Error })
     }
   },
-  
+
   getUserByArtistId: (artistId: number) => {
     return get().users.find(user => user.artistId === artistId)
   }

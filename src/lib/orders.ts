@@ -1,5 +1,5 @@
 'use server'
-import { OrderStatus } from "@prisma/client"
+
 import prisma from "./prisma"
 import { NftId, UserId } from "@/types"
 

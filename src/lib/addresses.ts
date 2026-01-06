@@ -35,7 +35,7 @@ export interface CreateAddressInput {
 // Obtenir toutes les adresses d'un utilisateur
 export async function getUserAddresses(userId: string): Promise<SavedAddress[]> {
     try {
-        const addresses = await prisma.address.findMany({
+        const addresses = await prisma.customerAddress.findMany({
             where: {
                 customerId: userId
             },
@@ -44,7 +44,10 @@ export async function getUserAddresses(userId: string): Promise<SavedAddress[]> 
             }
         })
 
-        return addresses
+        return addresses.map(addr => ({
+            ...addr,
+            backofficeUserId: null
+        }))
     } catch (error) {
         console.error('Erreur lors de la récupération des adresses:', error)
         throw new Error('Impossible de récupérer les adresses')
@@ -54,16 +57,29 @@ export async function getUserAddresses(userId: string): Promise<SavedAddress[]> 
 // Obtenir toutes les adresses d'un utilisateur backoffice
 export async function getBackofficeUserAddresses(backofficeUserId: number): Promise<SavedAddress[]> {
     try {
-        const addresses = await prisma.address.findMany({
+        const addresses = await prisma.artistAddress.findMany({
             where: {
-                backofficeUserId
+                backofficeAuthUserId: String(backofficeUserId)
             },
             orderBy: {
                 id: 'desc'
             }
         })
 
-        return addresses
+        return addresses.map(addr => ({
+            id: addr.id,
+            name: addr.name,
+            firstName: addr.firstName,
+            lastName: addr.lastName,
+            streetAddress: addr.streetAddress,
+            city: addr.city,
+            postalCode: addr.postalCode,
+            country: addr.country,
+            countryCode: addr.countryCode,
+            vatNumber: null,
+            customerId: null,
+            backofficeUserId: backofficeUserId
+        }))
     } catch (error) {
         console.error('Erreur lors de la récupération des adresses:', error)
         throw new Error('Impossible de récupérer les adresses')
@@ -73,11 +89,56 @@ export async function getBackofficeUserAddresses(backofficeUserId: number): Prom
 // Créer une nouvelle adresse
 export async function createAddress(addressData: CreateAddressInput): Promise<SavedAddress> {
     try {
-        const newAddress = await prisma.address.create({
-            data: addressData
-        })
-
-        return newAddress
+        if (addressData.customerId) {
+            const newAddress = await prisma.customerAddress.create({
+                data: {
+                    name: addressData.name,
+                    firstName: addressData.firstName,
+                    lastName: addressData.lastName,
+                    streetAddress: addressData.streetAddress,
+                    city: addressData.city,
+                    postalCode: addressData.postalCode,
+                    country: addressData.country,
+                    countryCode: addressData.countryCode,
+                    customerId: addressData.customerId
+                }
+            })
+            return {
+                ...newAddress,
+                vatNumber: null,
+                backofficeUserId: null
+            }
+        } else if (addressData.backofficeUserId) {
+            const newAddress = await prisma.artistAddress.create({
+                data: {
+                    name: addressData.name,
+                    firstName: addressData.firstName,
+                    lastName: addressData.lastName,
+                    streetAddress: addressData.streetAddress,
+                    city: addressData.city,
+                    postalCode: addressData.postalCode,
+                    country: addressData.country,
+                    countryCode: addressData.countryCode,
+                    backofficeAuthUserId: String(addressData.backofficeUserId)
+                }
+            })
+            return {
+                id: newAddress.id,
+                name: newAddress.name,
+                firstName: newAddress.firstName,
+                lastName: newAddress.lastName,
+                streetAddress: newAddress.streetAddress,
+                city: newAddress.city,
+                postalCode: newAddress.postalCode,
+                country: newAddress.country,
+                countryCode: newAddress.countryCode,
+                vatNumber: null,
+                customerId: null,
+                backofficeUserId: addressData.backofficeUserId
+            }
+        } else {
+            throw new Error('customerId ou backofficeUserId requis')
+        }
     } catch (error) {
         console.error('Erreur lors de la création de l\'adresse:', error)
         throw new Error('Impossible de créer l\'adresse')
@@ -92,27 +153,80 @@ export async function updateAddress(
     backofficeUserId?: number
 ): Promise<SavedAddress> {
     try {
-        // Vérifier que l'adresse appartient bien à l'utilisateur
-        const existingAddress = await prisma.address.findFirst({
-            where: {
-                id: addressId,
-                OR: [
-                    { customerId: userId },
-                    { backofficeUserId: backofficeUserId }
-                ]
+        if (userId) {
+            const existingAddress = await prisma.customerAddress.findFirst({
+                where: {
+                    id: addressId,
+                    customerId: userId
+                }
+            })
+
+            if (!existingAddress) {
+                throw new Error('Adresse non trouvée ou accès non autorisé')
             }
-        })
 
-        if (!existingAddress) {
-            throw new Error('Adresse non trouvée ou accès non autorisé')
+            const updatedAddress = await prisma.customerAddress.update({
+                where: { id: addressId },
+                data: {
+                    name: addressData.name,
+                    firstName: addressData.firstName,
+                    lastName: addressData.lastName,
+                    streetAddress: addressData.streetAddress,
+                    city: addressData.city,
+                    postalCode: addressData.postalCode,
+                    country: addressData.country,
+                    countryCode: addressData.countryCode
+                }
+            })
+
+            return {
+                ...updatedAddress,
+                vatNumber: null,
+                backofficeUserId: null
+            }
+        } else if (backofficeUserId) {
+            const existingAddress = await prisma.artistAddress.findFirst({
+                where: {
+                    id: addressId,
+                    backofficeAuthUserId: String(backofficeUserId)
+                }
+            })
+
+            if (!existingAddress) {
+                throw new Error('Adresse non trouvée ou accès non autorisé')
+            }
+
+            const updatedAddress = await prisma.artistAddress.update({
+                where: { id: addressId },
+                data: {
+                    name: addressData.name,
+                    firstName: addressData.firstName,
+                    lastName: addressData.lastName,
+                    streetAddress: addressData.streetAddress,
+                    city: addressData.city,
+                    postalCode: addressData.postalCode,
+                    country: addressData.country,
+                    countryCode: addressData.countryCode
+                }
+            })
+
+            return {
+                id: updatedAddress.id,
+                name: updatedAddress.name,
+                firstName: updatedAddress.firstName,
+                lastName: updatedAddress.lastName,
+                streetAddress: updatedAddress.streetAddress,
+                city: updatedAddress.city,
+                postalCode: updatedAddress.postalCode,
+                country: updatedAddress.country,
+                countryCode: updatedAddress.countryCode,
+                vatNumber: null,
+                customerId: null,
+                backofficeUserId: backofficeUserId
+            }
+        } else {
+            throw new Error('userId ou backofficeUserId requis')
         }
-
-        const updatedAddress = await prisma.address.update({
-            where: { id: addressId },
-            data: addressData
-        })
-
-        return updatedAddress
     } catch (error) {
         console.error('Erreur lors de la mise à jour de l\'adresse:', error)
         throw new Error('Impossible de mettre à jour l\'adresse')
@@ -126,24 +240,39 @@ export async function deleteAddress(
     backofficeUserId?: number
 ): Promise<void> {
     try {
-        // Vérifier que l'adresse appartient bien à l'utilisateur
-        const existingAddress = await prisma.address.findFirst({
-            where: {
-                id: addressId,
-                OR: [
-                    { customerId: userId },
-                    { backofficeUserId: backofficeUserId }
-                ]
+        if (userId) {
+            const existingAddress = await prisma.customerAddress.findFirst({
+                where: {
+                    id: addressId,
+                    customerId: userId
+                }
+            })
+
+            if (!existingAddress) {
+                throw new Error('Adresse non trouvée ou accès non autorisé')
             }
-        })
 
-        if (!existingAddress) {
-            throw new Error('Adresse non trouvée ou accès non autorisé')
+            await prisma.customerAddress.delete({
+                where: { id: addressId }
+            })
+        } else if (backofficeUserId) {
+            const existingAddress = await prisma.artistAddress.findFirst({
+                where: {
+                    id: addressId,
+                    backofficeAuthUserId: String(backofficeUserId)
+                }
+            })
+
+            if (!existingAddress) {
+                throw new Error('Adresse non trouvée ou accès non autorisé')
+            }
+
+            await prisma.artistAddress.delete({
+                where: { id: addressId }
+            })
+        } else {
+            throw new Error('userId ou backofficeUserId requis')
         }
-
-        await prisma.address.delete({
-            where: { id: addressId }
-        })
     } catch (error) {
         console.error('Erreur lors de la suppression de l\'adresse:', error)
         throw new Error('Impossible de supprimer l\'adresse')
@@ -157,17 +286,48 @@ export async function getAddressById(
     backofficeUserId?: number
 ): Promise<SavedAddress | null> {
     try {
-        const address = await prisma.address.findFirst({
-            where: {
-                id: addressId,
-                OR: [
-                    { customerId: userId },
-                    { backofficeUserId: backofficeUserId }
-                ]
-            }
-        })
+        if (userId) {
+            const address = await prisma.customerAddress.findFirst({
+                where: {
+                    id: addressId,
+                    customerId: userId
+                }
+            })
 
-        return address
+            if (!address) return null
+
+            return {
+                ...address,
+                vatNumber: null,
+                backofficeUserId: null
+            }
+        } else if (backofficeUserId) {
+            const address = await prisma.artistAddress.findFirst({
+                where: {
+                    id: addressId,
+                    backofficeAuthUserId: String(backofficeUserId)
+                }
+            })
+
+            if (!address) return null
+
+            return {
+                id: address.id,
+                name: address.name,
+                firstName: address.firstName,
+                lastName: address.lastName,
+                streetAddress: address.streetAddress,
+                city: address.city,
+                postalCode: address.postalCode,
+                country: address.country,
+                countryCode: address.countryCode,
+                vatNumber: null,
+                customerId: null,
+                backofficeUserId: backofficeUserId
+            }
+        } else {
+            return null
+        }
     } catch (error) {
         console.error('Erreur lors de la récupération de l\'adresse:', error)
         return null

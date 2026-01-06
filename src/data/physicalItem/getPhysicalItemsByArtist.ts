@@ -17,7 +17,7 @@ export async function getPhysicalItemsByArtist(artistId: number) {
                 },
                 item: {
                     user: {
-                        Artist: {
+                        artist: {
                             id: artistId
                         }
                     }
@@ -29,9 +29,9 @@ export async function getPhysicalItemsByArtist(artistId: number) {
                         user: {
                             select: {
                                 id: true,
-                                firstName: true,
-                                lastName: true,
-                                Artist: {
+                                name: true,
+                                email: true,
+                                artist: {
                                     select: {
                                         id: true,
                                         name: true,
@@ -41,12 +41,10 @@ export async function getPhysicalItemsByArtist(artistId: number) {
                                     }
                                 }
                             }
-                        },
-                        medium: true,
-                        style: true,
-                        technique: true
+                        }
                     }
-                }
+                },
+                medium: true
             },
             orderBy: {
                 item: {

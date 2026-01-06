@@ -5,15 +5,21 @@ import { setOrders } from '@/redux/reducers/orders/reducer';
 import { getOrders } from '@/redux/reducers/orders/selectors';
 import { useItemsStore } from '@/store/itemsStore';
 import { OrderType } from '@/types';
-import { OrderStatus } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import { useSession } from '@/lib/auth-client';
+
+enum OrderStatus {
+  WAITING_FOR_CONFIRMATION = 'WAITING_FOR_CONFIRMATION',
+  CONFIRMED = 'CONFIRMED',
+  PROCESS_OF_DELIVERY = 'PROCESS_OF_DELIVERY',
+  DELIVER = 'DELIVER'
+}
 
 interface OrderProps {
   order: OrderType
 }
 
-const OrderStatusMapping = {
+const OrderStatusMapping: Record<string, string> = {
   [OrderStatus.WAITING_FOR_CONFIRMATION]: "Waiting for confirmation",
   [OrderStatus.CONFIRMED]: "Confirmé",
   [OrderStatus.PROCESS_OF_DELIVERY]: "En cours de livraison",
@@ -40,7 +46,7 @@ const OrderItem = ({ order }: OrderProps) => {
       </p>
       <p className="Orders__item--sub">
         <span>Status</span>: <br />
-        {OrderStatusMapping[orderStatus]}</p>
+        {OrderStatusMapping[orderStatus as string] || orderStatus}</p>
     </div>
   )
 }

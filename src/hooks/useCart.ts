@@ -258,13 +258,13 @@ export function useCart() {
     // Check if cart has only one item before removal
     const isLastItem = items.length === 1;
     const isTargetItemInCart = items.some(
-      item => item.nft.id === nftId && item.purchaseType === purchaseType
+      item => Number(item.nft.id) === nftId && item.purchaseType === purchaseType
     );
     const willBeEmptyAfterRemoval = isLastItem && isTargetItemInCart;
 
     // First get the item name before removing it
     const itemToRemove = items.find(
-      item => item.nft.id === nftId && item.purchaseType === purchaseType
+      item => Number(item.nft.id) === nftId && item.purchaseType === purchaseType
     );
     const itemName = itemToRemove?.nft.item.name || 'Item';
 
@@ -286,7 +286,7 @@ export function useCart() {
       } else {
         // Otherwise, update the cart with the remaining items
         const updatedItems = items.filter(
-          item => !(item.nft.id === nftId && item.purchaseType === purchaseType)
+          item => !(Number(item.nft.id) === nftId && item.purchaseType === purchaseType)
         );
 
         // Calcul du prix total avec TVA

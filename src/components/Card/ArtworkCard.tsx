@@ -35,9 +35,9 @@ const ArtworkCard = ({ artwork }: ArtworkCardProps) => {
         {/* Favorite button - top right */}
         <div className="absolute top-3 right-3">
           <FavoriteButton 
-            artworkId={artwork.id}
+            artworkId={String(artwork.id)}
             onToggle={(isFavorite) => {
-              console.log(`Artwork ${artwork.id} favorite status:`, isFavorite)
+              console.log(`Artwork ${String(artwork.id)} favorite status:`, isFavorite)
               // TODO: Add API call to save favorite
             }}
           />

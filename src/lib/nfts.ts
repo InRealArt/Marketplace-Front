@@ -95,13 +95,14 @@ async function getAvailableItems() {
             ]
         },
         include: {
-            physicalItem: true,
-            medium: true,
-            style: true,
-            technique: true,
+            physicalItem: {
+                include: {
+                    medium: true
+                }
+            },
             user: {
                 include: {
-                    Artist: true
+                    artist: true
                 }
             }
         },

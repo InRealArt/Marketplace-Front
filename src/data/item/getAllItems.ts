@@ -69,14 +69,10 @@ export async function getAllItems(
                 user: {
                     select: {
                         id: true,
-                        firstName: true,
-                        lastName: true,
+                        name: true,
                         email: true
                     }
                 },
-                medium: true,
-                style: true,
-                technique: true,
                 physicalItem: {
                     select: {
                         id: true,
@@ -89,7 +85,9 @@ export async function getAllItems(
                         unitHeight: true,
                         unitWidth: true,
                         unitWeight: true,
-                        creationYear: true
+                        creationYear: true,
+                        mediumId: true,
+                        medium: true
                     }
                 }
             },

@@ -4,10 +4,10 @@ import prisma from '@/lib/prisma'
 export async function getTotalItemsByMedium(mediumId: number) {
     const totalItems = await prisma.item.count({
         where: {
-            mediumId: mediumId,
             OR: [
                 {
                     physicalItem: {
+                        mediumId: mediumId,
                         stockQty: {
                             gt: 0
                         },
@@ -15,6 +15,7 @@ export async function getTotalItemsByMedium(mediumId: number) {
                     }
                 },
                 {
+                    // NftItem case - pas de filtre par mediumId car NftItem n'a pas de mediumId
                 }
             ]
         }

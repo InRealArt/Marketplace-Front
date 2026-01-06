@@ -34,11 +34,11 @@ export async function getItemsByMedium(
 
     try {
         const whereClause: any = {
-            mediumId: mediumId,
             OR: [
-                // Items avec PhysicalItem en stock et listés avec filtre de prix
+                // Items avec PhysicalItem en stock et listés avec filtre de prix et mediumId
                 {
                     physicalItem: {
+                        mediumId: mediumId,
                         stockQty: {
                             gt: 0
                         },
@@ -63,8 +63,10 @@ export async function getItemsByMedium(
         }
 
         // Ajouter le filtre par technique si spécifié (0 = toutes les techniques)
+        // Note: techniqueId est sur PhysicalItem via relation many-to-many, donc on ne peut pas le filtrer directement ici
         if (techniqueId > 0) {
-            whereClause.techniqueId = techniqueId
+            // Le filtre par technique nécessiterait une jointure avec ItemTechnique
+            // Pour l'instant, on ne peut pas filtrer par technique de cette manière
         }
 
         const items = await prisma.item.findMany({
@@ -73,14 +75,10 @@ export async function getItemsByMedium(
                 user: {
                     select: {
                         id: true,
-                        firstName: true,
-                        lastName: true,
+                        name: true,
                         email: true
                     }
                 },
-                medium: true,
-                style: true,
-                technique: true,
                 physicalItem: {
                     select: {
                         id: true,
@@ -93,7 +91,9 @@ export async function getItemsByMedium(
                         unitHeight: true,
                         unitWidth: true,
                         unitWeight: true,
-                        creationYear: true
+                        creationYear: true,
+                        mediumId: true,
+                        medium: true
                     }
                 }
             },

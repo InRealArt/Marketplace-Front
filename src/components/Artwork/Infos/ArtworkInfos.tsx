@@ -51,7 +51,7 @@ const ArtworkInfos = ({ artwork, artist, additionalClassName }: ArtworkInfosProp
               <Share2 className='text-white' width={20} height={20} />
             </button>
           </ShareModal>
-          <FavoriteButton artworkId={artwork.id} variant='minimal' />
+          <FavoriteButton artworkId={String(artwork.id)} variant='minimal' />
         </div>
       </div>
 

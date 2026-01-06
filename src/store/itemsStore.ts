@@ -85,9 +85,34 @@ export const useItemsStore = create<NftsState>((set, get) => ({
             set({ isLoading: true, error: null })
             const data = await getAvailableItems()
 
+            // Mapper les données pour correspondre au type ItemWithRelations
+            const mappedData = data.map(item => ({
+                ...item,
+                medium: item.physicalItem?.medium || null,
+                style: null, // style n'est pas inclus dans getAvailableItems
+                technique: null, // technique n'est pas inclus dans getAvailableItems
+                user: item.user ? {
+                    id: Number(item.user.id),
+                    firstName: item.user.name?.split(' ')[0] || null,
+                    lastName: item.user.name?.split(' ').slice(1).join(' ') || null,
+                    Artist: item.user.artist ? {
+                        id: item.user.artist.id,
+                        name: item.user.artist.name,
+                        surname: item.user.artist.surname,
+                        pseudo: item.user.artist.pseudo,
+                        slug: item.user.artist.slug
+                    } : null
+                } : {
+                    id: 0,
+                    firstName: null,
+                    lastName: null,
+                    Artist: null
+                }
+            })) as unknown as ItemWithRelations[]
+
             set({
-                availableItems: data as ItemWithRelations[],
-                filteredItems: data as ItemWithRelations[],
+                availableItems: mappedData,
+                filteredItems: mappedData,
                 isLoading: false
             })
             get().applyFilters()
@@ -123,22 +148,22 @@ export const useItemsStore = create<NftsState>((set, get) => ({
             }
 
             // Filtre par medium
-            if (filters.selectedMediums.length > 0 && item.mediumId) {
-                if (!filters.selectedMediums.includes(item.mediumId)) {
+            if (filters.selectedMediums.length > 0 && item.medium?.id) {
+                if (!filters.selectedMediums.includes(item.medium.id)) {
                     return false
                 }
             }
 
             // Filtre par style
-            if (filters.selectedStyles.length > 0 && item.styleId) {
-                if (!filters.selectedStyles.includes(item.styleId)) {
+            if (filters.selectedStyles.length > 0 && item.style?.id) {
+                if (!filters.selectedStyles.includes(item.style.id)) {
                     return false
                 }
             }
 
             // Filtre par technique
-            if (filters.selectedTechniques.length > 0 && item.techniqueId) {
-                if (!filters.selectedTechniques.includes(item.techniqueId)) {
+            if (filters.selectedTechniques.length > 0 && item.technique?.id) {
+                if (!filters.selectedTechniques.includes(item.technique.id)) {
                     return false
                 }
             }
@@ -153,7 +178,7 @@ export const useItemsStore = create<NftsState>((set, get) => ({
         return get().nfts.find(nft => nft.item.slug === slug)
     },
     getNftById: (id: NftId) => {
-        return get().nfts.find(nft => nft.id === id)
+        return get().nfts.find(nft => Number(nft.id) === id)
     },
     getNftsByCollection: (collectionId: CollectionId) => {
         // Note: Les items physiques ne sont pas directement liés aux collections
@@ -172,7 +197,7 @@ export const useItemsStore = create<NftsState>((set, get) => ({
         console.log('backofficeUser *******', backofficeUser);
         console.log('nfts *******', get().nfts);
         // Step 2: Get all NFTs owned by this user
-        const userNfts = get().nfts.filter(nft => nft.item.idUser === backofficeUser.id);
+        const userNfts = get().nfts.filter(nft => nft.item.idUser === String(backofficeUser.id));
 
         return userNfts;
     },

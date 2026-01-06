@@ -1,6 +1,13 @@
-import { PhysicalItemStatus, OrderStatus, Item, PhysicalItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique, Artist, Country } from "@prisma/client"
+import { Item, PhysicalItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique, Artist, Country } from "@prisma/client"
 import { Decimal } from "@prisma/client/runtime/library"
 import { Address } from "viem"
+
+export enum OrderStatus {
+  WAITING_FOR_CONFIRMATION = 'WAITING_FOR_CONFIRMATION',
+  CONFIRMED = 'CONFIRMED',
+  PROCESS_OF_DELIVERY = 'PROCESS_OF_DELIVERY',
+  DELIVER = 'DELIVER'
+}
 
 export type UserId = string
 export type ArtistId = number
