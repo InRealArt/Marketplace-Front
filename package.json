@@ -16,7 +16,6 @@
     "install:safe:prisma": "npx dotenv-cli -e .env -- npm install @InRealArt/prisma-schema",
     "prisma:copy-schema": "cp node_modules/@InRealArt/prisma-schema/schema.prisma prisma/schema.prisma",
     "prisma:generate": "npm run prisma:copy-schema && prisma generate",
-    "postinstall": "npm run prisma:copy-schema",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"
@@ -27,7 +26,6 @@
     "@coinbase/onchainkit": "^0.38.0",
     "@getbrevo/brevo": "^1.0.1",
     "@hookform/resolvers": "^3.4.0",
-    "@InRealArt/prisma-schema": "^1.0.1",
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.13.0",
     "@radix-ui/react-dialog": "^1.1.13",
@@ -80,6 +78,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@InRealArt/prisma-schema": "^1.0.1",
     "@playwright/test": "^1.56.1",
     "@types/node": "^20",
     "@types/react": "^18",
