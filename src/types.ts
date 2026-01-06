@@ -1,6 +1,7 @@
 import { Item, PhysicalItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique, Artist, Country } from "@prisma/client"
 import { Decimal } from "@prisma/client/runtime/library"
-import { Address } from "viem"
+
+export type Address = `0x${string}`
 
 export enum OrderStatus {
   WAITING_FOR_CONFIRMATION = 'WAITING_FOR_CONFIRMATION',

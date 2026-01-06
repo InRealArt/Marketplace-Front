@@ -1,5 +1,5 @@
 'use server'
-import { Address } from "viem"
+import { Address } from "@/types"
 import prisma from "./prisma"
 import { CollectionType, ItemPhysicalType } from "@/types"
 import { Decimal } from "@prisma/client/runtime/library"
@@ -17,7 +17,7 @@ export interface TransactionData {
     created_at?: Date
 }
 
-async function createTransactionData(data: TransactionData) {    
+async function createTransactionData(data: TransactionData) {
     const transaction = await prisma.transaction.create({
         data
     })
@@ -40,7 +40,7 @@ async function fetchTransactionsByNft(tokenId: number, contractAddress: Collecti
             contractAddress
         },
     })
-    
+
     return transactions
 }
 

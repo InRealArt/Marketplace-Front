@@ -8,7 +8,6 @@ import { Providers } from './providers';
 import LoginModal from '@/components/Modal/LoginModal/LoginModal';
 import { Toaster } from 'sonner';
 import GoogleCaptchaWrapper from './captcha/google-captcha-wrapper';
-import '@coinbase/onchainkit/styles.css';
 import SearchModal from '@/components/client/modals/SearchModal';
 import Footer from '@/components/client/footer/Footer';
 

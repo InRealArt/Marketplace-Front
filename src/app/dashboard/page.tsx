@@ -6,7 +6,6 @@ import { DashboardTabs } from '@/utils/constants';
 
 import DashboardNav from './subComponents/DashboardNav';
 
-// BLOCKCHAIN
 import ProfileComponent from './subComponents/Profile/ProfileComponent';
 import OrdersComponent from './subComponents/Orders/OrdersComponent';
 import { useAppDispatch } from '@/redux/hooks';

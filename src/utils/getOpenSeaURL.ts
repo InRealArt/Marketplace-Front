@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import { Address } from "@/types";
 
 export const getOpenSeaURL = (tokenId: string | number, contract: Address) =>
-`https://testnets.opensea.io/assets/sepolia/${contract}/${tokenId}`;
+    `https://testnets.opensea.io/assets/sepolia/${contract}/${tokenId}`;
