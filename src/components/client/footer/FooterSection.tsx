@@ -1,4 +1,3 @@
-import React from 'react'
 import FooterLink from './FooterLink'
 
 interface FooterLinkData {
@@ -10,28 +9,36 @@ interface FooterLinkData {
 interface FooterSectionProps {
   title: string
   links: FooterLinkData[]
-  width?: string
 }
 
-function FooterSection({ title, links, width = 'w-[282px]' }: FooterSectionProps) {
+function FooterSection({ title, links }: FooterSectionProps) {
   return (
-    <div className={`flex flex-col gap-2 items-start justify-start shrink-0 ${width} relative`}>
-      <div className="text-white text-left  text-2xl font-medium relative self-stretch">
+    <div className="flex flex-col gap-3 items-start justify-start">
+      {/* Section heading — uppercase, tight tracking, Montserrat semibold */}
+      <h3 className="font-montserrat font-semibold text-sm uppercase tracking-widest text-white">
         {title}
-      </div>
-      <div className="bg-white self-stretch shrink-0 h-px relative"></div>
-      <div className="flex flex-col gap-0 items-start justify-center self-stretch shrink-0 relative">
-        {links.map((link, index) => (
-          <FooterLink
-            key={index}
-            text={link.text}
-            href={link.href}
-            onClick={link.onClick}
-          />
+      </h3>
+
+      {/* Gold separator line — signals brand color instead of generic white */}
+      <div
+        className="bg-[#b39e73] h-px w-8 shrink-0"
+        aria-hidden="true"
+      />
+
+      {/* Link list — semantic ul/li for SEO and screen readers */}
+      <ul className="flex flex-col gap-1.5 mt-1">
+        {links.map((link) => (
+          <li key={link.text}>
+            <FooterLink
+              text={link.text}
+              href={link.href}
+              onClick={link.onClick}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   )
 }
 
-export default FooterSection 
+export default FooterSection

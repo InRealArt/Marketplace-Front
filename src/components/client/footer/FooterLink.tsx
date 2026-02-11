@@ -1,6 +1,7 @@
 'use client'
 
-import React from 'react'
+import type { MouseEvent } from 'react'
+import Link from 'next/link'
 
 interface FooterLinkProps {
   text: string
@@ -9,32 +10,52 @@ interface FooterLinkProps {
 }
 
 function FooterLink({ text, href, onClick }: FooterLinkProps) {
-  const handleClick = (e: React.MouseEvent) => {
-    if (onClick) {
-      e.preventDefault()
-      onClick()
+  const linkClasses =
+    'font-montserrat text-sm font-normal text-white/70 hover:text-[#c6b695] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b39e73] focus-visible:ring-offset-2 focus-visible:ring-offset-[#212224] rounded-sm'
+
+  if (href) {
+    const isExternal = href.startsWith('http://') || href.startsWith('https://')
+
+    if (isExternal) {
+      // For external links with an onClick handler, prevent navigation and
+      // run the callback instead. Without a handler, follow the href normally.
+      const handleExternalClick = onClick
+        ? (e: MouseEvent) => {
+            e.preventDefault()
+            onClick()
+          }
+        : undefined
+
+      return (
+        <a
+          href={href}
+          onClick={handleExternalClick}
+          className={linkClasses}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {text}
+        </a>
+      )
     }
+
+    // Next.js Link handles client-side navigation; pass onClick directly so
+    // navigation is not suppressed.
+    return (
+      <Link href={href} onClick={onClick} className={linkClasses}>
+        {text}
+      </Link>
+    )
   }
 
-  const linkContent = (
-    <div className="text-white text-left font-montserrat text-base font-medium relative flex items-center justify-start">
-      {text}
-    </div>
-  )
-
   return (
-    <div className="pt-2 pb-2 flex flex-row gap-2.5 items-center justify-start self-stretch shrink-0 relative">
-      {href ? (
-        <a href={href} onClick={handleClick} className="contents">
-          {linkContent}
-        </a>
-      ) : (
-        <button onClick={handleClick} className="contents">
-          {linkContent}
-        </button>
-      )}
-    </div>
+    <button
+      onClick={onClick}
+      className={`${linkClasses} cursor-pointer bg-transparent border-0 p-0 text-left`}
+    >
+      {text}
+    </button>
   )
 }
 
-export default FooterLink 
+export default FooterLink
