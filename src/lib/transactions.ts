@@ -2,7 +2,8 @@
 import { Address } from "@/types"
 import prisma from "./prisma"
 import { CollectionType, ItemPhysicalType } from "@/types"
-import { Decimal } from "@prisma/client/runtime/library"
+import { Prisma } from '../../prisma/generated/prisma/client'
+type Decimal = Prisma.Decimal
 
 export interface TransactionData {
     tokenId: number | null

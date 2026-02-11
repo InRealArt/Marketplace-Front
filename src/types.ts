@@ -1,5 +1,5 @@
-import { Item, PhysicalItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique, Artist, Country } from "@prisma/client"
-import { Decimal } from "@prisma/client/runtime/library"
+import type { Item, PhysicalItem, ArtworkMedium, ArtworkStyle, ArtworkTechnique, Artist, Country, Prisma } from '../prisma/generated/prisma/client'
+type Decimal = Prisma.Decimal
 
 export type Address = `0x${string}`
 

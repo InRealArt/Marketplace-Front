@@ -9,7 +9,7 @@ import ListHeader from './subComponents/ListHeader';
 import { CollectionType, ListNavigationType, ItemPhysicalType, ArtistWithRelations } from '@/types';
 import CollectionCard from '../Card/CollectionCard';
 import { useEffect, useState } from 'react';
-import { PhysicalItemStatus } from '@prisma/client';
+import { PhysicalItemStatus } from '../../../prisma/generated/prisma/enums';
 
 interface ListProps {
   nav: ListNavigationType[];

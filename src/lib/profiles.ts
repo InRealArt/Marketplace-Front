@@ -1,5 +1,5 @@
 'use server'
-import { UserRoles } from "@prisma/client"
+import { UserRoles } from '../../prisma/generated/prisma/client'
 import prisma from "./prisma"
 
 interface ArtistData {

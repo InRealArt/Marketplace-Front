@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Tabs, { TabItem } from '@/components/Common/Tabs'
 import { ItemPhysicalType } from '@/types'
+import type { Item } from '../../../prisma/generated/prisma/client'
 
 interface ArtworkDetailsTabsProps {
   artwork: ItemPhysicalType
@@ -32,9 +33,9 @@ const ArtworkDetailsTabs = ({ artwork }: ArtworkDetailsTabsProps) => {
     item.description ||
     'This artwork is a vibrant cry of intense emotions, capturing passion, strength, and bubbling energy through layered textures and luminous colors.'
 
-  const galleryImages =
-    item.secondaryImagesUrl && item.secondaryImagesUrl.length > 0
-      ? item.secondaryImagesUrl
+  const galleryImages: string[] =
+    (item as Item).secondaryImagesUrl && (item as Item).secondaryImagesUrl.length > 0
+      ? (item as Item).secondaryImagesUrl
       : ['/images/Ekaterina/artist2.jpg', '/images/Boucheix/artist1.2.jpg', '/images/Leloluce/artist3.4.jpg']
 
   return (

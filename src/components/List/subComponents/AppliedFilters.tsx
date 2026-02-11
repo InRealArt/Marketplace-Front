@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useItemsStore } from '@/store/itemsStore'
-import { ArtworkMedium, ArtworkStyle, ArtworkTechnique } from '@prisma/client'
+import type { ArtworkMedium, ArtworkStyle, ArtworkTechnique } from '../../../../prisma/generated/prisma/client'
 import { X } from 'lucide-react'
 
 interface FilterOptions {

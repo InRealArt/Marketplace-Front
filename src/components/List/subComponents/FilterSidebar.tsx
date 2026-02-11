@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import { useItemsStore } from '@/store/itemsStore'
-import { ArtworkMedium, ArtworkStyle, ArtworkTechnique } from '@prisma/client'
+import type { ArtworkMedium, ArtworkStyle, ArtworkTechnique } from '../../../../prisma/generated/prisma/client'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
 interface FilterSidebarProps {

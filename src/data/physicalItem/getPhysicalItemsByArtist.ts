@@ -1,6 +1,6 @@
 import "server-only";
 import prisma from '@/lib/prisma'
-import { PhysicalItemStatus } from '@prisma/client'
+import { PhysicalItemStatus } from '../../../prisma/generated/prisma/client'
 
 /**
  * Récupère les physical items d'un artiste qui sont en stock et listés

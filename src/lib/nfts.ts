@@ -1,6 +1,6 @@
 'use server'
 import prisma from "./prisma"
-import { PhysicalItemStatus } from "@prisma/client"
+import { PhysicalItemStatus } from '../../prisma/generated/prisma/client'
 import { NftId, ItemPhysicalType } from "@/types"
 
 async function getItemBySlug(id: number) {

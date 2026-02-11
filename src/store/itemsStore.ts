@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { getItemsByStatus, getItemsByStatusAndStock, getAvailableItems } from '@/lib/nfts'
 import { ArtistId, CollectionId, NftId, NftSlug, ItemPhysicalType, ItemWithRelations } from '@/types'
-import { PhysicalItemStatus } from '@prisma/client'
+import { PhysicalItemStatus } from '../../prisma/generated/prisma/enums'
 import { useBackofficeUserStore } from './backofficeUserStore'
 import { useArtistsStore } from './artistsStore'
 
