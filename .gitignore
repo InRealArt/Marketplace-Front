@@ -46,3 +46,7 @@ next-env.d.ts
 #history files
 .history
 .qodo
+
+#Claude files
+.agents/*
+.claude/*

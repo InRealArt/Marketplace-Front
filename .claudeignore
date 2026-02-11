@@ -1,0 +1,41 @@
+# Dependencies - volumineuses, jamais utiles
+node_modules/
+package-lock.json
+
+# Build outputs
+.next/
+out/
+build/
+
+# Cache & artefacts TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Outils tiers
+.git/
+.history/
+.qodo/
+.agents/
+.claude/
+
+# Tests & rapports
+playwright-report/
+test-results/
+coverage/
+
+# Assets statiques (images, fonts, etc.)
+public/
+
+# Fichiers de config volumineux peu utiles au quotidien
+tsconfig.tsbuildinfo
+
+# Données mockées (rarement pertinentes)
+src/mocks/
+
+# Prisma migrations (longues et rarement nécessaires)
+prisma/migrations/
+
+# Environnement
+.env
+.env.local
+.env*.local
