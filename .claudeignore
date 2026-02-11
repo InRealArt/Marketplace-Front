@@ -1,41 +1,47 @@
-# Dependencies - volumineuses, jamais utiles
+# ─── Dépendances ─────────────────────────────────────────────────────────────
 node_modules/
 package-lock.json
 
-# Build outputs
+# ─── Build & artefacts Next.js ───────────────────────────────────────────────
 .next/
 out/
 build/
+.vercel/
 
-# Cache & artefacts TypeScript
+# ─── Prisma (auto-généré) ─────────────────────────────────────────────────────
+prisma/generated/
+prisma/migrations/
+
+# ─── TypeScript ──────────────────────────────────────────────────────────────
 *.tsbuildinfo
 next-env.d.ts
 
-# Outils tiers
+# ─── Cache & logs ─────────────────────────────────────────────────────────────
+.eslintcache
+*.log
+npm-debug.log*
+
+# ─── Outils tiers (non pertinents pour le code) ──────────────────────────────
 .git/
 .history/
 .qodo/
 .agents/
 .claude/
 
-# Tests & rapports
+# ─── Tests & rapports ─────────────────────────────────────────────────────────
 playwright-report/
 test-results/
 coverage/
 
-# Assets statiques (images, fonts, etc.)
+# ─── Assets statiques ─────────────────────────────────────────────────────────
 public/
 
-# Fichiers de config volumineux peu utiles au quotidien
-tsconfig.tsbuildinfo
-
-# Données mockées (rarement pertinentes)
+# ─── Données mockées ──────────────────────────────────────────────────────────
 src/mocks/
 
-# Prisma migrations (longues et rarement nécessaires)
-prisma/migrations/
-
-# Environnement
+# ─── Environnement (secrets) ──────────────────────────────────────────────────
 .env
 .env.local
 .env*.local
+.env.production
+.env.development
